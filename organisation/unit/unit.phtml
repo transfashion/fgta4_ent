@@ -1,0 +1,18 @@
+<?php require_once dirname(__FILE__).'/unit-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-brandgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-brandform.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-itemclassgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-itemclassform.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-refgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/unit-refform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/unit-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

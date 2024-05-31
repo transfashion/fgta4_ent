@@ -1,0 +1,16 @@
+<?php require_once dirname(__FILE__).'/brand-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/brand-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/brand-partnergrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/brand-partnerform.phtml' ?>
+<?php require_once dirname(__FILE__).'/brand-refgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/brand-refform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/brand-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

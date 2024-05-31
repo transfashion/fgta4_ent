@@ -1,0 +1,6 @@
+curl -X POST https://www.beacukai.go.id/kurs.html
+   -H "Content-Type: application/x-www-form-urlencoded" 
+   -d "tglKurs=01-08-2023&content=browseKurs" 
+
+
+curl -X POST https://www.beacukai.go.id/kurs.html -H "Content-Type: application/x-www-form-urlencoded" -d "tglKurs=01-08-2023&content=browseKurs"

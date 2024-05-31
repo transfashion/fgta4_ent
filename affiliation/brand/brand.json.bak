@@ -1,0 +1,16 @@
+{
+	"title" : "Brand",
+	"variance" : {
+		"manual-id-input" : {"title":"Brand (Manual-ID)"},
+		"viewonly" : {"title":"Brand (View)"}
+	},
+	"allowanonymous" : true,
+	"allowedgroups" : ["public"],
+	"apis" : {
+		"save" : { "allowanonymous": false, "allowedgroups" : ["public"] },
+		"delete" : { "allowanonymous": false, "allowedgroups" : ["public"] },
+		"open" : { "allowanonymous": false, "allowedgroups" : ["public"] },
+		"list" : { "allowanonymous": false, "allowedgroups" : ["public"] }
+	}	
+}
+
