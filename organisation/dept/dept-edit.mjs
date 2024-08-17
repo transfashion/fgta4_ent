@@ -54,17 +54,6 @@ export async function init(opt) {
 	txt_caption.template = txt_caption.html();
 	var disableedit = false;
 
-	if (opt.settings.btn_edit_visible===false) {
-		btn_edit.hide();
-	} 
-
-	if (opt.settings.btn_save_visible===false) {
-		btn_save.hide();
-	} 
-
-	if (opt.settings.btn_delete_visible===false) {
-		btn_delete.hide();
-	} 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_dept_id,
@@ -139,6 +128,12 @@ export async function init(opt) {
 			{mapping: 'dept_id', text: 'dept_id'},
 			{mapping: 'dept_name', text: 'dept_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_dept_parent_dataloading === 'function') {
+				hnd.cbo_dept_parent_dataloading(criteria, options);
+			}						
+		},					
 
 	})				
 				
@@ -499,12 +494,17 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {

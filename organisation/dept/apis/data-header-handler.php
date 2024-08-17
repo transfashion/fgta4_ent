@@ -16,8 +16,7 @@ class dept_headerHandler extends WebAPI  {
 		$criteriaValues['dept_isstockowner'] = " A.dept_isstockowner = :dept_isstockowner ";
 		$criteriaValues['dept_isnonitemowner'] = " A.dept_isnonitemowner = :dept_isnonitemowner ";
 		$criteriaValues['dept_ispartnerselect'] = " A.dept_ispartnerselect = :dept_ispartnerselect ";
-
-		
+		$criteriaValues['dept_isparent'] = " A.dept_isparent = :dept_isparent ";
 
 
 		// untuk keperluan pilih departemen yang mengelola items
@@ -28,7 +27,7 @@ class dept_headerHandler extends WebAPI  {
 			or A.dept_ispartnerselect=:dept_isitemowner
 		)";
 		$criteriaValues['dept_isitemaintainer'] = " (A.dept_isassetmaintainer=:dept_isitemaintainer)";
-
+	
 		// $criteriaValues['dept_isitemmanager'] = " (A.dept_isitemaintainer=:dept_isitemmanager or A.dept_isitemowner=:dept_isitemmanager)";
 	}
 

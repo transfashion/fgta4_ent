@@ -12,4 +12,7 @@ export function init(ed) {
 }
 
 	
-	
+export function cbo_dept_parent_dataloading(criteria, options) {
+	criteria.dept_isparent = 1;
+	console.log(criteria)
+}

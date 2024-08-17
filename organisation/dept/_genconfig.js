@@ -66,7 +66,12 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_dept', 
 						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_parent_name', 
-						api: 'ent/organisation/dept/list'})					
+						api: 'ent/organisation/dept/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})					
 				},
 
 				depttype_id: {
