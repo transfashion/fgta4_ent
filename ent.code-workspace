@@ -5,7 +5,7 @@
 			"name": "Enterprise Module"
 		},
 		{
-			"path": "../Generator",
+			"path": "../generator",
 			"name": "FGTA4 Generator"
 		},
 		{
