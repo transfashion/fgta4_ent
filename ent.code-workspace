@@ -5,12 +5,12 @@
 			"name": "Enterprise Module"
 		},
 		{
-			"path": "../fgta4_generator",
+			"path": "../Generator",
 			"name": "FGTA4 Generator"
 		},
 		{
-			"path": "../fgta4-tfi/kalista/localsetting",
-			"name": "Local Setting"
+			"path": "../framework",
+			"name": "Framework"
 		}		
 	],
 	"settings": {}
