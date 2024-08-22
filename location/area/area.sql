@@ -22,8 +22,8 @@ ALTER TABLE `mst_area` ADD COLUMN IF NOT EXISTS  `area_name` varchar(60) NOT NUL
 ALTER TABLE `mst_area` ADD COLUMN IF NOT EXISTS  `area_descr` varchar(90)   AFTER `area_name`;
 
 
-ALTER TABLE `mst_area` MODIFY COLUMN IF EXISTS  `area_name` varchar(60) NOT NULL  AFTER `area_id`;
-ALTER TABLE `mst_area` MODIFY COLUMN IF EXISTS  `area_descr` varchar(90)   AFTER `area_name`;
+ALTER TABLE `mst_area` MODIFY COLUMN IF EXISTS  `area_name` varchar(60) NOT NULL   AFTER `area_id`;
+ALTER TABLE `mst_area` MODIFY COLUMN IF EXISTS  `area_descr` varchar(90)    AFTER `area_name`;
 
 
 ALTER TABLE `mst_area` ADD CONSTRAINT `area_name` UNIQUE IF NOT EXISTS  (`area_name`);

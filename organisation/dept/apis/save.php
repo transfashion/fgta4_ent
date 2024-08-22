@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/08/2023
+ * tanggal 17/08/2024
  */
 $API = new class extends deptBase {
 	
@@ -235,6 +235,7 @@ $API = new class extends deptBase {
 					$hnd->DataOpen($dataresponse);
 				}
 
+				$result->username = $userdata->username;
 				$result->dataresponse = (object) $dataresponse;
 				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
 					// DataSavedSuccess(object &$result) : void
