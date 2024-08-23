@@ -46,7 +46,7 @@ $API = new class extends deptBase {
 					set max_sp_recursion_depth = 0;
 					set @coagroup_skip_trigger = null;
 				";
-				$this->db->query($sql);
+				$this->db->exec($sql);
 
 
 				
