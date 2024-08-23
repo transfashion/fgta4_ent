@@ -39,17 +39,8 @@ $API = new class extends deptgroupBase {
 
 			try {
 
-				$sql = "
-					set @coagroup_skip_trigger = 1;
-					set max_sp_recursion_depth = 10;
-					call deptgroup_reindex();
-					set max_sp_recursion_depth = 0;
-					set @coagroup_skip_trigger = null;
-				";
-				$this->db->query($sql);
-
-
-				
+				$sql = "call deptgroup_reindex(); ";
+				$this->db->exec($sql);
 				$this->db->commit();
 				return (object)[
 					'success' => true,
