@@ -17,24 +17,27 @@ module.exports = {
 			comment: 'Daftar Departement',
 			data: {
 				dept_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID Group harus diisi'}},
+
+				deptdegree_id: {
+					text:'Degree Hierarki', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Degree Hierarki Department harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_deptdegree', 
+						field_value: 'deptdegree_id', field_display: 'deptdegree_name', 
+						api: 'ent/organisation/deptdegree/list'
+					})				
+				},
+
 				dept_name: {text:'Dept Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				dept_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
-				dept_isdisabled: {caption:'Status', text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
-				dept_isparent: {text:'Parent Dept', type: dbtype.boolean, null:false, default:'0'},
-
-				dept_isassetowner: {caption:'Item Management', text:'Asset Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
-				dept_isassetmaintainer: {text:'Asset Maintainer', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
-				dept_isstockowner: {text:'Stock Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
-				dept_isnonitemowner: {text:'Non Item Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
-				dept_ispartnerselect: {text:'Partner Selector', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
-
-				dept_isbudgetmandatory: {caption:'Project Management', text:'Budget Mandatory', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
-				dept_issingleprojectbudget: {text:'Single Project Budget', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
+		
+				/*
 				dept_pathid: {text:'PathId', type: dbtype.varchar(30), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				dept_path: {text:'Path', type: dbtype.varchar(390), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				dept_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', uppercase: false, suppresslist: true, options:{disabled:true}},
+				*/
 
-
+				/*
 				dept_parent: {
 					text:'Parent', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true,
 					options:{prompt:'NONE'},
@@ -48,13 +51,28 @@ module.exports = {
 						onSelectedHandler: true	
 					})					
 				},
+				*/ 
+
+				deptgroup_id: {
+					text: 'Group', type: dbtype.varchar(17), null:false,  suppresslist: true,
+					options:{required:true,invalidMessage:'Group Departement harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						title: 'Pilih Group',
+						table: 'mst_deptgroup', 
+						field_value: 'deptgroup_id', field_display: 'deptgroup_name', field_display_name: 'deptgroup_name',
+						api: 'ent/organisation/deptgroup/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true							
+					})				
+				},
+
+
 
 				unit_id: {
 					text: 'Unit', type: dbtype.varchar(10), null:false,  suppresslist: true,
 					options:{required:true,invalidMessage:'Unit harus diisi', prompt:'-- PILIH --'},
-					// tips: 'Maintainer Dept yang akan manage distribusi tipe item ini',
-					// tipstype: 'visible',
-					//options:{prompt:'NONE'},
 					comp: comp.Combo({
 						title: 'Pilih Unit',
 						table: 'mst_unit', 
@@ -92,7 +110,21 @@ module.exports = {
 						table: 'mst_auth', 
 						field_value: 'auth_id', field_display: 'auth_name', 
 						api: 'ent/organisation/auth/list'})				
-				}
+				},
+
+				dept_isdisabled: {caption:'Status', text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
+				
+				// dept_isparent: {text:'Parent Dept', type: dbtype.boolean, null:false, default:'0'},
+
+				dept_isassetowner: {caption:'Item Management', text:'Asset Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_isassetmaintainer: {text:'Asset Maintainer', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_isstockowner: {text:'Stock Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_isnonitemowner: {text:'Non Item Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_ispartnerselect: {text:'Partner Selector', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+
+				dept_isbudgetmandatory: {caption:'Project Management', text:'Budget Mandatory', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
+				dept_issingleprojectbudget: {text:'Single Project Budget', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
+		
 
 			},
 

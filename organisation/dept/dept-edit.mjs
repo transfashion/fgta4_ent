@@ -19,25 +19,22 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_dept_id: $('#pnl_edit-txt_dept_id'),
+	cbo_deptdegree_id: $('#pnl_edit-cbo_deptdegree_id'),
 	txt_dept_name: $('#pnl_edit-txt_dept_name'),
 	txt_dept_descr: $('#pnl_edit-txt_dept_descr'),
+	cbo_deptgroup_id: $('#pnl_edit-cbo_deptgroup_id'),
+	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
+	cbo_depttype_id: $('#pnl_edit-cbo_depttype_id'),
+	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
+	cbo_auth_id: $('#pnl_edit-cbo_auth_id'),
 	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
-	chk_dept_isparent: $('#pnl_edit-chk_dept_isparent'),
 	chk_dept_isassetowner: $('#pnl_edit-chk_dept_isassetowner'),
 	chk_dept_isassetmaintainer: $('#pnl_edit-chk_dept_isassetmaintainer'),
 	chk_dept_isstockowner: $('#pnl_edit-chk_dept_isstockowner'),
 	chk_dept_isnonitemowner: $('#pnl_edit-chk_dept_isnonitemowner'),
 	chk_dept_ispartnerselect: $('#pnl_edit-chk_dept_ispartnerselect'),
 	chk_dept_isbudgetmandatory: $('#pnl_edit-chk_dept_isbudgetmandatory'),
-	chk_dept_issingleprojectbudget: $('#pnl_edit-chk_dept_issingleprojectbudget'),
-	txt_dept_pathid: $('#pnl_edit-txt_dept_pathid'),
-	txt_dept_path: $('#pnl_edit-txt_dept_path'),
-	txt_dept_level: $('#pnl_edit-txt_dept_level'),
-	cbo_dept_parent: $('#pnl_edit-cbo_dept_parent'),
-	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
-	cbo_depttype_id: $('#pnl_edit-cbo_depttype_id'),
-	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
-	cbo_auth_id: $('#pnl_edit-cbo_auth_id')
+	chk_dept_issingleprojectbudget: $('#pnl_edit-chk_dept_issingleprojectbudget')
 }
 
 
@@ -86,29 +83,35 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
-	obj.cbo_dept_parent.name = 'pnl_edit-cbo_dept_parent'		
-	new fgta4slideselect(obj.cbo_dept_parent, {
-		title: 'Pilih dept_parent',
+	obj.cbo_deptdegree_id.name = 'pnl_edit-cbo_deptdegree_id'		
+	new fgta4slideselect(obj.cbo_deptdegree_id, {
+		title: 'Pilih deptdegree_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_dept_parent,
-		fieldValue: 'dept_parent',
-		fieldDisplay: 'dept_parent_name',
-		fieldValueMap: 'dept_id',
-		fieldDisplayMap: 'dept_name',
+		api: $ui.apis.load_deptdegree_id,
+		fieldValue: 'deptdegree_id',
+		fieldDisplay: 'deptdegree_name',
 		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
+			{mapping: 'deptdegree_id', text: 'deptdegree_id'},
+			{mapping: 'deptdegree_name', text: 'deptdegree_name'}
 		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_dept_parent_dataloading === 'function') {
-				hnd.cbo_dept_parent_dataloading(criteria, options);
-			}						
-		},					
+
+	})				
+				
+	obj.cbo_deptgroup_id.name = 'pnl_edit-cbo_deptgroup_id'		
+	new fgta4slideselect(obj.cbo_deptgroup_id, {
+		title: 'Pilih Group',
+		returnpage: this_page_id,
+		api: $ui.apis.load_deptgroup_id,
+		fieldValue: 'deptgroup_id',
+		fieldDisplay: 'deptgroup_name',
+		fields: [
+			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
+			{mapping: 'deptgroup_name', text: 'deptgroup_name'}
+		],
 		OnSelected: (value, display, record, args) => {
 			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_dept_parent_selected === 'function') {
-					hnd.cbo_dept_parent_selected(value, display, record, args);
+				if (typeof hnd.cbo_deptgroup_id_selected === 'function') {
+					hnd.cbo_deptgroup_id_selected(value, display, record, args);
 				}
 			}
 		},
@@ -272,7 +275,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.dept_parent==null) { result.record.dept_parent='--NULL--'; result.record.dept_parent_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -296,7 +298,8 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_dept_parent, record.dept_parent, record.dept_parent_name)
+			.setValue(obj.cbo_deptdegree_id, record.deptdegree_id, record.deptdegree_name)
+			.setValue(obj.cbo_deptgroup_id, record.deptgroup_id, record.deptgroup_name)
 			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
 			.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
 			.setValue(obj.cbo_deptmodel_id, record.deptmodel_id, record.deptmodel_name)
@@ -359,7 +362,6 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.dept_isdisabled = '0'
-		data.dept_isparent = '0'
 		data.dept_isassetowner = '0'
 		data.dept_isassetmaintainer = '0'
 		data.dept_isstockowner = '0'
@@ -367,10 +369,11 @@ export function createnew() {
 		data.dept_ispartnerselect = '0'
 		data.dept_isbudgetmandatory = '0'
 		data.dept_issingleprojectbudget = '0'
-		data.dept_level = 0
 
-		data.dept_parent = '--NULL--'
-		data.dept_parent_name = 'NONE'
+		data.deptdegree_id = '0'
+		data.deptdegree_name = '-- PILIH --'
+		data.deptgroup_id = '0'
+		data.deptgroup_name = '-- PILIH --'
 		data.unit_id = '0'
 		data.unit_name = '-- PILIH --'
 		data.depttype_id = '0'
@@ -527,7 +530,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['dept_parent', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -576,7 +579,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_dept_parent, result.dataresponse.dept_parent_name!=='--NULL--' ? result.dataresponse.dept_parent : '--NULL--', result.dataresponse.dept_parent_name!=='--NULL--'?result.dataresponse.dept_parent_name:'NONE')
 
 	*/
 

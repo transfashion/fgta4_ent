@@ -24,6 +24,7 @@ export function init(param, fn_callback) {
 }
 
 
+/*
 async function btn_reindex_click() {
 	
 	var apiurl = `${global.modulefullname}/xtion-reindex`
@@ -64,3 +65,4 @@ export function grd_list_rowrender(row) {
 	}
 
 }
+	*/

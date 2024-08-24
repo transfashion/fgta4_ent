@@ -32,8 +32,7 @@ class dept_headerHandler extends WebAPI  {
 	}
 
 	public function sortListOrder(array &$sortData) : void {
-		$sortData['dept_path'] = 'ASC';
-		$sortData['dept_pathid'] = 'ASC';
+		$sortData['dept_name'] = 'ASC';
 	}
 
 }		

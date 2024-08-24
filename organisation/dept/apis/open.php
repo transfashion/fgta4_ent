@@ -91,11 +91,11 @@ $API = new class extends deptBase {
 
 
 			$sqlFieldList = [
-				'dept_id' => 'A.`dept_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`', 'dept_isdisabled' => 'A.`dept_isdisabled`',
-				'dept_isparent' => 'A.`dept_isparent`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`', 'dept_isstockowner' => 'A.`dept_isstockowner`',
-				'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`', 'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`',
-				'dept_pathid' => 'A.`dept_pathid`', 'dept_path' => 'A.`dept_path`', 'dept_level' => 'A.`dept_level`', 'dept_parent' => 'A.`dept_parent`',
-				'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'auth_id' => 'A.`auth_id`',
+				'dept_id' => 'A.`dept_id`', 'deptdegree_id' => 'A.`deptdegree_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`',
+				'deptgroup_id' => 'A.`deptgroup_id`', 'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`',
+				'auth_id' => 'A.`auth_id`', 'dept_isdisabled' => 'A.`dept_isdisabled`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`',
+				'dept_isstockowner' => 'A.`dept_isstockowner`', 'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`',
+				'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_dept A";
@@ -134,7 +134,8 @@ $API = new class extends deptBase {
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
+				'deptdegree_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptdegree_id'], $this->db, 'mst_deptdegree', 'deptdegree_id', 'deptdegree_name'),
+				'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
 				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 				'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 				'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
