@@ -16,15 +16,14 @@ CREATE TABLE IF NOT EXISTS `mst_dept` (
 	`dept_ispartnerselect` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_isbudgetmandatory` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_issingleprojectbudget` tinyint(1) NOT NULL DEFAULT 0, 
+	`dept_pathid` varchar(30) NOT NULL , 
 	`dept_path` varchar(390) NOT NULL , 
 	`dept_level` int(2) NOT NULL DEFAULT 0, 
-	`unit_id` varchar(10) NOT NULL , 
-	`deptgroup_id` varchar(10) NOT NULL , 
 	`dept_parent` varchar(30)  , 
+	`unit_id` varchar(10) NOT NULL , 
 	`depttype_id` varchar(10) NOT NULL , 
 	`deptmodel_id` varchar(10) NOT NULL , 
 	`auth_id` varchar(30) NOT NULL , 
-	`project_id` varchar(30)  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -47,15 +46,14 @@ ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isnonitemowner` tinyint(1
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_ispartnerselect` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_isnonitemowner`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isbudgetmandatory` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_ispartnerselect`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_issingleprojectbudget` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_isbudgetmandatory`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_path` varchar(390) NOT NULL  AFTER `dept_issingleprojectbudget`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_pathid` varchar(30) NOT NULL  AFTER `dept_issingleprojectbudget`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_path` varchar(390) NOT NULL  AFTER `dept_pathid`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_level` int(2) NOT NULL DEFAULT 0 AFTER `dept_path`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `dept_level`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `deptgroup_id` varchar(10) NOT NULL  AFTER `unit_id`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_parent` varchar(30)   AFTER `deptgroup_id`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `depttype_id` varchar(10) NOT NULL  AFTER `dept_parent`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_parent` varchar(30)   AFTER `dept_level`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `dept_parent`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `depttype_id` varchar(10) NOT NULL  AFTER `unit_id`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `deptmodel_id` varchar(10) NOT NULL  AFTER `depttype_id`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(30) NOT NULL  AFTER `deptmodel_id`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `project_id` varchar(30)   AFTER `auth_id`;
 
 
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_name` varchar(60) NOT NULL   AFTER `dept_id`;
@@ -69,34 +67,29 @@ ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isnonitemowner` tinyint(1)
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_ispartnerselect` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_isnonitemowner`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isbudgetmandatory` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_ispartnerselect`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_issingleprojectbudget` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_isbudgetmandatory`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_path` varchar(390) NOT NULL   AFTER `dept_issingleprojectbudget`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_pathid` varchar(30) NOT NULL   AFTER `dept_issingleprojectbudget`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_path` varchar(390) NOT NULL   AFTER `dept_pathid`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_level` int(2) NOT NULL DEFAULT 0  AFTER `dept_path`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `dept_level`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `deptgroup_id` varchar(10) NOT NULL   AFTER `unit_id`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_parent` varchar(30)    AFTER `deptgroup_id`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `depttype_id` varchar(10) NOT NULL   AFTER `dept_parent`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_parent` varchar(30)    AFTER `dept_level`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `dept_parent`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `depttype_id` varchar(10) NOT NULL   AFTER `unit_id`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `deptmodel_id` varchar(10) NOT NULL   AFTER `depttype_id`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `auth_id` varchar(30) NOT NULL   AFTER `deptmodel_id`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `project_id` varchar(30)    AFTER `auth_id`;
 
 
 ALTER TABLE `mst_dept` ADD CONSTRAINT `dept_name` UNIQUE IF NOT EXISTS  (`dept_name`);
 
-ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
-ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `deptgroup_id` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `dept_parent` (`dept_parent`);
+ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `depttype_id` (`depttype_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `deptmodel_id` (`deptmodel_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `auth_id` (`auth_id`);
-ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `project_id` (`project_id`);
 
-ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
-ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptgroup` FOREIGN KEY IF NOT EXISTS  (`deptgroup_id`) REFERENCES `mst_deptgroup` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_parent`) REFERENCES `mst_dept` (`dept_id`);
+ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_depttype` FOREIGN KEY IF NOT EXISTS  (`depttype_id`) REFERENCES `mst_depttype` (`depttype_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptmodel` FOREIGN KEY IF NOT EXISTS  (`deptmodel_id`) REFERENCES `mst_deptmodel` (`deptmodel_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_auth` FOREIGN KEY IF NOT EXISTS  (`auth_id`) REFERENCES `mst_auth` (`auth_id`);
-ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_project` FOREIGN KEY IF NOT EXISTS  (`project_id`) REFERENCES `mst_project` (`project_id`);
 
 
 

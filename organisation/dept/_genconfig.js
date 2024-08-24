@@ -30,8 +30,24 @@ module.exports = {
 
 				dept_isbudgetmandatory: {caption:'Project Management', text:'Budget Mandatory', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
 				dept_issingleprojectbudget: {text:'Single Project Budget', type: dbtype.boolean, null:false, default:'0', options:{labelWidth:'300px'}},
+				dept_pathid: {text:'PathId', type: dbtype.varchar(30), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				dept_path: {text:'Path', type: dbtype.varchar(390), null:false, uppercase: false, suppresslist: true, options:{disabled:true}},
 				dept_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', uppercase: false, suppresslist: true, options:{disabled:true}},
+
+
+				dept_parent: {
+					text:'Parent', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true,
+					options:{prompt:'NONE'},
+					comp: comp.Combo({
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_parent_name', 
+						api: 'ent/organisation/dept/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})					
+				},
 
 				unit_id: {
 					text: 'Unit', type: dbtype.varchar(10), null:false,  suppresslist: true,
@@ -49,20 +65,6 @@ module.exports = {
 						onSelectingHandler: false,
 						onSelectedHandler: false							
 					})				
-				},
-
-				dept_parent: {
-					text:'Parent', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true,
-					options:{prompt:'NONE'},
-					comp: comp.Combo({
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_parent_name', 
-						api: 'ent/organisation/dept/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false	
-					})					
 				},
 
 				depttype_id: {

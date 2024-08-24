@@ -95,6 +95,14 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">PathId</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_dept_pathid" class="easyui-textbox" mapping="dept_pathid"  maxlength="30" style="width: 400px" data-options="multiline: false , disabled: true ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Path</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_dept_path" class="easyui-textbox" mapping="dept_path"  maxlength="390" style="width: 400px" data-options="multiline: false , disabled: true ">
@@ -111,25 +119,17 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Unit</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_unit_id" class="easyui-combo" style="width: 400px" mapping="unit_id" display="unit_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Unit harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_unit_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Group</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_deptgroup_id" class="easyui-combo" style="width: 400px" mapping="deptgroup_id" display="deptgroup_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Group harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_deptgroup_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Parent</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_dept_parent" class="easyui-combo" style="width: 400px" mapping="dept_parent" display="dept_parent_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Unit</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_unit_id" class="easyui-combo" style="width: 400px" mapping="unit_id" display="unit_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Unit harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_unit_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -154,14 +154,6 @@
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Authorisasi</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_auth_id" class="easyui-combo" style="width: 400px" mapping="auth_id" display="auth_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Authorisasi harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_auth_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Project</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_project_id" class="easyui-combo" style="width: 400px" mapping="project_id" display="project_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>

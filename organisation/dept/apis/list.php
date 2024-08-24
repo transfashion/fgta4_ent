@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 17/08/2024
+ * tanggal 24/08/2024
  */
 $API = new class extends deptBase {
 
@@ -95,9 +95,8 @@ $API = new class extends deptBase {
 				'dept_id' => 'A.`dept_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`', 'dept_isdisabled' => 'A.`dept_isdisabled`',
 				'dept_isparent' => 'A.`dept_isparent`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`', 'dept_isstockowner' => 'A.`dept_isstockowner`',
 				'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`', 'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`',
-				'dept_path' => 'A.`dept_path`', 'dept_level' => 'A.`dept_level`', 'unit_id' => 'A.`unit_id`', 'deptgroup_id' => 'A.`deptgroup_id`',
-				'dept_parent' => 'A.`dept_parent`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'auth_id' => 'A.`auth_id`',
-				'project_id' => 'A.`project_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'dept_pathid' => 'A.`dept_pathid`', 'dept_path' => 'A.`dept_path`', 'dept_level' => 'A.`dept_level`', 'dept_parent' => 'A.`dept_parent`',
+				'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'auth_id' => 'A.`auth_id`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_dept A";
@@ -187,26 +186,22 @@ $API = new class extends deptBase {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
-					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
 					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
+					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
 					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
-					'project_name' => \FGTA4\utils\SqlUtility::Lookup($record['project_id'], $this->db, 'mst_project', 'project_id', 'project_name'),
 					 
 				]);
 				*/
 
 
 				// lookup data id yang refer ke table lain
-				$this->addFields('unit_name', 'unit_id', $record, 'mst_unit', 'unit_name', 'unit_id');
-				$this->addFields('deptgroup_name', 'deptgroup_id', $record, 'mst_deptgroup', 'deptgroup_name', 'deptgroup_id');
 				$this->addFields('dept_parent_name', 'dept_parent', $record, 'mst_dept', 'dept_name', 'dept_id');
+				$this->addFields('unit_name', 'unit_id', $record, 'mst_unit', 'unit_name', 'unit_id');
 				$this->addFields('depttype_name', 'depttype_id', $record, 'mst_depttype', 'depttype_name', 'depttype_id');
 				$this->addFields('deptmodel_name', 'deptmodel_id', $record, 'mst_deptmodel', 'deptmodel_name', 'deptmodel_id');
 				$this->addFields('auth_name', 'auth_id', $record, 'mst_auth', 'auth_name', 'auth_id');
-				$this->addFields('project_name', 'project_id', $record, 'mst_project', 'project_name', 'project_id');
 					 
 
 

@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 17/08/2024
+ * tanggal 24/08/2024
  */
 $API = new class extends deptBase {
 	
@@ -85,7 +85,6 @@ $API = new class extends deptBase {
 
 			$obj->dept_id = strtoupper($obj->dept_id);
 			$obj->dept_name = strtoupper($obj->dept_name);
-			$obj->deptgroup_id = strtoupper($obj->deptgroup_id);
 			$obj->dept_parent = strtoupper($obj->dept_parent);
 			$obj->depttype_id = strtoupper($obj->depttype_id);
 			$obj->deptmodel_id = strtoupper($obj->deptmodel_id);
@@ -184,9 +183,8 @@ $API = new class extends deptBase {
 					'dept_id' => 'A.`dept_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`', 'dept_isdisabled' => 'A.`dept_isdisabled`',
 					'dept_isparent' => 'A.`dept_isparent`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`', 'dept_isstockowner' => 'A.`dept_isstockowner`',
 					'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`', 'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`',
-					'dept_path' => 'A.`dept_path`', 'dept_level' => 'A.`dept_level`', 'unit_id' => 'A.`unit_id`', 'deptgroup_id' => 'A.`deptgroup_id`',
-					'dept_parent' => 'A.`dept_parent`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'auth_id' => 'A.`auth_id`',
-					'project_id' => 'A.`project_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+					'dept_pathid' => 'A.`dept_pathid`', 'dept_path' => 'A.`dept_path`', 'dept_level' => 'A.`dept_level`', 'dept_parent' => 'A.`dept_parent`',
+					'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'auth_id' => 'A.`auth_id`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_dept A";
@@ -218,13 +216,11 @@ $API = new class extends deptBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
-					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
-					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
 					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
+					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
 					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
-					'project_name' => \FGTA4\utils\SqlUtility::Lookup($record['project_id'], $this->db, 'mst_project', 'project_id', 'project_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
