@@ -15,6 +15,7 @@ module.exports = {
 				deptgroup_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true, options:{required:true,invalidMessage:'ID Group harus diisi'}},
 				deptgroup_name: {text:'Dept Group', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				deptgroup_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
+				deptgroup_isparent: {text:'Parent Group', type: dbtype.boolean, null:false, default:'0'},
 				deptgroup_parent: {
 					text:'Parent', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
 					options:{prompt:'-- PILIH --'},

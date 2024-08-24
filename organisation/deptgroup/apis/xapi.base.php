@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * /ent/organisation/deptgroup/apis/xapi.base.php
+ * ent/organisation/deptgroup/apis/xapi.base.php
  *
  * deptgroupBase
  * Kelas dasar untuk keperluan-keperluan api
@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 03/12/2021
+ * tanggal 24/08/2024
  */
 class deptgroupBase extends WebAPI {
 
@@ -56,13 +56,6 @@ class deptgroupBase extends WebAPI {
 		
 	}
 
-	function pre_action_check($data, $action) {
-		try {
-			return true;
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
-	}
 
 	public function get_header_row($id) {
 		try {

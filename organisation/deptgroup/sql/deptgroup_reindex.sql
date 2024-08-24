@@ -12,11 +12,10 @@ BEGIN
 	declare c_data cursor for
 	select deptgroup_id from mst_deptgroup where deptgroup_parent is null;
 
+
 	declare continue handler for not found
 	set EOF = true;
 
-	set @deptgroup_skip_trigger = 1;
-	set max_sp_recursion_depth = 10;
 
 
 	update mst_deptgroup 
@@ -49,8 +48,6 @@ BEGIN
 	where 
 	deptgroup_path is null;
 	
-	set max_sp_recursion_depth = 0;
-	set @deptgroup_skip_trigger = null;
 	
 END //
 
