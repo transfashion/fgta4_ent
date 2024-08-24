@@ -13,6 +13,16 @@ module.exports = {
 			comment: 'Daftar Group Departement, hierarki departemen ditentukan di table ini',
 			data: {
 				deptgroup_id: {text:'ID', type: dbtype.varchar(17), null:false, uppercase: true, options:{required:true,invalidMessage:'ID Group harus diisi'}},
+
+				deptdegree_id: {
+					text:'Degree Hierarki', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Degree Hierarki Department harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_deptdegree', 
+						field_value: 'deptdegree_id', field_display: 'deptdegree_name', 
+						api: 'ent/organisation/deptdegree/list'})				
+				},
+
 				deptgroup_name: {text:'Dept Group', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				deptgroup_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				deptgroup_isparent: {text:'Parent Group', type: dbtype.boolean, null:false, default:'0'},
@@ -22,7 +32,12 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_deptgroup', 
 						field_value: 'deptgroup_id', field_display: 'deptgroup_name', field_display_name: 'deptgroup_parent_name', 
-						api: 'ent/organisation/deptgroup/list'})					
+						api: 'ent/organisation/deptgroup/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true				
+					})					
 				},
 
 				unit_id: {

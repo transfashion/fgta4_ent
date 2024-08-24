@@ -8,7 +8,9 @@ if (!defined('FGTA4')) {
 
 class deptgroup_headerHandler extends WebAPI  {
 
-
+	public function buildListCriteriaValues(object &$options, array &$criteriaValues) : void {
+		$criteriaValues['deptgroup_isparent'] = " A.deptgroup_isparent = :deptgroup_isparent ";
+	}
 
 
 	public function sortListOrder(array &$sortData) : void {

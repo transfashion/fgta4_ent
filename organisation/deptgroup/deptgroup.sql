@@ -5,6 +5,7 @@
 
 CREATE TABLE IF NOT EXISTS `mst_deptgroup` (
 	`deptgroup_id` varchar(17) NOT NULL , 
+	`deptdegree_id` varchar(10) NOT NULL , 
 	`deptgroup_name` varchar(60) NOT NULL , 
 	`deptgroup_descr` varchar(90)  , 
 	`deptgroup_isparent` tinyint(1) NOT NULL DEFAULT 0, 
@@ -28,7 +29,8 @@ ENGINE=InnoDB
 COMMENT='Daftar Group Departement, hierarki departemen ditentukan di table ini';
 
 
-ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_name` varchar(60) NOT NULL  AFTER `deptgroup_id`;
+ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptdegree_id` varchar(10) NOT NULL  AFTER `deptgroup_id`;
+ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_name` varchar(60) NOT NULL  AFTER `deptdegree_id`;
 ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_descr` varchar(90)   AFTER `deptgroup_name`;
 ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_isparent` tinyint(1) NOT NULL DEFAULT 0 AFTER `deptgroup_descr`;
 ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_parent` varchar(17)   AFTER `deptgroup_isparent`;
@@ -41,7 +43,8 @@ ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_path` varchar(3
 ALTER TABLE `mst_deptgroup` ADD COLUMN IF NOT EXISTS  `deptgroup_level` int(2) NOT NULL DEFAULT 0 AFTER `deptgroup_path`;
 
 
-ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_name` varchar(60) NOT NULL   AFTER `deptgroup_id`;
+ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptdegree_id` varchar(10) NOT NULL   AFTER `deptgroup_id`;
+ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_name` varchar(60) NOT NULL   AFTER `deptdegree_id`;
 ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_descr` varchar(90)    AFTER `deptgroup_name`;
 ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_isparent` tinyint(1) NOT NULL DEFAULT 0  AFTER `deptgroup_descr`;
 ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_parent` varchar(17)    AFTER `deptgroup_isparent`;
@@ -57,11 +60,13 @@ ALTER TABLE `mst_deptgroup` MODIFY COLUMN IF EXISTS  `deptgroup_level` int(2) NO
 ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `deptgroup_name` UNIQUE IF NOT EXISTS  (`deptgroup_name`);
 ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `deptgroup_path` UNIQUE IF NOT EXISTS  (`deptgroup_path`, `deptgroup_pathid`);
 
+ALTER TABLE `mst_deptgroup` ADD KEY IF NOT EXISTS `deptdegree_id` (`deptdegree_id`);
 ALTER TABLE `mst_deptgroup` ADD KEY IF NOT EXISTS `deptgroup_parent` (`deptgroup_parent`);
 ALTER TABLE `mst_deptgroup` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
 ALTER TABLE `mst_deptgroup` ADD KEY IF NOT EXISTS `depttype_id` (`depttype_id`);
 ALTER TABLE `mst_deptgroup` ADD KEY IF NOT EXISTS `deptmodel_id` (`deptmodel_id`);
 
+ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `fk_mst_deptgroup_mst_deptdegree` FOREIGN KEY IF NOT EXISTS  (`deptdegree_id`) REFERENCES `mst_deptdegree` (`deptdegree_id`);
 ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `fk_mst_deptgroup_mst_deptgroup` FOREIGN KEY IF NOT EXISTS  (`deptgroup_parent`) REFERENCES `mst_deptgroup` (`deptgroup_id`);
 ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `fk_mst_deptgroup_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
 ALTER TABLE `mst_deptgroup` ADD CONSTRAINT `fk_mst_deptgroup_mst_depttype` FOREIGN KEY IF NOT EXISTS  (`depttype_id`) REFERENCES `mst_depttype` (`depttype_id`);

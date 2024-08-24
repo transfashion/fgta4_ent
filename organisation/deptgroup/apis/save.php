@@ -84,6 +84,7 @@ $API = new class extends deptgroupBase {
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
 			$obj->deptgroup_id = strtoupper($obj->deptgroup_id);
+			$obj->deptdegree_id = strtoupper($obj->deptdegree_id);
 			$obj->deptgroup_name = strtoupper($obj->deptgroup_name);
 			$obj->deptgroup_parent = strtoupper($obj->deptgroup_parent);
 			$obj->depttype_id = strtoupper($obj->depttype_id);
@@ -179,9 +180,10 @@ $API = new class extends deptgroupBase {
 				}
 
 				$sqlFieldList = [
-					'deptgroup_id' => 'A.`deptgroup_id`', 'deptgroup_name' => 'A.`deptgroup_name`', 'deptgroup_descr' => 'A.`deptgroup_descr`', 'deptgroup_isparent' => 'A.`deptgroup_isparent`',
-					'deptgroup_parent' => 'A.`deptgroup_parent`', 'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`',
-					'deptgroup_isexselect' => 'A.`deptgroup_isexselect`', 'deptgroup_pathid' => 'A.`deptgroup_pathid`', 'deptgroup_path' => 'A.`deptgroup_path`', 'deptgroup_level' => 'A.`deptgroup_level`',
+					'deptgroup_id' => 'A.`deptgroup_id`', 'deptdegree_id' => 'A.`deptdegree_id`', 'deptgroup_name' => 'A.`deptgroup_name`', 'deptgroup_descr' => 'A.`deptgroup_descr`',
+					'deptgroup_isparent' => 'A.`deptgroup_isparent`', 'deptgroup_parent' => 'A.`deptgroup_parent`', 'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`',
+					'deptmodel_id' => 'A.`deptmodel_id`', 'deptgroup_isexselect' => 'A.`deptgroup_isexselect`', 'deptgroup_pathid' => 'A.`deptgroup_pathid`', 'deptgroup_path' => 'A.`deptgroup_path`',
+					'deptgroup_level' => 'A.`deptgroup_level`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_deptgroup A";
@@ -213,6 +215,7 @@ $API = new class extends deptgroupBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
+					'deptdegree_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptdegree_id'], $this->db, 'mst_deptdegree', 'deptdegree_id', 'deptdegree_name'),
 					'deptgroup_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_parent'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
 					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),

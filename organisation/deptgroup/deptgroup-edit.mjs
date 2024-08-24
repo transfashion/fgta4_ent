@@ -19,6 +19,7 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_deptgroup_id: $('#pnl_edit-txt_deptgroup_id'),
+	cbo_deptdegree_id: $('#pnl_edit-cbo_deptdegree_id'),
 	txt_deptgroup_name: $('#pnl_edit-txt_deptgroup_name'),
 	txt_deptgroup_descr: $('#pnl_edit-txt_deptgroup_descr'),
 	chk_deptgroup_isparent: $('#pnl_edit-chk_deptgroup_isparent'),
@@ -78,6 +79,20 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_deptdegree_id.name = 'pnl_edit-cbo_deptdegree_id'		
+	new fgta4slideselect(obj.cbo_deptdegree_id, {
+		title: 'Pilih deptdegree_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_deptdegree_id,
+		fieldValue: 'deptdegree_id',
+		fieldDisplay: 'deptdegree_name',
+		fields: [
+			{mapping: 'deptdegree_id', text: 'deptdegree_id'},
+			{mapping: 'deptdegree_name', text: 'deptdegree_name'}
+		],
+
+	})				
+				
 	obj.cbo_deptgroup_parent.name = 'pnl_edit-cbo_deptgroup_parent'		
 	new fgta4slideselect(obj.cbo_deptgroup_parent, {
 		title: 'Pilih deptgroup_parent',
@@ -91,6 +106,19 @@ export async function init(opt) {
 			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
 			{mapping: 'deptgroup_name', text: 'deptgroup_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_deptgroup_parent_dataloading === 'function') {
+				hnd.cbo_deptgroup_parent_dataloading(criteria, options);
+			}						
+		},					
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_deptgroup_parent_selected === 'function') {
+					hnd.cbo_deptgroup_parent_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				
@@ -261,6 +289,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_deptdegree_id, record.deptdegree_id, record.deptdegree_name)
 			.setValue(obj.cbo_deptgroup_parent, record.deptgroup_parent, record.deptgroup_parent_name)
 			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
 			.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
@@ -326,6 +355,8 @@ export function createnew() {
 		data.deptgroup_isexselect = '0'
 		data.deptgroup_level = 0
 
+		data.deptdegree_id = '0'
+		data.deptdegree_name = '-- PILIH --'
 		data.deptgroup_parent = '--NULL--'
 		data.deptgroup_parent_name = 'NONE'
 		data.unit_id = '0'
