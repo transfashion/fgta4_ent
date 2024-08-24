@@ -21,7 +21,9 @@ const obj = {
 	txt_deptmodel_id: $('#pnl_edit-txt_deptmodel_id'),
 	txt_deptmodel_name: $('#pnl_edit-txt_deptmodel_name'),
 	txt_deptmodel_descr: $('#pnl_edit-txt_deptmodel_descr'),
-	chk_deptmodel_isdisabled: $('#pnl_edit-chk_deptmodel_isdisabled')
+	chk_deptmodel_isdisabled: $('#pnl_edit-chk_deptmodel_isdisabled'),
+	chk_deptmodel_isrevenuecenter: $('#pnl_edit-chk_deptmodel_isrevenuecenter'),
+	chk_deptmodel_iscostcenter: $('#pnl_edit-chk_deptmodel_iscostcenter')
 }
 
 
@@ -252,6 +254,8 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.deptmodel_isdisabled = '0'
+		data.deptmodel_isrevenuecenter = '0'
+		data.deptmodel_iscostcenter = '0'
 
 
 		if (typeof hnd.form_newdata == 'function') {

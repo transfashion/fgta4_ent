@@ -93,6 +93,7 @@ $API = new class extends deptmodelBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'deptmodel_id' => 'A.`deptmodel_id`', 'deptmodel_name' => 'A.`deptmodel_name`', 'deptmodel_descr' => 'A.`deptmodel_descr`', 'deptmodel_isdisabled' => 'A.`deptmodel_isdisabled`',
+				'deptmodel_isrevenuecenter' => 'A.`deptmodel_isrevenuecenter`', 'deptmodel_iscostcenter' => 'A.`deptmodel_iscostcenter`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_deptmodel A";
