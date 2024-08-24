@@ -21,9 +21,7 @@ const obj = {
 	txt_depttype_id: $('#pnl_edit-txt_depttype_id'),
 	txt_depttype_name: $('#pnl_edit-txt_depttype_name'),
 	txt_depttype_descr: $('#pnl_edit-txt_depttype_descr'),
-	chk_depttype_isdisabled: $('#pnl_edit-chk_depttype_isdisabled'),
-	chk_depttype_isrevenuecenter: $('#pnl_edit-chk_depttype_isrevenuecenter'),
-	chk_depttype_iscostcenter: $('#pnl_edit-chk_depttype_iscostcenter')
+	chk_depttype_isdisabled: $('#pnl_edit-chk_depttype_isdisabled')
 }
 
 
@@ -254,8 +252,6 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.depttype_isdisabled = '0'
-		data.depttype_isrevenuecenter = '0'
-		data.depttype_iscostcenter = '0'
 
 
 		if (typeof hnd.form_newdata == 'function') {

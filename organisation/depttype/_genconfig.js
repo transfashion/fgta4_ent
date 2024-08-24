@@ -16,16 +16,6 @@ module.exports = {
 				depttype_name: {text:'Dept Type', type: dbtype.varchar(60), null:false, uppercase: true},
 				depttype_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				depttype_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
-				
-				depttype_isrevenuecenter: {
-					text:'Revenue Center', type: dbtype.boolean, suppresslist: true, null:false, default:'0',
-					options:{labelWidth:'200px'}
-				},
-				
-				depttype_iscostcenter: {
-					text:'Cost Center', type: dbtype.boolean,  suppresslist: true, null:false, default:'0',
-					options:{labelWidth:'200px'}
-				},
 			},
 
 			defaultsearch: ['depttype_id', 'depttype_name'],
