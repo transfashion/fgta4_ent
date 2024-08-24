@@ -176,7 +176,7 @@ $API = new class extends authBase {
 
 				$sqlFieldList = [
 					'auth_id' => 'A.`auth_id`', 'auth_name' => 'A.`auth_name`', 'auth_isdisabled' => 'A.`auth_isdisabled`', 'auth_descr' => 'A.`auth_descr`',
-					'authlevel_id' => 'A.`authlevel_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'empl_id' => 'A.`empl_id`', '_createby' => 'A.`_createby`',
+					'authlevel_id' => 'A.`authlevel_id`', 'empl_id' => 'A.`empl_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_auth A";
@@ -209,7 +209,6 @@ $API = new class extends authBase {
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
 					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
 					'empl_name' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

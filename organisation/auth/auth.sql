@@ -1,7 +1,7 @@
--- SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=0;
 
--- drop table if exists `mst_auth`;
--- drop table if exists `mst_authdelegate`;
+drop table if exists `mst_auth`;
+drop table if exists `mst_authdelegate`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_auth` (
@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS `mst_auth` (
 	`auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`auth_descr` varchar(90)  , 
 	`authlevel_id` varchar(10) NOT NULL , 
-	`deptmodel_id` varchar(10) NOT NULL , 
 	`empl_id` varchar(14)  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -27,26 +26,22 @@ ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_name` varchar(60) NOT NUL
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `auth_name`;
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_descr` varchar(90)   AFTER `auth_isdisabled`;
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `auth_descr`;
-ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `deptmodel_id` varchar(10) NOT NULL  AFTER `authlevel_id`;
-ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(14)   AFTER `deptmodel_id`;
+ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(14)   AFTER `authlevel_id`;
 
 
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_name` varchar(60) NOT NULL   AFTER `auth_id`;
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `auth_name`;
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_descr` varchar(90)    AFTER `auth_isdisabled`;
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `auth_descr`;
-ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `deptmodel_id` varchar(10) NOT NULL   AFTER `authlevel_id`;
-ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `empl_id` varchar(14)    AFTER `deptmodel_id`;
+ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `empl_id` varchar(14)    AFTER `authlevel_id`;
 
 
 ALTER TABLE `mst_auth` ADD CONSTRAINT `auth_name` UNIQUE IF NOT EXISTS  (`auth_name`);
 
 ALTER TABLE `mst_auth` ADD KEY IF NOT EXISTS `authlevel_id` (`authlevel_id`);
-ALTER TABLE `mst_auth` ADD KEY IF NOT EXISTS `deptmodel_id` (`deptmodel_id`);
 ALTER TABLE `mst_auth` ADD KEY IF NOT EXISTS `empl_id` (`empl_id`);
 
 ALTER TABLE `mst_auth` ADD CONSTRAINT `fk_mst_auth_mst_authlevel` FOREIGN KEY IF NOT EXISTS  (`authlevel_id`) REFERENCES `mst_authlevel` (`authlevel_id`);
-ALTER TABLE `mst_auth` ADD CONSTRAINT `fk_mst_auth_mst_deptmodel` FOREIGN KEY IF NOT EXISTS  (`deptmodel_id`) REFERENCES `mst_deptmodel` (`deptmodel_id`);
 ALTER TABLE `mst_auth` ADD CONSTRAINT `fk_mst_auth_mst_empl` FOREIGN KEY IF NOT EXISTS  (`empl_id`) REFERENCES `mst_empl` (`empl_id`);
 
 

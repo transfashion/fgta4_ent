@@ -93,7 +93,7 @@ $API = new class extends authBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'auth_id' => 'A.`auth_id`', 'auth_name' => 'A.`auth_name`', 'auth_isdisabled' => 'A.`auth_isdisabled`', 'auth_descr' => 'A.`auth_descr`',
-				'authlevel_id' => 'A.`authlevel_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'empl_id' => 'A.`empl_id`', '_createby' => 'A.`_createby`',
+				'authlevel_id' => 'A.`authlevel_id`', 'empl_id' => 'A.`empl_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_auth A";
@@ -184,7 +184,6 @@ $API = new class extends authBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
-					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
 					'empl_name' => \FGTA4\utils\SqlUtility::Lookup($record['empl_id'], $this->db, 'mst_empl', 'empl_id', 'empl_name'),
 					 
 				]);
@@ -193,7 +192,6 @@ $API = new class extends authBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('authlevel_name', 'authlevel_id', $record, 'mst_authlevel', 'authlevel_name', 'authlevel_id');
-				$this->addFields('deptmodel_name', 'deptmodel_id', $record, 'mst_deptmodel', 'deptmodel_name', 'deptmodel_id');
 				$this->addFields('empl_name', 'empl_id', $record, 'mst_empl', 'empl_name', 'empl_id');
 					 
 

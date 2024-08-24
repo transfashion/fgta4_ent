@@ -23,7 +23,6 @@ const obj = {
 	chk_auth_isdisabled: $('#pnl_edit-chk_auth_isdisabled'),
 	txt_auth_descr: $('#pnl_edit-txt_auth_descr'),
 	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id'),
-	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
 	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
 }
 
@@ -83,20 +82,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'authlevel_id', text: 'authlevel_id'},
 			{mapping: 'authlevel_name', text: 'authlevel_name'}
-		],
-
-	})				
-				
-	obj.cbo_deptmodel_id.name = 'pnl_edit-cbo_deptmodel_id'		
-	new fgta4slideselect(obj.cbo_deptmodel_id, {
-		title: 'Pilih deptmodel_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_deptmodel_id,
-		fieldValue: 'deptmodel_id',
-		fieldDisplay: 'deptmodel_name',
-		fields: [
-			{mapping: 'deptmodel_id', text: 'deptmodel_id'},
-			{mapping: 'deptmodel_name', text: 'deptmodel_name'}
 		],
 
 	})				
@@ -241,7 +226,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_authlevel_id, record.authlevel_id, record.authlevel_name)
-			.setValue(obj.cbo_deptmodel_id, record.deptmodel_id, record.deptmodel_name)
 			.setValue(obj.cbo_empl_id, record.empl_id, record.empl_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -304,8 +288,6 @@ export function createnew() {
 
 		data.authlevel_id = '0'
 		data.authlevel_name = '-- PILIH --'
-		data.deptmodel_id = '0'
-		data.deptmodel_name = '-- PILIH --'
 		data.empl_id = '--NULL--'
 		data.empl_name = 'NONE'
 

@@ -29,6 +29,7 @@ module.exports = {
 				},	
 
 
+				/*
 				deptmodel_id: {
 					text:'Dept Model', type: dbtype.varchar(10), null:false, suppresslist: true,
 					options:{required:true,invalidMessage:'Model Department harus diisi', prompt:'-- PILIH --'},
@@ -37,6 +38,7 @@ module.exports = {
 						field_value: 'deptmodel_id', field_display: 'deptmodel_name', 
 						api: 'ent/organisation/deptmodel/list'})				
 				},
+				*/
 
 				empl_id: {
 					text:'Empl', type: dbtype.varchar(14), null:true,
