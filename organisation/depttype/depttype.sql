@@ -8,7 +8,8 @@ CREATE TABLE IF NOT EXISTS `mst_depttype` (
 	`depttype_name` varchar(60) NOT NULL , 
 	`depttype_descr` varchar(90)  , 
 	`depttype_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
-	`depttype_isrevenue` tinyint(1) NOT NULL DEFAULT 0, 
+	`depttype_isrevenuecenter` tinyint(1) NOT NULL DEFAULT 0, 
+	`depttype_iscostcenter` tinyint(1) NOT NULL DEFAULT 0, 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -17,19 +18,21 @@ CREATE TABLE IF NOT EXISTS `mst_depttype` (
 	PRIMARY KEY (`depttype_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Daftar Tipe Departement';
+COMMENT='Daftar Tipe Departement, costcenter or revenue center';
 
 
 ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_name` varchar(60) NOT NULL  AFTER `depttype_id`;
 ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_descr` varchar(90)   AFTER `depttype_name`;
 ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `depttype_descr`;
-ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_isrevenue` tinyint(1) NOT NULL DEFAULT 0 AFTER `depttype_isdisabled`;
+ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_isrevenuecenter` tinyint(1) NOT NULL DEFAULT 0 AFTER `depttype_isdisabled`;
+ALTER TABLE `mst_depttype` ADD COLUMN IF NOT EXISTS  `depttype_iscostcenter` tinyint(1) NOT NULL DEFAULT 0 AFTER `depttype_isrevenuecenter`;
 
 
 ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_name` varchar(60) NOT NULL   AFTER `depttype_id`;
 ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_descr` varchar(90)    AFTER `depttype_name`;
 ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `depttype_descr`;
-ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_isrevenue` tinyint(1) NOT NULL DEFAULT 0  AFTER `depttype_isdisabled`;
+ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_isrevenuecenter` tinyint(1) NOT NULL DEFAULT 0  AFTER `depttype_isdisabled`;
+ALTER TABLE `mst_depttype` MODIFY COLUMN IF EXISTS  `depttype_iscostcenter` tinyint(1) NOT NULL DEFAULT 0  AFTER `depttype_isrevenuecenter`;
 
 
 ALTER TABLE `mst_depttype` ADD CONSTRAINT `depttype_name` UNIQUE IF NOT EXISTS  (`depttype_name`);
@@ -37,10 +40,6 @@ ALTER TABLE `mst_depttype` ADD CONSTRAINT `depttype_name` UNIQUE IF NOT EXISTS  
 
 
 
-INSERT INTO mst_depttype (`depttype_id`, `depttype_name`, `depttype_descr`, `_createby`, `_createdate`) VALUES ('SUP', 'SUPPORTING', 'hanya expense', 'root', NOW());
-INSERT INTO mst_depttype (`depttype_id`, `depttype_name`, `depttype_descr`, `depttype_isrevenue`, `_createby`, `_createdate`) VALUES ('COM', 'COMMERCIALS', 'punya income & expense', '1', 'root', NOW());
-INSERT INTO mst_depttype (`depttype_id`, `depttype_name`, `depttype_descr`, `_createby`, `_createdate`) VALUES ('GAL', 'DEPT GROUP ALLOCATION', 'hanya expense', 'root', NOW());
-INSERT INTO mst_depttype (`depttype_id`, `depttype_name`, `depttype_descr`, `_createby`, `_createdate`) VALUES ('SIT', 'SITE ALLOCATION', 'hanya expense', 'root', NOW());
 
 
 

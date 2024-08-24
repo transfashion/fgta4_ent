@@ -93,7 +93,7 @@ $API = new class extends depttypeBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'depttype_id' => 'A.`depttype_id`', 'depttype_name' => 'A.`depttype_name`', 'depttype_descr' => 'A.`depttype_descr`', 'depttype_isdisabled' => 'A.`depttype_isdisabled`',
-				'depttype_isrevenue' => 'A.`depttype_isrevenue`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'depttype_isrevenuecenter' => 'A.`depttype_isrevenuecenter`', 'depttype_iscostcenter' => 'A.`depttype_iscostcenter`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_depttype A";
