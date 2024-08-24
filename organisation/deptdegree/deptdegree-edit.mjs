@@ -1,7 +1,7 @@
 var this_page_id;
 var this_page_options;
 
-
+import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './deptdegree-edit-hnd.mjs'
 
 const txt_caption = $('#pnl_edit-caption')
@@ -21,7 +21,8 @@ const obj = {
 	txt_deptdegree_id: $('#pnl_edit-txt_deptdegree_id'),
 	txt_deptdegree_name: $('#pnl_edit-txt_deptdegree_name'),
 	txt_deptdegree_descr: $('#pnl_edit-txt_deptdegree_descr'),
-	txt_deptdegree_order: $('#pnl_edit-txt_deptdegree_order')
+	txt_deptdegree_order: $('#pnl_edit-txt_deptdegree_order'),
+	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id')
 }
 
 
@@ -70,6 +71,20 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_authlevel_id.name = 'pnl_edit-cbo_authlevel_id'		
+	new fgta4slideselect(obj.cbo_authlevel_id, {
+		title: 'Pilih authlevel_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_authlevel_id,
+		fieldValue: 'authlevel_id',
+		fieldDisplay: 'authlevel_name',
+		fields: [
+			{mapping: 'authlevel_id', text: 'authlevel_id'},
+			{mapping: 'authlevel_name', text: 'authlevel_name'}
+		],
+
+	})				
+				
 
 
 
@@ -194,6 +209,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_authlevel_id, record.authlevel_id, record.authlevel_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -253,6 +269,8 @@ export function createnew() {
 		// set nilai-nilai default untuk form
 		data.deptdegree_order = 0
 
+		data.authlevel_id = '0'
+		data.authlevel_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,

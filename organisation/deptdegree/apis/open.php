@@ -92,6 +92,7 @@ $API = new class extends deptdegreeBase {
 
 			$sqlFieldList = [
 				'deptdegree_id' => 'A.`deptdegree_id`', 'deptdegree_name' => 'A.`deptdegree_name`', 'deptdegree_descr' => 'A.`deptdegree_descr`', 'deptdegree_order' => 'A.`deptdegree_order`',
+				'authlevel_id' => 'A.`authlevel_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_deptdegree A";
@@ -130,6 +131,7 @@ $API = new class extends deptdegreeBase {
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
+				'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
 
 
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

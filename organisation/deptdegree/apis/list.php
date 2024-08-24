@@ -93,6 +93,7 @@ $API = new class extends deptdegreeBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'deptdegree_id' => 'A.`deptdegree_id`', 'deptdegree_name' => 'A.`deptdegree_name`', 'deptdegree_descr' => 'A.`deptdegree_descr`', 'deptdegree_order' => 'A.`deptdegree_order`',
+				'authlevel_id' => 'A.`authlevel_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_deptdegree A";
@@ -182,12 +183,14 @@ $API = new class extends deptdegreeBase {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
+					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
 					 
 				]);
 				*/
 
 
 				// lookup data id yang refer ke table lain
+				$this->addFields('authlevel_name', 'authlevel_id', $record, 'mst_authlevel', 'authlevel_name', 'authlevel_id');
 					 
 
 
