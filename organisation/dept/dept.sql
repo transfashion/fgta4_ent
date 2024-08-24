@@ -1,6 +1,7 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- drop table if exists `mst_dept`;
+-- drop table if exists `mst_deptauth`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_dept` (
@@ -83,6 +84,48 @@ ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_unit` FOREIGN KEY IF NOT 
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_depttype` FOREIGN KEY IF NOT EXISTS  (`depttype_id`) REFERENCES `mst_depttype` (`depttype_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptmodel` FOREIGN KEY IF NOT EXISTS  (`deptmodel_id`) REFERENCES `mst_deptmodel` (`deptmodel_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_authlevel` FOREIGN KEY IF NOT EXISTS  (`authlevel_id`) REFERENCES `mst_authlevel` (`authlevel_id`);
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `mst_deptauth` (
+	`deptauth_id` varchar(14) NOT NULL , 
+	`auth_id` varchar(30) NOT NULL , 
+	`authlevel_id` varchar(10) NOT NULL , 
+	`dept_id` varchar(30) NOT NULL , 
+	`_createby` varchar(14) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(14)  , 
+	`_modifydate` datetime  , 
+	UNIQUE KEY `auth_id` (`dept_id`, `auth_id`),
+	UNIQUE KEY `authlevel_id` (`dept_id`, `authlevel_id`),
+	PRIMARY KEY (`deptauth_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Daftar Authorisasi Departement';
+
+
+ALTER TABLE `mst_deptauth` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(30) NOT NULL  AFTER `deptauth_id`;
+ALTER TABLE `mst_deptauth` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `auth_id`;
+ALTER TABLE `mst_deptauth` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `authlevel_id`;
+
+
+ALTER TABLE `mst_deptauth` MODIFY COLUMN IF EXISTS  `auth_id` varchar(30) NOT NULL   AFTER `deptauth_id`;
+ALTER TABLE `mst_deptauth` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `auth_id`;
+ALTER TABLE `mst_deptauth` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `authlevel_id`;
+
+
+ALTER TABLE `mst_deptauth` ADD CONSTRAINT `auth_id` UNIQUE IF NOT EXISTS  (`dept_id`, `auth_id`);
+ALTER TABLE `mst_deptauth` ADD CONSTRAINT `authlevel_id` UNIQUE IF NOT EXISTS  (`dept_id`, `authlevel_id`);
+
+ALTER TABLE `mst_deptauth` ADD KEY IF NOT EXISTS `auth_id` (`auth_id`);
+ALTER TABLE `mst_deptauth` ADD KEY IF NOT EXISTS `authlevel_id` (`authlevel_id`);
+ALTER TABLE `mst_deptauth` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
+
+ALTER TABLE `mst_deptauth` ADD CONSTRAINT `fk_mst_deptauth_mst_auth` FOREIGN KEY IF NOT EXISTS  (`auth_id`) REFERENCES `mst_auth` (`auth_id`);
+ALTER TABLE `mst_deptauth` ADD CONSTRAINT `fk_mst_deptauth_mst_authlevel` FOREIGN KEY IF NOT EXISTS  (`authlevel_id`) REFERENCES `mst_authlevel` (`authlevel_id`);
+ALTER TABLE `mst_deptauth` ADD CONSTRAINT `fk_mst_deptauth_mst_dept` FOREIGN KEY IF NOT EXISTS (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
 
 
 

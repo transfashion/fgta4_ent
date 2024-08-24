@@ -16,5 +16,6 @@ export const load_unit_id = 'ent/organisation/unit/list'
 export const load_depttype_id = 'ent/organisation/depttype/list'
 export const load_deptmodel_id = 'ent/organisation/deptmodel/list'
 export const load_authlevel_id = 'ent/organisation/authlevel/list'
+export const load_auth_id = 'ent/organisation/auth/list'
 
 

@@ -11,6 +11,10 @@ export function init(ed) {
 	
 }
 
+export function cbo_deptdegree_id_selected(value, display, record, args) {
+	form.setValue(obj.cbo_authlevel_id, record.authlevel_id, record.authlevel_name);
+}
+
 
 export function cbo_deptgroup_id_selected(value, display, record, args) {
 	form.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name);

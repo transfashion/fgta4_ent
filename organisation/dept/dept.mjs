@@ -6,11 +6,15 @@ import * as settings from './dept.settings.mjs'
 import * as apis from './dept.apis.mjs'
 import * as pList from './dept-list.mjs'
 import * as pEdit from './dept-edit.mjs'
+import * as pEditAuthgrid from './dept-authgrid.mjs'
+import * as pEditAuthform from './dept-authform.mjs'
 
 
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
+const pnl_editauthgrid = $('#pnl_editauthgrid')
+const pnl_editauthform = $('#pnl_editauthform')
 
 
 
@@ -41,7 +45,8 @@ export async function init(opt) {
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			
+			{panel: pnl_editauthgrid, handler: pEditAuthgrid},
+			{panel: pnl_editauthform, handler: pEditAuthform}			
 		], opt)
 
 	$ui.setPages(pages)

@@ -94,6 +94,13 @@ export async function init(opt) {
 			{mapping: 'deptdegree_id', text: 'deptdegree_id'},
 			{mapping: 'deptdegree_name', text: 'deptdegree_name'}
 		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_deptdegree_id_selected === 'function') {
+					hnd.cbo_deptdegree_id_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				
@@ -399,6 +406,7 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
+		$ui.getPages().ITEMS['pnl_editauthgrid'].handler.createnew(data, options)
 
 
 	})

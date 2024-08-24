@@ -24,7 +24,11 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_deptdegree', 
 						field_value: 'deptdegree_id', field_display: 'deptdegree_name', 
-						api: 'ent/organisation/deptdegree/list'
+						api: 'ent/organisation/deptdegree/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
 					})				
 				},
 
@@ -149,12 +153,54 @@ module.exports = {
 			
 		},
 
+
+		'mst_deptauth' : {
+			primarykeys: ['deptauth_id'],
+			comment: 'Daftar Authorisasi Departement',
+			data: {
+				deptauth_id: {text:'ID', type: dbtype.varchar(14), null:false},
+
+				auth_id: {
+					text:'Authorisasi', type: dbtype.varchar(30), null:false, uppercase: true, 
+					options:{required:true,invalidMessage:'Authorisasi harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_auth', 
+						field_value: 'auth_id', field_display: 'auth_name', 
+						api: 'ent/organisation/auth/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true
+					})				
+				},
+
+				authlevel_id: {
+					text:'Authorisation Level', type: dbtype.varchar(10), null:false,
+					options:{required:true,invalidMessage:'Level Authorisasi harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_authlevel', 
+						field_value: 'authlevel_id', field_display: 'authlevel_name', 
+						api: 'ent/organisation/authlevel/list'
+					})
+				},	
+
+				dept_id: {text:'ID', type: dbtype.varchar(30), null:false},
+			},
+
+			uniques: {
+				'auth_id' : ['dept_id', 'auth_id'],
+				'authlevel_id' : ['dept_id', 'authlevel_id']
+            }
+		}
+
 	},
 
 	schema: {
 		title: 'Department',
 		header: 'mst_dept',
-		detils: {}
+		detils: {
+			'auth' : {title: 'Authorisasi', table:'mst_deptauth', form: true, headerview:'dept_name', editorHandler: true, listHandler: true},  
+		}
 	}
 }
 

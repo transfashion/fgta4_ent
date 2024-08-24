@@ -78,7 +78,7 @@ $API = new class extends deptBase {
 			try {
 				
 				// Deleting child data referenced to this table
-				$tabletodelete = [];
+				$tabletodelete = ['mst_deptauth'];
 				if (method_exists(get_class($hnd), 'DocumentDeleting')) {
 					// ** DocumentDeleting(string $id, array &$tabletodelete)
 					$hnd->DocumentDeleting($data->{$primarykey}, $tabletodelete);
