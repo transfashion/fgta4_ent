@@ -2,7 +2,11 @@ var this_page_id;
 var this_page_options;
 
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+import * as hnd from  './docs-authform-hnd.mjs'
 
+const reload_header_modified = true;
+
+const txt_caption = $('#pnl_editauthform-caption')
 const txt_title = $('#pnl_editauthform-title')
 const btn_edit = $('#pnl_editauthform-btn_edit')
 const btn_save = $('#pnl_editauthform-btn_save')
@@ -26,8 +30,8 @@ const obj = {
 }
 
 
-let form = {}
-let header_data = {}
+let form;
+let header_data;
 
 
 
@@ -35,7 +39,8 @@ export async function init(opt) {
 	this_page_id = opt.id
 	this_page_options = opt;
 
-	
+	txt_caption.template = txt_caption.html();
+
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_docauth_id,
 		autoid: true,
@@ -45,12 +50,18 @@ export async function init(opt) {
 		btn_delete: btn_delete,		
 		objects : obj,
 		OnDataSaving: async (data, options) => { await form_datasaving(data, options) },
+		OnDataSaveError: async (data, options) => { await form_datasaveerror(data, options) },
 		OnDataSaved: async (result, options) => {  await form_datasaved(result, options) },
 		OnDataDeleting: async (data, options) => { await form_deleting(data, options) },
 		OnDataDeleted: async (result, options) => { await form_deleted(result, options) },
 		OnIdSetup : (options) => { form_idsetup(options) },
-		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
-	})	
+		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) },
+		OnGettingData: (data) => { form_gettingdata(data) },
+
+	});
+	form.getHeaderData = () => {
+		return header_data;
+	}	
 
 	form.AllowAddRecord = true
 	form.AllowRemoveRecord = true
@@ -61,27 +72,19 @@ export async function init(opt) {
 
 
 
+
 	obj.cbo_authlevel_id.name = 'pnl_editauthform-cbo_authlevel_id'		
 	new fgta4slideselect(obj.cbo_authlevel_id, {
 		title: 'Pilih authlevel_id',
 		returnpage: this_page_id,
 		api: $ui.apis.load_authlevel_id,
 		fieldValue: 'authlevel_id',
-		fieldValueMap: 'authlevel_id',
 		fieldDisplay: 'authlevel_name',
 		fields: [
 			{mapping: 'authlevel_id', text: 'authlevel_id'},
-			{mapping: 'authlevel_name', text: 'authlevel_name'},
+			{mapping: 'authlevel_name', text: 'authlevel_name'}
 		],
-		OnDataLoading: (criteria) => {
-			obj.cbo_authlevel_id.prevval = form.getValue(obj.cbo_authlevel_id)
-		},
-		OnDataLoaded : (result, options) => {},
-		OnSelected: (value, display, record) => {
-			if (value!=obj.cbo_authlevel_id.prevval) {
-				form.setValue(obj.cbo_auth_id, '--NULL--', 'NONE')
-			}
-		}
+
 	})				
 			
 	obj.cbo_auth_id.name = 'pnl_editauthform-cbo_auth_id'		
@@ -90,35 +93,19 @@ export async function init(opt) {
 		returnpage: this_page_id,
 		api: $ui.apis.load_auth_id,
 		fieldValue: 'auth_id',
-		fieldValueMap: 'auth_id',
 		fieldDisplay: 'auth_name',
 		fields: [
 			{mapping: 'auth_id', text: 'auth_id'},
-			{mapping: 'auth_name', text: 'auth_name'},
+			{mapping: 'auth_name', text: 'auth_name'}
 		],
-		OnDataLoading: (criteria) => {
-			criteria.disabled = 0;
-			criteria.authlevel_id = form.getValue(obj.cbo_authlevel_id)
-		},
-		OnDataLoaded : (result, options) => {
-			result.records.unshift({auth_id:'--NULL--', auth_name:'NONE'});	
-		},
-		OnSelected: (value, display, record) => {}
+
 	})				
 			
 
 
-	btn_addnew.linkbutton({
-		onClick: () => { btn_addnew_click() }
-	})
-
-	btn_prev.linkbutton({
-		onClick: () => { btn_prev_click() }
-	})
-
-	btn_next.linkbutton({
-		onClick: () => { btn_next_click() }
-	})
+	btn_addnew.linkbutton({ onClick: () => { btn_addnew_click() }  })
+	btn_prev.linkbutton({ onClick: () => { btn_prev_click() } })
+	btn_next.linkbutton({ onClick: () => { btn_next_click() } })
 
 	document.addEventListener('keydown', (ev)=>{
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
@@ -133,6 +120,8 @@ export async function init(opt) {
 	}, true)
 	
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -178,6 +167,15 @@ export async function init(opt) {
 			chk_autoadd.prop("checked", false);
 		}
 	})
+
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			form: form,
+			obj: obj,
+			opt: opt
+		})
+	}
+
 }
 
 
@@ -191,31 +189,58 @@ export function getForm() {
 
 export function open(data, rowid, hdata) {
 	// console.log(header_data)
-	txt_title.html(hdata.doc_id)
 	header_data = hdata
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+	txt_title.html(header_data.doc_id)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'open');
+		}
+	}
+
+	var pOpt = form.getDefaultPrompt(false)
 	var fn_dataopening = async (options) => {
 		options.api = `${global.modulefullname}/auth-open`
 		options.criteria[form.primary.mapping] = data[form.primary.mapping]
 	}
 
 	var fn_dataopened = async (result, options) => {
-
+		var record = result.record;
 		updatefilebox(result.record);
+/*
+		if (record.auth_id==null) { record.auth_id='--NULL--'; record.auth_name='NONE'; }
 
-		if (result.record.auth_id==null) { result.record.auth_id='--NULL--'; result.record.auth_name='NONE'; }
+*/
+		for (var objid in obj) {
+			let o = obj[objid]
+			if (o.isCombo() && !o.isRequired()) {
+				var value =  result.record[o.getFieldValueName()];
+				if (value==null ) {
+					record[o.getFieldValueName()] = pOpt.value;
+					record[o.getFieldDisplayName()] = pOpt.text;
+				}
+			}
+		}
+
+		/* handle data saat opening data */   
+		if (typeof hnd.form_dataopening == 'function') {
+			hnd.form_dataopening(result, options);
+		}
 
 
 		form.SuspendEvent(true);
 		form
-			.fill(result.record)
-			.setValue(obj.cbo_authlevel_id, result.record.authlevel_id, result.record.authlevel_name)
-			.setValue(obj.cbo_auth_id, result.record.auth_id, result.record.auth_name)
-			.commit()
+			.fill(record)
+			.setValue(obj.cbo_authlevel_id, record.authlevel_id, record.authlevel_name)
+			.setValue(obj.cbo_auth_id, record.auth_id, record.auth_name)
 			.setViewMode()
 			.rowid = rowid
 
-		form.SuspendEvent(false);
 
 
 		// Editable
@@ -252,7 +277,23 @@ export function open(data, rowid, hdata) {
 			btn_next.linkbutton('enable')
 		} else {
 			btn_next.linkbutton('disable')
-		}		
+		}	
+
+
+		/* tambahkan event atau behaviour saat form dibuka
+		   apabila ada rutin mengubah form dan tidak mau dijalankan pada saat opening,
+		   cek dengan form.isEventSuspended()
+		*/ 
+		if (typeof hnd.form_dataopened == 'function') {
+			hnd.form_dataopened(result, options);
+		}
+
+
+		form.commit()
+		form.SuspendEvent(false);
+
+
+
 	}
 
 	var fn_dataopenerror = (err) => {
@@ -265,21 +306,34 @@ export function open(data, rowid, hdata) {
 export function createnew(hdata) {
 	header_data = hdata
 
-	txt_title.html('Create New Row')
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+	txt_title.html(header_data.doc_id)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'new');
+		}
+	}
+
 	form.createnew(async (data, options)=>{
-		data.doc_id= hdata.doc_id
+		data.doc_id = hdata.doc_id
 		data.auth_value = 0
 
 		data.docauth_order = 0
 		data.docauth_value = 0
 		data.docauth_min = 0
 
-			data.authlevel_id = '0'
-			data.authlevel_name = '-- PILIH --'
-			data.auth_id = '--NULL--'
-			data.auth_name = 'NONE'
+		data.authlevel_id = '0'
+		data.authlevel_name = '-- PILIH --'
+		data.auth_id = '--NULL--'
+		data.auth_name = 'NONE'
 
-
+		if (typeof hnd.form_newdata == 'function') {
+			hnd.form_newdata(data, options);
+		}
 
 
 		form.rowid = null
@@ -293,36 +347,112 @@ export function createnew(hdata) {
 async function form_datasaving(data, options) {
 	options.api = `${global.modulefullname}/auth-save`
 
-	options.skipmappingresponse = ["auth_id"];
+	// options.skipmappingresponse = ['auth_id', ];
+	options.skipmappingresponse = [];
+	for (var objid in obj) {
+		var o = obj[objid]
+		if (o.isCombo() && !o.isRequired()) {
+			var id = o.getFieldValueName()
+			options.skipmappingresponse.push(id)
+			// console.log(id)
+		}
+	}
+
+	if (typeof hnd.form_datasaving == 'function') {
+		hnd.form_datasaving(data, options);
+	}	
+}
 
 
+async function form_datasaveerror(err, options) {
+	// apabila mau olah error messagenya
+	// $ui.ShowMessage(err.errormessage)
+	console.error(err)
+	if (typeof hnd.form_datasaveerror == 'function') {
+		hnd.form_datasaveerror(err, options);
+	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
 }
 
 async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 
+	/*
 	form.setValue(obj.cbo_auth_id, result.dataresponse.auth_name!=='--NULL--' ? result.dataresponse.auth_id : '--NULL--', result.dataresponse.auth_name!=='--NULL--'?result.dataresponse.auth_name:'NONE')
 
-	form.rowid = $ui.getPages().ITEMS['pnl_editauthgrid'].handler.updategrid(data, form.rowid)
+	*/
 
+	var pOpt = form.getDefaultPrompt(false)
+	for (var objid in obj) {
+		var o = obj[objid]
+		if (o.isCombo() && !o.isRequired()) {
+			var value =  result.dataresponse[o.getFieldValueName()];
+			var text = result.dataresponse[o.getFieldDisplayName()];
+			if (value==null ) {
+				value = pOpt.value;
+				text = pOpt.text;
+			}
+			form.setValue(o, value, text);
+		}
+	}
+	form.rowid = $ui.getPages().ITEMS['pnl_editauthgrid'].handler.updategrid(data, form.rowid)
+	var rowdata = {
+		data: data,
+		rowid: form.rowid
+	}
+
+	
 	var autoadd = chk_autoadd.prop("checked")
 	if (autoadd) {
 		setTimeout(()=>{
 			btn_addnew_click()
 		}, 1000)
 	}
+
+	if (reload_header_modified) {
+		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
+	}
+
+	if (typeof hnd.form_datasaved == 'function') {
+		hnd.form_datasaved(result, rowdata, options);
+	}
+
 }
 
 async function form_deleting(data, options) {
 	options.api = `${global.modulefullname}/auth-delete`
+	if (typeof hnd.form_deleting == 'function') {
+		hnd.form_deleting(data);
+	}
 }
 
 async function form_deleted(result, options) {
 	options.suppressdialog = true
 	$ui.getPages().show('pnl_editauthgrid', ()=>{
 		$ui.getPages().ITEMS['pnl_editauthgrid'].handler.removerow(form.rowid)
-	})
+	});
+
+	if (reload_header_modified) {
+		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
+
+	}
+
+	if (typeof hnd.form_deleted == 'function') {
+		hnd.form_deleted(result, options);
+	}
 	
 }
 
@@ -331,8 +461,25 @@ function updatefilebox(record) {
 
 }
 
+
+function form_gettingdata(data) {
+	if (hnd!=null) {
+		if (typeof hnd.form_gettingdata == 'function') {
+			hnd.form_gettingdata(data);
+		}
+	}
+}
+
 function form_viewmodechanged(viewonly) {
+
+	console.log('View Mode changed');
+	var caption = txt_caption.template;
+
 	if (viewonly) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+		txt_caption.html(caption);
+
 		btn_prev.linkbutton('enable')
 		btn_next.linkbutton('enable')
 		if (btn_addnew.allow) {
@@ -341,9 +488,22 @@ function form_viewmodechanged(viewonly) {
 			btn_addnew.linkbutton('disable')
 		}
 	} else {
+		var currcaption = txt_caption.html();
+		if (currcaption.substring(0,10)!='Create New') {
+			caption = caption.replace('{{STATE_BEG}}', '');
+			caption = caption.replace('{{STATE_END}}', ' Edit');
+			txt_caption.html(caption);
+		} 
+
 		btn_prev.linkbutton('disable')
 		btn_next.linkbutton('disable')
 		btn_addnew.linkbutton('disable')
+	}
+	
+
+
+	if (typeof hnd.form_viewmodechanged == 'function') {
+		hnd.form_viewmodechanged(viewonly);
 	}
 }
 
@@ -386,7 +546,17 @@ function btn_prev_click() {
 	var dataid = prevode.attr('dataid')
 	var record = $ui.getPages().ITEMS['pnl_editauthgrid'].handler.getGrid().DATA[dataid]
 
-	open(record, trid, header_data)
+	if (form.isDataChanged()) {
+		var datachangemessage = form.getDataChangeMessage();
+		$ui.ShowMessage(datachangemessage, {
+			"Ya" : () => {
+				open(record, trid, header_data);
+			},
+			"Tidak" : () => {}
+		})
+	} else {
+		open(record, trid, header_data);
+	}
 }
 
 function btn_next_click() {
@@ -399,5 +569,15 @@ function btn_next_click() {
 	var dataid = nextode.attr('dataid')
 	var record = $ui.getPages().ITEMS['pnl_editauthgrid'].handler.getGrid().DATA[dataid]
 
-	open(record, trid, header_data)
+	if (form.isDataChanged()) {
+		var datachangemessage = form.getDataChangeMessage();
+		$ui.ShowMessage(datachangemessage, {
+			"Ya" : () => {
+				open(record, trid, header_data);
+			},
+			"Tidak" : () => {}
+		})
+	} else {
+		open(record, trid, header_data);
+	}
 }

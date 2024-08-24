@@ -69,7 +69,10 @@ module.exports = {
 		title: 'Document',
 		header: 'mst_doc',
 		detils: {
-			'auth' : {title: 'Authorisasi', table:'mst_docauth', form: true, headerview:'doc_id'}, 
+			'auth' : {
+				title: 'Authorisasi', table:'mst_docauth', form: true, headerview:'doc_id',
+				editorHandler: true, listHandler: true
+			}, 
 		}
 	}
 

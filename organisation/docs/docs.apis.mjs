@@ -11,6 +11,6 @@ kemdian, di program bisa diakses dengan
 */
 
 export const load_authlevel_id = 'ent/organisation/authlevel/list'
-export const load_auth_id = 'ent/organisation/auth/list-selector'
+export const load_auth_id = 'ent/organisation/auth/list'
 
 

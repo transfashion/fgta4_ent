@@ -8,6 +8,10 @@ require_once __ROOT_DIR.'/core/sqlutil.php';
 // require_once __ROOT_DIR . "/core/sequencer.php";
 require_once __DIR__ . '/xapi.base.php';
 
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
+}
+
 
 use \FGTA4\exceptions\WebException;
 // use \FGTA4\utils\Sequencer;
@@ -27,23 +31,41 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 10/04/2021
+ * tanggal 24/08/2024
  */
 $API = new class extends docsBase {
 	
 	public function execute($data, $options) {
+		$event = 'on-save';
 		$tablename = 'mst_doc';
 		$primarykey = 'doc_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
-
 		$userdata = $this->auth->session_get_user();
+
+		$handlerclassname = "\\FGTA4\\apis\\docs_headerHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new docs_headerHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = &$this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
+		}
 
 		try {
 
 			// cek apakah user boleh mengeksekusi API ini
 			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
 				throw new \Exception('your group authority is not allowed to do this action.');
+			}
+
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
 			}
 
 			$result = new \stdClass; 
@@ -66,12 +88,36 @@ $API = new class extends docsBase {
 			$obj->doc_code = strtoupper($obj->doc_code);
 
 
-			// if ($obj->doc_descr=='--NULL--') { unset($obj->doc_descr); }
-			// if ($obj->doc_config=='--NULL--') { unset($obj->doc_config); }
+			if ($obj->doc_descr=='') { $obj->doc_descr = '--NULL--'; }
+			if ($obj->doc_config=='') { $obj->doc_config = '--NULL--'; }
 
 
 
 
+			// current user & timestamp	
+			if ($datastate=='NEW') {
+				$obj->_createby = $userdata->username;
+				$obj->_createdate = date("Y-m-d H:i:s");
+
+				if (method_exists(get_class($hnd), 'PreCheckInsert')) {
+					// PreCheckInsert($data, &$obj, &$options)
+					$hnd->PreCheckInsert($data, $obj, $options);
+				}
+			} else {
+				$obj->_modifyby = $userdata->username;
+				$obj->_modifydate = date("Y-m-d H:i:s");	
+		
+				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
+					// PreCheckUpdate($data, &$obj, &$key, &$options)
+					$hnd->PreCheckUpdate($data, $obj, $key, $options);
+				}
+			}
+
+			//handle data sebelum sebelum save
+			if (method_exists(get_class($hnd), 'DataSaving')) {
+				// ** DataSaving(object &$obj, object &$key)
+				$hnd->DataSaving($obj, $key);
+			}
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
@@ -82,15 +128,23 @@ $API = new class extends docsBase {
 				if ($datastate=='NEW') {
 					$action = 'NEW';
 					if ($autoid) {
-						$obj->{$primarykey} = $this->NewId([]);
+						$obj->{$primarykey} = $this->NewId($hnd, $obj);
 					}
-					$obj->_createby = $userdata->username;
-					$obj->_createdate = date("Y-m-d H:i:s");
+					
+					// handle data sebelum pada saat pembuatan SQL Insert
+					if (method_exists(get_class($hnd), 'RowInserting')) {
+						// ** RowInserting(object &$obj)
+						$hnd->RowInserting($obj);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLInsert($tablename, $obj);
 				} else {
 					$action = 'MODIFY';
-					$obj->_modifyby = $userdata->username;
-					$obj->_modifydate = date("Y-m-d H:i:s");				
+
+					// handle data sebelum pada saat pembuatan SQL Update
+					if (method_exists(get_class($hnd), 'RowUpdating')) {
+						// ** RowUpdating(object &$obj, object &$key))
+						$hnd->RowUpdating($obj, $key);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
 	
@@ -101,7 +155,82 @@ $API = new class extends docsBase {
 
 
 
+
+				// result
+				$options->criteria = [
+					"doc_id" => $obj->doc_id
+				];
+
+				$criteriaValues = [
+					"doc_id" => " doc_id = :doc_id "
+				];
+				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+					$hnd->buildOpenCriteriaValues($options, $criteriaValues);
+				}
+
+				$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
+				$result = new \stdClass; 
+	
+				if (method_exists(get_class($hnd), 'prepareOpenData')) {
+					// prepareOpenData(object $options, $criteriaValues) : void
+					$hnd->prepareOpenData($options, $criteriaValues);
+				}
+
+				$sqlFieldList = [
+					'doc_id' => 'A.`doc_id`', 'doc_name' => 'A.`doc_name`', 'doc_code' => 'A.`doc_code`', 'doc_isdisabled' => 'A.`doc_isdisabled`',
+					'doc_descr' => 'A.`doc_descr`', 'doc_config' => 'A.`doc_config`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
+				];
+				$sqlFromTable = "mst_doc A";
+				$sqlWhere = $where->sql;
+					
+				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
+				}
+				$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+	
+			
+				$sqlData = "
+					select 
+					$sqlFields 
+					from 
+					$sqlFromTable 
+					$sqlWhere 
+				";
+	
+				$stmt = $this->db->prepare($sqlData);
+				$stmt->execute($where->params);
+				$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
+	
+				$record = [];
+				foreach ($row as $key => $value) {
+					$record[$key] = $value;
+				}
+
+				$dataresponse = array_merge($record, [
+					//  untuk lookup atau modify response ditaruh disini
+
+					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+				]);
+				
+				if (method_exists(get_class($hnd), 'DataOpen')) {
+					//  DataOpen(array &$record) : void 
+					$hnd->DataOpen($dataresponse);
+				}
+
+				$result->username = $userdata->username;
+				$result->dataresponse = (object) $dataresponse;
+				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
+					// DataSavedSuccess(object &$result) : void
+					$hnd->DataSavedSuccess($result);
+				}
+
 				$this->db->commit();
+				return $result;
+
 			} catch (\Exception $ex) {
 				$this->db->rollBack();
 				throw $ex;
@@ -109,35 +238,27 @@ $API = new class extends docsBase {
 				$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
 			}
 
-
-			$where = \FGTA4\utils\SqlUtility::BuildCriteria((object)[$primarykey=>$obj->{$primarykey}], [$primarykey=>"$primarykey=:$primarykey"]);
-			$sql = \FGTA4\utils\SqlUtility::Select($tablename , [
-				$primarykey
-				, 'doc_id', 'doc_name', 'doc_code', 'doc_isdisabled', 'doc_descr', 'doc_config', '_createby', '_createdate', '_modifyby', '_modifydate', '_createby', '_createdate', '_modifyby', '_modifydate'
-			], $where->sql);
-			$stmt = $this->db->prepare($sql);
-			$stmt->execute($where->params);
-			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);			
-
-			$record = [];
-			foreach ($row as $key => $value) {
-				$record[$key] = $value;
-			}
-			$result->dataresponse = (object) array_merge($record, [
-				//  untuk lookup atau modify response ditaruh disini
-
-				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
-				'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
-			]);
-
-			return $result;
 		} catch (\Exception $ex) {
 			throw $ex;
 		}
 	}
 
-	public function NewId($param) {
-					return uniqid();
+	public function NewId(object $hnd, object $obj) : string {
+		// dipanggil hanya saat $autoid == true;
+
+		$id = null;
+		$handled = false;
+		if (method_exists(get_class($hnd), 'CreateNewId')) {
+			// CreateNewId(object $obj) : string 
+			$id = $hnd->CreateNewId($obj);
+			$handled = true;
+		}
+
+		if (!$handled) {
+			$id = uniqid();
+		}
+
+		return $id;
 	}
 
 };

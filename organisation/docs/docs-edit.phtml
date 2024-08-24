@@ -1,13 +1,13 @@
 <div id="pnl_edit">
 	<div class="fgta-page-title" style="display: flex; align-items: center ">
-		<div>Edit Document</div>
-		<a id="pnl_edit-btn_edit" href="javascript:void(0)" class="easyui-linkbutton" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
+		<div id="pnl_edit-caption">{{STATE_BEG}}Document{{STATE_END}}</div>
+		<a id="pnl_edit-btn_edit" href="javascript:void(0)" class="easyui-linkbutton fgta-button-edit" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
 	</div>
 
 
 	<form id="pnl_edit-form">
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">ID</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_id" class="easyui-textbox" mapping="doc_id" uppercase="true" maxlength="30" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'ID harus diisi' ">
@@ -15,7 +15,7 @@
 			</div>
 		</div>
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Name</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_name" class="easyui-textbox" mapping="doc_name" uppercase="true" maxlength="30" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Nama Dokumen harus diisi' ">
@@ -23,7 +23,7 @@
 			</div>
 		</div>
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Doc Code</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_code" class="easyui-textbox" mapping="doc_code" uppercase="true" maxlength="30" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Kode Dokumen harus diisi' ">
@@ -31,14 +31,14 @@
 			</div>
 		</div>
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"></div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-chk_doc_isdisabled" class="easyui-checkbox c1" mapping="doc_isdisabled" data-options="label: 'Disabled', labelPosition: 'after', checked: false ">
 			</div>
 		</div>
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_descr" class="easyui-textbox" mapping="doc_descr"  maxlength="90" style="width: 400px" data-options="multiline: false  ">
@@ -46,7 +46,7 @@
 			</div>
 		</div>
 
-		<div class="form_row" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Config</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_doc_config" class="easyui-textbox" mapping="doc_config"  maxlength="2000" style="width: 400px" data-options="multiline: false  ">
@@ -60,7 +60,7 @@
 	<div class="form_row" style="margin-top: 30px">
 		<div class="form_label_col"></div>
 		<div class="form_input_col" style="border: 0px solid black">
-			<a id="pnl_edit-btn_save" class="easyui-linkbutton c1" style="width">Simpan</a>
+			<a id="pnl_edit-btn_save" class="easyui-linkbutton c1 fgta-button-save" style="width">Simpan</a>
 		</div>
 	</div>	
 
@@ -70,9 +70,9 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col detilbox" style="border: 0px solid black">
 				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px" onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editauthgrid')">
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editauthgrid')">
 					<div id="pnl_edit-txt_auth_title" class="detilgrid-text">Authorisasi</div>
-					<div id="pnl_edit-txt_auth_value" class="detilgrid-value">&nbsp;</div>
+					<div id="pnl_edit-txt_auth_value" class="detilgrid-value auth_totalvalue">&nbsp;</div>
 				</div>
 
 			</div>		
@@ -83,13 +83,20 @@
 
 	<div style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; display: flex; justify-content: space-between; padding: 10px 2px 2px 2px ">
 		<div>
-			<!-- letakkan tombol yang lin disini -->
-		
-		
-		
+			<!-- letakkan tombol-tombol xtion disini -->
+			<?php
+			$customheaderxtion = __DIR__.'/docs-edit-customxtion.phtml'; 
+			if (is_file($customheaderxtion)) {
+				include $customheaderxtion;
+			} else { ?>
+			
+			
+			
+			
+			<?php } ?>
 		</div>
 		<div>
-			<a id="pnl_edit-btn_delete" class="easyui-linkbutton c5" style="margin-bottom: 10px; margin-right: 10px">Hapus</a>
+			<a id="pnl_edit-btn_delete" class="easyui-linkbutton c5 fgta-button-delete" style="margin-bottom: 10px; margin-right: 10px">Hapus</a>
 		</div>
 	</div>
 
