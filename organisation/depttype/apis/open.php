@@ -7,6 +7,10 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
+}
+
 
 use \FGTA4\exceptions\WebException;
 
@@ -24,14 +28,28 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 04/12/2021
+ * tanggal 24/08/2024
  */
 $API = new class extends depttypeBase {
 	
 	public function execute($options) {
+		$event = 'on-open';
 		$tablename = 'mst_depttype';
 		$primarykey = 'depttype_id';
 		$userdata = $this->auth->session_get_user();
+
+		$handlerclassname = "\\FGTA4\\apis\\depttype_headerHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new depttype_headerHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
+		}
 
 		try {
 
@@ -40,20 +58,62 @@ $API = new class extends depttypeBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
+			$criteriaValues = [
+				"depttype_id" => " depttype_id = :depttype_id "
+			];
+			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+				$hnd->buildOpenCriteriaValues($options, $criteriaValues);
+			}
+			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 			
-			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
-				$options->criteria,
-				[
-					"depttype_id" => " depttype_id = :depttype_id "
-				]
-			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_depttype A', [
-				'depttype_id', 'depttype_name', 'depttype_descr', 'depttype_isdisabled', 'depttype_isrevenue', '_createby', '_createdate', '_modifyby', '_modifydate'
-			], $where->sql);
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 
-			$stmt = $this->db->prepare($sql);
+
+			$sqlFieldList = [
+				'depttype_id' => 'A.`depttype_id`', 'depttype_name' => 'A.`depttype_name`', 'depttype_descr' => 'A.`depttype_descr`', 'depttype_isdisabled' => 'A.`depttype_isdisabled`',
+				'depttype_isrevenue' => 'A.`depttype_isrevenue`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
+			];
+			$sqlFromTable = "mst_depttype A";
+			$sqlWhere = $where->sql;
+
+			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+				// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
+			}
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+
+			
+			$sqlData = "
+				select 
+				$sqlFields 
+				from 
+				$sqlFromTable 
+				$sqlWhere 
+			";
+
+			$stmt = $this->db->prepare($sqlData);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -78,10 +138,13 @@ $API = new class extends depttypeBase {
 
 			]);
 
-			// $date = DateTime::createFromFormat('d/m/Y', "24/04/2012");
-			// echo $date->format('Y-m-d');
 
 			
+
+			if (method_exists(get_class($hnd), 'DataOpen')) {
+				//  DataOpen(array &$record) : void 
+				$hnd->DataOpen($result->record);
+			}
 
 			return $result;
 		} catch (\Exception $ex) {
