@@ -51,15 +51,6 @@ module.exports = {
 					})				
 				},
 
-				deptgroup_id: {
-					text:'Group', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
-					options:{required:true,invalidMessage:'Group harus diisi', prompt:'-- PILIH --'},
-					comp: comp.Combo({
-						table: 'mst_deptgroup', 
-						field_value: 'deptgroup_id', field_display: 'deptgroup_name', 
-						api: 'ent/organisation/deptgroup/list-selector'})				
-				},
-
 				dept_parent: {
 					text:'Parent', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true,
 					options:{prompt:'NONE'},
@@ -99,17 +90,8 @@ module.exports = {
 						table: 'mst_auth', 
 						field_value: 'auth_id', field_display: 'auth_name', 
 						api: 'ent/organisation/auth/list'})				
-				},
+				}
 
-				project_id: {
-					text: 'Project', type: dbtype.varchar(30), null: true,
-					options: { prompt: 'NONE' },
-					comp: comp.Combo({
-						table: 'mst_project',
-						field_value: 'project_id', field_display: 'project_name',
-						api: 'finact/master/project/list'
-					})
-				}				
 			},
 
 			defaultsearch: ['dept_id', 'dept_name'],
