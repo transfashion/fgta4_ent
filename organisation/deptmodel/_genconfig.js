@@ -16,7 +16,6 @@ module.exports = {
 				deptmodel_name: {text:'Dept Model', type: dbtype.varchar(60), null:false, uppercase: true},
 				deptmodel_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
 				deptmodel_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},				
-				deptmodel_group: {text:'Group Model', type: dbtype.varchar(30), null:false, uppercase: true},
 			},
 
 			defaultsearch: ['deptmodel_id', 'deptmodel_name'],
@@ -24,29 +23,6 @@ module.exports = {
 			uniques: {
 				'deptmodel_name' : ['deptmodel_name']
             },
-
-			values: [
-				{deptmodel_id:'GD', deptmodel_name:'GENERAL DEPT'},
-				{deptmodel_id:'TS', deptmodel_name:'TECHNICAL SUPPORT'},
-				{deptmodel_id:'RH', deptmodel_name:'REPRESENTASI HIRARKI'},
-				{deptmodel_id:'RL', deptmodel_name:'REPRESENTASI LOKASI'},
-			]
-
-
-
-			/*
-			values: [
-				{deptmodel_id:'COM', deptmodel_name:'COMMERCIAL'},
-				{deptmodel_id:'DC', deptmodel_name:'DISTRIBUTION CENTER'},
-				{deptmodel_id:'FIA', deptmodel_name:'FINANCE, ACCOUNTING & ADMINISTRATION'},
-				{deptmodel_id:'GMN', deptmodel_name:'GENERAL MANAGEMENT'},
-				{deptmodel_id:'HR', deptmodel_name:'HUMAN RESOURCE'},
-				{deptmodel_id:'MIS', deptmodel_name:'MANAGEMENT INFORMATION SUPPORT'},
-				{deptmodel_id:'OPE', deptmodel_name:'OPERATIONS'},
-				{deptmodel_id:'PRJ', deptmodel_name:'PROJECT'},
-				{deptmodel_id:'STO', deptmodel_name:'STORE'},
-			]
-			*/
 		},
 	},
 

@@ -21,8 +21,7 @@ const obj = {
 	txt_deptmodel_id: $('#pnl_edit-txt_deptmodel_id'),
 	txt_deptmodel_name: $('#pnl_edit-txt_deptmodel_name'),
 	txt_deptmodel_descr: $('#pnl_edit-txt_deptmodel_descr'),
-	chk_deptmodel_isdisabled: $('#pnl_edit-chk_deptmodel_isdisabled'),
-	txt_deptmodel_group: $('#pnl_edit-txt_deptmodel_group')
+	chk_deptmodel_isdisabled: $('#pnl_edit-chk_deptmodel_isdisabled')
 }
 
 
