@@ -1,7 +1,7 @@
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists `mst_auth`;
-drop table if exists `mst_authdelegate`;
+-- drop table if exists `mst_auth`;
+-- drop table if exists `mst_authdelegate`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_auth` (

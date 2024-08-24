@@ -89,7 +89,10 @@ module.exports = {
 		title: 'Authorisasi',
 		header: 'mst_auth',
 		detils: {
-			'delegate' : {title: 'Delegasi', table:'mst_authdelegate', form: true, headerview:'auth_name'}, 
+			'delegate' : {
+				title: 'Delegasi', table:'mst_authdelegate', form: true, headerview:'auth_name',
+				editorHandler: true, listHandler: true
+			}, 
 		}
 	}
 
