@@ -1,0 +1,12 @@
+<?php require_once dirname(__FILE__).'/deptdegree-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/deptdegree-edit.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/deptdegree-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
