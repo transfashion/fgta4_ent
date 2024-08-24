@@ -45,7 +45,7 @@ module.exports = {
 						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
-						onSelectedHandler: false	
+						onSelectedHandler: true	
 					})					
 				},
 

@@ -54,7 +54,7 @@ export function grd_list_rowrender(row) {
 	var td = row.td;
 
 	if (mapping=='dept_name') {
-		var indent = record.dept_level * 15;
+		var indent = (record.dept_level-1) * 15;
 		$(td).css("padding-left", `${indent}px`);
 
 		if (record.dept_isparent=="1") {
