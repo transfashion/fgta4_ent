@@ -26,10 +26,10 @@ ALTER TABLE `mst_deptmodel` ADD COLUMN IF NOT EXISTS  `deptmodel_isdisabled` tin
 ALTER TABLE `mst_deptmodel` ADD COLUMN IF NOT EXISTS  `deptmodel_group` varchar(30) NOT NULL  AFTER `deptmodel_isdisabled`;
 
 
-ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_name` varchar(60) NOT NULL  AFTER `deptmodel_id`;
-ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_descr` varchar(90)   AFTER `deptmodel_name`;
-ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `deptmodel_descr`;
-ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_group` varchar(30) NOT NULL  AFTER `deptmodel_isdisabled`;
+ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_name` varchar(60) NOT NULL   AFTER `deptmodel_id`;
+ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_descr` varchar(90)    AFTER `deptmodel_name`;
+ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `deptmodel_descr`;
+ALTER TABLE `mst_deptmodel` MODIFY COLUMN IF EXISTS  `deptmodel_group` varchar(30) NOT NULL   AFTER `deptmodel_isdisabled`;
 
 
 ALTER TABLE `mst_deptmodel` ADD CONSTRAINT `deptmodel_name` UNIQUE IF NOT EXISTS  (`deptmodel_name`);
