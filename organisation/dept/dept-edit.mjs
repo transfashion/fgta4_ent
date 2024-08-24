@@ -26,7 +26,7 @@ const obj = {
 	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
 	cbo_depttype_id: $('#pnl_edit-cbo_depttype_id'),
 	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
-	cbo_auth_id: $('#pnl_edit-cbo_auth_id'),
+	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id'),
 	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
 	chk_dept_isassetowner: $('#pnl_edit-chk_dept_isassetowner'),
 	chk_dept_isassetmaintainer: $('#pnl_edit-chk_dept_isassetmaintainer'),
@@ -160,16 +160,16 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_auth_id.name = 'pnl_edit-cbo_auth_id'		
-	new fgta4slideselect(obj.cbo_auth_id, {
-		title: 'Pilih auth_id',
+	obj.cbo_authlevel_id.name = 'pnl_edit-cbo_authlevel_id'		
+	new fgta4slideselect(obj.cbo_authlevel_id, {
+		title: 'Pilih authlevel_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_auth_id,
-		fieldValue: 'auth_id',
-		fieldDisplay: 'auth_name',
+		api: $ui.apis.load_authlevel_id,
+		fieldValue: 'authlevel_id',
+		fieldDisplay: 'authlevel_name',
 		fields: [
-			{mapping: 'auth_id', text: 'auth_id'},
-			{mapping: 'auth_name', text: 'auth_name'}
+			{mapping: 'authlevel_id', text: 'authlevel_id'},
+			{mapping: 'authlevel_name', text: 'authlevel_name'}
 		],
 
 	})				
@@ -303,7 +303,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
 			.setValue(obj.cbo_depttype_id, record.depttype_id, record.depttype_name)
 			.setValue(obj.cbo_deptmodel_id, record.deptmodel_id, record.deptmodel_name)
-			.setValue(obj.cbo_auth_id, record.auth_id, record.auth_name)
+			.setValue(obj.cbo_authlevel_id, record.authlevel_id, record.authlevel_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -380,8 +380,8 @@ export function createnew() {
 		data.depttype_name = '-- PILIH --'
 		data.deptmodel_id = '0'
 		data.deptmodel_name = '-- PILIH --'
-		data.auth_id = '0'
-		data.auth_name = '-- PILIH --'
+		data.authlevel_id = '0'
+		data.authlevel_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,

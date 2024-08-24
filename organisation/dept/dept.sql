@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `mst_dept` (
 	`unit_id` varchar(10) NOT NULL , 
 	`depttype_id` varchar(10) NOT NULL , 
 	`deptmodel_id` varchar(10) NOT NULL , 
-	`auth_id` varchar(30) NOT NULL , 
+	`authlevel_id` varchar(10) NOT NULL , 
 	`dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_isassetowner` tinyint(1) NOT NULL DEFAULT 0, 
 	`dept_isassetmaintainer` tinyint(1) NOT NULL DEFAULT 0, 
@@ -39,8 +39,8 @@ ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `deptgroup_id` varchar(17) NOT 
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `deptgroup_id`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `depttype_id` varchar(10) NOT NULL  AFTER `unit_id`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `deptmodel_id` varchar(10) NOT NULL  AFTER `depttype_id`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(30) NOT NULL  AFTER `deptmodel_id`;
-ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `auth_id`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `deptmodel_id`;
+ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `authlevel_id`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isassetowner` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_isdisabled`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isassetmaintainer` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_isassetowner`;
 ALTER TABLE `mst_dept` ADD COLUMN IF NOT EXISTS  `dept_isstockowner` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_isassetmaintainer`;
@@ -57,8 +57,8 @@ ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `deptgroup_id` varchar(17) NOT N
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `deptgroup_id`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `depttype_id` varchar(10) NOT NULL   AFTER `unit_id`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `deptmodel_id` varchar(10) NOT NULL   AFTER `depttype_id`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `auth_id` varchar(30) NOT NULL   AFTER `deptmodel_id`;
-ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `auth_id`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `deptmodel_id`;
+ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `authlevel_id`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isassetowner` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_isdisabled`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isassetmaintainer` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_isassetowner`;
 ALTER TABLE `mst_dept` MODIFY COLUMN IF EXISTS  `dept_isstockowner` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_isassetmaintainer`;
@@ -75,14 +75,14 @@ ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `deptgroup_id` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `depttype_id` (`depttype_id`);
 ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `deptmodel_id` (`deptmodel_id`);
-ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `auth_id` (`auth_id`);
+ALTER TABLE `mst_dept` ADD KEY IF NOT EXISTS `authlevel_id` (`authlevel_id`);
 
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptdegree` FOREIGN KEY IF NOT EXISTS  (`deptdegree_id`) REFERENCES `mst_deptdegree` (`deptdegree_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptgroup` FOREIGN KEY IF NOT EXISTS  (`deptgroup_id`) REFERENCES `mst_deptgroup` (`deptgroup_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_depttype` FOREIGN KEY IF NOT EXISTS  (`depttype_id`) REFERENCES `mst_depttype` (`depttype_id`);
 ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_deptmodel` FOREIGN KEY IF NOT EXISTS  (`deptmodel_id`) REFERENCES `mst_deptmodel` (`deptmodel_id`);
-ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_auth` FOREIGN KEY IF NOT EXISTS  (`auth_id`) REFERENCES `mst_auth` (`auth_id`);
+ALTER TABLE `mst_dept` ADD CONSTRAINT `fk_mst_dept_mst_authlevel` FOREIGN KEY IF NOT EXISTS  (`authlevel_id`) REFERENCES `mst_authlevel` (`authlevel_id`);
 
 
 

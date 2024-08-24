@@ -103,6 +103,7 @@ module.exports = {
 						api: 'ent/organisation/deptmodel/list'})				
 				},
 
+				/*
 				auth_id: {
 					text:'Authorisasi', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true,
 					options:{required:true,invalidMessage:'Authorisasi harus diisi', prompt:'-- PILIH --'},
@@ -111,6 +112,18 @@ module.exports = {
 						field_value: 'auth_id', field_display: 'auth_name', 
 						api: 'ent/organisation/auth/list'})				
 				},
+				*/
+
+
+				authlevel_id: {
+					text:'Authorisation Level', type: dbtype.varchar(10), null:false,
+					options:{required:true,invalidMessage:'Level Authorisasi harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_authlevel', 
+						field_value: 'authlevel_id', field_display: 'authlevel_name', 
+						api: 'ent/organisation/authlevel/list'
+					})
+				},	
 
 				dept_isdisabled: {caption:'Status', text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				

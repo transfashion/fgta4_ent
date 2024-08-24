@@ -94,7 +94,7 @@ $API = new class extends deptBase {
 			$sqlFieldList = [
 				'dept_id' => 'A.`dept_id`', 'deptdegree_id' => 'A.`deptdegree_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`',
 				'deptgroup_id' => 'A.`deptgroup_id`', 'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`',
-				'auth_id' => 'A.`auth_id`', 'dept_isdisabled' => 'A.`dept_isdisabled`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`',
+				'authlevel_id' => 'A.`authlevel_id`', 'dept_isdisabled' => 'A.`dept_isdisabled`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`',
 				'dept_isstockowner' => 'A.`dept_isstockowner`', 'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`',
 				'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
@@ -191,7 +191,7 @@ $API = new class extends deptBase {
 					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
 					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
+					'authlevel_name' => \FGTA4\utils\SqlUtility::Lookup($record['authlevel_id'], $this->db, 'mst_authlevel', 'authlevel_id', 'authlevel_name'),
 					 
 				]);
 				*/
@@ -203,7 +203,7 @@ $API = new class extends deptBase {
 				$this->addFields('unit_name', 'unit_id', $record, 'mst_unit', 'unit_name', 'unit_id');
 				$this->addFields('depttype_name', 'depttype_id', $record, 'mst_depttype', 'depttype_name', 'depttype_id');
 				$this->addFields('deptmodel_name', 'deptmodel_id', $record, 'mst_deptmodel', 'deptmodel_name', 'deptmodel_id');
-				$this->addFields('auth_name', 'auth_id', $record, 'mst_auth', 'auth_name', 'auth_id');
+				$this->addFields('authlevel_name', 'authlevel_id', $record, 'mst_authlevel', 'authlevel_name', 'authlevel_id');
 					 
 
 
