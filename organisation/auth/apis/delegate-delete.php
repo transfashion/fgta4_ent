@@ -8,6 +8,11 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
+if (is_file(__DIR__ .'/data-delegate-handler.php')) {
+	require_once __DIR__ .'/data-delegate-handler.php';
+}
+
+
 use \FGTA4\exceptions\WebException;
 
 
@@ -24,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 04/12/2021
+ * tanggal 24/08/2024
  */
 $API = new class extends authBase {
 	
@@ -34,11 +39,35 @@ $API = new class extends authBase {
 
 		$userdata = $this->auth->session_get_user();
 
+		$handlerclassname = "\\FGTA4\\apis\\auth_delegateHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new auth_delegateHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+		} else {
+			$hnd = new \stdClass;
+		}
+
 		try {
+
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$key->{$primarykey} = $data->{$primarykey};
+
+			if (method_exists(get_class($hnd), 'PreCheckDelete')) {
+				// PreCheckDelete($data, &$key, &$options)
+				$hnd->PreCheckDelete($data, $key, $options);
+			}
+
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
