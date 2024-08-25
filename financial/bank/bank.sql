@@ -26,10 +26,10 @@ ALTER TABLE `mst_bank` ADD COLUMN IF NOT EXISTS  `country_id` varchar(10) NOT NU
 ALTER TABLE `mst_bank` ADD COLUMN IF NOT EXISTS  `bank_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `country_id`;
 
 
-ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_name` varchar(60) NOT NULL  AFTER `bank_id`;
-ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_code` varchar(30)   AFTER `bank_name`;
-ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `country_id` varchar(10) NOT NULL  AFTER `bank_code`;
-ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `country_id`;
+ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_name` varchar(60) NOT NULL   AFTER `bank_id`;
+ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_code` varchar(30)    AFTER `bank_name`;
+ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `country_id` varchar(10) NOT NULL   AFTER `bank_code`;
+ALTER TABLE `mst_bank` MODIFY COLUMN IF EXISTS  `bank_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `country_id`;
 
 
 ALTER TABLE `mst_bank` ADD CONSTRAINT `bank_name` UNIQUE IF NOT EXISTS  (`bank_name`);

@@ -4,6 +4,8 @@ var this_page_options;
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './bank-edit-hnd.mjs'
 
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -33,16 +35,8 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -68,13 +62,13 @@ export async function init(opt) {
 		return getHeaderData();
 	}
 
-	// Generator: Print Handler if exist
-	// Generator: Commit Handler if exist
-	// Generator: Approval Handler if exist
-	// Generator: Xtion Handler if exist
-	// Generator: Object Handler if exist
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
 
-	// Generator: Upload Handler if exist
+	// Generator: Upload Handler not exist
 
 
 	obj.cbo_country_id.name = 'pnl_edit-cbo_country_id'		
@@ -112,6 +106,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -146,6 +142,11 @@ export async function init(opt) {
 			form: form,
 			obj: obj,
 			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
 		})
 	}
 
@@ -163,6 +164,12 @@ export function getCurrentRowdata() {
 }
 
 export function open(data, rowid, viewmode=true, fn_callback) {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
 
 	rowdata = {
 		data: data,
@@ -247,6 +254,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -343,15 +357,32 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -408,10 +439,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -450,7 +485,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -462,9 +497,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data);
+		hnd.form_deleting(data, options);
 	}
 }
 

@@ -16,7 +16,7 @@ if (is_file(__DIR__ .'/data-header-handler.php')) {
 use \FGTA4\exceptions\WebException;
 
 /**
- * ent/general/bank/apis/list.php
+ * ent/financial/bank/apis/list.php
  *
  * ========
  * DataList
@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 14/12/2022
+ * tanggal 25/08/2024
  */
 $API = new class extends bankBase {
 
@@ -55,37 +55,38 @@ $API = new class extends bankBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
-			
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
 			$criteriaValues = [
 				"search" => " A.bank_id LIKE CONCAT('%', :search, '%') OR A.bank_name LIKE CONCAT('%', :search, '%') "
 			];
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
-					// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
-					//    apabila akan modifikasi parameter2 untuk query
-					//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
-					//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
-					//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
-					//
-					//    untuk memberikan nilai default apabila paramter tidak dikirim
-					//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
-					$hnd->buildListCriteriaValues($options, $criteriaValues);
-				}
+
+			if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
+				// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
+				//    apabila akan modifikasi parameter2 untuk query
+				//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
+				//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
+				//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
+				//
+				//    untuk memberikan nilai default apabila paramter tidak dikirim
+				//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
+				$hnd->buildListCriteriaValues($options, $criteriaValues);
 			}
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
-			$result = new \stdClass; 
+			
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
 			/* prepare DbLayer Temporay Data Helper if needed */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'prepareListData')) {
-					// ** prepareListData(object $options, array $criteriaValues) : void
-					//    misalnya perlu mebuat temporary table,
-					//    untuk membuat query komplex dapat dibuat disini	
-					$hnd->prepareListData($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'prepareListData')) {
+				// ** prepareListData(object $options, array $criteriaValues) : void
+				//    misalnya perlu mebuat temporary table,
+				//    untuk membuat query komplex dapat dibuat disini	
+				$hnd->prepareListData($options, $criteriaValues);
 			}
 
 
@@ -99,16 +100,20 @@ $API = new class extends bankBase {
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
-					// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-					//    menambah atau memodifikasi field-field yang akan ditampilkan
-					//    apabila akan memodifikasi join table
-					//    apabila akan memodifikasi nilai parameter
-					$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-				}
+			if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
+				// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				//    menambah atau memodifikasi field-field yang akan ditampilkan
+				//    apabila akan memodifikasi join table
+				//    apabila akan memodifikasi nilai parameter
+				$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
-			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+			
+			// filter select columns
+			if (!property_exists($options, 'selectFields')) {
+				$options->selectFields = [];
+			}
+			$columsSelected = $this->SelectColumns($sqlFieldList, $options->selectFields);
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($columsSelected);
 
 
 			/* Sort Configuration */
@@ -116,18 +121,21 @@ $API = new class extends bankBase {
 				$options->sortData = [];
 			}
 			if (!is_array($options->sortData)) {
-				$options->sortData = [];
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
+				}
 			}
+
 		
 
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'sortListOrder')) {
-					// ** sortListOrder(array &$sortData) : void
-					//    jika ada keperluan mengurutkan data
-					//    $sortData['fieldname'] = 'ASC/DESC';
-					$hnd->sortListOrder($options->sortData);
-				}
+			if (method_exists(get_class($hnd), 'sortListOrder')) {
+				// ** sortListOrder(array &$sortData) : void
+				//    jika ada keperluan mengurutkan data
+				//    $sortData['fieldname'] = 'ASC/DESC';
+				$hnd->sortListOrder($options->sortData);
 			}
 			$sqlOrders = \FGTA4\utils\SqlUtility::generateSqlSelectSort($options->sortData);
 
@@ -156,6 +164,11 @@ $API = new class extends bankBase {
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
 
+			$handleloop = false;
+			if (method_exists(get_class($hnd), 'DataListLooping')) {
+				$handleloop = true;
+			}
+
 			/* Proces result */
 			$records = [];
 			foreach ($rows as $row) {
@@ -164,6 +177,8 @@ $API = new class extends bankBase {
 					$record[$key] = $value;
 				}
 
+
+				/*
 				$record = array_merge($record, [
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
@@ -171,28 +186,32 @@ $API = new class extends bankBase {
 					'country_name' => \FGTA4\utils\SqlUtility::Lookup($record['country_id'], $this->db, 'mst_country', 'country_id', 'country_name'),
 					 
 				]);
+				*/
 
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'DataListLooping')) {
-						// ** DataListLooping(array &$record) : void
-						//    apabila akan menambahkan field di record
-						$hnd->DataListLooping($record);
-					}
+
+				// lookup data id yang refer ke table lain
+				$this->addFields('country_name', 'country_id', $record, 'mst_country', 'country_name', 'country_id');
+					 
+
+
+				if ($handleloop) {
+					// ** DataListLooping(array &$record) : void
+					//    apabila akan menambahkan field di record
+					$hnd->DataListLooping($record);
 				}
 
 				array_push($records, $record);
 			}
 
 			/* modify and finalize records */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataListFinal')) {
-					// ** DataListFinal(array &$records) : void
-					//    finalisasi data list
-					$hnd->DataListFinal($records);
-				}
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records);
 			}
 
 			// kembalikan hasilnya
+			$result = new \stdClass; 
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;
