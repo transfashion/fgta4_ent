@@ -2,10 +2,15 @@ var this_page_id;
 var this_page_options;
 
 
+import * as hnd from  './unitgroup-edit-hnd.mjs'
+
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
+
 
 
 
@@ -23,21 +28,14 @@ const obj = {
 
 
 let form;
+let rowdata;
 
 export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -58,10 +56,18 @@ export async function init(opt) {
 		OnRecordStatusCreated: () => {
 			undefined			
 		}		
-	})
+	});
+	form.getHeaderData = () => {
+		return getHeaderData();
+	}
 
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
 
-
+	// Generator: Upload Handler not exist
 
 
 
@@ -85,6 +91,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -114,6 +122,18 @@ export async function init(opt) {
 	})
 
 	//button state
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			form: form,
+			obj: obj,
+			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
+		})
+	}
 
 }
 
@@ -124,8 +144,22 @@ export function getForm() {
 	return form
 }
 
+export function getCurrentRowdata() {
+	return rowdata;
+}
 
 export function open(data, rowid, viewmode=true, fn_callback) {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+
+	rowdata = {
+		data: data,
+		rowid: rowid
+	}
 
 	var pOpt = form.getDefaultPrompt(false)
 	var fn_dataopening = async (options) => {
@@ -151,6 +185,12 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		}
   		updaterecordstatus(record)
 
+		/* handle data saat opening data */   
+		if (typeof hnd.form_dataopening == 'function') {
+			hnd.form_dataopening(result, options);
+		}
+
+
 		form.SuspendEvent(true);
 		form
 			.fill(record)
@@ -163,7 +203,9 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		   apabila ada rutin mengubah form dan tidak mau dijalankan pada saat opening,
 		   cek dengan form.isEventSuspended()
 		*/   
-
+		if (typeof hnd.form_dataopened == 'function') {
+			hnd.form_dataopened(result, options);
+		}
 
 
 		/* commit form */
@@ -171,8 +213,19 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(false); 
 		updatebuttonstate(record)
 
+
+		/* update rowdata */
+		for (var nv in rowdata.data) {
+			if (record[nv]!=undefined) {
+				rowdata.data[nv] = record[nv];
+			}
+		}
+
 		// tampilkan form untuk data editor
-		fn_callback()
+		if (typeof fn_callback==='function') {
+			fn_callback(null, rowdata.data);
+		}
+		
 	}
 
 	var fn_dataopenerror = (err) => {
@@ -185,6 +238,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -194,10 +254,14 @@ export function createnew() {
 		data.unitgroup_isdisabled = '0'
 
 
-
-
-
-
+		if (typeof hnd.form_newdata == 'function') {
+			// untuk mengambil nilai ui component,
+			// di dalam handler form_newdata, gunakan perintah:
+			// options.OnNewData = () => {
+			// 		...
+			// }		
+			hnd.form_newdata(data, options);
+		}
 
 
 
@@ -212,6 +276,14 @@ export function createnew() {
 }
 
 
+export function getHeaderData() {
+	var header_data = form.getData();
+	if (typeof hnd.form_getHeaderData == 'function') {
+		hnd.form_getHeaderData(header_data);
+	}
+	return header_data;
+}
+
 export function detil_open(pnlname) {
 	if (form.isDataChanged()) {
 		$ui.ShowMessage('Simpan dulu perubahan datanya.')
@@ -219,33 +291,80 @@ export function detil_open(pnlname) {
 	}
 
 	//$ui.getPages().show(pnlname)
-	$ui.getPages().show(pnlname, () => {
-		$ui.getPages().ITEMS[pnlname].handler.OpenDetil(form.getData())
-	})	
+	let header_data = getHeaderData();
+	if (typeof hnd.form_detil_opening == 'function') {
+		hnd.form_detil_opening(pnlname, (cancel)=>{
+			if (cancel===true) {
+				return;
+			}
+			$ui.getPages().show(pnlname, () => {
+				$ui.getPages().ITEMS[pnlname].handler.OpenDetil(header_data)
+			})
+		});
+	} else {
+		$ui.getPages().show(pnlname, () => {
+			$ui.getPages().ITEMS[pnlname].handler.OpenDetil(header_data)
+		})
+	}
+
+	
 }
 
 
 function updatefilebox(record) {
 	// apabila ada keperluan untuk menampilkan data dari object storage
 
+
+	if (typeof hnd.form_updatefilebox == 'function') {
+		hnd.form_updatefilebox(record);
+	}
 }
 
 function updaterecordstatus(record) {
 	// apabila ada keperluan untuk update status record di sini
 
+
+	if (typeof hnd.form_updaterecordstatus == 'function') {
+		hnd.form_updaterecordstatus(record);
+	}
 }
 
 function updatebuttonstate(record) {
 	// apabila ada keperluan untuk update state action button di sini
-	
+
+
+	if (typeof hnd.form_updatebuttonstate == 'function') {
+		hnd.form_updatebuttonstate(record);
+	}
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
-	
+
+
+	if (typeof hnd.form_updategridstate == 'function') {
+		hnd.form_updategridstate(updategriddata, record);
+	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -289,8 +408,12 @@ async function form_datasaving(data, options) {
 		if (o.isCombo() && !o.isRequired()) {
 			var id = o.getFieldValueName()
 			options.skipmappingresponse.push(id)
-			console.log(id)
+			// console.log(id)
 		}
+	}
+
+	if (typeof hnd.form_datasaving == 'function') {
+		hnd.form_datasaving(data, options);
 	}
 
 }
@@ -298,7 +421,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
+	if (typeof hnd.form_datasaveerror == 'function') {
+		hnd.form_datasaveerror(err, options);
+	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -337,17 +467,31 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
+	var rowdata = {
+		data: data,
+		rowid: form.rowid
+	}
+
+	if (typeof hnd.form_datasaved == 'function') {
+		hnd.form_datasaved(result, rowdata, options);
+	}
 }
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
+	if (typeof hnd.form_deleting == 'function') {
+		hnd.form_deleting(data, options);
+	}
 }
 
 async function form_deleted(result, options) {
 	$ui.getPages().show('pnl_list')
 	$ui.getPages().ITEMS['pnl_list'].handler.removerow(form.rowid)
 
+	if (typeof hnd.form_deleted == 'function') {
+		hnd.form_deleted(result, options);
+	}
 }
 
 
