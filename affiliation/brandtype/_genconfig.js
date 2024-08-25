@@ -21,11 +21,6 @@ module.exports = {
 				'brandtype_name' : ['brandtype_name']
 			},
 
-			// values: [
-			// 	{brandtype_id:'ACS', brandtype_name:'ACCESSORIES', brandtype_descr:'Fashion Accessories Brands'},
-			// 	{brandtype_id:'MEN', brandtype_name:'MEN', brandtype_descr: 'Fashion Men Brands'}
-			// ]			
-
 		},
 	},
 
