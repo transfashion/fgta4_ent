@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/depremodel/apis/xapi.base.php
+ * ent/items/depremodel/apis/xapi.base.php
  *
  * depremodelBase
  * Kelas dasar untuk keperluan-keperluan api
@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 29/12/2022
+ * tanggal 25/08/2024
  */
 class depremodelBase extends WebAPI {
 
@@ -56,13 +56,6 @@ class depremodelBase extends WebAPI {
 		
 	}
 
-	function pre_action_check($data, $action) {
-		try {
-			return true;
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
-	}
 
 	public function get_header_row($id) {
 		try {

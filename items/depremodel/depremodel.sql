@@ -26,10 +26,10 @@ ALTER TABLE `mst_depremodel` ADD COLUMN IF NOT EXISTS  `depremodel_formulaname` 
 ALTER TABLE `mst_depremodel` ADD COLUMN IF NOT EXISTS  `depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0 AFTER `depremodel_formulaname`;
 
 
-ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_name` varchar(90) NOT NULL  AFTER `depremodel_id`;
-ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_descr` varchar(255)   AFTER `depremodel_name`;
-ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_formulaname` varchar(50) NOT NULL  AFTER `depremodel_descr`;
-ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0 AFTER `depremodel_formulaname`;
+ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_name` varchar(90) NOT NULL   AFTER `depremodel_id`;
+ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_descr` varchar(255)    AFTER `depremodel_name`;
+ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_formulaname` varchar(50) NOT NULL   AFTER `depremodel_descr`;
+ALTER TABLE `mst_depremodel` MODIFY COLUMN IF EXISTS  `depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0  AFTER `depremodel_formulaname`;
 
 
 ALTER TABLE `mst_depremodel` ADD CONSTRAINT `depremodel_name` UNIQUE IF NOT EXISTS  (`depremodel_name`);

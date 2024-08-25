@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/depremodel/apis/open.php
+ * ent/items/depremodel/apis/open.php
  *
  * ====
  * Open
@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 29/12/2022
+ * tanggal 25/08/2024
  */
 $API = new class extends depremodelBase {
 	
@@ -47,6 +47,8 @@ $API = new class extends depremodelBase {
 			$hnd->auth = $this->auth;
 			$hnd->reqinfo = $this->reqinfo;
 			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
 		}
 
 		try {
@@ -56,23 +58,35 @@ $API = new class extends depremodelBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
 			$criteriaValues = [
 				"depremodel_id" => " depremodel_id = :depremodel_id "
 			];
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
-					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
-					$hnd->buildOpenCriteriaValues($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+				$hnd->buildOpenCriteriaValues($options, $criteriaValues);
 			}
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'prepareOpenData')) {
-					// prepareOpenData(object $options, $criteriaValues) : void
-					$hnd->prepareOpenData($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
+			
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
 			}
 
 
@@ -84,11 +98,9 @@ $API = new class extends depremodelBase {
 			$sqlFromTable = "mst_depremodel A";
 			$sqlWhere = $where->sql;
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
-					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-				}
+			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+				// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
 			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
 
@@ -129,11 +141,9 @@ $API = new class extends depremodelBase {
 
 			
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataOpen')) {
-					//  DataOpen(array &$record) : void 
-					$hnd->DataOpen($result->record);
-				}
+			if (method_exists(get_class($hnd), 'DataOpen')) {
+				//  DataOpen(array &$record) : void 
+				$hnd->DataOpen($result->record);
 			}
 
 			return $result;
