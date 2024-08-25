@@ -15,22 +15,14 @@ module.exports = {
 				bank_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true},
 				bank_name: {text:'Bank', type: dbtype.varchar(60), null:false, uppercase: true},
 				bank_code: {text:'Code', type: dbtype.varchar(30), null:true, suppresslist:true},
-
-				// bank_phone: {text:'Phone', type: dbtype.varchar(30), null:false, suppresslist: true, uppercase: true},
-				// bank_email: {text:'Email', type: dbtype.varchar(30), null:true, suppresslist: true},
-
-				// bank_address: {text:'Address', type: dbtype.varchar(255), null:true, suppresslist: true},
-				// bank_city: {text:'City', type: dbtype.varchar(90), null:true, suppresslist: true},
-				// bank_prov: {text:'Provincy', type: dbtype.varchar(90), null:true, suppresslist: true},
 				country_id: {
 					text:'Country', type: dbtype.varchar(10), null:false, suppresslist:true,
 					options: {required:true},
 					comp: comp.Combo({
 						table: 'mst_country', 
 						field_value: 'country_id', field_display: 'country_name', 
-						api: 'ent/general/country/list'})					
+						api: 'ent/location/country/list'})					
 				},				
-
 				bank_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 
 			},
