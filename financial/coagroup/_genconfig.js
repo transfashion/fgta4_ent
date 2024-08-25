@@ -25,7 +25,7 @@ module.exports = {
 					field_value: 'coagroup_id',
 					field_display: 'coagroup_name',
 					field_display_name: 'coagroup_parent_name',
-					api: 'finact/master/coagroup/list-parent'
+					api: 'ent/financial/coagroup/list'
 				})
 			},
 
@@ -36,7 +36,7 @@ module.exports = {
 					table: 'mst_coamodel',
 					field_value: 'coamodel_id',
 					field_display: 'coamodel_name',
-					api: 'finact/master/coamodel/list'
+					api: 'ent/financial/coamodel/list'
 				})
 			},
 
@@ -47,7 +47,7 @@ module.exports = {
 					table: 'mst_coareport',
 					field_value: 'coareport_id',
 					field_display: 'coareport_name',
-					api: 'finact/master/coareport/list'
+					api: 'ent/financial/coareport/list'
 				})
 			},	
 
@@ -72,106 +72,3 @@ module.exports = {
 	}
 }
 
-
-
-/*
-
-DROP TRIGGER IF EXISTS fgtadb.mst_coagroup_before_insert;
-
-DELIMITER $$
-$$
-
-
-CREATE DEFINER=`root`@`localhost` TRIGGER `mst_coagroup_before_insert` BEFORE INSERT ON `mst_coagroup` FOR EACH ROW BEGIN
-
-	DECLARE PATHID VARCHAR(17);
-	DECLARE PARENT_PATHID VARCHAR(17);
-	DECLARE PARENT_PATH VARCHAR(390);
-
-	IF NEW.coagroup_parent=NEW.coagroup_id THEN
-		SIGNAL SQLSTATE '45000' SET 
-		MESSAGE_TEXT = 'Kode parent tidak boleh sama dengan kode group';
-	END IF;
-
-	SET NEW.coagroup_pathid = NEW.coagroup_id;
-
-	SET PATHID = RPAD(NEW.coagroup_pathid, 17, '-');
-	SET NEW.coagroup_pathid = PATHID;
-
-	IF NEW.coagroup_parent IS NULL THEN
-		SET NEW.coagroup_path = PATHID;
-		SET NEW.coagroup_level = 0;
-	ELSE
-		SELECT coagroup_pathid, coagroup_path 
-		INTO PARENT_PATHID, PARENT_PATH
-		FROM mst_coagroup WHERE coagroup_id = NEW.coagroup_parent;	
-			
-		SET NEW.coagroup_path = CONCAT(PARENT_PATH, PATHID);
-		SET NEW.coagroup_level = (LENGTH(NEW.coagroup_path) / 13) - 1;
-	
-	END IF;
-
-END
-
-
-$$
-DELIMITER ;
-
-
-
-DROP TRIGGER IF EXISTS fgtadb.mst_coagroup_before_update;
-
-DELIMITER $$
-$$
-
-CREATE DEFINER=`root`@`localhost` TRIGGER `mst_coagroup_before_update` BEFORE UPDATE ON `mst_coagroup` FOR EACH ROW BEGIN
-
-	
-	DECLARE PATHID VARCHAR(17);
-	DECLARE CHILDCOUNT INT;
-	DECLARE PARENT_PATHID VARCHAR(17);
-	DECLARE PARENT_PATH VARCHAR(390);
-
-
-	SET PATHID = OLD.coagroup_pathid;
-	SET NEW.coagroup_id = OLD.coagroup_id;
-	SET NEW.coagroup_pathid = OLD.coagroup_pathid;
-
-	IF NEW.coagroup_parent=NEW.coagroup_id THEN
-		SIGNAL SQLSTATE '45000' SET 
-		MESSAGE_TEXT = 'Kode parent tidak boleh sama dengan kode group';
-	END IF;
-	
-
-	IF NEW.coagroup_parent='--NULL--' THEN
-    	SET NEW.coagroup_parent = NULL;
-    END IF;
-
-
-	SELECT COUNT(*) 
-	INTO CHILDCOUNT
-	FROM mst_coagroup WHERE coagroup_parent = NEW.coagroup_id;
-	IF NEW.coagroup_parent<>OLD.coagroup_parent AND CHILDCOUNT>0 THEN
-		SIGNAL SQLSTATE '45000' SET 
-		MESSAGE_TEXT = 'Group yang punya anggota tidak bisa diubah parentnya';	
-	END IF;
-
-
-	IF NEW.coagroup_parent IS NULL THEN
-		SET NEW.coagroup_path = NEW.coagroup_pathid;
-		SET NEW.coagroup_level = 0;
-	ELSE
-		SELECT coagroup_pathid, coagroup_path 
-		INTO PARENT_PATHID, PARENT_PATH
-		FROM mst_coagroup WHERE coagroup_id = NEW.coagroup_parent;	
-			
-		SET NEW.coagroup_path = CONCAT(PARENT_PATH, PATHID);
-		SET NEW.coagroup_level = (LENGTH(NEW.coagroup_path) / 17) - 1;
-	
-	END IF;
-
-END
-
-$$
-DELIMITER ;
-*/
