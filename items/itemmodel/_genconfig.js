@@ -19,6 +19,24 @@ module.exports = {
 				itemmodel_isintangible: { text: 'Intangiable', type: dbtype.boolean, null: false, default:0, suppresslist: true },
 				itemmodel_issellable: { text: 'Sellable', type: dbtype.boolean, null: false, default:0, suppresslist: true },
 				itemmodel_isnonitem: { text: 'Non Item', type: dbtype.boolean, null: false, default:0, suppresslist: true },
+				itemmodel_ishasmainteinerdept: { text: 'Has Maintainer Dept', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
+				itemmodel_ismultidept: { text: 'Own By Multidept', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
+			
+				dept_id: {
+					text: 'Dept', type: dbtype.varchar(30), null:true, suppresslist: true,
+					options:{prompt:'NONE'},
+					comp: comp.Combo({
+						title: 'Pilih Item Manager Departemen',
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', 
+						api: 'ent/organisation/dept/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})				
+				},
+
 
 				itemmanage_id: { 
 					text: 'Manage As', type: dbtype.varchar(2), uppercase: true, null: false, 
@@ -35,36 +53,19 @@ module.exports = {
 					})					
 				},
 				itemmanage_isasset: { 
-					hidden: true,
 					text: 'Manage As Asset ', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ disabled: true, labelWidth:'300px'}},
 
-				itemmodel_ismultidept: { text: 'Own By Multidept', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
-				dept_id: {
-					text: 'Dept', type: dbtype.varchar(30), null:true, suppresslist: true,
-					options:{prompt:'NONE'},
-					comp: comp.Combo({
-						title: 'Pilih Item Manager Departemen',
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', 
-						api: 'ent/organisation/dept/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false	
-					})				
-				},
-				itemmodel_ishasmainteinerdept: { text: 'Has Maintainer Dept', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
 
 				depremodel_id: { 
-
 					text: 'Depresiasi', 
-					type: dbtype.varchar(10), null: false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Depre Model harus diisi' } ,
+					type: dbtype.varchar(10), null: true, suppresslist: true,
+					// options: { required: true, invalidMessage: 'Depre Model harus diisi' } ,
+					options: {prompt:'NONE'},
 					comp: comp.Combo({
 						title: 'Pilih Model Depresiasi',
 						table: 'mst_depremodel', 
 						field_value: 'depremodel_id', field_display: 'depremodel_name', field_display_name: 'depremodel_name', 
-						api: 'finact/master/depremodel/list',
+						api: 'ent/items/depremodel/list',
 						onDataLoadingHandler: false,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
@@ -72,7 +73,6 @@ module.exports = {
 					})				
 				},
 				depremodel_isautocalc: { 
-					hidden: true,
 					text: 'Auto Calculation', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ disabled: true, labelWidth:'300px'}
 				},
 				itemmodel_depreage: { 

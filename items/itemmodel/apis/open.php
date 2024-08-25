@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 09/02/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends itemmodelBase {
 	
@@ -92,8 +92,8 @@ $API = new class extends itemmodelBase {
 
 			$sqlFieldList = [
 				'itemmodel_id' => 'A.`itemmodel_id`', 'itemmodel_name' => 'A.`itemmodel_name`', 'itemmodel_descr' => 'A.`itemmodel_descr`', 'itemmodel_isintangible' => 'A.`itemmodel_isintangible`',
-				'itemmodel_issellable' => 'A.`itemmodel_issellable`', 'itemmodel_isnonitem' => 'A.`itemmodel_isnonitem`', 'itemmanage_id' => 'A.`itemmanage_id`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`',
-				'itemmodel_ismultidept' => 'A.`itemmodel_ismultidept`', 'dept_id' => 'A.`dept_id`', 'itemmodel_ishasmainteinerdept' => 'A.`itemmodel_ishasmainteinerdept`', 'depremodel_id' => 'A.`depremodel_id`',
+				'itemmodel_issellable' => 'A.`itemmodel_issellable`', 'itemmodel_isnonitem' => 'A.`itemmodel_isnonitem`', 'itemmodel_ishasmainteinerdept' => 'A.`itemmodel_ishasmainteinerdept`', 'itemmodel_ismultidept' => 'A.`itemmodel_ismultidept`',
+				'dept_id' => 'A.`dept_id`', 'itemmanage_id' => 'A.`itemmanage_id`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`', 'depremodel_id' => 'A.`depremodel_id`',
 				'depremodel_isautocalc' => 'A.`depremodel_isautocalc`', 'itemmodel_depreage' => 'A.`itemmodel_depreage`', 'itemmodel_depreresidu' => 'A.`itemmodel_depreresidu`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
@@ -133,8 +133,8 @@ $API = new class extends itemmodelBase {
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'itemmanage_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmanage_id'], $this->db, 'mst_itemmanage', 'itemmanage_id', 'itemmanage_name'),
 				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
+				'itemmanage_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmanage_id'], $this->db, 'mst_itemmanage', 'itemmanage_id', 'itemmanage_name'),
 				'depremodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['depremodel_id'], $this->db, 'mst_depremodel', 'depremodel_id', 'depremodel_name'),
 
 

@@ -4,6 +4,8 @@ var this_page_options;
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './itemmodel-edit-hnd.mjs'
 
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -22,11 +24,11 @@ const obj = {
 	chk_itemmodel_isintangible: $('#pnl_edit-chk_itemmodel_isintangible'),
 	chk_itemmodel_issellable: $('#pnl_edit-chk_itemmodel_issellable'),
 	chk_itemmodel_isnonitem: $('#pnl_edit-chk_itemmodel_isnonitem'),
-	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
-	chk_itemmanage_isasset: $('#pnl_edit-chk_itemmanage_isasset'),
+	chk_itemmodel_ishasmainteinerdept: $('#pnl_edit-chk_itemmodel_ishasmainteinerdept'),
 	chk_itemmodel_ismultidept: $('#pnl_edit-chk_itemmodel_ismultidept'),
 	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
-	chk_itemmodel_ishasmainteinerdept: $('#pnl_edit-chk_itemmodel_ishasmainteinerdept'),
+	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
+	chk_itemmanage_isasset: $('#pnl_edit-chk_itemmanage_isasset'),
 	cbo_depremodel_id: $('#pnl_edit-cbo_depremodel_id'),
 	chk_depremodel_isautocalc: $('#pnl_edit-chk_depremodel_isautocalc'),
 	txt_itemmodel_depreage: $('#pnl_edit-txt_itemmodel_depreage'),
@@ -43,20 +45,9 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
 
-	if (opt.settings.btn_edit_visible===false) {
-		btn_edit.hide();
-	} 
-
-	if (opt.settings.btn_save_visible===false) {
-		btn_save.hide();
-	} 
-
-	if (opt.settings.btn_delete_visible===false) {
-		btn_delete.hide();
-	} 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_itemmodel_id,
@@ -90,6 +81,26 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
+	new fgta4slideselect(obj.cbo_dept_id, {
+		title: 'Pilih Item Manager Departemen',
+		returnpage: this_page_id,
+		api: $ui.apis.load_dept_id,
+		fieldValue: 'dept_id',
+		fieldDisplay: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_dept_id_dataloading === 'function') {
+				hnd.cbo_dept_id_dataloading(criteria, options);
+			}						
+		},					
+
+	})				
+				
 	obj.cbo_itemmanage_id.name = 'pnl_edit-cbo_itemmanage_id'		
 	new fgta4slideselect(obj.cbo_itemmanage_id, {
 		title: 'Item akan di Manage sebagai',
@@ -108,26 +119,6 @@ export async function init(opt) {
 				}
 			}
 		},
-
-	})				
-				
-	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
-	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih Item Manager Departemen',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
-		fieldValue: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_dept_id_dataloading === 'function') {
-				hnd.cbo_dept_id_dataloading(criteria, options);
-			}						
-		},					
 
 	})				
 				
@@ -232,6 +223,12 @@ export function getCurrentRowdata() {
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+
 	rowdata = {
 		data: data,
 		rowid: rowid
@@ -248,6 +245,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		/*
 		if (result.record.dept_id==null) { result.record.dept_id='--NULL--'; result.record.dept_name='NONE'; }
+		if (result.record.depremodel_id==null) { result.record.depremodel_id='--NULL--'; result.record.depremodel_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -271,8 +269,8 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
+			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setValue(obj.cbo_depremodel_id, record.depremodel_id, record.depremodel_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -318,6 +316,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -327,19 +332,19 @@ export function createnew() {
 		data.itemmodel_isintangible = '0'
 		data.itemmodel_issellable = '0'
 		data.itemmodel_isnonitem = '0'
-		data.itemmanage_isasset = '0'
-		data.itemmodel_ismultidept = '0'
 		data.itemmodel_ishasmainteinerdept = '0'
+		data.itemmodel_ismultidept = '0'
+		data.itemmanage_isasset = '0'
 		data.depremodel_isautocalc = '0'
 		data.itemmodel_depreage = 0
 		data.itemmodel_depreresidu = 0
 
-		data.itemmanage_id = '0'
-		data.itemmanage_name = '-- PILIH --'
 		data.dept_id = '--NULL--'
 		data.dept_name = 'NONE'
-		data.depremodel_id = '0'
-		data.depremodel_name = '-- PILIH --'
+		data.itemmanage_id = '0'
+		data.itemmanage_name = '-- PILIH --'
+		data.depremodel_id = '--NULL--'
+		data.depremodel_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -426,15 +431,32 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -471,7 +493,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['dept_id', ];
+	// options.skipmappingresponse = ['dept_id', 'depremodel_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -491,10 +513,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -517,6 +543,7 @@ async function form_datasaved(result, options) {
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
 	form.setValue(obj.cbo_dept_id, result.dataresponse.dept_name!=='--NULL--' ? result.dataresponse.dept_id : '--NULL--', result.dataresponse.dept_name!=='--NULL--'?result.dataresponse.dept_name:'NONE')
+	form.setValue(obj.cbo_depremodel_id, result.dataresponse.depremodel_name!=='--NULL--' ? result.dataresponse.depremodel_id : '--NULL--', result.dataresponse.depremodel_name!=='--NULL--'?result.dataresponse.depremodel_name:'NONE')
 
 	*/
 
@@ -534,7 +561,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -546,9 +573,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data);
+		hnd.form_deleting(data, options);
 	}
 }
 
