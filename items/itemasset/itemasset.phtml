@@ -15,3 +15,10 @@
 
 
 
+<?php
+$customrecordstatus = __DIR__.'/itemasset-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

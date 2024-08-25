@@ -7,6 +7,10 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
+}
+
 
 use \FGTA4\exceptions\WebException;
 
@@ -24,14 +28,28 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 08/10/2021
+ * tanggal 25/08/2024
  */
 $API = new class extends itemassetBase {
 	
 	public function execute($options) {
+		$event = 'on-open';
 		$tablename = 'mst_itemasset';
 		$primarykey = 'itemasset_id';
 		$userdata = $this->auth->session_get_user();
+
+		$handlerclassname = "\\FGTA4\\apis\\itemasset_headerHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new itemasset_headerHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
+		}
 
 		try {
 
@@ -40,20 +58,70 @@ $API = new class extends itemassetBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
+			$criteriaValues = [
+				"itemasset_id" => " itemasset_id = :itemasset_id "
+			];
+			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+				$hnd->buildOpenCriteriaValues($options, $criteriaValues);
+			}
+			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 			
-			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
-				$options->criteria,
-				[
-					"itemasset_id" => " itemasset_id = :itemasset_id "
-				]
-			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_itemasset A', [
-				'itemasset_id', 'itemasset_name', 'itemasset_serial', 'item_id', 'itemassetstatus_id', 'itemasset_statusnote', 'itemasset_ischeckout', 'itemasset_ismoveable', 'itemasset_isdisabled', 'itemasset_iswrittenof', 'itemasset_descr', 'itemasset_merk', 'itemasset_type', 'itemclass_id', 'itemasset_baselocation', 'site_id', 'owner_dept_id', 'maintainer_dept_id', 'location_dept_id', 'location_site_id', 'location_room_id', 'location_empl_id', 'partner_id', 'itemasset_purchasedate', 'itemasset_lastsupportdate', 'itemasset_purchasevalue', 'curr_id', 'itemasset_purchasevalue_idr', 'asset_coa_id', 'depremodel_id', 'cost_coa_id', 'itemasset_depreage', 'itemasset_depreresidu', 'itemasset_currentvalue_idr', 'itemasset_currentvalue_date', 'itemasset_usevaluerate', 'itemasset_writeoffby', 'itemasset_writeoffdate', 'itemasset_writeoffref', '_createby', '_createdate', '_modifyby', '_modifydate'
-			], $where->sql);
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 
-			$stmt = $this->db->prepare($sql);
+
+			$sqlFieldList = [
+				'itemasset_id' => 'A.`itemasset_id`', 'itemasset_name' => 'A.`itemasset_name`', 'itemasset_serial' => 'A.`itemasset_serial`', 'item_id' => 'A.`item_id`',
+				'itemassetstatus_id' => 'A.`itemassetstatus_id`', 'itemasset_statusnote' => 'A.`itemasset_statusnote`', 'itemasset_ischeckout' => 'A.`itemasset_ischeckout`', 'itemasset_ismoveable' => 'A.`itemasset_ismoveable`',
+				'itemasset_isdisabled' => 'A.`itemasset_isdisabled`', 'itemasset_iswrittenof' => 'A.`itemasset_iswrittenof`', 'itemasset_descr' => 'A.`itemasset_descr`', 'itemasset_merk' => 'A.`itemasset_merk`',
+				'itemasset_type' => 'A.`itemasset_type`', 'itemclass_id' => 'A.`itemclass_id`', 'itemasset_baselocation' => 'A.`itemasset_baselocation`', 'site_id' => 'A.`site_id`',
+				'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`', 'location_dept_id' => 'A.`location_dept_id`', 'location_site_id' => 'A.`location_site_id`',
+				'location_room_id' => 'A.`location_room_id`', 'location_empl_id' => 'A.`location_empl_id`', 'partner_id' => 'A.`partner_id`', 'itemasset_purchasedate' => 'A.`itemasset_purchasedate`',
+				'itemasset_lastsupportdate' => 'A.`itemasset_lastsupportdate`', 'itemasset_purchasevalue' => 'A.`itemasset_purchasevalue`', 'curr_id' => 'A.`curr_id`', 'itemasset_purchasevalue_idr' => 'A.`itemasset_purchasevalue_idr`',
+				'asset_coa_id' => 'A.`asset_coa_id`', 'depremodel_id' => 'A.`depremodel_id`', 'cost_coa_id' => 'A.`cost_coa_id`', 'itemasset_depreage' => 'A.`itemasset_depreage`',
+				'itemasset_depreresidu' => 'A.`itemasset_depreresidu`', 'itemasset_currentvalue_idr' => 'A.`itemasset_currentvalue_idr`', 'itemasset_currentvalue_date' => 'A.`itemasset_currentvalue_date`', 'itemasset_usevaluerate' => 'A.`itemasset_usevaluerate`',
+				'itemasset_writeoffby' => 'A.`itemasset_writeoffby`', 'itemasset_writeoffdate' => 'A.`itemasset_writeoffdate`', 'itemasset_writeoffref' => 'A.`itemasset_writeoffref`', '_createby' => 'A.`_createby`',
+				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
+			];
+			$sqlFromTable = "mst_itemasset A";
+			$sqlWhere = $where->sql;
+
+			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+				// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
+			}
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+
+			
+			$sqlData = "
+				select 
+				$sqlFields 
+				from 
+				$sqlFromTable 
+				$sqlWhere 
+			";
+
+			$stmt = $this->db->prepare($sqlData);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -97,10 +165,13 @@ $API = new class extends itemassetBase {
 
 			]);
 
-			// $date = DateTime::createFromFormat('d/m/Y', "24/04/2012");
-			// echo $date->format('Y-m-d');
 
 			
+
+			if (method_exists(get_class($hnd), 'DataOpen')) {
+				//  DataOpen(array &$record) : void 
+				$hnd->DataOpen($result->record);
+			}
 
 			return $result;
 		} catch (\Exception $ex) {
