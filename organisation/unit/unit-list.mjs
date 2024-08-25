@@ -18,10 +18,6 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-	if (opt.settings.btn_new_visible===false) {
-		btn_new.hide();
-	} 
-
 	grd_list = new global.fgta4grid(tbl_list, {
 		OnRowFormatting: (tr) => { grd_list_rowformatting(tr) },
 		OnRowClick: (tr, ev) => { grd_list_rowclick(tr, ev) },

@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/08/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends unitBase {
 	
@@ -65,17 +65,30 @@ $API = new class extends unitBase {
 				$hnd->init($options);
 			}
 			
+			// data yang akan di update dari table
+			$sqlUpdateField  = [
+					'unitbrand_id', 'brand_id', 'unit_id'
+			];
+			if (method_exists(get_class($hnd), 'setUpdateField')) {
+				// setUpdateField(&$sqlUpdateField, $data, $options)
+				$hnd->setUpdateField($sqlUpdateField, $data, $options);
+			}
+
+
+
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$obj = new \stdClass;
-			foreach ($data as $fieldname => $value) {
-				if ($fieldname=='_state') { continue; }
+			foreach ($sqlUpdateField as $fieldname) {
 				if ($fieldname==$primarykey) {
 					$key->{$fieldname} = $value;
 				}
-				$obj->{$fieldname} = $value;
+				if (property_exists($data, $fieldname)) {
+					$obj->{$fieldname} = $data->{$fieldname};
+				}
 			}
+
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');

@@ -50,7 +50,9 @@ export async function init(opt) {
 		OnDataDeleting: async (data, options) => { await form_deleting(data, options) },
 		OnDataDeleted: async (result, options) => { await form_deleted(result, options) },
 		OnIdSetup : (options) => { form_idsetup(options) },
-		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
+		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) },
+		OnGettingData: (data) => { form_gettingdata(data) },
+
 	});
 	form.getHeaderData = () => {
 		return header_data;
@@ -393,9 +395,11 @@ async function form_datasaved(result, options) {
 
 	if (reload_header_modified) {
 		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
-		$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
-			$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
-		});	
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
 	}
 
 	if (typeof hnd.form_datasaved == 'function') {
@@ -419,9 +423,12 @@ async function form_deleted(result, options) {
 
 	if (reload_header_modified) {
 		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
-		$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
-			$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
-		});	
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
+
 	}
 
 	if (typeof hnd.form_deleted == 'function') {
@@ -433,6 +440,15 @@ async function form_deleted(result, options) {
 function updatefilebox(record) {
 	// apabila ada keperluan untuk menampilkan data dari object storage
 
+}
+
+
+function form_gettingdata(data) {
+	if (hnd!=null) {
+		if (typeof hnd.form_gettingdata == 'function') {
+			hnd.form_gettingdata(data);
+		}
+	}
 }
 
 function form_viewmodechanged(viewonly) {

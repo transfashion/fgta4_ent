@@ -30,8 +30,9 @@ module.exports = {
 					})
 				},
 				dept_id: {
-					text:'Dept', type: dbtype.varchar(30), null:false, suppresslist: true,
-					options:{required:true,invalidMessage:'Department harus diisi', prompt:'-- PILIH --'},
+					text:'Default Dept', type: dbtype.varchar(30), null:true, suppresslist: true,
+					options:{required:false, prompt:'NONE'},
+					// options:{required:true,invalidMessage:'Department harus diisi', prompt:'-- PILIH --'},
 					comp: comp.Combo({
 						table: 'mst_dept', 
 						field_value: 'dept_id', field_display: 'dept_name', 

@@ -41,17 +41,6 @@ export async function init(opt) {
 	txt_caption.template = txt_caption.html();
 	var disableedit = false;
 
-	if (opt.settings.btn_edit_visible===false) {
-		btn_edit.hide();
-	} 
-
-	if (opt.settings.btn_save_visible===false) {
-		btn_save.hide();
-	} 
-
-	if (opt.settings.btn_delete_visible===false) {
-		btn_delete.hide();
-	} 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_unit_id,
@@ -220,6 +209,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
+		if (result.record.dept_id==null) { result.record.dept_id='--NULL--'; result.record.dept_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -308,8 +298,8 @@ export function createnew() {
 
 		data.unitgroup_id = '0'
 		data.unitgroup_name = '-- PILIH --'
-		data.dept_id = '0'
-		data.dept_name = '-- PILIH --'
+		data.dept_id = '--NULL--'
+		data.dept_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -399,12 +389,17 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
@@ -456,7 +451,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = [];
+	// options.skipmappingresponse = ['dept_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -505,6 +500,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
+	form.setValue(obj.cbo_dept_id, result.dataresponse.dept_name!=='--NULL--' ? result.dataresponse.dept_id : '--NULL--', result.dataresponse.dept_name!=='--NULL--'?result.dataresponse.dept_name:'NONE')
 
 	*/
 
