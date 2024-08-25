@@ -17,7 +17,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coareport/apis/column-open.php
+ * ent/financial/coareport/apis/column-open.php
  *
  * ==========
  * Detil-Open
@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coareportBase {
 

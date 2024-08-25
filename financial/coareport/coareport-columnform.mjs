@@ -2,10 +2,11 @@ var this_page_id;
 var this_page_options;
 
 
+import * as hnd from  './coareport-columnform-hnd.mjs'
 
 const reload_header_modified = true;
 
-
+const txt_caption = $('#pnl_editcolumnform-caption')
 const txt_title = $('#pnl_editcolumnform-title')
 const btn_edit = $('#pnl_editcolumnform-btn_edit')
 const btn_save = $('#pnl_editcolumnform-btn_save')
@@ -35,7 +36,8 @@ export async function init(opt) {
 	this_page_id = opt.id
 	this_page_options = opt;
 
-	
+	txt_caption.template = txt_caption.html();
+
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_coareportcol_id,
 		autoid: true,
@@ -50,7 +52,9 @@ export async function init(opt) {
 		OnDataDeleting: async (data, options) => { await form_deleting(data, options) },
 		OnDataDeleted: async (result, options) => { await form_deleted(result, options) },
 		OnIdSetup : (options) => { form_idsetup(options) },
-		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
+		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) },
+		OnGettingData: (data) => { form_gettingdata(data) },
+
 	});
 	form.getHeaderData = () => {
 		return header_data;
@@ -85,6 +89,8 @@ export async function init(opt) {
 	}, true)
 	
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -131,7 +137,13 @@ export async function init(opt) {
 		}
 	})
 
-
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			form: form,
+			obj: obj,
+			opt: opt
+		})
+	}
 
 }
 
@@ -146,8 +158,19 @@ export function getForm() {
 
 export function open(data, rowid, hdata) {
 	// console.log(header_data)
-	txt_title.html(hdata.coareport_name)
 	header_data = hdata
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+	txt_title.html(header_data.coareport_name)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'open');
+		}
+	}
 
 	var pOpt = form.getDefaultPrompt(false)
 	var fn_dataopening = async (options) => {
@@ -173,7 +196,9 @@ export function open(data, rowid, hdata) {
 		}
 
 		/* handle data saat opening data */   
-		
+		if (typeof hnd.form_dataopening == 'function') {
+			hnd.form_dataopening(result, options);
+		}
 
 
 		form.SuspendEvent(true);
@@ -182,17 +207,6 @@ export function open(data, rowid, hdata) {
 			.setViewMode()
 			.rowid = rowid
 
-
-
-		/* tambahkan event atau behaviour saat form dibuka
-		   apabila ada rutin mengubah form dan tidak mau dijalankan pada saat opening,
-		   cek dengan form.isEventSuspended()
-		*/ 
-		
-
-
-		form.commit()
-		form.SuspendEvent(false);
 
 
 		// Editable
@@ -229,7 +243,23 @@ export function open(data, rowid, hdata) {
 			btn_next.linkbutton('enable')
 		} else {
 			btn_next.linkbutton('disable')
-		}		
+		}	
+
+
+		/* tambahkan event atau behaviour saat form dibuka
+		   apabila ada rutin mengubah form dan tidak mau dijalankan pada saat opening,
+		   cek dengan form.isEventSuspended()
+		*/ 
+		if (typeof hnd.form_dataopened == 'function') {
+			hnd.form_dataopened(result, options);
+		}
+
+
+		form.commit()
+		form.SuspendEvent(false);
+
+
+
 	}
 
 	var fn_dataopenerror = (err) => {
@@ -242,15 +272,28 @@ export function open(data, rowid, hdata) {
 export function createnew(hdata) {
 	header_data = hdata
 
-	txt_title.html('Create New Row')
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+	txt_title.html(header_data.coareport_name)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'new');
+		}
+	}
+
 	form.createnew(async (data, options)=>{
-		data.coareport_id= hdata.coareport_id
+		data.coareport_id = hdata.coareport_id
 		data.column_value = 0
 
 		data.coa_dk = 0
 
 
-
+		if (typeof hnd.form_newdata == 'function') {
+			hnd.form_newdata(data, options);
+		}
 
 
 		form.rowid = null
@@ -275,16 +318,21 @@ async function form_datasaving(data, options) {
 		}
 	}
 
-		
+	if (typeof hnd.form_datasaving == 'function') {
+		hnd.form_datasaving(data, options);
+	}	
 }
 
 
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
+	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
 	}
 }
 
@@ -310,7 +358,12 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_editcolumngrid'].handler.updategrid(data, form.rowid)
+	var rowdata = {
+		data: data,
+		rowid: form.rowid
+	}
 
+	
 	var autoadd = chk_autoadd.prop("checked")
 	if (autoadd) {
 		setTimeout(()=>{
@@ -320,18 +373,24 @@ async function form_datasaved(result, options) {
 
 	if (reload_header_modified) {
 		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
-		$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
-			$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
-		});	
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
 	}
 
-	
+	if (typeof hnd.form_datasaved == 'function') {
+		hnd.form_datasaved(result, rowdata, options);
+	}
 
 }
 
 async function form_deleting(data, options) {
 	options.api = `${global.modulefullname}/column-delete`
-	
+	if (typeof hnd.form_deleting == 'function') {
+		hnd.form_deleting(data);
+	}
 }
 
 async function form_deleted(result, options) {
@@ -342,12 +401,17 @@ async function form_deleted(result, options) {
 
 	if (reload_header_modified) {
 		var currentRowdata =  $ui.getPages().ITEMS['pnl_edit'].handler.getCurrentRowdata();
-		$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
-			$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
-		});	
+		if (currentRowdata!=null) {
+			$ui.getPages().ITEMS['pnl_edit'].handler.open(currentRowdata.data, currentRowdata.rowid, false, (err, data)=>{
+				$ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, currentRowdata.rowid);
+			});	
+		}
+
 	}
 
-	
+	if (typeof hnd.form_deleted == 'function') {
+		hnd.form_deleted(result, options);
+	}
 	
 }
 
@@ -356,8 +420,25 @@ function updatefilebox(record) {
 
 }
 
+
+function form_gettingdata(data) {
+	if (hnd!=null) {
+		if (typeof hnd.form_gettingdata == 'function') {
+			hnd.form_gettingdata(data);
+		}
+	}
+}
+
 function form_viewmodechanged(viewonly) {
+
+	console.log('View Mode changed');
+	var caption = txt_caption.template;
+
 	if (viewonly) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+		txt_caption.html(caption);
+
 		btn_prev.linkbutton('enable')
 		btn_next.linkbutton('enable')
 		if (btn_addnew.allow) {
@@ -366,9 +447,22 @@ function form_viewmodechanged(viewonly) {
 			btn_addnew.linkbutton('disable')
 		}
 	} else {
+		var currcaption = txt_caption.html();
+		if (currcaption.substring(0,10)!='Create New') {
+			caption = caption.replace('{{STATE_BEG}}', '');
+			caption = caption.replace('{{STATE_END}}', ' Edit');
+			txt_caption.html(caption);
+		} 
+
 		btn_prev.linkbutton('disable')
 		btn_next.linkbutton('disable')
 		btn_addnew.linkbutton('disable')
+	}
+	
+
+
+	if (typeof hnd.form_viewmodechanged == 'function') {
+		hnd.form_viewmodechanged(viewonly);
 	}
 }
 

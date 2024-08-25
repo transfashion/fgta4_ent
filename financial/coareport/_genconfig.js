@@ -50,8 +50,8 @@ module.exports = {
 		detils: {
 			'column': { 
 				title: 'Columns', table: 'mst_coareportcol', form: true, headerview: 'coareport_name' ,
-				// editorHandler: true,
-				// listHandler: true
+				editorHandler: true,
+				listHandler: true
 			}
 		}
 	}

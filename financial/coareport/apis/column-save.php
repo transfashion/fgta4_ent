@@ -21,7 +21,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coareport/apis/column-save.php
+ * ent/financial/coareport/apis/column-save.php
  *
  * ==========
  * Detil-Save
@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coareportBase {
 	
@@ -65,17 +65,31 @@ $API = new class extends coareportBase {
 				$hnd->init($options);
 			}
 			
+			// data yang akan di update dari table
+			$sqlUpdateField  = [
+					'coareportcol_id', 'coareportcol_name', 'coareport_col', 'coa_dk',
+					'coareport_id'
+			];
+			if (method_exists(get_class($hnd), 'setUpdateField')) {
+				// setUpdateField(&$sqlUpdateField, $data, $options)
+				$hnd->setUpdateField($sqlUpdateField, $data, $options);
+			}
+
+
+
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$obj = new \stdClass;
-			foreach ($data as $fieldname => $value) {
-				if ($fieldname=='_state') { continue; }
+			foreach ($sqlUpdateField as $fieldname) {
 				if ($fieldname==$primarykey) {
 					$key->{$fieldname} = $value;
 				}
-				$obj->{$fieldname} = $value;
+				if (property_exists($data, $fieldname)) {
+					$obj->{$fieldname} = $data->{$fieldname};
+				}
 			}
+
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
@@ -93,9 +107,19 @@ $API = new class extends coareportBase {
 			if ($datastate=='NEW') {
 				$obj->_createby = $userdata->username;
 				$obj->_createdate = date("Y-m-d H:i:s");
+
+				if (method_exists(get_class($hnd), 'PreCheckInsert')) {
+					// PreCheckInsert($data, &$obj, &$options)
+					$hnd->PreCheckInsert($data, $obj, $options);
+				}
 			} else {
 				$obj->_modifyby = $userdata->username;
 				$obj->_modifydate = date("Y-m-d H:i:s");	
+
+				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
+					// PreCheckUpdate($data, &$obj, &$key, &$options)
+					$hnd->PreCheckUpdate($data, $obj, $key, $options);
+				}
 			}
 
 			//handle data sebelum sebelum save
@@ -128,15 +152,16 @@ $API = new class extends coareportBase {
 				// Update user & timestamp di header
 				$header_table = 'mst_coareport';
 				$header_primarykey = 'coareport_id';
+				$detil_primarykey = 'coareport_id';
 				$sqlrec = "update $header_table set _modifyby = :user_id, _modifydate=NOW() where $header_primarykey = :$header_primarykey";
 				$stmt = $this->db->prepare($sqlrec);
 				$stmt->execute([
 					":user_id" => $userdata->username,
-					":$header_primarykey" => $obj->{$header_primarykey}
+					":$header_primarykey" => $obj->{$detil_primarykey}
 				]);
 
 				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $tablename, $obj->{$primarykey}, $action, $userdata->username, (object)[]);
-				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $obj->{$header_primarykey}, $action . "_DETIL", $userdata->username, (object)[]);
+				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $obj->{$detil_primarykey}, $action . "_DETIL", $userdata->username, (object)[]);
 
 
 
@@ -210,6 +235,7 @@ $API = new class extends coareportBase {
 
 				$result->dataresponse = (object) $dataresponse;
 				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
+					// DataSavedSuccess(object &$result) : void
 					$hnd->DataSavedSuccess($result);
 				}
 

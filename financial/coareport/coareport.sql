@@ -23,8 +23,8 @@ ALTER TABLE `mst_coareport` ADD COLUMN IF NOT EXISTS  `coareport_name` varchar(3
 ALTER TABLE `mst_coareport` ADD COLUMN IF NOT EXISTS  `coareport_descr` varchar(90)   AFTER `coareport_name`;
 
 
-ALTER TABLE `mst_coareport` MODIFY COLUMN IF EXISTS  `coareport_name` varchar(30)   AFTER `coareport_id`;
-ALTER TABLE `mst_coareport` MODIFY COLUMN IF EXISTS  `coareport_descr` varchar(90)   AFTER `coareport_name`;
+ALTER TABLE `mst_coareport` MODIFY COLUMN IF EXISTS  `coareport_name` varchar(30)    AFTER `coareport_id`;
+ALTER TABLE `mst_coareport` MODIFY COLUMN IF EXISTS  `coareport_descr` varchar(90)    AFTER `coareport_name`;
 
 
 ALTER TABLE `mst_coareport` ADD CONSTRAINT `coareport_name` UNIQUE IF NOT EXISTS  (`coareport_name`);
@@ -58,10 +58,10 @@ ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coa_dk` int(1) NOT NUL
 ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coareport_id` varchar(2)   AFTER `coa_dk`;
 
 
-ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareportcol_name` varchar(30)   AFTER `coareportcol_id`;
-ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_col` varchar(1)   AFTER `coareportcol_name`;
-ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coa_dk` int(1) NOT NULL  AFTER `coareport_col`;
-ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_id` varchar(2)   AFTER `coa_dk`;
+ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareportcol_name` varchar(30)    AFTER `coareportcol_id`;
+ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_col` varchar(1)    AFTER `coareportcol_name`;
+ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coa_dk` int(1) NOT NULL   AFTER `coareport_col`;
+ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_id` varchar(2)    AFTER `coa_dk`;
 
 
 ALTER TABLE `mst_coareportcol` ADD CONSTRAINT `coareport_col` UNIQUE IF NOT EXISTS  (`coareport_id`, `coareport_col`);

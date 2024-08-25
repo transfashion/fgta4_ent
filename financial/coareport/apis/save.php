@@ -19,7 +19,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coareport/apis/save.php
+ * ent/financial/coareport/apis/save.php
  *
  * ====
  * Save
@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coareportBase {
 	
@@ -95,14 +95,24 @@ $API = new class extends coareportBase {
 			if ($datastate=='NEW') {
 				$obj->_createby = $userdata->username;
 				$obj->_createdate = date("Y-m-d H:i:s");
+
+				if (method_exists(get_class($hnd), 'PreCheckInsert')) {
+					// PreCheckInsert($data, &$obj, &$options)
+					$hnd->PreCheckInsert($data, $obj, $options);
+				}
 			} else {
 				$obj->_modifyby = $userdata->username;
 				$obj->_modifydate = date("Y-m-d H:i:s");	
+		
+				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
+					// PreCheckUpdate($data, &$obj, &$key, &$options)
+					$hnd->PreCheckUpdate($data, $obj, $key, $options);
+				}
 			}
 
 			//handle data sebelum sebelum save
 			if (method_exists(get_class($hnd), 'DataSaving')) {
-				// ** DataSaving(object &$obj, object &$key) : void
+				// ** DataSaving(object &$obj, object &$key)
 				$hnd->DataSaving($obj, $key);
 			}
 
@@ -117,9 +127,21 @@ $API = new class extends coareportBase {
 					if ($autoid) {
 						$obj->{$primarykey} = $this->NewId($hnd, $obj);
 					}
+					
+					// handle data sebelum pada saat pembuatan SQL Insert
+					if (method_exists(get_class($hnd), 'RowInserting')) {
+						// ** RowInserting(object &$obj)
+						$hnd->RowInserting($obj);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLInsert($tablename, $obj);
 				} else {
 					$action = 'MODIFY';
+
+					// handle data sebelum pada saat pembuatan SQL Update
+					if (method_exists(get_class($hnd), 'RowUpdating')) {
+						// ** RowUpdating(object &$obj, object &$key))
+						$hnd->RowUpdating($obj, $key);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
 	
@@ -195,8 +217,10 @@ $API = new class extends coareportBase {
 					$hnd->DataOpen($dataresponse);
 				}
 
+				$result->username = $userdata->username;
 				$result->dataresponse = (object) $dataresponse;
 				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
+					// DataSavedSuccess(object &$result) : void
 					$hnd->DataSavedSuccess($result);
 				}
 

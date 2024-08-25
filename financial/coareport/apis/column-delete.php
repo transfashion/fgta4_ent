@@ -17,7 +17,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coareport/apis/column-delete.php
+ * ent/financial/coareport/apis/column-delete.php
  *
  * ============
  * Detil-Delete
@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 12/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coareportBase {
 	
@@ -42,12 +42,11 @@ $API = new class extends coareportBase {
 		$handlerclassname = "\\FGTA4\\apis\\coareport_columnHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new /*{__CLASSNAME__}*/Handler($options);
+			$hnd = new coareport_columnHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
 			$hnd->reqinfo = $this->reqinfo;
-			$hnd->event = $event;
 		} else {
 			$hnd = new \stdClass;
 		}
@@ -63,6 +62,12 @@ $API = new class extends coareportBase {
 			
 			$key = new \stdClass;
 			$key->{$primarykey} = $data->{$primarykey};
+
+			if (method_exists(get_class($hnd), 'PreCheckDelete')) {
+				// PreCheckDelete($data, &$key, &$options)
+				$hnd->PreCheckDelete($data, $key, $options);
+			}
+
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();

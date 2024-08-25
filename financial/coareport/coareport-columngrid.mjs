@@ -1,6 +1,7 @@
 var this_page_id;
 var this_page_options;
 
+import * as hnd from  './coareport-columngrid-hnd.mjs'
 
 const tbl_list = $('#pnl_editcolumngrid-tbl_list');
 const txt_title = $('#pnl_editcolumngrid-title');
@@ -73,7 +74,13 @@ export async function init(opt) {
 		}
 	});	
 
-	
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			grd_list: grd_list,
+			opt: opt,
+			header_data: header_data
+		}, ()=>{})
+	}	
 
 }
 
@@ -94,16 +101,29 @@ export function OnSizeRecalculated(width, height) {
 export function createnew(data, options) {
 	// pada saat membuat data baru di header
 	grd_list.clear();
-	txt_title.html(data.coareport_name)
 	header_data = data;
+
+	txt_title.html(data.coareport_name)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'new');
+		}
+	}
 }
+
 
 export function OpenDetil(data) {
 	// saat di klik di edit utama, pada detil information
 
 	grd_list.clear();
-	txt_title.html(data.coareport_name)
 	header_data = data;
+
+	txt_title.html(data.coareport_name)
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.setupTitle === 'function') {
+			hnd.setupTitle(txt_title, header_data, 'open');
+		}
+	}
 
 	var fn_listloading = async (options) => {
 		options.api = `${global.modulefullname}/column-list`
@@ -118,10 +138,6 @@ export function OpenDetil(data) {
 	var fn_listloaded = async (result, options) => {
 		// console.log(result)
 
-
-
-
-
 		var detilform = $ui.getPages().ITEMS['pnl_editcolumnform'].handler.getForm()
 
 		if (detilform.AllowAddRecord) {
@@ -133,8 +149,28 @@ export function OpenDetil(data) {
 		if (detilform.AllowRemoveRecord) {
 			btn_removechecked.show()
 		} else {
-			btn_removechecked.hide()
+			btn_removechecked.hide();
 		}
+
+		setTimeout(()=>{
+			var checkcolumns = document.querySelectorAll('#pnl_editcolumngrid-tbl_list .rowcheck');
+			
+			for (var c of checkcolumns) {
+				if (detilform.AllowRemoveRecord) {
+					c.classList.remove('hidden');
+				} else {
+					c.classList.add('hidden');
+				}
+			}
+
+			var selectbutton = document.getElementById('pnl_editcolumngrid-tbl_list-selectall-button');
+			if (detilform.AllowRemoveRecord) {
+				selectbutton.classList.remove('hidden');
+			} else {
+				selectbutton.classList.add('hidden');
+			}
+		},100);
+
 
 		if (typeof hnd!=='undefined') { 
 			if (typeof hnd.OpenDetil === 'function') {
@@ -195,7 +231,11 @@ function grd_list_cellclick(td, ev) {
 }
 
 function grd_list_cellrender(td) {
-	
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.grd_list_cellrender === 'function') {
+			hnd.grd_list_cellrender({td:td, mapping:td.mapping, text:td.innerHTML});
+		}
+	}
 }
 
 function grd_list_rowrender(tr) {
@@ -204,7 +244,11 @@ function grd_list_rowrender(tr) {
 	var record = grd_list.DATA[dataid]
 	$(tr).find('td').each((i, td) => {
 		var mapping = td.getAttribute('mapping')
-		
+		if (typeof hnd!=='undefined') { 
+			if (typeof hnd.grd_list_rowrender === 'function') {
+				hnd.grd_list_rowrender({tr:tr, td:td, record:record, mapping:mapping, dataid:dataid, i:i});
+			}
+		}
 	});
 		
 }
@@ -221,6 +265,7 @@ function btn_removechecked_click() {
 						let result = await $ui.apicall(apiurl, args)
 					} catch (err) {
 						console.log(err)
+						$ui.ShowMessage('[ERROR]'+err.message);
 					}
 				}
 			})
