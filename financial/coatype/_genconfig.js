@@ -24,7 +24,7 @@ module.exports = {
 					table: 'mst_coareport',
 					field_value: 'coareport_id',
 					field_display: 'coareport_name',
-					api: 'finact/master/coareport/list'
+					api: 'ent/financial/coareport/list'
 				})
 			},			
 		},

@@ -10,6 +10,6 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_coareport_id = 'finact/master/coareport/list'
+export const load_coareport_id = 'ent/financial/coareport/list'
 
 
