@@ -10,8 +10,8 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_coareport_id = 'finact/master/coareport/list'
-export const load_coareportcol_id = 'finact/master/coareport/column-list'
-export const load_agingmodel_id = 'finact/master/agingmodel/list'
+export const load_coareport_id = 'ent/financial/coareport/list'
+export const load_coareportcol_id = 'ent/financial/coareport/column-list'
+export const load_agingmodel_id = 'ent/financial/agingmodel/list'
 
 

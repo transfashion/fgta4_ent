@@ -23,7 +23,7 @@ module.exports = {
 						table: 'mst_coareport',
 						field_value: 'coareport_id',
 						field_display: 'coareport_name',
-						api: 'finact/master/coareport/list',
+						api: 'ent/financial/coareport/list',
 						onDataLoadingHandler: false,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
@@ -37,7 +37,7 @@ module.exports = {
 						table: 'mst_coareportcol',
 						field_value: 'coareportcol_id',
 						field_display: 'coareportcol_name',
-						api: 'finact/master/coareport/column-list',
+						api: 'ent/financial/coareport/column-list',
 						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
@@ -63,7 +63,7 @@ module.exports = {
 						table: 'mst_agingmodel',
 						field_value: 'agingmodel_id',
 						field_display: 'agingmodel_name',
-						api: 'finact/master/agingmodel/list'
+						api: 'ent/financial/agingmodel/list'
 					})
 				},		
 				coamodel_ispartnermandatory: { text: 'Partner Mandatory', type: dbtype.boolean, null: false, default: '0', options:{labelWidth:'150px'} },
@@ -73,23 +73,6 @@ module.exports = {
 			},
 			defaultsearch: ['coamodel_id', 'coamodel_name'],
 
-			/*
-			values: [
-				{coamodel_id:'KB', coamodel_name:'KAS & BANK', coareport_id: 'NR'},
-				{coamodel_id:'SB', coamodel_name:'SURAT BERHARGA', coareport_id: 'NR'},
-				{coamodel_id:'AR', coamodel_name:'PIUTANG', coareport_id: 'NR', coamodel_isaging:'1'},
-				{coamodel_id:'PS', coamodel_name:'PERSEDIAAN', coareport_id: 'NR'},
-				{coamodel_id:'PL', coamodel_name:'PERLENGKAPAN', coareport_id: 'NR'},
-				{coamodel_id:'UM', coamodel_name:'UAMG MUKA', coareport_id: 'NR', coamodel_isaging:'1'},
-				{coamodel_id:'HT', coamodel_name:'HARTA TETAP', coareport_id: 'NR'},
-				{coamodel_id:'HB', coamodel_name:'HARTA TAK BERWUJUD', coareport_id: 'NR'},
-				{coamodel_id:'AP', coamodel_name:'KEWAJIBAN', coareport_id: 'NR', coamodel_isaging:'1'},
-				{coamodel_id:'MD', coamodel_name:'MODAL', coareport_id: 'NR'},
-				{coamodel_id:'PD', coamodel_name:'PENDAPATAN', coareport_id: 'LR'},
-				{coamodel_id:'BN', coamodel_name:'BEBAN', coareport_id: 'LR'},
-				{coamodel_id:'CL', coamodel_name:'CLEARING', coareport_id: 'CR'},
-			]
-			*/
 		}
 	},
 

@@ -16,7 +16,7 @@ if (is_file(__DIR__ .'/data-header-handler.php')) {
 use \FGTA4\exceptions\WebException;
 
 /**
- * finact/master/coamodel/apis/list.php
+ * ent/financial/coamodel/apis/list.php
  *
  * ========
  * DataList
@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 17/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coamodelBase {
 
@@ -122,8 +122,13 @@ $API = new class extends coamodelBase {
 				$options->sortData = [];
 			}
 			if (!is_array($options->sortData)) {
-				$options->sortData = [];
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
+				}
 			}
+
 		
 
 

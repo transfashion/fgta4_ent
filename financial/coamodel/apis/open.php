@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coamodel/apis/open.php
+ * ent/financial/coamodel/apis/open.php
  *
  * ====
  * Open
@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 17/01/2023
+ * tanggal 25/08/2024
  */
 $API = new class extends coamodelBase {
 	
@@ -63,6 +63,11 @@ $API = new class extends coamodelBase {
 				$hnd->init($options);
 			}
 
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
 			$criteriaValues = [
 				"coamodel_id" => " coamodel_id = :coamodel_id "
 			];
@@ -72,6 +77,12 @@ $API = new class extends coamodelBase {
 			}
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
+			
 
 			if (method_exists(get_class($hnd), 'prepareOpenData')) {
 				// prepareOpenData(object $options, $criteriaValues) : void
