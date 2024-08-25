@@ -7,10 +7,10 @@
 CREATE TABLE IF NOT EXISTS `mst_auth` (
 	`auth_id` varchar(30) NOT NULL , 
 	`auth_name` varchar(60) NOT NULL , 
-	`auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`auth_descr` varchar(90)  , 
 	`authlevel_id` varchar(10) NOT NULL , 
 	`empl_id` varchar(14)  , 
+	`auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -23,17 +23,17 @@ COMMENT='Daftar Authorisasi';
 
 
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_name` varchar(60) NOT NULL  AFTER `auth_id`;
-ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `auth_name`;
-ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_descr` varchar(90)   AFTER `auth_isdisabled`;
+ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_descr` varchar(90)   AFTER `auth_name`;
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `auth_descr`;
 ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(14)   AFTER `authlevel_id`;
+ALTER TABLE `mst_auth` ADD COLUMN IF NOT EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `empl_id`;
 
 
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_name` varchar(60) NOT NULL   AFTER `auth_id`;
-ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `auth_name`;
-ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_descr` varchar(90)    AFTER `auth_isdisabled`;
+ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_descr` varchar(90)    AFTER `auth_name`;
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `auth_descr`;
 ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `empl_id` varchar(14)    AFTER `authlevel_id`;
+ALTER TABLE `mst_auth` MODIFY COLUMN IF EXISTS  `auth_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `empl_id`;
 
 
 ALTER TABLE `mst_auth` ADD CONSTRAINT `auth_name` UNIQUE IF NOT EXISTS  (`auth_name`);

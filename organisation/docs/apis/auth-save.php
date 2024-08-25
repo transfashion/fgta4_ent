@@ -67,8 +67,9 @@ $API = new class extends docsBase {
 			
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
-					'docauth_id', 'docauth_descr', 'docauth_order', 'docauth_value',
-					'docauth_min', 'authlevel_id', 'auth_id', 'doc_id'
+					'docauth_id', 'docauth_caption', 'authlevel_id', 'auth_id',
+					'docauth_descr', 'docauth_order', 'docauth_value', 'docauth_min',
+					'doc_id'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -99,6 +100,7 @@ $API = new class extends docsBase {
 			$obj->doc_id = strtoupper($obj->doc_id);
 
 
+			if ($obj->docauth_caption=='') { $obj->docauth_caption = '--NULL--'; }
 			if ($obj->docauth_descr=='') { $obj->docauth_descr = '--NULL--'; }
 
 
@@ -191,8 +193,9 @@ $API = new class extends docsBase {
 				}
 
 				$sqlFieldList = [
-					'docauth_id' => 'A.`docauth_id`', 'docauth_descr' => 'A.`docauth_descr`', 'docauth_order' => 'A.`docauth_order`', 'docauth_value' => 'A.`docauth_value`',
-					'docauth_min' => 'A.`docauth_min`', 'authlevel_id' => 'A.`authlevel_id`', 'auth_id' => 'A.`auth_id`', 'doc_id' => 'A.`doc_id`',
+					'docauth_id' => 'A.`docauth_id`', 'docauth_caption' => 'A.`docauth_caption`', 'authlevel_id' => 'A.`authlevel_id`', 'auth_id' => 'A.`auth_id`',
+					'docauth_descr' => 'A.`docauth_descr`', 'docauth_order' => 'A.`docauth_order`', 'docauth_value' => 'A.`docauth_value`', 'docauth_min' => 'A.`docauth_min`',
+					'doc_id' => 'A.`doc_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_docauth A";

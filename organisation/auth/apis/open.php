@@ -91,8 +91,8 @@ $API = new class extends authBase {
 
 
 			$sqlFieldList = [
-				'auth_id' => 'A.`auth_id`', 'auth_name' => 'A.`auth_name`', 'auth_isdisabled' => 'A.`auth_isdisabled`', 'auth_descr' => 'A.`auth_descr`',
-				'authlevel_id' => 'A.`authlevel_id`', 'empl_id' => 'A.`empl_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'auth_id' => 'A.`auth_id`', 'auth_name' => 'A.`auth_name`', 'auth_descr' => 'A.`auth_descr`', 'authlevel_id' => 'A.`authlevel_id`',
+				'empl_id' => 'A.`empl_id`', 'auth_isdisabled' => 'A.`auth_isdisabled`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_auth A";

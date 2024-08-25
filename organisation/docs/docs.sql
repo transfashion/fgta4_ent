@@ -1,7 +1,7 @@
--- SET FOREIGN_KEY_CHECKS=0;
+SET FOREIGN_KEY_CHECKS=0;
 
--- drop table if exists `mst_doc`;
--- drop table if exists `mst_docauth`;
+drop table if exists `mst_doc`;
+drop table if exists `mst_docauth`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_doc` (
@@ -46,12 +46,13 @@ ALTER TABLE `mst_doc` ADD CONSTRAINT `doc_name` UNIQUE IF NOT EXISTS  (`doc_name
 
 CREATE TABLE IF NOT EXISTS `mst_docauth` (
 	`docauth_id` varchar(14) NOT NULL , 
-	`docauth_descr` varchar(90)  , 
+	`docauth_caption` varchar(90)  , 
+	`authlevel_id` varchar(10) NOT NULL , 
+	`auth_id` varchar(10)  , 
+	`docauth_descr` varchar(255)  , 
 	`docauth_order` int(4) NOT NULL DEFAULT 0, 
 	`docauth_value` int(4) NOT NULL DEFAULT 100, 
 	`docauth_min` int(4) NOT NULL DEFAULT 0, 
-	`authlevel_id` varchar(10) NOT NULL , 
-	`auth_id` varchar(10)  , 
 	`doc_id` varchar(30) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -65,22 +66,24 @@ ENGINE=InnoDB
 COMMENT='Daftar Authorisasi dokumen.';
 
 
-ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_descr` varchar(90)   AFTER `docauth_id`;
+ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_caption` varchar(90)   AFTER `docauth_id`;
+ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `docauth_caption`;
+ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(10)   AFTER `authlevel_id`;
+ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_descr` varchar(255)   AFTER `auth_id`;
 ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_order` int(4) NOT NULL DEFAULT 0 AFTER `docauth_descr`;
 ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_value` int(4) NOT NULL DEFAULT 100 AFTER `docauth_order`;
 ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `docauth_min` int(4) NOT NULL DEFAULT 0 AFTER `docauth_value`;
-ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `authlevel_id` varchar(10) NOT NULL  AFTER `docauth_min`;
-ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(10)   AFTER `authlevel_id`;
-ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `doc_id` varchar(30) NOT NULL  AFTER `auth_id`;
+ALTER TABLE `mst_docauth` ADD COLUMN IF NOT EXISTS  `doc_id` varchar(30) NOT NULL  AFTER `docauth_min`;
 
 
-ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_descr` varchar(90)    AFTER `docauth_id`;
+ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_caption` varchar(90)    AFTER `docauth_id`;
+ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `docauth_caption`;
+ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `auth_id` varchar(10)    AFTER `authlevel_id`;
+ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_descr` varchar(255)    AFTER `auth_id`;
 ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_order` int(4) NOT NULL DEFAULT 0  AFTER `docauth_descr`;
 ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_value` int(4) NOT NULL DEFAULT 100  AFTER `docauth_order`;
 ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `docauth_min` int(4) NOT NULL DEFAULT 0  AFTER `docauth_value`;
-ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `authlevel_id` varchar(10) NOT NULL   AFTER `docauth_min`;
-ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `auth_id` varchar(10)    AFTER `authlevel_id`;
-ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `doc_id` varchar(30) NOT NULL   AFTER `auth_id`;
+ALTER TABLE `mst_docauth` MODIFY COLUMN IF EXISTS  `doc_id` varchar(30) NOT NULL   AFTER `docauth_min`;
 
 
 ALTER TABLE `mst_docauth` ADD CONSTRAINT `docauth_id` UNIQUE IF NOT EXISTS  (`doc_id`, `authlevel_id`, `auth_id`);

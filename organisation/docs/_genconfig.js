@@ -31,12 +31,8 @@ module.exports = {
 			primarykeys: ['docauth_id'],
 			comment: 'Daftar Authorisasi dokumen.',			
 			data : {
-				docauth_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				docauth_descr: {text:'Descr', type: dbtype.varchar(90), null:true, uppercase: false, suppresslist: true},
-				docauth_order: {text:'Order', type: dbtype.int(4), null:false, default:0, suppresslist: true},
-				docauth_value: {text:'Value', type: dbtype.int(4), null:false, default:100, suppresslist: true},
-				docauth_min: {text:'Min', type: dbtype.int(4), null:false, default:0, suppresslist: true},
-
+				docauth_id: {text:'ID', type: dbtype.varchar(14), null:false, suppresslist: true},
+				docauth_caption: {text:'Caption', type: dbtype.varchar(90), null:true, uppercase: false},
 				authlevel_id: {
 					text:'Level', type: dbtype.varchar(10), null:false, uppercase: true,
 					options:{required:true,invalidMessage:'Level Authorisasi harus diisi', prompt:'-- PILIH --'},
@@ -45,7 +41,6 @@ module.exports = {
 						field_value: 'authlevel_id', field_display: 'authlevel_name', 
 						api: 'ent/organisation/authlevel/list'})
 				},	
-
 				auth_id: {
 					text:'Authorisasi', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
 					options:{prompt:'NONE'},
@@ -53,8 +48,13 @@ module.exports = {
 						table: 'mst_auth', 
 						field_value: 'auth_id', field_display: 'auth_name', 
 						api: 'ent/organisation/auth/list'})				
-				},				
+				},			
+				docauth_descr: {text:'Descr', type: dbtype.varchar(255), null:true, uppercase: false, suppresslist: true},
+				docauth_order: {text:'Order', type: dbtype.int(4), null:false, default:0, suppresslist: true},
+				docauth_value: {text:'Value', type: dbtype.int(4), null:false, default:100, suppresslist: true},
+				docauth_min: {text:'Min', type: dbtype.int(4), null:false, default:0, suppresslist: true},
 
+				
 				doc_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true},
 			},
 			uniques: {

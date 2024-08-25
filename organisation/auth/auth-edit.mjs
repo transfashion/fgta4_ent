@@ -20,10 +20,10 @@ const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_auth_id: $('#pnl_edit-txt_auth_id'),
 	txt_auth_name: $('#pnl_edit-txt_auth_name'),
-	chk_auth_isdisabled: $('#pnl_edit-chk_auth_isdisabled'),
 	txt_auth_descr: $('#pnl_edit-txt_auth_descr'),
 	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id'),
-	cbo_empl_id: $('#pnl_edit-cbo_empl_id')
+	cbo_empl_id: $('#pnl_edit-cbo_empl_id'),
+	chk_auth_isdisabled: $('#pnl_edit-chk_auth_isdisabled')
 }
 
 

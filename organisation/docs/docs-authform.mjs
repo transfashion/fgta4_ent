@@ -20,12 +20,13 @@ const chk_autoadd = $('#pnl_editauthform-autoadd')
 const pnl_form = $('#pnl_editauthform-form')
 const obj = {
 	txt_docauth_id: $('#pnl_editauthform-txt_docauth_id'),
+	txt_docauth_caption: $('#pnl_editauthform-txt_docauth_caption'),
+	cbo_authlevel_id: $('#pnl_editauthform-cbo_authlevel_id'),
+	cbo_auth_id: $('#pnl_editauthform-cbo_auth_id'),
 	txt_docauth_descr: $('#pnl_editauthform-txt_docauth_descr'),
 	txt_docauth_order: $('#pnl_editauthform-txt_docauth_order'),
 	txt_docauth_value: $('#pnl_editauthform-txt_docauth_value'),
 	txt_docauth_min: $('#pnl_editauthform-txt_docauth_min'),
-	cbo_authlevel_id: $('#pnl_editauthform-cbo_authlevel_id'),
-	cbo_auth_id: $('#pnl_editauthform-cbo_auth_id'),
 	txt_doc_id: $('#pnl_editauthform-txt_doc_id')
 }
 

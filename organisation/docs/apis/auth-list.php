@@ -83,8 +83,9 @@ $API = new class extends docsBase {
 			
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'docauth_id' => 'A.`docauth_id`', 'docauth_descr' => 'A.`docauth_descr`', 'docauth_order' => 'A.`docauth_order`', 'docauth_value' => 'A.`docauth_value`',
-				'docauth_min' => 'A.`docauth_min`', 'authlevel_id' => 'A.`authlevel_id`', 'auth_id' => 'A.`auth_id`', 'doc_id' => 'A.`doc_id`',
+				'docauth_id' => 'A.`docauth_id`', 'docauth_caption' => 'A.`docauth_caption`', 'authlevel_id' => 'A.`authlevel_id`', 'auth_id' => 'A.`auth_id`',
+				'docauth_descr' => 'A.`docauth_descr`', 'docauth_order' => 'A.`docauth_order`', 'docauth_value' => 'A.`docauth_value`', 'docauth_min' => 'A.`docauth_min`',
+				'doc_id' => 'A.`doc_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_docauth A";
