@@ -20,7 +20,7 @@ COMMENT='Daftar Negara';
 ALTER TABLE `mst_country` ADD COLUMN IF NOT EXISTS  `country_name` varchar(60) NOT NULL  AFTER `country_id`;
 
 
-ALTER TABLE `mst_country` MODIFY COLUMN IF EXISTS  `country_name` varchar(60) NOT NULL  AFTER `country_id`;
+ALTER TABLE `mst_country` MODIFY COLUMN IF EXISTS  `country_name` varchar(60) NOT NULL   AFTER `country_id`;
 
 
 ALTER TABLE `mst_country` ADD CONSTRAINT `country_name` UNIQUE IF NOT EXISTS  (`country_name`);
