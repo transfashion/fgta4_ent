@@ -13,9 +13,7 @@ module.exports = {
 			comment: 'Daftar Unit',
 			data: {
 				unit_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true},
-				unit_name: {text:'Unit', type: dbtype.varchar(60), null:false, uppercase: true},
-				unit_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true},
-				unit_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
+
 				unitgroup_id: {
 					text:'Unit Group', type: dbtype.varchar(10), null:false, suppresslist:true, 
 					options:{required:true,invalidMessage:'Unit Group harus diisi', prompt:'-- PILIH --'},
@@ -29,6 +27,10 @@ module.exports = {
 						onSelectedHandler: false
 					})
 				},
+
+				unit_name: {text:'Unit', type: dbtype.varchar(60), null:false, uppercase: true},
+				unit_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true},
+
 				dept_id: {
 					text:'Default Dept', type: dbtype.varchar(30), null:true, suppresslist: true,
 					options:{required:false, prompt:'NONE'},
@@ -44,6 +46,7 @@ module.exports = {
 					})					
 				},
 
+				unit_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				unit_isincallbrand: {text:'Include All Brand', type: dbtype.boolean, null:false, default:'0', suppresslist:true, options: {labelWidth:'200px'}},
 				unit_isincallitemclass: {text:'Include All ItemClass', type: dbtype.boolean, null:false, default:'0', suppresslist:true, options: {labelWidth:'200px'}},
 				

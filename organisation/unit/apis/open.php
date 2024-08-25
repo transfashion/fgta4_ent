@@ -91,8 +91,8 @@ $API = new class extends unitBase {
 
 
 			$sqlFieldList = [
-				'unit_id' => 'A.`unit_id`', 'unit_name' => 'A.`unit_name`', 'unit_descr' => 'A.`unit_descr`', 'unit_isdisabled' => 'A.`unit_isdisabled`',
-				'unitgroup_id' => 'A.`unitgroup_id`', 'dept_id' => 'A.`dept_id`', 'unit_isincallbrand' => 'A.`unit_isincallbrand`', 'unit_isincallitemclass' => 'A.`unit_isincallitemclass`',
+				'unit_id' => 'A.`unit_id`', 'unitgroup_id' => 'A.`unitgroup_id`', 'unit_name' => 'A.`unit_name`', 'unit_descr' => 'A.`unit_descr`',
+				'dept_id' => 'A.`dept_id`', 'unit_isdisabled' => 'A.`unit_isdisabled`', 'unit_isincallbrand' => 'A.`unit_isincallbrand`', 'unit_isincallitemclass' => 'A.`unit_isincallitemclass`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_unit A";

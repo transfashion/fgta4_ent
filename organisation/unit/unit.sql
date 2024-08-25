@@ -1,18 +1,18 @@
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists `mst_unit`;
-drop table if exists `mst_unitbrand`;
-drop table if exists `mst_unititemclass`;
-drop table if exists `mst_unitref`;
+-- drop table if exists `mst_unit`;
+-- drop table if exists `mst_unitbrand`;
+-- drop table if exists `mst_unititemclass`;
+-- drop table if exists `mst_unitref`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_unit` (
 	`unit_id` varchar(10) NOT NULL , 
+	`unitgroup_id` varchar(10) NOT NULL , 
 	`unit_name` varchar(60) NOT NULL , 
 	`unit_descr` varchar(90)  , 
-	`unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
-	`unitgroup_id` varchar(10) NOT NULL , 
 	`dept_id` varchar(30)  , 
+	`unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`unit_isincallbrand` tinyint(1) NOT NULL DEFAULT 0, 
 	`unit_isincallitemclass` tinyint(1) NOT NULL DEFAULT 0, 
 	`_createby` varchar(14) NOT NULL , 
@@ -26,21 +26,21 @@ ENGINE=InnoDB
 COMMENT='Daftar Unit';
 
 
-ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_name` varchar(60) NOT NULL  AFTER `unit_id`;
+ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unitgroup_id` varchar(10) NOT NULL  AFTER `unit_id`;
+ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_name` varchar(60) NOT NULL  AFTER `unitgroup_id`;
 ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_descr` varchar(90)   AFTER `unit_name`;
-ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `unit_descr`;
-ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unitgroup_id` varchar(10) NOT NULL  AFTER `unit_isdisabled`;
-ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30)   AFTER `unitgroup_id`;
-ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_isincallbrand` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_id`;
+ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30)   AFTER `unit_descr`;
+ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_id`;
+ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_isincallbrand` tinyint(1) NOT NULL DEFAULT 0 AFTER `unit_isdisabled`;
 ALTER TABLE `mst_unit` ADD COLUMN IF NOT EXISTS  `unit_isincallitemclass` tinyint(1) NOT NULL DEFAULT 0 AFTER `unit_isincallbrand`;
 
 
-ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_name` varchar(60) NOT NULL   AFTER `unit_id`;
+ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unitgroup_id` varchar(10) NOT NULL   AFTER `unit_id`;
+ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_name` varchar(60) NOT NULL   AFTER `unitgroup_id`;
 ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_descr` varchar(90)    AFTER `unit_name`;
-ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `unit_descr`;
-ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unitgroup_id` varchar(10) NOT NULL   AFTER `unit_isdisabled`;
-ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30)    AFTER `unitgroup_id`;
-ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_isincallbrand` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_id`;
+ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30)    AFTER `unit_descr`;
+ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_id`;
+ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_isincallbrand` tinyint(1) NOT NULL DEFAULT 0  AFTER `unit_isdisabled`;
 ALTER TABLE `mst_unit` MODIFY COLUMN IF EXISTS  `unit_isincallitemclass` tinyint(1) NOT NULL DEFAULT 0  AFTER `unit_isincallbrand`;
 
 

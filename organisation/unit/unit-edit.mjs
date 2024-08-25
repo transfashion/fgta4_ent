@@ -19,11 +19,11 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_unit_id: $('#pnl_edit-txt_unit_id'),
+	cbo_unitgroup_id: $('#pnl_edit-cbo_unitgroup_id'),
 	txt_unit_name: $('#pnl_edit-txt_unit_name'),
 	txt_unit_descr: $('#pnl_edit-txt_unit_descr'),
-	chk_unit_isdisabled: $('#pnl_edit-chk_unit_isdisabled'),
-	cbo_unitgroup_id: $('#pnl_edit-cbo_unitgroup_id'),
 	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
+	chk_unit_isdisabled: $('#pnl_edit-chk_unit_isdisabled'),
 	chk_unit_isincallbrand: $('#pnl_edit-chk_unit_isincallbrand'),
 	chk_unit_isincallitemclass: $('#pnl_edit-chk_unit_isincallitemclass')
 }
