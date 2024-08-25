@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * finact/master/coa/apis/xapi.base.php
+ * ent/financial/coa/apis/xapi.base.php
  *
  * coaBase
  * Kelas dasar untuk keperluan-keperluan api
@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 06/09/2023
+ * tanggal 25/08/2024
  */
 class coaBase extends WebAPI {
 
