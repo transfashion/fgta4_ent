@@ -6,24 +6,32 @@ if (!defined('FGTA4')) {
 
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
+require_once __DIR__ . '/xapi.base.php';
+
+if (is_file(__DIR__ .'/data-rate-handler.php')) {
+	require_once __DIR__ .'/data-rate-handler.php';
+}
 
 
 use \FGTA4\exceptions\WebException;
 
 
-
-class DataSave extends WebAPI {
-	function __construct() {
-		$this->debugoutput = true;
-		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
-		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
-		$this->db = new \PDO(
-					$DB_CONFIG['DSN'], 
-					$DB_CONFIG['user'], 
-					$DB_CONFIG['pass'], 
-					$DB_CONFIG['param']
-		);	
-	}
+/**
+ * ent/financial/curr/apis/rate-delete.php
+ *
+ * ============
+ * Detil-Delete
+ * ============
+ * Menghapus satu baris data/record berdasarkan PrimaryKey
+ * pada tabel rate curr (mst_curr)
+ *
+ * Agung Nugroho <agung@fgta.net> http://www.fgta.net
+ * Tangerang, 26 Maret 2021
+ *
+ * digenerate dengan FGTA4 generator
+ * tanggal 25/08/2024
+ */
+$API = new class extends currBase {
 	
 	public function execute($data, $options) {
 		$tablename = 'mst_currrate';
@@ -31,11 +39,35 @@ class DataSave extends WebAPI {
 
 		$userdata = $this->auth->session_get_user();
 
+		$handlerclassname = "\\FGTA4\\apis\\curr_rateHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new curr_rateHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+		} else {
+			$hnd = new \stdClass;
+		}
+
 		try {
+
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$key->{$primarykey} = $data->{$primarykey};
+
+			if (method_exists(get_class($hnd), 'PreCheckDelete')) {
+				// PreCheckDelete($data, &$key, &$options)
+				$hnd->PreCheckDelete($data, $key, $options);
+			}
+
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
@@ -75,6 +107,4 @@ class DataSave extends WebAPI {
 		}
 	}
 
-}
-
-$API = new DataSave();
+};

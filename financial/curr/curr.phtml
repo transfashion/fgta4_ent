@@ -3,3 +3,12 @@
 <?php require_once dirname(__FILE__).'/curr-rategrid.phtml' ?>
 <?php require_once dirname(__FILE__).'/curr-rateform.phtml' ?>
 
+
+
+<?php
+$customrecordstatus = __DIR__.'/curr-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
