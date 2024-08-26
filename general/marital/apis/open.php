@@ -5,29 +5,51 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
+require_once __DIR__ . '/xapi.base.php';
+
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
+}
 
 
 use \FGTA4\exceptions\WebException;
 
 
-
-class DataOpen extends WebAPI {
-	function __construct() {
-		$this->debugoutput = true;
-		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
-		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
-		$this->db = new \PDO(
-					$DB_CONFIG['DSN'], 
-					$DB_CONFIG['user'], 
-					$DB_CONFIG['pass'], 
-					$DB_CONFIG['param']
-		);
-
-	}
+/**
+ * ent/general/marital/apis/open.php
+ *
+ * ====
+ * Open
+ * ====
+ * Menampilkan satu baris data/record sesuai PrimaryKey,
+ * dari tabel header marital (mst_marital)
+ *
+ * Agung Nugroho <agung@fgta.net> http://www.fgta.net
+ * Tangerang, 26 Maret 2021
+ *
+ * digenerate dengan FGTA4 generator
+ * tanggal 26/08/2024
+ */
+$API = new class extends maritalBase {
 	
 	public function execute($options) {
-
+		$event = 'on-open';
+		$tablename = 'mst_marital';
+		$primarykey = 'marital_id';
 		$userdata = $this->auth->session_get_user();
+
+		$handlerclassname = "\\FGTA4\\apis\\marital_headerHandler";
+		$hnd = null;
+		if (class_exists($handlerclassname)) {
+			$hnd = new marital_headerHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
+		}
 
 		try {
 
@@ -36,20 +58,61 @@ class DataOpen extends WebAPI {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
+			$criteriaValues = [
+				"marital_id" => " marital_id = :marital_id "
+			];
+			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+				$hnd->buildOpenCriteriaValues($options, $criteriaValues);
+			}
+			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 			
-			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
-				$options->criteria,
-				[
-					"marital_id" => " marital_id = :marital_id "
-				]
-			);
 
-			$sql = \FGTA4\utils\SqlUtility::Select('mst_marital', [
-				'marital_id', 'marital_name', 'marital_descr', 'marital_ptkpval', '_createby', '_createdate', '_modifyby', '_modifydate' 
-			], $where->sql);
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
 
-			$stmt = $this->db->prepare($sql);
+
+			$sqlFieldList = [
+				'marital_id' => 'A.`marital_id`', 'marital_name' => 'A.`marital_name`', 'marital_descr' => 'A.`marital_descr`', 'marital_ptkpval' => 'A.`marital_ptkpval`',
+				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
+			];
+			$sqlFromTable = "mst_marital A";
+			$sqlWhere = $where->sql;
+
+			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+				// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
+			}
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+
+			
+			$sqlData = "
+				select 
+				$sqlFields 
+				from 
+				$sqlFromTable 
+				$sqlWhere 
+			";
+
+			$stmt = $this->db->prepare($sqlData);
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 
@@ -57,6 +120,8 @@ class DataOpen extends WebAPI {
 			foreach ($row as $key => $value) {
 				$record[$key] = $value;
 			}
+
+
 
 			$result->record = array_merge($record, [
 				
@@ -66,13 +131,19 @@ class DataOpen extends WebAPI {
 				//'gendername' => $record['gender']
 				
 
-				'_createby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
-				'_modifyby_username' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+
+				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+				'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 
 			]);
 
-			// $date = DateTime::createFromFormat('d/m/Y', "24/04/2012");
-			// echo $date->format('Y-m-d');
+
+			
+
+			if (method_exists(get_class($hnd), 'DataOpen')) {
+				//  DataOpen(array &$record) : void 
+				$hnd->DataOpen($result->record);
+			}
 
 			return $result;
 		} catch (\Exception $ex) {
@@ -80,6 +151,4 @@ class DataOpen extends WebAPI {
 		}
 	}
 
-}
-
-$API = new DataOpen();
+};
