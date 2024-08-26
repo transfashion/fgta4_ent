@@ -21,7 +21,7 @@ module.exports = {
 						table: 'mst_coagroup',
 						field_value: 'coagroup_id',
 						field_display: 'coagroup_name',
-						api: 'finact/master/coagroup/list',
+						api: 'ent/financial/coagroup/list',
 						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
@@ -40,7 +40,7 @@ module.exports = {
 						table: 'mst_curr',
 						field_value: 'curr_id',
 						field_display: 'curr_name',
-						api: 'ent/general/curr/list'
+						api: 'ent/financial/curr/list'
 					})
 				},	
 
@@ -66,7 +66,7 @@ module.exports = {
 						table: 'mst_coamodel',
 						field_value: 'coamodel_id',
 						field_display: 'coamodel_name',
-						api: 'finact/master/coamodel/list'
+						api: 'ent/financial/coamodel/list'
 					})
 				},
 				
@@ -77,7 +77,7 @@ module.exports = {
 						table: 'mst_coareport',
 						field_value: 'coareport_id',
 						field_display: 'coareport_name',
-						api: 'finact/master/coareport/list'
+						api: 'ent/financial/coareport/list'
 					})
 				},
 			},
