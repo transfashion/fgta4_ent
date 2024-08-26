@@ -2,12 +2,18 @@ var this_page_id;
 var this_page_options;
 
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+import * as hnd from  './bankrekening-edit-hnd.mjs'
+
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
 const btn_delete = $('#pnl_edit-btn_delete')
 
-const dt_bankrekening_closedate_container = $('#dt_bankrekening_closedate_container');
+
+
+
 
 
 const pnl_form = $('#pnl_edit-form')
@@ -21,27 +27,21 @@ const obj = {
 	dt_bankrekening_closedate: $('#pnl_edit-dt_bankrekening_closedate'),
 	txt_bankrekening_descr: $('#pnl_edit-txt_bankrekening_descr'),
 	cbo_bank_id: $('#pnl_edit-cbo_bank_id'),
-	cbo_coa_id: $('#pnl_edit-cbo_coa_id'),
-	cbo_curr_id: $('#pnl_edit-cbo_curr_id')
+	cbo_coa_id: $('#pnl_edit-cbo_coa_id')
 }
 
 
-let form = {}
+
+
+let form;
+let rowdata;
 
 export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -58,77 +58,52 @@ export async function init(opt) {
 		OnDataDeleting: async (data, options) => { await form_deleting(data, options) },
 		OnDataDeleted: async (result, options) => { await form_deleted(result, options) },
 		OnIdSetup : (options) => { form_idsetup(options) },
-		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) }
-	})
+		OnViewModeChanged : (viewonly) => { form_viewmodechanged(viewonly) },
+		OnRecordStatusCreated: () => {
+			undefined			
+		}		
+	});
+	form.getHeaderData = () => {
+		return getHeaderData();
+	}
+
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
+
+	// Generator: Upload Handler not exist
 
 
-
+	obj.cbo_bank_id.name = 'pnl_edit-cbo_bank_id'		
 	new fgta4slideselect(obj.cbo_bank_id, {
 		title: 'Pilih bank_id',
 		returnpage: this_page_id,
 		api: $ui.apis.load_bank_id,
 		fieldValue: 'bank_id',
-		fieldValueMap: 'bank_id',
 		fieldDisplay: 'bank_name',
 		fields: [
 			{mapping: 'bank_id', text: 'bank_id'},
-			{mapping: 'bank_name', text: 'bank_name'},
+			{mapping: 'bank_name', text: 'bank_name'}
 		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
+
 	})				
 				
+	obj.cbo_coa_id.name = 'pnl_edit-cbo_coa_id'		
 	new fgta4slideselect(obj.cbo_coa_id, {
-		title: 'Pilih Account',
+		title: 'Pilih coa_id',
 		returnpage: this_page_id,
 		api: $ui.apis.load_coa_id,
 		fieldValue: 'coa_id',
-		fieldValueMap: 'coa_id',
 		fieldDisplay: 'coa_name',
 		fields: [
 			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'},
+			{mapping: 'coa_name', text: 'coa_name'}
 		],
-		OnDataLoading: (criteria) => {
-			var curr_id = form.getValue(obj.cbo_curr_id);
-			criteria.curr_id = curr_id;
-		},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record) => {}
+
 	})				
 				
-	new fgta4slideselect(obj.cbo_curr_id, {
-		title: 'Pilih Currency',
-		returnpage: this_page_id,
-		api: $ui.apis.load_curr_id,
-		fieldValue: 'curr_id',
-		fieldValueMap: 'curr_id',
-		fieldDisplay: 'curr_name',
-		fields: [
-			{mapping: 'curr_id', text: 'curr_id'},
-			{mapping: 'curr_name', text: 'curr_name'},
-		],
-		OnDataLoading: (criteria) => {},
-		OnDataLoaded : (result, options) => {
-				
-		},
-		OnSelected: (value, display, record, arg) => {
-			if (value != arg.PreviousValue) {
-				obj.cbo_coa_id.reset();
-			}			
-		}
-	})	
-
-
-
-	obj.chk_bankrekening_isdisabled.checkbox({
-		onChange: (checked) => { chk_bankrekening_isdisabled_onchange(checked); }
-	})
 
 
 
@@ -150,6 +125,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -178,64 +155,113 @@ export async function init(opt) {
 		}
 	})
 
-
+	//button state
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			form: form,
+			obj: obj,
+			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
+		})
+	}
 
 }
-
 
 export function OnSizeRecalculated(width, height) {
 }
 
+export function getForm() {
+	return form
+}
 
-
+export function getCurrentRowdata() {
+	return rowdata;
+}
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
 
+
+	rowdata = {
+		data: data,
+		rowid: rowid
+	}
+
+	var pOpt = form.getDefaultPrompt(false)
 	var fn_dataopening = async (options) => {
 		options.criteria[form.primary.mapping] = data[form.primary.mapping]
 	}
 
 	var fn_dataopened = async (result, options) => {
+		var record = result.record;
+		updatefilebox(record);
 
+		/*
+
+		*/
+		for (var objid in obj) {
+			let o = obj[objid]
+			if (o.isCombo() && !o.isRequired()) {
+				var value =  result.record[o.getFieldValueName()];
+				if (value==null ) {
+					record[o.getFieldValueName()] = pOpt.value;
+					record[o.getFieldDisplayName()] = pOpt.text;
+				}
+			}
+		}
+  		updaterecordstatus(record)
+
+		/* handle data saat opening data */   
+		if (typeof hnd.form_dataopening == 'function') {
+			hnd.form_dataopening(result, options);
+		}
 
 
 		form.SuspendEvent(true);
 		form
-			.fill(result.record)
-			.setValue(obj.cbo_bank_id, result.record.bank_id, result.record.bank_name)
-			.setValue(obj.cbo_coa_id, result.record.coa_id, result.record.coa_name)
-			.setValue(obj.cbo_curr_id, result.record.curr_id, result.record.curr_name)
-			.commit()
+			.fill(record)
+			.setValue(obj.cbo_bank_id, record.bank_id, record.bank_name)
+			.setValue(obj.cbo_coa_id, record.coa_id, record.coa_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
 
-		// tampilkan form untuk data editor
-		fn_callback()
-		form.SuspendEvent(false);
 
-
-		if (result.record.bankrekening_isdisabled=='1') {
-			dt_bankrekening_closedate_container.css('display', 'block');
-		} else {
-			dt_bankrekening_closedate_container.css('display', 'none');
-
+		/* tambahkan event atau behaviour saat form dibuka
+		   apabila ada rutin mengubah form dan tidak mau dijalankan pada saat opening,
+		   cek dengan form.isEventSuspended()
+		*/   
+		if (typeof hnd.form_dataopened == 'function') {
+			hnd.form_dataopened(result, options);
 		}
 
 
-		// fill data, bisa dilakukan secara manual dengan cara berikut:	
-		// form
-			// .setValue(obj.txt_id, result.record.id)
-			// .setValue(obj.txt_nama, result.record.nama)
-			// .setValue(obj.cbo_prov, result.record.prov_id, result.record.prov_nama)
-			// .setValue(obj.chk_isdisabled, result.record.disabled)
-			// .setValue(obj.txt_alamat, result.record.alamat)
-			// ....... dst dst
-			// .commit()
-			// .setViewMode()
-			// ....... dst dst
+		/* commit form */
+		form.commit()
+		form.SuspendEvent(false); 
+		updatebuttonstate(record)
 
+
+		/* update rowdata */
+		for (var nv in rowdata.data) {
+			if (record[nv]!=undefined) {
+				rowdata.data[nv] = record[nv];
+			}
+		}
+
+		// tampilkan form untuk data editor
+		if (typeof fn_callback==='function') {
+			fn_callback(null, rowdata.data);
+		}
+		
 	}
 
 	var fn_dataopenerror = (err) => {
@@ -248,25 +274,38 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-			data.bankrekening_opendate = global.now()
-			data.bankrekening_closedate = global.now()
+		data.bankrekening_isdisabled = '0'
+		data.bankrekening_opendate = global.now()
+		data.bankrekening_closedate = global.now()
 
-			data.bank_id = '0'
-			data.bank_name = '-- PILIH --'
-			data.coa_id = '0'
-			data.coa_name = '-- PILIH --'
-			data.curr_id = '0'
-			data.curr_name = '-- PILIH --'
-			data.bankrekening_isdisabled = 0;
+		data.bank_id = '0'
+		data.bank_name = '-- PILIH --'
+		data.coa_id = '0'
+		data.coa_name = '-- PILIH --'
+
+		if (typeof hnd.form_newdata == 'function') {
+			// untuk mengambil nilai ui component,
+			// di dalam handler form_newdata, gunakan perintah:
+			// options.OnNewData = () => {
+			// 		...
+			// }		
+			hnd.form_newdata(data, options);
+		}
 
 
-			dt_bankrekening_closedate_container.css('display', 'none');
 
 
 		options.OnCanceled = () => {
@@ -279,6 +318,14 @@ export function createnew() {
 }
 
 
+export function getHeaderData() {
+	var header_data = form.getData();
+	if (typeof hnd.form_getHeaderData == 'function') {
+		hnd.form_getHeaderData(header_data);
+	}
+	return header_data;
+}
+
 export function detil_open(pnlname) {
 	if (form.isDataChanged()) {
 		$ui.ShowMessage('Simpan dulu perubahan datanya.')
@@ -286,13 +333,80 @@ export function detil_open(pnlname) {
 	}
 
 	//$ui.getPages().show(pnlname)
-	$ui.getPages().show(pnlname, () => {
-		$ui.getPages().ITEMS[pnlname].handler.OpenDetil(form.getData())
-	})	
+	let header_data = getHeaderData();
+	if (typeof hnd.form_detil_opening == 'function') {
+		hnd.form_detil_opening(pnlname, (cancel)=>{
+			if (cancel===true) {
+				return;
+			}
+			$ui.getPages().show(pnlname, () => {
+				$ui.getPages().ITEMS[pnlname].handler.OpenDetil(header_data)
+			})
+		});
+	} else {
+		$ui.getPages().show(pnlname, () => {
+			$ui.getPages().ITEMS[pnlname].handler.OpenDetil(header_data)
+		})
+	}
+
+	
 }
 
 
+function updatefilebox(record) {
+	// apabila ada keperluan untuk menampilkan data dari object storage
+
+
+	if (typeof hnd.form_updatefilebox == 'function') {
+		hnd.form_updatefilebox(record);
+	}
+}
+
+function updaterecordstatus(record) {
+	// apabila ada keperluan untuk update status record di sini
+
+
+	if (typeof hnd.form_updaterecordstatus == 'function') {
+		hnd.form_updaterecordstatus(record);
+	}
+}
+
+function updatebuttonstate(record) {
+	// apabila ada keperluan untuk update state action button di sini
+
+
+	if (typeof hnd.form_updatebuttonstate == 'function') {
+		hnd.form_updatebuttonstate(record);
+	}
+}
+
+function updategridstate(record) {
+	var updategriddata = {}
+
+	// apabila ada keperluan untuk update state grid list di sini
+
+
+	if (typeof hnd.form_updategridstate == 'function') {
+		hnd.form_updategridstate(updategriddata, record);
+	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
+}
+
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -329,14 +443,34 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
+	// options.skipmappingresponse = [];
+	options.skipmappingresponse = [];
+	for (var objid in obj) {
+		var o = obj[objid]
+		if (o.isCombo() && !o.isRequired()) {
+			var id = o.getFieldValueName()
+			options.skipmappingresponse.push(id)
+			// console.log(id)
+		}
+	}
 
+	if (typeof hnd.form_datasaving == 'function') {
+		hnd.form_datasaving(data, options);
+	}
 
 }
 
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
+	if (typeof hnd.form_datasaveerror == 'function') {
+		hnd.form_datasaveerror(err, options);
+	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -357,28 +491,51 @@ async function form_datasaved(result, options) {
 
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
+	/*
 
+	*/
 
+	var pOpt = form.getDefaultPrompt(false)
+	for (var objid in obj) {
+		var o = obj[objid]
+		if (o.isCombo() && !o.isRequired()) {
+			var value =  result.dataresponse[o.getFieldValueName()];
+			var text = result.dataresponse[o.getFieldDisplayName()];
+			if (value==null ) {
+				value = pOpt.value;
+				text = pOpt.text;
+			}
+			form.setValue(o, value, text);
+		}
+	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
+	var rowdata = {
+		data: data,
+		rowid: form.rowid
+	}
+
+	if (typeof hnd.form_datasaved == 'function') {
+		hnd.form_datasaved(result, rowdata, options);
+	}
 }
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
+	if (typeof hnd.form_deleting == 'function') {
+		hnd.form_deleting(data, options);
+	}
 }
 
 async function form_deleted(result, options) {
 	$ui.getPages().show('pnl_list')
 	$ui.getPages().ITEMS['pnl_list'].handler.removerow(form.rowid)
 
-}
-
-
-
-function chk_bankrekening_isdisabled_onchange(checked) {
-	if (checked) {
-		dt_bankrekening_closedate_container.css('display', 'block');
-	} else {
-		dt_bankrekening_closedate_container.css('display', 'none');
+	if (typeof hnd.form_deleted == 'function') {
+		hnd.form_deleted(result, options);
 	}
 }
+
+
+
+

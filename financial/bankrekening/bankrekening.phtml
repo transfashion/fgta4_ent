@@ -1,3 +1,12 @@
 <?php require_once dirname(__FILE__).'/bankrekening-list.phtml' ?>
 <?php require_once dirname(__FILE__).'/bankrekening-edit.phtml' ?>
 
+
+
+<?php
+$customrecordstatus = __DIR__.'/bankrekening-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

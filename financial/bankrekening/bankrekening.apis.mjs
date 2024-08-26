@@ -10,7 +10,7 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_bank_id = 'ent/general/bank/list'
-export const load_coa_id = 'finact/master/coa/list'
-export const load_curr_id = 'ent/general/curr/list'
+export const load_bank_id = 'ent/financial/bank/list'
+export const load_coa_id = 'ent/financial/coa/list'
+
 
