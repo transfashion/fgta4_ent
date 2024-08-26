@@ -1,6 +1,6 @@
 {
 	"title" : "Departement",
-	
+	"icon": "icon-dept-white.png",
 	
 	"variance" : {
 		"view" : {"title":"Departemen (View)"}

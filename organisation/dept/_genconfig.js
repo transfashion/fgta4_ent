@@ -6,6 +6,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Departement",
+	icon: "icon-dept-white.png",
 	autoid: false,
 	variance: {
 		"view" : {"title":"Departemen (View)"},
