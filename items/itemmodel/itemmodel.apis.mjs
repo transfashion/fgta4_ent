@@ -12,6 +12,5 @@ kemdian, di program bisa diakses dengan
 
 export const load_dept_id = 'ent/organisation/dept/list'
 export const load_itemmanage_id = 'ent/items/itemmanage/list'
-export const load_depremodel_id = 'ent/items/depremodel/list'
 
 

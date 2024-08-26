@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/08/2024
+ * tanggal 26/08/2024
  */
 $API = new class extends itemmodelBase {
 
@@ -94,8 +94,7 @@ $API = new class extends itemmodelBase {
 			$sqlFieldList = [
 				'itemmodel_id' => 'A.`itemmodel_id`', 'itemmodel_name' => 'A.`itemmodel_name`', 'itemmodel_descr' => 'A.`itemmodel_descr`', 'itemmodel_isintangible' => 'A.`itemmodel_isintangible`',
 				'itemmodel_issellable' => 'A.`itemmodel_issellable`', 'itemmodel_isnonitem' => 'A.`itemmodel_isnonitem`', 'itemmodel_ishasmainteinerdept' => 'A.`itemmodel_ishasmainteinerdept`', 'itemmodel_ismultidept' => 'A.`itemmodel_ismultidept`',
-				'dept_id' => 'A.`dept_id`', 'itemmanage_id' => 'A.`itemmanage_id`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`', 'depremodel_id' => 'A.`depremodel_id`',
-				'depremodel_isautocalc' => 'A.`depremodel_isautocalc`', 'itemmodel_depreage' => 'A.`itemmodel_depreage`', 'itemmodel_depreresidu' => 'A.`itemmodel_depreresidu`', '_createby' => 'A.`_createby`',
+				'dept_id' => 'A.`dept_id`', 'itemmanage_id' => 'A.`itemmanage_id`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemmodel A";
@@ -187,7 +186,6 @@ $API = new class extends itemmodelBase {
 				 	//'tambahan' => 'dta'
 					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					'itemmanage_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmanage_id'], $this->db, 'mst_itemmanage', 'itemmanage_id', 'itemmanage_name'),
-					'depremodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['depremodel_id'], $this->db, 'mst_depremodel', 'depremodel_id', 'depremodel_name'),
 					 
 				]);
 				*/
@@ -196,7 +194,6 @@ $API = new class extends itemmodelBase {
 				// lookup data id yang refer ke table lain
 				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 				$this->addFields('itemmanage_name', 'itemmanage_id', $record, 'mst_itemmanage', 'itemmanage_name', 'itemmanage_id');
-				$this->addFields('depremodel_name', 'depremodel_id', $record, 'mst_depremodel', 'depremodel_name', 'depremodel_id');
 					 
 
 

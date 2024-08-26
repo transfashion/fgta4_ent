@@ -15,10 +15,6 @@ CREATE TABLE IF NOT EXISTS `mst_itemmodel` (
 	`dept_id` varchar(30)  , 
 	`itemmanage_id` varchar(2) NOT NULL , 
 	`itemmanage_isasset` tinyint(1) NOT NULL DEFAULT 0, 
-	`depremodel_id` varchar(10)  , 
-	`depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0, 
-	`itemmodel_depreage` int(2) NOT NULL DEFAULT 5, 
-	`itemmodel_depreresidu` decimal(11, 2) NOT NULL DEFAULT 1, 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -40,10 +36,6 @@ ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `itemmodel_ismultidept` ti
 ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30)   AFTER `itemmodel_ismultidept`;
 ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `itemmanage_id` varchar(2) NOT NULL  AFTER `dept_id`;
 ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `itemmanage_isasset` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemmanage_id`;
-ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `depremodel_id` varchar(10)   AFTER `itemmanage_isasset`;
-ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0 AFTER `depremodel_id`;
-ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `itemmodel_depreage` int(2) NOT NULL DEFAULT 5 AFTER `depremodel_isautocalc`;
-ALTER TABLE `mst_itemmodel` ADD COLUMN IF NOT EXISTS  `itemmodel_depreresidu` decimal(11, 2) NOT NULL DEFAULT 1 AFTER `itemmodel_depreage`;
 
 
 ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmodel_name` varchar(90) NOT NULL   AFTER `itemmodel_id`;
@@ -56,21 +48,15 @@ ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmodel_ismultidept` tin
 ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30)    AFTER `itemmodel_ismultidept`;
 ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmanage_id` varchar(2) NOT NULL   AFTER `dept_id`;
 ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmanage_isasset` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemmanage_id`;
-ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `depremodel_id` varchar(10)    AFTER `itemmanage_isasset`;
-ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `depremodel_isautocalc` tinyint(1) NOT NULL DEFAULT 0  AFTER `depremodel_id`;
-ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmodel_depreage` int(2) NOT NULL DEFAULT 5  AFTER `depremodel_isautocalc`;
-ALTER TABLE `mst_itemmodel` MODIFY COLUMN IF EXISTS  `itemmodel_depreresidu` decimal(11, 2) NOT NULL DEFAULT 1  AFTER `itemmodel_depreage`;
 
 
 ALTER TABLE `mst_itemmodel` ADD CONSTRAINT `itemmodel_name` UNIQUE IF NOT EXISTS  (`itemmodel_name`);
 
 ALTER TABLE `mst_itemmodel` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
 ALTER TABLE `mst_itemmodel` ADD KEY IF NOT EXISTS `itemmanage_id` (`itemmanage_id`);
-ALTER TABLE `mst_itemmodel` ADD KEY IF NOT EXISTS `depremodel_id` (`depremodel_id`);
 
 ALTER TABLE `mst_itemmodel` ADD CONSTRAINT `fk_mst_itemmodel_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
 ALTER TABLE `mst_itemmodel` ADD CONSTRAINT `fk_mst_itemmodel_mst_itemmanage` FOREIGN KEY IF NOT EXISTS  (`itemmanage_id`) REFERENCES `mst_itemmanage` (`itemmanage_id`);
-ALTER TABLE `mst_itemmodel` ADD CONSTRAINT `fk_mst_itemmodel_mst_depremodel` FOREIGN KEY IF NOT EXISTS  (`depremodel_id`) REFERENCES `mst_depremodel` (`depremodel_id`);
 
 
 

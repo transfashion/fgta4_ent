@@ -28,11 +28,7 @@ const obj = {
 	chk_itemmodel_ismultidept: $('#pnl_edit-chk_itemmodel_ismultidept'),
 	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
-	chk_itemmanage_isasset: $('#pnl_edit-chk_itemmanage_isasset'),
-	cbo_depremodel_id: $('#pnl_edit-cbo_depremodel_id'),
-	chk_depremodel_isautocalc: $('#pnl_edit-chk_depremodel_isautocalc'),
-	txt_itemmodel_depreage: $('#pnl_edit-txt_itemmodel_depreage'),
-	txt_itemmodel_depreresidu: $('#pnl_edit-txt_itemmodel_depreresidu')
+	chk_itemmanage_isasset: $('#pnl_edit-chk_itemmanage_isasset')
 }
 
 
@@ -116,27 +112,6 @@ export async function init(opt) {
 			if (value!=args.PreviousValue ) {
 				if (typeof hnd.cbo_itemmanage_id_selected === 'function') {
 					hnd.cbo_itemmanage_id_selected(value, display, record, args);
-				}
-			}
-		},
-
-	})				
-				
-	obj.cbo_depremodel_id.name = 'pnl_edit-cbo_depremodel_id'		
-	new fgta4slideselect(obj.cbo_depremodel_id, {
-		title: 'Pilih Model Depresiasi',
-		returnpage: this_page_id,
-		api: $ui.apis.load_depremodel_id,
-		fieldValue: 'depremodel_id',
-		fieldDisplay: 'depremodel_name',
-		fields: [
-			{mapping: 'depremodel_id', text: 'depremodel_id'},
-			{mapping: 'depremodel_name', text: 'depremodel_name'}
-		],
-		OnSelected: (value, display, record, args) => {
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_depremodel_id_selected === 'function') {
-					hnd.cbo_depremodel_id_selected(value, display, record, args);
 				}
 			}
 		},
@@ -245,7 +220,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 		/*
 		if (result.record.dept_id==null) { result.record.dept_id='--NULL--'; result.record.dept_name='NONE'; }
-		if (result.record.depremodel_id==null) { result.record.depremodel_id='--NULL--'; result.record.depremodel_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -271,7 +245,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.fill(record)
 			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
-			.setValue(obj.cbo_depremodel_id, record.depremodel_id, record.depremodel_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -335,16 +308,11 @@ export function createnew() {
 		data.itemmodel_ishasmainteinerdept = '0'
 		data.itemmodel_ismultidept = '0'
 		data.itemmanage_isasset = '0'
-		data.depremodel_isautocalc = '0'
-		data.itemmodel_depreage = 0
-		data.itemmodel_depreresidu = 0
 
 		data.dept_id = '--NULL--'
 		data.dept_name = 'NONE'
 		data.itemmanage_id = '0'
 		data.itemmanage_name = '-- PILIH --'
-		data.depremodel_id = '--NULL--'
-		data.depremodel_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -493,7 +461,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['dept_id', 'depremodel_id', ];
+	// options.skipmappingresponse = ['dept_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -543,7 +511,6 @@ async function form_datasaved(result, options) {
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
 	form.setValue(obj.cbo_dept_id, result.dataresponse.dept_name!=='--NULL--' ? result.dataresponse.dept_id : '--NULL--', result.dataresponse.dept_name!=='--NULL--'?result.dataresponse.dept_name:'NONE')
-	form.setValue(obj.cbo_depremodel_id, result.dataresponse.depremodel_name!=='--NULL--' ? result.dataresponse.depremodel_id : '--NULL--', result.dataresponse.depremodel_name!=='--NULL--'?result.dataresponse.depremodel_name:'NONE')
 
 	*/
 

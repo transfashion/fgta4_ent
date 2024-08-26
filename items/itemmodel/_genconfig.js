@@ -56,6 +56,7 @@ module.exports = {
 					text: 'Manage As Asset ', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ disabled: true, labelWidth:'300px'}},
 
 
+				/*	
 				depremodel_id: { 
 					text: 'Depresiasi', 
 					type: dbtype.varchar(10), null: true, suppresslist: true,
@@ -85,6 +86,7 @@ module.exports = {
 					class: 'deprevaluepanel deprevaluepanel-hidden',
 					text: 'Depre Residu', type: dbtype.decimal(11,2), null:false, default:1, suppresslist: true 
 				},
+				*/
 
 			},
 
