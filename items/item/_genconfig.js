@@ -15,7 +15,7 @@ module.exports = {
 			comment: 'Daftar  Item',
 			primarykeys: ['item_id'],
 			data: {
-				item_id: { text: 'ID', type: dbtype.varchar(14), uppercase: true, null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
+				item_id: { text: 'ID', type: dbtype.varchar(14), null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
 
 				itemgroup_id: {
 					text:'Item Group', type: dbtype.varchar(15), null:false, suppresslist: true,
@@ -38,8 +38,23 @@ module.exports = {
 					})					
 				},
 
+				itemmodel_id: { 
+					text: 'Item Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Model harus diisi' } ,
+					comp: comp.Combo({
+						title: 'Pilih Model Item',
+						table: 'mst_itemmodel', 
+						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
+						api: 'ent/items/itemmodel/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
+					})
+				},
+
 				itemclass_id: {
-					text:'Class', type: dbtype.varchar(14), null:false, suppresslist: true,
+					text:'Item Class', type: dbtype.varchar(14), null:false, suppresslist: true,
 					options: { required: true, invalidMessage: 'Class harus diisi' } ,
 					comp: comp.Combo({
 						title: 'Pilih Klasifikasi',

@@ -20,6 +20,7 @@ const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_item_id: $('#pnl_edit-txt_item_id'),
 	cbo_itemgroup_id: $('#pnl_edit-cbo_itemgroup_id'),
+	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
 	cbo_itemclass_id: $('#pnl_edit-cbo_itemclass_id'),
 	txt_item_name: $('#pnl_edit-txt_item_name'),
 	txt_item_nameshort: $('#pnl_edit-txt_item_nameshort'),
@@ -94,6 +95,27 @@ export async function init(opt) {
 			if (value!=args.PreviousValue ) {
 				if (typeof hnd.cbo_itemgroup_id_selecting === 'function') {
 					hnd.cbo_itemgroup_id_selecting(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
+	obj.cbo_itemmodel_id.name = 'pnl_edit-cbo_itemmodel_id'		
+	new fgta4slideselect(obj.cbo_itemmodel_id, {
+		title: 'Pilih Model Item',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemmodel_id,
+		fieldValue: 'itemmodel_id',
+		fieldDisplay: 'itemmodel_name',
+		fields: [
+			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
+			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
+		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemmodel_id_selected === 'function') {
+					hnd.cbo_itemmodel_id_selected(value, display, record, args);
 				}
 			}
 		},
@@ -253,6 +275,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_itemgroup_id, record.itemgroup_id, record.itemgroup_name)
+			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
 			.setValue(obj.cbo_itemclass_id, record.itemclass_id, record.itemclass_name)
 			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setViewMode(viewmode)
@@ -320,6 +343,8 @@ export function createnew() {
 
 		data.itemgroup_id = '0'
 		data.itemgroup_name = '-- PILIH --'
+		data.itemmodel_id = '0'
+		data.itemmodel_name = '-- PILIH --'
 		data.itemclass_id = '0'
 		data.itemclass_name = '-- PILIH --'
 		data.dept_id = '0'

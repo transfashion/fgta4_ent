@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/08/2024
+ * tanggal 26/08/2024
  */
 $API = new class extends itemBase {
 	
@@ -83,7 +83,7 @@ $API = new class extends itemBase {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
-			$obj->item_id = strtoupper($obj->item_id);
+			$obj->itemmodel_id = strtoupper($obj->itemmodel_id);
 			$obj->item_name = strtoupper($obj->item_name);
 			$obj->item_nameshort = strtoupper($obj->item_nameshort);
 
@@ -176,9 +176,10 @@ $API = new class extends itemBase {
 				}
 
 				$sqlFieldList = [
-					'item_id' => 'A.`item_id`', 'itemgroup_id' => 'A.`itemgroup_id`', 'itemclass_id' => 'A.`itemclass_id`', 'item_name' => 'A.`item_name`',
-					'item_nameshort' => 'A.`item_nameshort`', 'item_isdisabled' => 'A.`item_isdisabled`', 'item_descr' => 'A.`item_descr`', 'dept_id' => 'A.`dept_id`',
-					'item_estcost' => 'A.`item_estcost`', 'item_maxcost' => 'A.`item_maxcost`', 'item_avgcost' => 'A.`item_avgcost`', 'item_mincost' => 'A.`item_mincost`',
+					'item_id' => 'A.`item_id`', 'itemgroup_id' => 'A.`itemgroup_id`', 'itemmodel_id' => 'A.`itemmodel_id`', 'itemclass_id' => 'A.`itemclass_id`',
+					'item_name' => 'A.`item_name`', 'item_nameshort' => 'A.`item_nameshort`', 'item_isdisabled' => 'A.`item_isdisabled`', 'item_descr' => 'A.`item_descr`',
+					'dept_id' => 'A.`dept_id`', 'item_estcost' => 'A.`item_estcost`', 'item_maxcost' => 'A.`item_maxcost`', 'item_avgcost' => 'A.`item_avgcost`',
+					'item_mincost' => 'A.`item_mincost`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_item A";
@@ -211,6 +212,7 @@ $API = new class extends itemBase {
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
 					'itemgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemgroup_id'], $this->db, 'mst_itemgroup', 'itemgroup_id', 'itemgroup_name'),
+					'itemmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmodel_id'], $this->db, 'mst_itemmodel', 'itemmodel_id', 'itemmodel_name'),
 					'itemclass_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemclass_id'], $this->db, 'mst_itemclass', 'itemclass_id', 'itemclass_name'),
 					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 
