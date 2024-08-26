@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * hrms/master/hrstatus/apis/xapi.base.php
+ * ent/organisation/hrstatus/apis/xapi.base.php
  *
  * hrstatusBase
  * Kelas dasar untuk keperluan-keperluan api
@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 30/12/2022
+ * tanggal 26/08/2024
  */
 class hrstatusBase extends WebAPI {
 
@@ -56,13 +56,6 @@ class hrstatusBase extends WebAPI {
 		
 	}
 
-	function pre_action_check($data, $action) {
-		try {
-			return true;
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
-	}
 
 	public function get_header_row($id) {
 		try {

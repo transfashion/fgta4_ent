@@ -22,8 +22,8 @@ ALTER TABLE `mst_hrstatus` ADD COLUMN IF NOT EXISTS  `hrstatus_name` varchar(30)
 ALTER TABLE `mst_hrstatus` ADD COLUMN IF NOT EXISTS  `hrstatus_descr` varchar(90)   AFTER `hrstatus_name`;
 
 
-ALTER TABLE `mst_hrstatus` MODIFY COLUMN IF EXISTS  `hrstatus_name` varchar(30) NOT NULL  AFTER `hrstatus_id`;
-ALTER TABLE `mst_hrstatus` MODIFY COLUMN IF EXISTS  `hrstatus_descr` varchar(90)   AFTER `hrstatus_name`;
+ALTER TABLE `mst_hrstatus` MODIFY COLUMN IF EXISTS  `hrstatus_name` varchar(30) NOT NULL   AFTER `hrstatus_id`;
+ALTER TABLE `mst_hrstatus` MODIFY COLUMN IF EXISTS  `hrstatus_descr` varchar(90)    AFTER `hrstatus_name`;
 
 
 ALTER TABLE `mst_hrstatus` ADD CONSTRAINT `hrstatus_name` UNIQUE IF NOT EXISTS  (`hrstatus_name`);
