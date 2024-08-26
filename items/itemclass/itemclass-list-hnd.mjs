@@ -52,7 +52,7 @@ export function init(param, fn_callback) {
 			grd_list.doLoad();
 		},
 		OnCreated: () => {
-			console.log(global.setup);
+			// console.log(global.setup);
 			cbo_search_dept.combo('setValue', '--ALL--');
 			cbo_search_dept.combo('setText', 'ALL');
 			parallelProcess.setFinished('cbo_search_dept');

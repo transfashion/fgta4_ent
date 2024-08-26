@@ -110,6 +110,14 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Manage As</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_itemmanage_id" class="easyui-combo" style="width: 400px" mapping="itemmanage_id" display="itemmanage_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Order Doc harus diisi'"   validType="requiredcombo['pnl_edit-cbo_itemmanage_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Default Owner Dept</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_owner_dept_id" class="easyui-combo" style="width: 400px" mapping="owner_dept_id" display="owner_dept_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
@@ -125,7 +133,7 @@
 			</div>
 		</div>
 
-		<div class="form_row pnl_edit_row assetpanel assetpanel-hide" >
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Depresiasi</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_depremodel_id" class="easyui-combo" style="width: 400px" mapping="depremodel_id" display="depremodel_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
@@ -187,14 +195,6 @@
 		<?=$this->SectionBegin('Item Settings', true, true, '')?>
 		<div class="fgta_section_collapsible " style="display: none">
 					
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Manage As</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_itemmanage_id" class="easyui-combo" style="width: 400px" mapping="itemmanage_id" display="itemmanage_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Order Doc harus diisi', disabled: true"   validType="requiredcombo['pnl_edit-cbo_itemmanage_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col">Current Setting</div>
 			<div class="form_input_col" style="border: 0px solid black">

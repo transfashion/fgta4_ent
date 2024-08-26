@@ -145,6 +145,23 @@ module.exports = {
 					})
 				},	
 
+				itemmanage_id: {
+					text:'Manage As', type: dbtype.varchar(2), null:false, suppresslist: true,
+					options: {required:true, invalidMessage:'Order Doc harus diisi'},
+					comp: comp.Combo({
+						title: 'Pilih Item Manage',
+						table: 'mst_itemmanage', 
+						tips: 'Perlakuan item yang diterima pada saat order diselesaikan.',
+						tipstype: 'visible',
+						field_value: 'itemmanage_id', field_display: 'itemmanage_name',  field_display_name: 'itemmanage_name',
+						api: 'ent/items/itemmanage/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
+					})
+				},
+
 				owner_dept_id: {
 					text: 'Default Owner Dept', type: dbtype.varchar(30), null:true,  suppresslist: true,
 					options:{prompt:'NONE'},
@@ -183,14 +200,18 @@ module.exports = {
 
 
 				depremodel_id: { 
-					class: 'assetpanel assetpanel-hide',	
+					//class: 'assetpanel assetpanel-hide',	
 					text: 'Depresiasi', 
 					type: dbtype.varchar(10), null: true,  suppresslist: true,
 					options: { prompt:'NONE' },
 					comp: comp.Combo({
 						table: 'mst_depremodel', 
 						field_value: 'depremodel_id', field_display: 'depremodel_name', field_display_name: 'depremodel_name', 
-						api: 'ent/items/depremodel/list'
+						api: 'ent/items/depremodel/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
 					})				
 				},	
 
@@ -210,25 +231,9 @@ module.exports = {
 				itemclass_isallowunbudget: { text: 'Allow Request UnBudgeted', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
 
 
-				itemmanage_id: {
-					section: section.Begin('Item Settings'),
-					text:'Manage As', type: dbtype.varchar(2), null:false, suppresslist: true,
-					options: {required:true, invalidMessage:'Order Doc harus diisi', disabled:true},
-					comp: comp.Combo({
-						title: 'Pilih Item Manage',
-						table: 'mst_itemmanage', 
-						tips: 'Perlakuan item yang diterima pada saat order diselesaikan.',
-						tipstype: 'visible',
-						field_value: 'itemmanage_id', field_display: 'itemmanage_name',  field_display_name: 'itemmanage_name',
-						api: 'ent/items/itemmanage/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: true	
-					})
-				},
 
 				itemclass_isindependentsetting: { 
+					section: section.Begin('Item Settings'),
 					caption:'Current Setting', text: 'Independent', type: dbtype.boolean, null: false, default: '0', suppresslist:true, options:{labelWidth:'300px'} 
 				},
 				itemmodel_isintangible: { 

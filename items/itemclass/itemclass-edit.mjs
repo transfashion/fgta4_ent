@@ -31,6 +31,7 @@ const obj = {
 	cbo_nr_coa_id: $('#pnl_edit-cbo_nr_coa_id'),
 	cbo_lr_coa_id: $('#pnl_edit-cbo_lr_coa_id'),
 	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
+	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
 	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
 	cbo_maintainer_dept_id: $('#pnl_edit-cbo_maintainer_dept_id'),
 	cbo_depremodel_id: $('#pnl_edit-cbo_depremodel_id'),
@@ -41,7 +42,6 @@ const obj = {
 	chk_itemclass_isallowovertask: $('#pnl_edit-chk_itemclass_isallowovertask'),
 	chk_itemclass_isallowovervalue: $('#pnl_edit-chk_itemclass_isallowovervalue'),
 	chk_itemclass_isallowunbudget: $('#pnl_edit-chk_itemclass_isallowunbudget'),
-	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
 	chk_itemclass_isindependentsetting: $('#pnl_edit-chk_itemclass_isindependentsetting'),
 	chk_itemmodel_isintangible: $('#pnl_edit-chk_itemmodel_isintangible'),
 	chk_itemmodel_issellable: $('#pnl_edit-chk_itemmodel_issellable'),
@@ -226,6 +226,27 @@ export async function init(opt) {
 
 	})				
 				
+	obj.cbo_itemmanage_id.name = 'pnl_edit-cbo_itemmanage_id'		
+	new fgta4slideselect(obj.cbo_itemmanage_id, {
+		title: 'Pilih Item Manage',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemmanage_id,
+		fieldValue: 'itemmanage_id',
+		fieldDisplay: 'itemmanage_name',
+		fields: [
+			{mapping: 'itemmanage_id', text: 'itemmanage_id'},
+			{mapping: 'itemmanage_name', text: 'itemmanage_name'}
+		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemmanage_id_selected === 'function') {
+					hnd.cbo_itemmanage_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
 	obj.cbo_owner_dept_id.name = 'pnl_edit-cbo_owner_dept_id'		
 	new fgta4slideselect(obj.cbo_owner_dept_id, {
 		title: 'Pilih Owner Dept',
@@ -288,24 +309,10 @@ export async function init(opt) {
 			{mapping: 'depremodel_id', text: 'depremodel_id'},
 			{mapping: 'depremodel_name', text: 'depremodel_name'}
 		],
-
-	})				
-				
-	obj.cbo_itemmanage_id.name = 'pnl_edit-cbo_itemmanage_id'		
-	new fgta4slideselect(obj.cbo_itemmanage_id, {
-		title: 'Pilih Item Manage',
-		returnpage: this_page_id,
-		api: $ui.apis.load_itemmanage_id,
-		fieldValue: 'itemmanage_id',
-		fieldDisplay: 'itemmanage_name',
-		fields: [
-			{mapping: 'itemmanage_id', text: 'itemmanage_id'},
-			{mapping: 'itemmanage_name', text: 'itemmanage_name'}
-		],
 		OnSelected: (value, display, record, args) => {
 			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemmanage_id_selected === 'function') {
-					hnd.cbo_itemmanage_id_selected(value, display, record, args);
+				if (typeof hnd.cbo_depremodel_id_selected === 'function') {
+					hnd.cbo_depremodel_id_selected(value, display, record, args);
 				}
 			}
 		},
@@ -451,10 +458,10 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.setValue(obj.cbo_nr_coa_id, record.nr_coa_id, record.settl_coa_name)
 			.setValue(obj.cbo_lr_coa_id, record.lr_coa_id, record.cost_coa_name)
 			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
+			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
 			.setValue(obj.cbo_maintainer_dept_id, record.maintainer_dept_id, record.maintainer_dept_name)
 			.setValue(obj.cbo_depremodel_id, record.depremodel_id, record.depremodel_name)
-			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -548,14 +555,14 @@ export function createnew() {
 		data.cost_coa_name = 'NONE'
 		data.itemmodel_id = '0'
 		data.itemmodel_name = '-- PILIH --'
+		data.itemmanage_id = '0'
+		data.itemmanage_name = '-- PILIH --'
 		data.owner_dept_id = '--NULL--'
 		data.owner_dept_name = 'NONE'
 		data.maintainer_dept_id = '--NULL--'
 		data.maintainer_dept_name = 'NONE'
 		data.depremodel_id = '--NULL--'
 		data.depremodel_name = 'NONE'
-		data.itemmanage_id = '0'
-		data.itemmanage_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
