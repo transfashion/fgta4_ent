@@ -14,7 +14,7 @@ class itemclass_headerHandler extends WebAPI  {
 		$criteriaValues['dept_id'] = " (A.owner_dept_id = :dept_id or A.maintainer_dept_id = :dept_id) ";
 		$criteriaValues['owner_dept_id'] = " A.owner_dept_id = :owner_dept_id ";
 		$criteriaValues['itemmodel_issellable'] = " A.itemmodel_issellable = :itemmodel_issellable "; 
-		
+		$criteriaValues['itemmanage_isasset'] = " A.itemmanage_isasset = :itemmanage_isasset "; 
 	}
 
 	public function DataOpen(array &$record) : void {
