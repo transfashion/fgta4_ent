@@ -77,7 +77,9 @@ module.exports = {
 				},
 				itemmodel_depreage: { 
 					class: 'deprevaluepanel deprevaluepanel-hidden',
-					text: 'Depre Age', type: dbtype.int(2), null:false, default:5, suppresslist: true 
+					text: 'Depre Age', type: dbtype.int(2), null:false, default:5, suppresslist: true,
+					tips: 'masa depresiasi dalam satuan <b>tahun</b>',
+					tipstype: 'visible' 
 				},
 				itemmodel_depreresidu: { 
 					class: 'deprevaluepanel deprevaluepanel-hidden',
