@@ -5,6 +5,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Departement Group",
+	icon: "icon-deptgroup-white.png",
 	autoid: false,
 
 	persistent: {
