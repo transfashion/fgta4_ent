@@ -46,10 +46,10 @@ module.exports = {
 						table: 'mst_itemmodel', 
 						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
 						api: 'ent/items/itemmodel/list',
-						onDataLoadingHandler: false,
+						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,
 						onSelectingHandler: false,
-						onSelectedHandler: true	
+						onSelectedHandler: false	
 					})
 				},
 
@@ -60,7 +60,11 @@ module.exports = {
 						title: 'Pilih Klasifikasi',
 						table: 'mst_itemclass', 
 						field_value: 'itemclass_id', field_display: 'itemclass_name', field_display_name: 'itemclass_name', 
-						api: 'ent/items/itemclass/list'
+						api: 'ent/items/itemclass/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false
 					})					
 				},
 

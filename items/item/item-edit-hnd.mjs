@@ -28,6 +28,16 @@ export function cbo_itemgroup_id_selecting(value, display, record, args) {
 	}
 }
 
+export function cbo_itemmodel_id_dataloading(criteria, options) {
+	// batasi hanya yang asset
+	criteria.itemmanage_isasset = 1
+}
+
+export function cbo_itemclass_id_dataloading(criteria, options) {
+	// batasi hanya yang asset
+	criteria.itemmanage_isasset = 1
+}
+
 
 function cbo_itemgroup_id_rowrender(grd_list, tr) {
 	var dataid = tr.getAttribute('dataid')
@@ -45,3 +55,4 @@ function cbo_itemgroup_id_rowrender(grd_list, tr) {
 	})
 
 }
+

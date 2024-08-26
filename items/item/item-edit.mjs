@@ -112,13 +112,12 @@ export async function init(opt) {
 			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
 			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
 		],
-		OnSelected: (value, display, record, args) => {
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemmodel_id_selected === 'function') {
-					hnd.cbo_itemmodel_id_selected(value, display, record, args);
-				}
-			}
-		},
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_itemmodel_id_dataloading === 'function') {
+				hnd.cbo_itemmodel_id_dataloading(criteria, options);
+			}						
+		},					
 
 	})				
 				
@@ -133,6 +132,12 @@ export async function init(opt) {
 			{mapping: 'itemclass_id', text: 'itemclass_id'},
 			{mapping: 'itemclass_name', text: 'itemclass_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_itemclass_id_dataloading === 'function') {
+				hnd.cbo_itemclass_id_dataloading(criteria, options);
+			}						
+		},					
 
 	})				
 				
