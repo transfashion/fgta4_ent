@@ -37,17 +37,6 @@ module.exports = {
 						field_value: 'deptmodel_id', field_display: 'deptmodel_name', 
 						api: 'ent/organisation/deptmodel/list'})				
 				},
-
-				hrsection_id: {
-					text:'Section', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
-					options:{prompt:'NONE'},
-					comp: comp.Combo({
-						table: 'mst_hrsection', 
-						field_value: 'hrsection_id', field_display: 'hrsection_name', 
-						api: 'ent/organisation/hrsection/list'})				
-				},
-
-
 			},
 
 			defaultsearch: ['hrjob_id', 'hrjob_name'],
@@ -55,16 +44,6 @@ module.exports = {
 			uniques: {
 				'hrjob_name' : ['hrjob_name']
 			},
-
-
-			values: [
-				{hrjob_id:'COM-BM-EAG', hrjob_name:'Brand Manager (EAG)', hrgrd_id:'DEPHD', deptmodel_id:'COM'},
-				{hrjob_id:'COM-BM-FLA', hrjob_name:'Brand Manager (FLA)', hrgrd_id:'DEPHD', deptmodel_id:'COM'},
-				{hrjob_id:'COM-BM-GEX', hrjob_name:'Brand Manager (GEX)', hrgrd_id:'DEPHD', deptmodel_id:'COM'},
-				{hrjob_id:'COM-BM-HBS', hrjob_name:'Brand Manager (HBS)', hrgrd_id:'DEPHD', deptmodel_id:'COM'},
-				{hrjob_id:'COM-BM-FRG', hrjob_name:'Brand Manager FRG', hrgrd_id:'DEPHD', deptmodel_id:'COM'}
-			],
-
 		}
 
 	

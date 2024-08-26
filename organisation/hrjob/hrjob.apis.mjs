@@ -12,6 +12,5 @@ kemdian, di program bisa diakses dengan
 
 export const load_hrgrd_id = 'ent/organisation/hrgrd/list'
 export const load_deptmodel_id = 'ent/organisation/deptmodel/list'
-export const load_hrsection_id = 'ent/organisation/hrsection/list'
 
 

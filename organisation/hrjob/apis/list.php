@@ -93,7 +93,7 @@ $API = new class extends hrjobBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'hrjob_id' => 'A.`hrjob_id`', 'hrjob_name' => 'A.`hrjob_name`', 'hrjob_descr' => 'A.`hrjob_descr`', 'hrjob_isdisabled' => 'A.`hrjob_isdisabled`',
-				'hrgrd_id' => 'A.`hrgrd_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'hrsection_id' => 'A.`hrsection_id`', '_createby' => 'A.`_createby`',
+				'hrgrd_id' => 'A.`hrgrd_id`', 'deptmodel_id' => 'A.`deptmodel_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_hrjob A";
@@ -185,7 +185,6 @@ $API = new class extends hrjobBase {
 				 	//'tambahan' => 'dta'
 					'hrgrd_name' => \FGTA4\utils\SqlUtility::Lookup($record['hrgrd_id'], $this->db, 'mst_hrgrd', 'hrgrd_id', 'hrgrd_name'),
 					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'hrsection_name' => \FGTA4\utils\SqlUtility::Lookup($record['hrsection_id'], $this->db, 'mst_hrsection', 'hrsection_id', 'hrsection_name'),
 					 
 				]);
 				*/
@@ -194,7 +193,6 @@ $API = new class extends hrjobBase {
 				// lookup data id yang refer ke table lain
 				$this->addFields('hrgrd_name', 'hrgrd_id', $record, 'mst_hrgrd', 'hrgrd_name', 'hrgrd_id');
 				$this->addFields('deptmodel_name', 'deptmodel_id', $record, 'mst_deptmodel', 'deptmodel_name', 'deptmodel_id');
-				$this->addFields('hrsection_name', 'hrsection_id', $record, 'mst_hrsection', 'hrsection_name', 'hrsection_id');
 					 
 
 

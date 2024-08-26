@@ -87,7 +87,6 @@ $API = new class extends hrjobBase {
 			$obj->hrjob_name = strtoupper($obj->hrjob_name);
 			$obj->hrgrd_id = strtoupper($obj->hrgrd_id);
 			$obj->deptmodel_id = strtoupper($obj->deptmodel_id);
-			$obj->hrsection_id = strtoupper($obj->hrsection_id);
 
 
 			if ($obj->hrjob_descr=='') { $obj->hrjob_descr = '--NULL--'; }
@@ -180,7 +179,7 @@ $API = new class extends hrjobBase {
 
 				$sqlFieldList = [
 					'hrjob_id' => 'A.`hrjob_id`', 'hrjob_name' => 'A.`hrjob_name`', 'hrjob_descr' => 'A.`hrjob_descr`', 'hrjob_isdisabled' => 'A.`hrjob_isdisabled`',
-					'hrgrd_id' => 'A.`hrgrd_id`', 'deptmodel_id' => 'A.`deptmodel_id`', 'hrsection_id' => 'A.`hrsection_id`', '_createby' => 'A.`_createby`',
+					'hrgrd_id' => 'A.`hrgrd_id`', 'deptmodel_id' => 'A.`deptmodel_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_hrjob A";
@@ -214,7 +213,6 @@ $API = new class extends hrjobBase {
 					//  untuk lookup atau modify response ditaruh disini
 					'hrgrd_name' => \FGTA4\utils\SqlUtility::Lookup($record['hrgrd_id'], $this->db, 'mst_hrgrd', 'hrgrd_id', 'hrgrd_name'),
 					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'hrsection_name' => \FGTA4\utils\SqlUtility::Lookup($record['hrsection_id'], $this->db, 'mst_hrsection', 'hrsection_id', 'hrsection_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

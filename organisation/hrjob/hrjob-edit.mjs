@@ -23,8 +23,7 @@ const obj = {
 	txt_hrjob_descr: $('#pnl_edit-txt_hrjob_descr'),
 	chk_hrjob_isdisabled: $('#pnl_edit-chk_hrjob_isdisabled'),
 	cbo_hrgrd_id: $('#pnl_edit-cbo_hrgrd_id'),
-	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
-	cbo_hrsection_id: $('#pnl_edit-cbo_hrsection_id')
+	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id')
 }
 
 
@@ -97,20 +96,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'deptmodel_id', text: 'deptmodel_id'},
 			{mapping: 'deptmodel_name', text: 'deptmodel_name'}
-		],
-
-	})				
-				
-	obj.cbo_hrsection_id.name = 'pnl_edit-cbo_hrsection_id'		
-	new fgta4slideselect(obj.cbo_hrsection_id, {
-		title: 'Pilih hrsection_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_hrsection_id,
-		fieldValue: 'hrsection_id',
-		fieldDisplay: 'hrsection_name',
-		fields: [
-			{mapping: 'hrsection_id', text: 'hrsection_id'},
-			{mapping: 'hrsection_name', text: 'hrsection_name'}
 		],
 
 	})				
@@ -216,7 +201,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.hrsection_id==null) { result.record.hrsection_id='--NULL--'; result.record.hrsection_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -242,7 +226,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.fill(record)
 			.setValue(obj.cbo_hrgrd_id, record.hrgrd_id, record.hrgrd_name)
 			.setValue(obj.cbo_deptmodel_id, record.deptmodel_id, record.deptmodel_name)
-			.setValue(obj.cbo_hrsection_id, record.hrsection_id, record.hrsection_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -306,8 +289,6 @@ export function createnew() {
 		data.hrgrd_name = '-- PILIH --'
 		data.deptmodel_id = '0'
 		data.deptmodel_name = '-- PILIH --'
-		data.hrsection_id = '--NULL--'
-		data.hrsection_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -456,7 +437,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['hrsection_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -505,7 +486,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_hrsection_id, result.dataresponse.hrsection_name!=='--NULL--' ? result.dataresponse.hrsection_id : '--NULL--', result.dataresponse.hrsection_name!=='--NULL--'?result.dataresponse.hrsection_name:'NONE')
 
 	*/
 
