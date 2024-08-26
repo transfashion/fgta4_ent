@@ -36,6 +36,8 @@ module.exports = {
 					text: 'Currency', type: dbtype.varchar(10), null: true, uppercase: false, suppresslist: true,
 					//options: { required: true, invalidMessage: 'Currency harus diisi' },
 					options: { prompt:'NONE'},
+					tips: 'apabila diisi, transaksi akan menggunakan currency ini, jika tidak bisa multi currency',
+					tipstype: 'visible',
 					comp: comp.Combo({
 						table: 'mst_curr',
 						field_value: 'curr_id',
