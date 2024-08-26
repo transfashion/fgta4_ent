@@ -18,7 +18,10 @@ persistent: {
 		bankrekening_namabuku: { text: 'Nama di buku', type: dbtype.varchar(30),  uppercase: true, null: false, suppresslist: true, options: {required: true, invalidMessage: 'Kode Rekening harus diisi' } },
 		bankrekening_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, suppresslist: true, default: '0' },
 		bankrekening_opendate: { text: 'Tanggal Pembukaan', type: dbtype.date, null: false, suppresslist: true, options: {required: true, invalidMessage: 'Tanggal buka rekening harus diisi' } },
-		bankrekening_closedate: { text: 'Tanggal Tutup', type: dbtype.date, suppresslist: true },
+		bankrekening_closedate: { 
+			class: "nonactive hidden",
+			text: 'Tanggal Tutup', type: dbtype.date, suppresslist: true 
+		},
 		bankrekening_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
 		bank_id: {
 			text: 'Bank', type: dbtype.varchar(14), suppresslist: true,
