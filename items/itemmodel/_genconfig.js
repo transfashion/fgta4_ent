@@ -7,6 +7,10 @@ module.exports = {
 	title: "Item Model",
 	autoid: false,
 
+	permissions: [
+		'ALLOW_ALLDEPT_IN_ITEMMODEL'
+	],
+
 	persistent: {
 		'mst_itemmodel': {
 			comment: 'Daftar Model Item',
