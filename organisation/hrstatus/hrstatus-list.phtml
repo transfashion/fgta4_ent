@@ -1,9 +1,9 @@
 <div id="pnl_list">
-	<div class="fgta-page-title">Daftar Employee</div>
+	<div class="fgta-page-title">Daftar HR Status</div>
 
 	<div id="pnl_list-pnl_head" style="display: flex; align-items: flex-end">
 		<?php
-		$customheadbutton = __DIR__.'/empl-list-customheadbutton.phtml'; 
+		$customheadbutton = __DIR__.'/hrstatus-list-customheadbutton.phtml'; 
 		if (is_file($customheadbutton)) {
 			include $customheadbutton;
 		} else { ?>
@@ -13,7 +13,7 @@
 		<?php } ?>
 
 		<?php
-		$customsearch = __DIR__.'/empl-list-customsearch.phtml'; 
+		$customsearch = __DIR__.'/hrstatus-list-customsearch.phtml'; 
 		if (is_file($customsearch)) {
 			include $customsearch;
 		} else { ?>
@@ -34,24 +34,20 @@
 	<div style="margin-top: 10px">
 		<table id="pnl_list-tbl_list" paging="true" cellspacing="0" width="100%" class="deftable">
 			<?php
-			$customview = __DIR__.'/empl-list-customview.phtml'; 
+			$customview = __DIR__.'/hrstatus-list-customview.phtml'; 
 			if (is_file($customview)) {
 				include $customview;
 			} else { ?>
 
 			<thead>
 				<tr>
-					<th mapping="empl_id">empl_id</th>
-					<th mapping="empl_nik">empl_nik</th>
-					<th mapping="empl_name">empl_name</th>
-					<th mapping="empl_isdisabled" type="checkbox">empl_isdisabled</th>
+					<th mapping="hrstatus_id">hrstatus_id</th>
+					<th mapping="hrstatus_name">hrstatus_name</th>
 
 				</tr>
 				<tr style="background-color: #cccccc; height: 30px">
 					<td class="fgtable-head" style="width: 100px; border-bottom: 1px solid #000000">ID</td>
-					<td class="fgtable-head" style="width: 100px; border-bottom: 1px solid #000000">NIK</td>
-					<td class="fgtable-head" style="width: 100px; border-bottom: 1px solid #000000">Name</td>
-					<td class="fgtable-head" style="width: 100px; border-bottom: 1px solid #000000; text-align: center">Disabled</td>
+					<td class="fgtable-head" style="width: 100px; border-bottom: 1px solid #000000">Status</td>
 
 				</tr>
 			</thead>
@@ -63,17 +59,11 @@
 
 
 	<?php
-	$customfootbutton = __DIR__.'/empl-list-customfootbutton.phtml'; 
+	$customfootbutton = __DIR__.'/hrstatus-list-customfootbutton.phtml'; 
 	if (is_file($customfootbutton)) {
 		include $customfootbutton;
 	} 
 	?>	
 
-	<?php
-	$custompagefooter = __DIR__.'/empl-list-custompagefooter.phtml'; 
-	if (is_file($custompagefooter)) {
-		include $custompagefooter;
-	} 
-	?>	
 
 </div>

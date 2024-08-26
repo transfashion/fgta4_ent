@@ -1,10 +1,8 @@
 var this_page_id;
 var this_page_options;
 
-import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
-import * as hnd from  './empl-edit-hnd.mjs'
 
-const txt_caption = $('#pnl_edit-caption')
+import * as hnd from  './hrstatus-edit-hnd.mjs'
 
 
 const btn_edit = $('#pnl_edit-btn_edit')
@@ -18,41 +16,9 @@ const btn_delete = $('#pnl_edit-btn_delete')
 
 const pnl_form = $('#pnl_edit-form')
 const obj = {
-	txt_empl_id: $('#pnl_edit-txt_empl_id'),
-	txt_empl_nik: $('#pnl_edit-txt_empl_nik'),
-	txt_empl_name: $('#pnl_edit-txt_empl_name'),
-	chk_empl_isdisabled: $('#pnl_edit-chk_empl_isdisabled'),
-	dt_empl_dtjoin: $('#pnl_edit-dt_empl_dtjoin'),
-	dt_empl_dtexit: $('#pnl_edit-dt_empl_dtexit'),
-	txt_empl_birthplace: $('#pnl_edit-txt_empl_birthplace'),
-	dt_empl_birthdate: $('#pnl_edit-dt_empl_birthdate'),
-	cbo_gender_id: $('#pnl_edit-cbo_gender_id'),
-	cbo_religion_id: $('#pnl_edit-cbo_religion_id'),
-	txt_empl_addressline1: $('#pnl_edit-txt_empl_addressline1'),
-	txt_empl_addressline2: $('#pnl_edit-txt_empl_addressline2'),
-	txt_empl_addressline3: $('#pnl_edit-txt_empl_addressline3'),
-	txt_empl_city: $('#pnl_edit-txt_empl_city'),
-	txt_empl_postcode: $('#pnl_edit-txt_empl_postcode'),
-	txt_empl_prov: $('#pnl_edit-txt_empl_prov'),
-	cbo_country_id: $('#pnl_edit-cbo_country_id'),
-	txt_empl_mobilephone: $('#pnl_edit-txt_empl_mobilephone'),
-	txt_empl_phone: $('#pnl_edit-txt_empl_phone'),
-	txt_empl_email: $('#pnl_edit-txt_empl_email'),
-	cbo_edu_id: $('#pnl_edit-cbo_edu_id'),
-	txt_empl_kk: $('#pnl_edit-txt_empl_kk'),
-	txt_empl_ktp: $('#pnl_edit-txt_empl_ktp'),
-	txt_empl_npwp: $('#pnl_edit-txt_empl_npwp'),
-	cbo_marital_id: $('#pnl_edit-cbo_marital_id'),
-	txt_empl_bpjstk: $('#pnl_edit-txt_empl_bpjstk'),
-	txt_empl_bpjskes: $('#pnl_edit-txt_empl_bpjskes'),
-	txt_empl_namaibu: $('#pnl_edit-txt_empl_namaibu'),
-	txt_empl_rek1: $('#pnl_edit-txt_empl_rek1'),
-	txt_empl_rek2: $('#pnl_edit-txt_empl_rek2'),
-	cbo_hrstatus_id: $('#pnl_edit-cbo_hrstatus_id'),
-	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
-	cbo_hrjob_id: $('#pnl_edit-cbo_hrjob_id'),
-	cbo_site_id: $('#pnl_edit-cbo_site_id'),
-	cbo_auth_id: $('#pnl_edit-cbo_auth_id')
+	txt_hrstatus_id: $('#pnl_edit-txt_hrstatus_id'),
+	txt_hrstatus_name: $('#pnl_edit-txt_hrstatus_name'),
+	txt_hrstatus_descr: $('#pnl_edit-txt_hrstatus_descr')
 }
 
 
@@ -65,14 +31,22 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-	txt_caption.template = txt_caption.html();
+
 	var disableedit = false;
+	// switch (this_page_options.variancename) {
+	// 	case 'commit' :
+	//		disableedit = true;
+	//		btn_edit.linkbutton('disable');
+	//		btn_save.linkbutton('disable');
+	//		btn_delete.linkbutton('disable');
+	//		break;
+	// }
 
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_empl_id,
-		autoid: true,
-		logview: 'mst_empl',
+		primary: obj.txt_hrstatus_id,
+		autoid: false,
+		logview: 'mst_hrstatus',
 		btn_edit: disableedit==true? $('<a>edit</a>') : btn_edit,
 		btn_save: disableedit==true? $('<a>save</a>') : btn_save,
 		btn_delete: disableedit==true? $('<a>delete</a>') : btn_delete,		
@@ -101,146 +75,6 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
-	obj.cbo_gender_id.name = 'pnl_edit-cbo_gender_id'		
-	new fgta4slideselect(obj.cbo_gender_id, {
-		title: 'Pilih gender_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_gender_id,
-		fieldValue: 'gender_id',
-		fieldDisplay: 'gender_name',
-		fields: [
-			{mapping: 'gender_id', text: 'gender_id'},
-			{mapping: 'gender_name', text: 'gender_name'}
-		],
-
-	})				
-				
-	obj.cbo_religion_id.name = 'pnl_edit-cbo_religion_id'		
-	new fgta4slideselect(obj.cbo_religion_id, {
-		title: 'Pilih religion_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_religion_id,
-		fieldValue: 'religion_id',
-		fieldDisplay: 'religion_name',
-		fields: [
-			{mapping: 'religion_id', text: 'religion_id'},
-			{mapping: 'religion_name', text: 'religion_name'}
-		],
-
-	})				
-				
-	obj.cbo_country_id.name = 'pnl_edit-cbo_country_id'		
-	new fgta4slideselect(obj.cbo_country_id, {
-		title: 'Pilih country_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_country_id,
-		fieldValue: 'country_id',
-		fieldDisplay: 'country_name',
-		fields: [
-			{mapping: 'country_id', text: 'country_id'},
-			{mapping: 'country_name', text: 'country_name'}
-		],
-
-	})				
-				
-	obj.cbo_edu_id.name = 'pnl_edit-cbo_edu_id'		
-	new fgta4slideselect(obj.cbo_edu_id, {
-		title: 'Pilih edu_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_edu_id,
-		fieldValue: 'edu_id',
-		fieldDisplay: 'edu_name',
-		fields: [
-			{mapping: 'edu_id', text: 'edu_id'},
-			{mapping: 'edu_name', text: 'edu_name'}
-		],
-
-	})				
-				
-	obj.cbo_marital_id.name = 'pnl_edit-cbo_marital_id'		
-	new fgta4slideselect(obj.cbo_marital_id, {
-		title: 'Pilih marital_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_marital_id,
-		fieldValue: 'marital_id',
-		fieldDisplay: 'marital_name',
-		fields: [
-			{mapping: 'marital_id', text: 'marital_id'},
-			{mapping: 'marital_name', text: 'marital_name'}
-		],
-
-	})				
-				
-	obj.cbo_hrstatus_id.name = 'pnl_edit-cbo_hrstatus_id'		
-	new fgta4slideselect(obj.cbo_hrstatus_id, {
-		title: 'Pilih hrstatus_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_hrstatus_id,
-		fieldValue: 'hrstatus_id',
-		fieldDisplay: 'hrstatus_name',
-		fields: [
-			{mapping: 'hrstatus_id', text: 'hrstatus_id'},
-			{mapping: 'hrstatus_name', text: 'hrstatus_name'}
-		],
-
-	})				
-				
-	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
-	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih dept_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
-		fieldValue: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-
-	})				
-				
-	obj.cbo_hrjob_id.name = 'pnl_edit-cbo_hrjob_id'		
-	new fgta4slideselect(obj.cbo_hrjob_id, {
-		title: 'Pilih hrjob_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_hrjob_id,
-		fieldValue: 'hrjob_id',
-		fieldDisplay: 'hrjob_name',
-		fields: [
-			{mapping: 'hrjob_id', text: 'hrjob_id'},
-			{mapping: 'hrjob_name', text: 'hrjob_name'}
-		],
-
-	})				
-				
-	obj.cbo_site_id.name = 'pnl_edit-cbo_site_id'		
-	new fgta4slideselect(obj.cbo_site_id, {
-		title: 'Pilih site_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_site_id,
-		fieldValue: 'site_id',
-		fieldDisplay: 'site_name',
-		fields: [
-			{mapping: 'site_id', text: 'site_id'},
-			{mapping: 'site_name', text: 'site_name'}
-		],
-
-	})				
-				
-	obj.cbo_auth_id.name = 'pnl_edit-cbo_auth_id'		
-	new fgta4slideselect(obj.cbo_auth_id, {
-		title: 'Pilih auth_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_auth_id,
-		fieldValue: 'auth_id',
-		fieldDisplay: 'auth_name',
-		fields: [
-			{mapping: 'auth_id', text: 'auth_id'},
-			{mapping: 'auth_name', text: 'auth_name'}
-		],
-
-	})				
-				
 
 
 
@@ -262,8 +96,6 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
-		var element = document.activeElement;
-		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -321,12 +153,6 @@ export function getCurrentRowdata() {
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
-	var caption = txt_caption.template;
-	caption = caption.replace('{{STATE_BEG}}', '');
-	caption = caption.replace('{{STATE_END}}', ' View');
-	txt_caption.html(caption);
-
-
 	rowdata = {
 		data: data,
 		rowid: rowid
@@ -342,7 +168,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.auth_id==null) { result.record.auth_id='--NULL--'; result.record.auth_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -366,16 +191,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_gender_id, record.gender_id, record.gender_name)
-			.setValue(obj.cbo_religion_id, record.religion_id, record.religion_name)
-			.setValue(obj.cbo_country_id, record.country_id, record.country_name)
-			.setValue(obj.cbo_edu_id, record.edu_id, record.edu_name)
-			.setValue(obj.cbo_marital_id, record.marital_id, record.marital_name)
-			.setValue(obj.cbo_hrstatus_id, record.hrstatus_id, record.hrstatus_name)
-			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
-			.setValue(obj.cbo_hrjob_id, record.hrjob_id, record.hrjob_name)
-			.setValue(obj.cbo_site_id, record.site_id, record.site_name)
-			.setValue(obj.cbo_auth_id, record.auth_id, record.auth_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -420,44 +235,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
-
-	var caption = txt_caption.template;
-	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
-	caption = caption.replace('{{STATE_END}}', '');
-	txt_caption.html(caption);
-
-
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-		data.empl_isdisabled = '0'
-		data.empl_dtjoin = global.now()
-		data.empl_dtexit = global.now()
-		data.empl_birthdate = global.now()
 
-		data.gender_id = '0'
-		data.gender_name = '-- PILIH --'
-		data.religion_id = '0'
-		data.religion_name = '-- PILIH --'
-		data.country_id = '0'
-		data.country_name = '-- PILIH --'
-		data.edu_id = '0'
-		data.edu_name = '-- PILIH --'
-		data.marital_id = '0'
-		data.marital_name = '-- PILIH --'
-		data.hrstatus_id = '0'
-		data.hrstatus_name = '-- PILIH --'
-		data.dept_id = '0'
-		data.dept_name = '-- PILIH --'
-		data.hrjob_id = '0'
-		data.hrjob_name = '-- PILIH --'
-		data.site_id = '0'
-		data.site_name = '-- PILIH --'
-		data.auth_id = '--NULL--'
-		data.auth_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -544,32 +328,15 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
-	var updategriddata = {}
-
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(updategriddata, record);
+		hnd.form_updategridstate(record);
 	}
-
-	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
-
 }
 
 function form_viewmodechanged(viewmode) {
-
-	var caption = txt_caption.template;
-	if (viewmode) {
-		caption = caption.replace('{{STATE_BEG}}', '');
-		caption = caption.replace('{{STATE_END}}', ' View');
-	} else {
-		caption = caption.replace('{{STATE_BEG}}', '');
-		caption = caption.replace('{{STATE_END}}', ' Edit');
-	}
-	txt_caption.html(caption);
-
-
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -577,7 +344,7 @@ function form_viewmodechanged(viewmode) {
 }
 
 function form_idsetup(options) {
-	var objid = obj.txt_empl_id
+	var objid = obj.txt_hrstatus_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 
@@ -606,7 +373,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['auth_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -626,14 +393,10 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.error(err)
+	console.log(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
-	if (options.supress_error_dialog!=true) {
-		$ui.ShowMessage('[ERROR]'+err.message);
-	}
-
 }
 
 
@@ -655,7 +418,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_auth_id, result.dataresponse.auth_name!=='--NULL--' ? result.dataresponse.auth_id : '--NULL--', result.dataresponse.auth_name!=='--NULL--'?result.dataresponse.auth_name:'NONE')
 
 	*/
 
@@ -673,7 +435,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	var rowdata = {
+	rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -685,9 +447,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data, options) {
+async function form_deleting(data) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data, options);
+		hnd.form_deleting(data);
 	}
 }
 

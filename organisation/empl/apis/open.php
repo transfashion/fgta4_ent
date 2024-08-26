@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * hrms/master/empl/apis/open.php
+ * ent/organisation/empl/apis/open.php
  *
  * ====
  * Open
@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 20/01/2023
+ * tanggal 26/08/2024
  */
 $API = new class extends emplBase {
 	
@@ -63,6 +63,11 @@ $API = new class extends emplBase {
 				$hnd->init($options);
 			}
 
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
 			$criteriaValues = [
 				"empl_id" => " empl_id = :empl_id "
 			];
@@ -72,6 +77,12 @@ $API = new class extends emplBase {
 			}
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
+			
 
 			if (method_exists(get_class($hnd), 'prepareOpenData')) {
 				// prepareOpenData(object $options, $criteriaValues) : void

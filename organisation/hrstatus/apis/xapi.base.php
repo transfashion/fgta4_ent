@@ -16,23 +16,23 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/organisation/empl/apis/xapi.base.php
+ * hrms/master/hrstatus/apis/xapi.base.php
  *
- * emplBase
+ * hrstatusBase
  * Kelas dasar untuk keperluan-keperluan api
- * kelas ini harus di-inherit untuk semua api pada modul empl
+ * kelas ini harus di-inherit untuk semua api pada modul hrstatus
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 26/08/2024
+ * tanggal 30/12/2022
  */
-class emplBase extends WebAPI {
+class hrstatusBase extends WebAPI {
 
-	protected $main_tablename = "mst_empl";
-	protected $main_primarykey = "empl_id";
-	protected $main_field_version = "empl_version";	
+	protected $main_tablename = "mst_hrstatus";
+	protected $main_primarykey = "hrstatus_id";
+	protected $main_field_version = "hrstatus_version";	
 	
 	
 
@@ -40,7 +40,7 @@ class emplBase extends WebAPI {
 
 	function __construct() {
 
-		// $logfilepath = __LOCALDB_DIR . "/output//*empl*/.txt";
+		// $logfilepath = __LOCALDB_DIR . "/output//*hrstatus*/.txt";
 		// debug::disable();
 		// debug::start($logfilepath, "w");
 
@@ -56,6 +56,13 @@ class emplBase extends WebAPI {
 		
 	}
 
+	function pre_action_check($data, $action) {
+		try {
+			return true;
+		} catch (\Exception $ex) {
+			throw $ex;
+		}
+	}
 
 	public function get_header_row($id) {
 		try {
