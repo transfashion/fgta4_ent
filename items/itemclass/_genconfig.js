@@ -19,38 +19,10 @@ module.exports = {
 			data: {
 				itemclass_id: { text: 'ID', type: dbtype.varchar(14), null: false},
 				
-				itemmodel_id: { 
-					text: 'Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Model harus diisi' } ,
-					comp: comp.Combo({
-						title: 'Pilih Model Item',
-						table: 'mst_itemmodel', 
-						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
-						api: 'ent/items/itemmodel/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: true	
-					})
-				},					
+				
 				
 			
-				itemmanage_id: {
-					text:'Manage As', type: dbtype.varchar(2), null:false, suppresslist: true,
-					options: {required:true, invalidMessage:'Order Doc harus diisi' },
-					comp: comp.Combo({
-						title: 'Pilih Item Manage',
-						table: 'mst_itemmanage', 
-						tips: 'Perlakuan item yang diterima pada saat order diselesaikan.',
-						tipstype: 'visible',
-						field_value: 'itemmanage_id', field_display: 'itemmanage_name',  field_display_name: 'itemmanage_name',
-						api: 'ent/items/itemmanage/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: true	
-					})
-				},
+
 
 				itemclass_name: { text: 'Item Class Name', type: dbtype.varchar(30), null: false, uppercase: true, options: { required: true, invalidMessage: 'Nama Klasifikasi item harus diisi' } },
 
@@ -89,6 +61,90 @@ module.exports = {
 					})				
 				},
 
+
+				
+				unitmeasurement_id: { 
+					text: 'Unit of Measurement', 
+					type: dbtype.varchar(10),  null: false, suppresslist: true,
+					options: {required:true, invalidMessage:'Unit Measurement harus diisi' },
+					comp: comp.Combo({
+						title: 'Pilih Maasurement',
+						table: 'mst_unitmeasurement', 
+						field_value: 'unitmeasurement_id', field_display: 'unitmeasurement_name', 
+						api: 'ent/general/unitmeasurement/list'
+					})
+				},				
+
+
+
+
+
+				itemclass_minassetvalue: { 
+					class: 'assetpanel assetpanel-hide',	
+					text: 'If Value More Than', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true 
+				},
+
+				inquiry_accbudget_id: {
+					text: 'Inquiry Budget', type: dbtype.varchar(20), null: true, suppresslist: true,
+					options: { prompt: 'NONE' },
+					comp: comp.Combo({
+						title: 'Pilih Budget untuk Inquiry',
+						table: 'mst_accbudget',
+						field_value: 'accbudget_id', field_display: 'accbudget_name', field_display_name: 'inquiry_accbudget_name', 
+						api: 'ent/financial/accbudget/list'
+					})
+				},
+
+				nr_coa_id: {
+					text: 'Account BS', type: dbtype.varchar(17), null: true, suppresslist: true,
+					tips: 'Ivnentory / Persediaan, Asset',
+					tipstype: 'visible',
+					options: { prompt: 'NONE' },
+					comp: comp.Combo({
+						title: 'Pilih COA Neraca',
+						table: 'mst_coa',
+						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'settl_coa_name', 
+						api: 'ent/financial/coa/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})
+				},
+
+				lr_coa_id: {
+					text: 'Account IS', type: dbtype.varchar(17), null: true, suppresslist: true,
+					tips: 'Account Cost / Amortisasi / Depresiasi (asset)',
+					tipstype: 'visible',
+					options: { prompt:'NONE' },
+					comp: comp.Combo({
+						title: 'Pilih COA Laba Rugi',
+						table: 'mst_coa',
+						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'cost_coa_name', 
+						api: 'ent/financial/coa/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false
+					})
+				},			
+				
+
+				itemmodel_id: { 
+					text: 'Default Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Model harus diisi' } ,
+					comp: comp.Combo({
+						title: 'Pilih Model Item',
+						table: 'mst_itemmodel', 
+						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
+						api: 'ent/items/itemmodel/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
+					})
+				},	
+
 				owner_dept_id: {
 					text: 'Default Owner Dept', type: dbtype.varchar(30), null:true,  suppresslist: true,
 					options:{prompt:'NONE'},
@@ -125,73 +181,7 @@ module.exports = {
 					})				
 				},
 
-				
-				unitmeasurement_id: { 
-					text: 'Unit of Measurement', 
-					type: dbtype.varchar(10),  null: false, suppresslist: true,
-					options: {required:true, invalidMessage:'Unit Measurement harus diisi' },
-					comp: comp.Combo({
-						title: 'Pilih Maasurement',
-						table: 'mst_unitmeasurement', 
-						field_value: 'unitmeasurement_id', field_display: 'unitmeasurement_name', 
-						api: 'ent/general/unitmeasurement/list'
-					})
-				},				
 
-
-
-
-
-				itemclass_minassetvalue: { 
-					class: 'assetpanel assetpanel-hide',	
-					text: 'If Value More Than', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true 
-				},
-
-				inquiry_accbudget_id: {
-					text: 'Inquiry Budget', type: dbtype.varchar(20), null: true, suppresslist: true,
-					options: { prompt: 'NONE' },
-					comp: comp.Combo({
-						title: 'Pilih Budget untuk Inquiry',
-						table: 'mst_accbudget',
-						field_value: 'accbudget_id', field_display: 'accbudget_name', field_display_name: 'inquiry_accbudget_name', 
-						api: 'finact/master/accbudget/list'
-					})
-				},
-
-				nr_coa_id: {
-					text: 'Account BS', type: dbtype.varchar(17), null: true, suppresslist: true,
-					tips: 'Ivnentory / Persediaan, Asset',
-					tipstype: 'visible',
-					options: { prompt: 'NONE' },
-					comp: comp.Combo({
-						title: 'Pilih COA Neraca',
-						table: 'mst_coa',
-						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'settl_coa_name', 
-						api: 'finact/master/coa/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false	
-					})
-				},
-
-				lr_coa_id: {
-					text: 'Account IS', type: dbtype.varchar(17), null: true, suppresslist: true,
-					tips: 'Account Cost / Amortisasi / Depresiasi (asset)',
-					tipstype: 'visible',
-					options: { prompt:'NONE' },
-					comp: comp.Combo({
-						title: 'Pilih COA Laba Rugi',
-						table: 'mst_coa',
-						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'cost_coa_name', 
-						api: 'finact/master/coa/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false
-					})
-				},			
-				
 				depremodel_id: { 
 					class: 'assetpanel assetpanel-hide',	
 					text: 'Depresiasi', 
@@ -200,7 +190,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_depremodel', 
 						field_value: 'depremodel_id', field_display: 'depremodel_name', field_display_name: 'depremodel_name', 
-						api: 'finact/master/depremodel/list'
+						api: 'ent/items/depremodel/list'
 					})				
 				},	
 
@@ -220,10 +210,25 @@ module.exports = {
 				itemclass_isallowunbudget: { text: 'Allow Request UnBudgeted', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ labelWidth:'300px'}},
 
 
-
+				itemmanage_id: {
+					section: section.Begin('Item Settings'),
+					text:'Manage As', type: dbtype.varchar(2), null:false, suppresslist: true,
+					options: {required:true, invalidMessage:'Order Doc harus diisi', disabled:true},
+					comp: comp.Combo({
+						title: 'Pilih Item Manage',
+						table: 'mst_itemmanage', 
+						tips: 'Perlakuan item yang diterima pada saat order diselesaikan.',
+						tipstype: 'visible',
+						field_value: 'itemmanage_id', field_display: 'itemmanage_name',  field_display_name: 'itemmanage_name',
+						api: 'ent/items/itemmanage/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true	
+					})
+				},
 
 				itemclass_isindependentsetting: { 
-					section: section.Begin('Item Settings'),
 					caption:'Current Setting', text: 'Independent', type: dbtype.boolean, null: false, default: '0', suppresslist:true, options:{labelWidth:'300px'} 
 				},
 				itemmodel_isintangible: { 
@@ -267,7 +272,7 @@ module.exports = {
 					options: { required: true, invalidMessage: 'ID harus diisi' , prompt:'-- PILIH --'},
 					comp: comp.Combo({
 						table: 'mst_projectmodel', field_value: 'projectmodel_id', field_display: 'projectmodel_name', 
-						api: 'finact/master/projectmodel/list'
+						api: 'ent/task/projectmodel/list'
 					})
 				},
 
@@ -277,7 +282,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_accbudget', 
 						field_value: 'accbudget_id', field_display: 'accbudget_name', field_display_name: 'inquiry_accbudget_name', 
-						api: 'finact/master/accbudget/list'
+						api: 'ent/financial/accbudget/list'
 					})
 				},
 

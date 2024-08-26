@@ -56,7 +56,10 @@ export function cbo_itemmodel_id_selected(value, display, record, args) {
 		form.setValue(obj.cbo_maintainer_dept_id, record.dept_id, record.dept_name);
 	}
 	
+	
 	chk_itemmodel_ishasmainteinerdept_changed();
+	chk_itemmanage_isasset_changed();
+	chk_depremodel_isautocalc_changed();
 }
 
 export function cbo_itemmanage_id_selected(value, display, record, args) {
@@ -65,7 +68,10 @@ export function cbo_itemmanage_id_selected(value, display, record, args) {
 	form.setValue(obj.chk_itemmanage_isbynonitemowner, form.toBool(record.itemmanage_isbynonitemowner ));	
 	form.setValue(obj.chk_itemmanage_isbypartnerselect, form.toBool(record.itemmanage_isbypartnerselect ));	
 
+	
 	chk_itemmodel_ishasmainteinerdept_changed();
+	chk_itemmanage_isasset_changed();
+	chk_depremodel_isautocalc_changed();
 }
 
 export function cbo_owner_dept_id_dataloading(criteria, options) {
@@ -110,6 +116,19 @@ export function form_dataopening(result, options) {
 
 
 function chk_itemmanage_isasset_changed(checked) {
+	if (checked===undefined) {
+		checked = form.getValue(obj.chk_itemmanage_isasset);
+	}
+
+	// tampilkan field depresiasi
+	var deprefields = document.querySelectorAll('.assetpanel');
+	for (var el of deprefields) {
+		if (checked) {
+			el.classList.remove('assetpanel-hide');
+		} else {
+			el.classList.add('assetpanel-hide');
+		}
+	}
 
 }
 
@@ -119,9 +138,17 @@ function chk_itemmodel_ishasmainteinerdept_changed(checked) {
 	}
 
 	if (checked) {
-		obj.cbo_maintainer_dept_id.revalidate(form.mandatoryValidation('pnl_edit-cbo_maintainer_dept_id', 'Dept maintainer harus diisi'));
+		var promptMandatory = form.getDefaultPrompt(true)
+		obj.cbo_maintainer_dept_id.revalidate(form.mandatoryValidation(obj.cbo_maintainer_dept_id.name, 'Dept maintainer harus diisi'));
+		if (!form.isEventSuspended()) {
+			form.setValue(obj.cbo_maintainer_dept_id, promptMandatory.value, promptMandatory.text);
+		}
 	} else {
+		var promptOptional = form.getDefaultPrompt(false)
 		obj.cbo_maintainer_dept_id.revalidate(form.optionalValidation());
+		if (!form.isEventSuspended()) {
+			form.setValue(obj.cbo_maintainer_dept_id, promptOptional.value, promptOptional.text);
+		}
 	}
 }
 

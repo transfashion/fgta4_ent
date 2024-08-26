@@ -19,21 +19,20 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_itemclass_id: $('#pnl_edit-txt_itemclass_id'),
-	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
-	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
 	txt_itemclass_name: $('#pnl_edit-txt_itemclass_name'),
 	chk_itemclass_isdisabled: $('#pnl_edit-chk_itemclass_isdisabled'),
 	chk_itemclass_isadvproces: $('#pnl_edit-chk_itemclass_isadvproces'),
 	txt_itemclass_descr: $('#pnl_edit-txt_itemclass_descr'),
 	cbo_itemclassgroup_id: $('#pnl_edit-cbo_itemclassgroup_id'),
 	cbo_owner_unit_id: $('#pnl_edit-cbo_owner_unit_id'),
-	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
-	cbo_maintainer_dept_id: $('#pnl_edit-cbo_maintainer_dept_id'),
 	cbo_unitmeasurement_id: $('#pnl_edit-cbo_unitmeasurement_id'),
 	txt_itemclass_minassetvalue: $('#pnl_edit-txt_itemclass_minassetvalue'),
 	cbo_inquiry_accbudget_id: $('#pnl_edit-cbo_inquiry_accbudget_id'),
 	cbo_nr_coa_id: $('#pnl_edit-cbo_nr_coa_id'),
 	cbo_lr_coa_id: $('#pnl_edit-cbo_lr_coa_id'),
+	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
+	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
+	cbo_maintainer_dept_id: $('#pnl_edit-cbo_maintainer_dept_id'),
 	cbo_depremodel_id: $('#pnl_edit-cbo_depremodel_id'),
 	txt_itemclass_depreage: $('#pnl_edit-txt_itemclass_depreage'),
 	txt_itemclass_depreresidu: $('#pnl_edit-txt_itemclass_depreresidu'),
@@ -42,6 +41,7 @@ const obj = {
 	chk_itemclass_isallowovertask: $('#pnl_edit-chk_itemclass_isallowovertask'),
 	chk_itemclass_isallowovervalue: $('#pnl_edit-chk_itemclass_isallowovervalue'),
 	chk_itemclass_isallowunbudget: $('#pnl_edit-chk_itemclass_isallowunbudget'),
+	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
 	chk_itemclass_isindependentsetting: $('#pnl_edit-chk_itemclass_isindependentsetting'),
 	chk_itemmodel_isintangible: $('#pnl_edit-chk_itemmodel_isintangible'),
 	chk_itemmodel_issellable: $('#pnl_edit-chk_itemmodel_issellable'),
@@ -101,48 +101,6 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
-	obj.cbo_itemmodel_id.name = 'pnl_edit-cbo_itemmodel_id'		
-	new fgta4slideselect(obj.cbo_itemmodel_id, {
-		title: 'Pilih Model Item',
-		returnpage: this_page_id,
-		api: $ui.apis.load_itemmodel_id,
-		fieldValue: 'itemmodel_id',
-		fieldDisplay: 'itemmodel_name',
-		fields: [
-			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
-			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
-		],
-		OnSelected: (value, display, record, args) => {
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemmodel_id_selected === 'function') {
-					hnd.cbo_itemmodel_id_selected(value, display, record, args);
-				}
-			}
-		},
-
-	})				
-				
-	obj.cbo_itemmanage_id.name = 'pnl_edit-cbo_itemmanage_id'		
-	new fgta4slideselect(obj.cbo_itemmanage_id, {
-		title: 'Pilih Item Manage',
-		returnpage: this_page_id,
-		api: $ui.apis.load_itemmanage_id,
-		fieldValue: 'itemmanage_id',
-		fieldDisplay: 'itemmanage_name',
-		fields: [
-			{mapping: 'itemmanage_id', text: 'itemmanage_id'},
-			{mapping: 'itemmanage_name', text: 'itemmanage_name'}
-		],
-		OnSelected: (value, display, record, args) => {
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemmanage_id_selected === 'function') {
-					hnd.cbo_itemmanage_id_selected(value, display, record, args);
-				}
-			}
-		},
-
-	})				
-				
 	obj.cbo_itemclassgroup_id.name = 'pnl_edit-cbo_itemclassgroup_id'		
 	new fgta4slideselect(obj.cbo_itemclassgroup_id, {
 		title: 'Pilih Group Class',
@@ -170,57 +128,6 @@ export async function init(opt) {
 			{mapping: 'unit_id', text: 'unit_id'},
 			{mapping: 'unit_name', text: 'unit_name'}
 		],
-
-	})				
-				
-	obj.cbo_owner_dept_id.name = 'pnl_edit-cbo_owner_dept_id'		
-	new fgta4slideselect(obj.cbo_owner_dept_id, {
-		title: 'Pilih Owner Dept',
-		returnpage: this_page_id,
-		api: $ui.apis.load_owner_dept_id,
-		fieldValue: 'owner_dept_id',
-		fieldDisplay: 'owner_dept_name',
-		fieldValueMap: 'dept_id',
-		fieldDisplayMap: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_owner_dept_id_dataloading === 'function') {
-				hnd.cbo_owner_dept_id_dataloading(criteria, options);
-			}						
-		},					
-		OnSelected: (value, display, record, args) => {
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_owner_dept_id_selected === 'function') {
-					hnd.cbo_owner_dept_id_selected(value, display, record, args);
-				}
-			}
-		},
-
-	})				
-				
-	obj.cbo_maintainer_dept_id.name = 'pnl_edit-cbo_maintainer_dept_id'		
-	new fgta4slideselect(obj.cbo_maintainer_dept_id, {
-		title: 'Pilih Maintainer Dept',
-		returnpage: this_page_id,
-		api: $ui.apis.load_maintainer_dept_id,
-		fieldValue: 'maintainer_dept_id',
-		fieldDisplay: 'maintainer_dept_name',
-		fieldValueMap: 'dept_id',
-		fieldDisplayMap: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_maintainer_dept_id_dataloading === 'function') {
-				hnd.cbo_maintainer_dept_id_dataloading(criteria, options);
-			}						
-		},					
 
 	})				
 				
@@ -298,6 +205,78 @@ export async function init(opt) {
 
 	})				
 				
+	obj.cbo_itemmodel_id.name = 'pnl_edit-cbo_itemmodel_id'		
+	new fgta4slideselect(obj.cbo_itemmodel_id, {
+		title: 'Pilih Model Item',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemmodel_id,
+		fieldValue: 'itemmodel_id',
+		fieldDisplay: 'itemmodel_name',
+		fields: [
+			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
+			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
+		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemmodel_id_selected === 'function') {
+					hnd.cbo_itemmodel_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
+	obj.cbo_owner_dept_id.name = 'pnl_edit-cbo_owner_dept_id'		
+	new fgta4slideselect(obj.cbo_owner_dept_id, {
+		title: 'Pilih Owner Dept',
+		returnpage: this_page_id,
+		api: $ui.apis.load_owner_dept_id,
+		fieldValue: 'owner_dept_id',
+		fieldDisplay: 'owner_dept_name',
+		fieldValueMap: 'dept_id',
+		fieldDisplayMap: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_owner_dept_id_dataloading === 'function') {
+				hnd.cbo_owner_dept_id_dataloading(criteria, options);
+			}						
+		},					
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_owner_dept_id_selected === 'function') {
+					hnd.cbo_owner_dept_id_selected(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
+	obj.cbo_maintainer_dept_id.name = 'pnl_edit-cbo_maintainer_dept_id'		
+	new fgta4slideselect(obj.cbo_maintainer_dept_id, {
+		title: 'Pilih Maintainer Dept',
+		returnpage: this_page_id,
+		api: $ui.apis.load_maintainer_dept_id,
+		fieldValue: 'maintainer_dept_id',
+		fieldDisplay: 'maintainer_dept_name',
+		fieldValueMap: 'dept_id',
+		fieldDisplayMap: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_maintainer_dept_id_dataloading === 'function') {
+				hnd.cbo_maintainer_dept_id_dataloading(criteria, options);
+			}						
+		},					
+
+	})				
+				
 	obj.cbo_depremodel_id.name = 'pnl_edit-cbo_depremodel_id'		
 	new fgta4slideselect(obj.cbo_depremodel_id, {
 		title: 'Pilih depremodel_id',
@@ -309,6 +288,27 @@ export async function init(opt) {
 			{mapping: 'depremodel_id', text: 'depremodel_id'},
 			{mapping: 'depremodel_name', text: 'depremodel_name'}
 		],
+
+	})				
+				
+	obj.cbo_itemmanage_id.name = 'pnl_edit-cbo_itemmanage_id'		
+	new fgta4slideselect(obj.cbo_itemmanage_id, {
+		title: 'Pilih Item Manage',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemmanage_id,
+		fieldValue: 'itemmanage_id',
+		fieldDisplay: 'itemmanage_name',
+		fields: [
+			{mapping: 'itemmanage_id', text: 'itemmanage_id'},
+			{mapping: 'itemmanage_name', text: 'itemmanage_name'}
+		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemmanage_id_selected === 'function') {
+					hnd.cbo_itemmanage_id_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				
@@ -415,11 +415,11 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		/*
 		if (result.record.itemclassgroup_id==null) { result.record.itemclassgroup_id='--NULL--'; result.record.itemclassgroup_name='NONE'; }
 		if (result.record.owner_unit_id==null) { result.record.owner_unit_id='--NULL--'; result.record.owner_unit_name='NONE'; }
-		if (result.record.owner_dept_id==null) { result.record.owner_dept_id='--NULL--'; result.record.owner_dept_name='NONE'; }
-		if (result.record.maintainer_dept_id==null) { result.record.maintainer_dept_id='--NULL--'; result.record.maintainer_dept_name='NONE'; }
 		if (result.record.inquiry_accbudget_id==null) { result.record.inquiry_accbudget_id='--NULL--'; result.record.inquiry_accbudget_name='NONE'; }
 		if (result.record.nr_coa_id==null) { result.record.nr_coa_id='--NULL--'; result.record.settl_coa_name='NONE'; }
 		if (result.record.lr_coa_id==null) { result.record.lr_coa_id='--NULL--'; result.record.cost_coa_name='NONE'; }
+		if (result.record.owner_dept_id==null) { result.record.owner_dept_id='--NULL--'; result.record.owner_dept_name='NONE'; }
+		if (result.record.maintainer_dept_id==null) { result.record.maintainer_dept_id='--NULL--'; result.record.maintainer_dept_name='NONE'; }
 		if (result.record.depremodel_id==null) { result.record.depremodel_id='--NULL--'; result.record.depremodel_name='NONE'; }
 
 		*/
@@ -444,17 +444,17 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
-			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setValue(obj.cbo_itemclassgroup_id, record.itemclassgroup_id, record.itemclassgroup_name)
 			.setValue(obj.cbo_owner_unit_id, record.owner_unit_id, record.owner_unit_name)
-			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
-			.setValue(obj.cbo_maintainer_dept_id, record.maintainer_dept_id, record.maintainer_dept_name)
 			.setValue(obj.cbo_unitmeasurement_id, record.unitmeasurement_id, record.unitmeasurement_name)
 			.setValue(obj.cbo_inquiry_accbudget_id, record.inquiry_accbudget_id, record.inquiry_accbudget_name)
 			.setValue(obj.cbo_nr_coa_id, record.nr_coa_id, record.settl_coa_name)
 			.setValue(obj.cbo_lr_coa_id, record.lr_coa_id, record.cost_coa_name)
+			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
+			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
+			.setValue(obj.cbo_maintainer_dept_id, record.maintainer_dept_id, record.maintainer_dept_name)
 			.setValue(obj.cbo_depremodel_id, record.depremodel_id, record.depremodel_name)
+			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -534,18 +534,10 @@ export function createnew() {
 		data.itemmanage_isbynonitemowner = '0'
 		data.itemmanage_isbypartnerselect = '0'
 
-		data.itemmodel_id = '0'
-		data.itemmodel_name = '-- PILIH --'
-		data.itemmanage_id = '0'
-		data.itemmanage_name = '-- PILIH --'
 		data.itemclassgroup_id = '--NULL--'
 		data.itemclassgroup_name = 'NONE'
 		data.owner_unit_id = '--NULL--'
 		data.owner_unit_name = 'NONE'
-		data.owner_dept_id = '--NULL--'
-		data.owner_dept_name = 'NONE'
-		data.maintainer_dept_id = '--NULL--'
-		data.maintainer_dept_name = 'NONE'
 		data.unitmeasurement_id = '0'
 		data.unitmeasurement_name = '-- PILIH --'
 		data.inquiry_accbudget_id = '--NULL--'
@@ -554,8 +546,16 @@ export function createnew() {
 		data.settl_coa_name = 'NONE'
 		data.lr_coa_id = '--NULL--'
 		data.cost_coa_name = 'NONE'
+		data.itemmodel_id = '0'
+		data.itemmodel_name = '-- PILIH --'
+		data.owner_dept_id = '--NULL--'
+		data.owner_dept_name = 'NONE'
+		data.maintainer_dept_id = '--NULL--'
+		data.maintainer_dept_name = 'NONE'
 		data.depremodel_id = '--NULL--'
 		data.depremodel_name = 'NONE'
+		data.itemmanage_id = '0'
+		data.itemmanage_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -706,7 +706,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'owner_dept_id', 'maintainer_dept_id', 'inquiry_accbudget_id', 'nr_coa_id', 'lr_coa_id', 'depremodel_id', ];
+	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'inquiry_accbudget_id', 'nr_coa_id', 'lr_coa_id', 'owner_dept_id', 'maintainer_dept_id', 'depremodel_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -757,11 +757,11 @@ async function form_datasaved(result, options) {
 	/*
 	form.setValue(obj.cbo_itemclassgroup_id, result.dataresponse.itemclassgroup_name!=='--NULL--' ? result.dataresponse.itemclassgroup_id : '--NULL--', result.dataresponse.itemclassgroup_name!=='--NULL--'?result.dataresponse.itemclassgroup_name:'NONE')
 	form.setValue(obj.cbo_owner_unit_id, result.dataresponse.owner_unit_name!=='--NULL--' ? result.dataresponse.owner_unit_id : '--NULL--', result.dataresponse.owner_unit_name!=='--NULL--'?result.dataresponse.owner_unit_name:'NONE')
-	form.setValue(obj.cbo_owner_dept_id, result.dataresponse.owner_dept_name!=='--NULL--' ? result.dataresponse.owner_dept_id : '--NULL--', result.dataresponse.owner_dept_name!=='--NULL--'?result.dataresponse.owner_dept_name:'NONE')
-	form.setValue(obj.cbo_maintainer_dept_id, result.dataresponse.maintainer_dept_name!=='--NULL--' ? result.dataresponse.maintainer_dept_id : '--NULL--', result.dataresponse.maintainer_dept_name!=='--NULL--'?result.dataresponse.maintainer_dept_name:'NONE')
 	form.setValue(obj.cbo_inquiry_accbudget_id, result.dataresponse.inquiry_accbudget_name!=='--NULL--' ? result.dataresponse.inquiry_accbudget_id : '--NULL--', result.dataresponse.inquiry_accbudget_name!=='--NULL--'?result.dataresponse.inquiry_accbudget_name:'NONE')
 	form.setValue(obj.cbo_nr_coa_id, result.dataresponse.settl_coa_name!=='--NULL--' ? result.dataresponse.nr_coa_id : '--NULL--', result.dataresponse.settl_coa_name!=='--NULL--'?result.dataresponse.settl_coa_name:'NONE')
 	form.setValue(obj.cbo_lr_coa_id, result.dataresponse.cost_coa_name!=='--NULL--' ? result.dataresponse.lr_coa_id : '--NULL--', result.dataresponse.cost_coa_name!=='--NULL--'?result.dataresponse.cost_coa_name:'NONE')
+	form.setValue(obj.cbo_owner_dept_id, result.dataresponse.owner_dept_name!=='--NULL--' ? result.dataresponse.owner_dept_id : '--NULL--', result.dataresponse.owner_dept_name!=='--NULL--'?result.dataresponse.owner_dept_name:'NONE')
+	form.setValue(obj.cbo_maintainer_dept_id, result.dataresponse.maintainer_dept_name!=='--NULL--' ? result.dataresponse.maintainer_dept_id : '--NULL--', result.dataresponse.maintainer_dept_name!=='--NULL--'?result.dataresponse.maintainer_dept_name:'NONE')
 	form.setValue(obj.cbo_depremodel_id, result.dataresponse.depremodel_name!=='--NULL--' ? result.dataresponse.depremodel_id : '--NULL--', result.dataresponse.depremodel_name!=='--NULL--'?result.dataresponse.depremodel_name:'NONE')
 
 	*/
