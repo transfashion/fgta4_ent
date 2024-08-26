@@ -24,7 +24,6 @@ class itemclass_headerHandler extends WebAPI  {
 			$record['itemmodel_issellable'] = $itemmodel['itemmodel_issellable'];
 			$record['itemmodel_isnonitem'] = $itemmodel['itemmodel_isnonitem'];
 			$record['itemmodel_ishasmainteinerdept'] = $itemmodel['itemmodel_ishasmainteinerdept'];
-			$record['itemmanage_isasset'] = $itemmodel['itemmanage_isasset'];
 		}
 	}
 
