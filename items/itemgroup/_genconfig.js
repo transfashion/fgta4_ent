@@ -30,15 +30,15 @@ module.exports = {
 					})					
 				},
 
-				itemmodel_id: { 
-					text: 'Model', type: dbtype.varchar(10), null: true, 
-					options: { required: true, invalidMessage: 'Model harus diisi' } ,
-					comp: comp.Combo({
-						table: 'mst_itemmodel', 
-						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
-						api: 'ent/items/itemmodel/list'})
+				// itemmodel_id: { 
+				// 	text: 'Model', type: dbtype.varchar(10), null: true, 
+				// 	options: { required: true, invalidMessage: 'Model harus diisi' } ,
+				// 	comp: comp.Combo({
+				// 		table: 'mst_itemmodel', 
+				// 		field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
+				// 		api: 'ent/items/itemmodel/list'})
 				
-				},
+				// },
 
 				itemgroup_isparent: { text: 'Parent Group', type: dbtype.boolean, null: false, default: '0', suppresslist: true },
 

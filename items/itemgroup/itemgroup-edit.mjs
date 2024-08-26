@@ -23,7 +23,6 @@ const obj = {
 	txt_itemgroup_nameshort: $('#pnl_edit-txt_itemgroup_nameshort'),
 	txt_itemgroup_descr: $('#pnl_edit-txt_itemgroup_descr'),
 	cbo_itemgroup_parent: $('#pnl_edit-cbo_itemgroup_parent'),
-	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
 	chk_itemgroup_isparent: $('#pnl_edit-chk_itemgroup_isparent'),
 	chk_itemgroup_isexselect: $('#pnl_edit-chk_itemgroup_isexselect'),
 	txt_itemgroup_pathid: $('#pnl_edit-txt_itemgroup_pathid'),
@@ -103,20 +102,6 @@ export async function init(opt) {
 				}
 			}
 		},
-
-	})				
-				
-	obj.cbo_itemmodel_id.name = 'pnl_edit-cbo_itemmodel_id'		
-	new fgta4slideselect(obj.cbo_itemmodel_id, {
-		title: 'Pilih itemmodel_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_itemmodel_id,
-		fieldValue: 'itemmodel_id',
-		fieldDisplay: 'itemmodel_name',
-		fields: [
-			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
-			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
-		],
 
 	})				
 				
@@ -246,7 +231,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_itemgroup_parent, record.itemgroup_parent, record.itemgroup_parent_name)
-			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -310,8 +294,6 @@ export function createnew() {
 
 		data.itemgroup_parent = '--NULL--'
 		data.itemgroup_parent_name = 'NONE'
-		data.itemmodel_id = '0'
-		data.itemmodel_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,

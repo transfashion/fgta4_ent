@@ -11,6 +11,5 @@ kemdian, di program bisa diakses dengan
 */
 
 export const load_itemgroup_parent = 'ent/items/itemgroup/list'
-export const load_itemmodel_id = 'ent/items/itemmodel/list'
 
 
