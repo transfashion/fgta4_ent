@@ -63,7 +63,8 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-					A.dept_id, A.dept_name, A.dept_descr, A.dept_isparent, A.dept_isdisabled, A.dept_path, A.dept_level, A.deptgroup_id, 
+					A.dept_id, 
+					A.dept_name, A.dept_descr, A.dept_isparent, A.dept_isdisabled, A.dept_path, A.dept_level, A.deptgroup_id, 
 					A.dept_parent, A.depttype_id, A.deptmodel_id, A.auth_id, 
 					(select dept_path from mst_dept where dept_id=A.dept_parent) deptparent_path,
 					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
