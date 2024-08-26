@@ -5,6 +5,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Config",
+	backcolor : "#6a6a6a",
 	autoid: false,
 
 	persistent: {

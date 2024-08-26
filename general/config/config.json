@@ -1,7 +1,10 @@
 {
 	"title" : "Config",
-	"backcolor" : "#6a6a6a",
-	"variance" : {},
+	
+	"backcolor": "#6a6a6a",
+	"variance" : {
+
+	},
 	"allowanonymous" : false,
 	"allowedgroups" : ["public"],
 	"apis" : {

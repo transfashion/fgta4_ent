@@ -5,29 +5,48 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
+require_once __DIR__ . '/xapi.base.php';
+
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
+}
 
 
 
 use \FGTA4\exceptions\WebException;
 
-
-class DataList extends WebAPI {
-	function __construct() {
-		$this->debugoutput = true;
-		$DB_CONFIG = DB_CONFIG[$GLOBALS['MAINDB']];
-		$DB_CONFIG['param'] = DB_CONFIG_PARAM[$GLOBALS['MAINDBTYPE']];
-		$this->db = new \PDO(
-					$DB_CONFIG['DSN'], 
-					$DB_CONFIG['user'], 
-					$DB_CONFIG['pass'], 
-					$DB_CONFIG['param']
-		);
-
-	}
+/**
+ * ent/general/config/apis/list.php
+ *
+ * ========
+ * DataList
+ * ========
+ * Menampilkan data-data pada tabel header config (mst_config)
+ * sesuai dengan parameter yang dikirimkan melalui variable $option->criteria
+ *
+ * Agung Nugroho <agung@fgta.net> http://www.fgta.net
+ * Tangerang, 26 Maret 2021
+ *
+ * digenerate dengan FGTA4 generator
+ * tanggal 26/08/2024
+ */
+$API = new class extends configBase {
 
 	public function execute($options) {
 
 		$userdata = $this->auth->session_get_user();
+
+		$handlerclassname = "\\FGTA4\\apis\\config_headerHandler";
+		if (class_exists($handlerclassname)) {
+			$hnd = new config_headerHandler($options);
+			$hnd->caller = &$this;
+			$hnd->db = $this->db;
+			$hnd->auth = $this->auth;
+			$hnd->reqinfo = $this->reqinfo;
+		} else {
+			$hnd = new \stdClass;
+		}
+
 
 		try {
 		
@@ -36,32 +55,120 @@ class DataList extends WebAPI {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
 
-			$where = \FGTA4\utils\SqlUtility::BuildCriteria(
-				$options->criteria,
-				[
-					"search" => " A.config_id LIKE CONCAT('%', :search, '%') OR A.config_name LIKE CONCAT('%', :search, '%') "
-				]
-			);
+			$criteriaValues = [
+				"search" => " A.config_id LIKE CONCAT('%', :search, '%') OR A.config_name LIKE CONCAT('%', :search, '%') "
+			];
 
-			$result = new \stdClass; 
+			if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
+				// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
+				//    apabila akan modifikasi parameter2 untuk query
+				//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
+				//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
+				//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
+				//
+				//    untuk memberikan nilai default apabila paramter tidak dikirim
+				//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
+				$hnd->buildListCriteriaValues($options, $criteriaValues);
+			}
+
+			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
+			
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
-			$stmt = $this->db->prepare("select count(*) as n from mst_config A" . $where->sql);
+			/* prepare DbLayer Temporay Data Helper if needed */
+			if (method_exists(get_class($hnd), 'prepareListData')) {
+				// ** prepareListData(object $options, array $criteriaValues) : void
+				//    misalnya perlu mebuat temporary table,
+				//    untuk membuat query komplex dapat dibuat disini	
+				$hnd->prepareListData($options, $criteriaValues);
+			}
+
+
+			/* Data Query Configuration */
+			$sqlFieldList = [
+				'config_id' => 'A.`config_id`', 'config_name' => 'A.`config_name`', 'config_dir' => 'A.`config_dir`', 'config_filename' => 'A.`config_filename`',
+				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
+			];
+			$sqlFromTable = "mst_config A";
+			$sqlWhere = $where->sql;
+			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
+
+			if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
+				// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				//    menambah atau memodifikasi field-field yang akan ditampilkan
+				//    apabila akan memodifikasi join table
+				//    apabila akan memodifikasi nilai parameter
+				$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
+			}
+			
+			// filter select columns
+			if (!property_exists($options, 'selectFields')) {
+				$options->selectFields = [];
+			}
+			$columsSelected = $this->SelectColumns($sqlFieldList, $options->selectFields);
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($columsSelected);
+
+
+			/* Sort Configuration */
+			if (!property_exists($options, 'sortData')) {
+				$options->sortData = [];
+			}
+			if (!is_array($options->sortData)) {
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
+				}
+			}
+
+		
+
+
+			if (method_exists(get_class($hnd), 'sortListOrder')) {
+				// ** sortListOrder(array &$sortData) : void
+				//    jika ada keperluan mengurutkan data
+				//    $sortData['fieldname'] = 'ASC/DESC';
+				$hnd->sortListOrder($options->sortData);
+			}
+			$sqlOrders = \FGTA4\utils\SqlUtility::generateSqlSelectSort($options->sortData);
+
+
+			/* Compose SQL Query */
+			$sqlCount = "select count(*) as n from $sqlFromTable $sqlWhere";
+			$sqlData = "
+				select 
+				$sqlFields 
+				from 
+				$sqlFromTable 
+				$sqlWhere 
+				$sqlOrders 
+				$sqlLimit
+			";
+
+			/* Execute Query: Count */
+			$stmt = $this->db->prepare($sqlCount );
 			$stmt->execute($where->params);
 			$row  = $stmt->fetch(\PDO::FETCH_ASSOC);
 			$total = (float) $row['n'];
 
-			$limit = " LIMIT $maxrow OFFSET $offset ";
-			$stmt = $this->db->prepare("
-				select 
-				config_id, config_name, config_dir, config_filename, _createby, _createdate, _modifyby, _modifydate 
-				from mst_config A
-			" . $where->sql . $limit);
+			/* Execute Query: Retrieve Data */
+			$stmt = $this->db->prepare($sqlData);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
+
+			$handleloop = false;
+			if (method_exists(get_class($hnd), 'DataListLooping')) {
+				$handleloop = true;
+			}
+
+			/* Proces result */
 			$records = [];
 			foreach ($rows as $row) {
 				$record = [];
@@ -69,15 +176,39 @@ class DataList extends WebAPI {
 					$record[$key] = $value;
 				}
 
-				array_push($records, array_merge($record, [
+
+				/*
+				$record = array_merge($record, [
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					 
-				]));
+				]);
+				*/
+
+
+				// lookup data id yang refer ke table lain
+					 
+
+
+				if ($handleloop) {
+					// ** DataListLooping(array &$record) : void
+					//    apabila akan menambahkan field di record
+					$hnd->DataListLooping($record);
+				}
+
+				array_push($records, $record);
+			}
+
+			/* modify and finalize records */
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records);
 			}
 
 			// kembalikan hasilnya
+			$result = new \stdClass; 
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;
@@ -88,6 +219,4 @@ class DataList extends WebAPI {
 		}
 	}
 
-}
-
-$API = new DataList();
+};
