@@ -22,8 +22,8 @@ ALTER TABLE `mst_edu` ADD COLUMN IF NOT EXISTS  `edu_name` varchar(30) NOT NULL 
 ALTER TABLE `mst_edu` ADD COLUMN IF NOT EXISTS  `edu_descr` varchar(90)   AFTER `edu_name`;
 
 
-ALTER TABLE `mst_edu` MODIFY COLUMN IF EXISTS  `edu_name` varchar(30) NOT NULL  AFTER `edu_id`;
-ALTER TABLE `mst_edu` MODIFY COLUMN IF EXISTS  `edu_descr` varchar(90)   AFTER `edu_name`;
+ALTER TABLE `mst_edu` MODIFY COLUMN IF EXISTS  `edu_name` varchar(30) NOT NULL   AFTER `edu_id`;
+ALTER TABLE `mst_edu` MODIFY COLUMN IF EXISTS  `edu_descr` varchar(90)    AFTER `edu_name`;
 
 
 ALTER TABLE `mst_edu` ADD CONSTRAINT `edu_name` UNIQUE IF NOT EXISTS  (`edu_name`);
