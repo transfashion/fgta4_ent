@@ -1,7 +1,7 @@
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists `mst_doc`;
-drop table if exists `mst_docauth`;
+-- drop table if exists `mst_doc`;
+-- drop table if exists `mst_docauth`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_doc` (

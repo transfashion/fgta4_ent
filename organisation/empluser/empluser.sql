@@ -1,3 +1,5 @@
+-- SET FOREIGN_KEY_CHECKS=0;
+
 CREATE TABLE `mst_empluser` (
   `empl_id` varchar(30) NOT NULL,
   `user_id` varchar(14) NOT NULL,
