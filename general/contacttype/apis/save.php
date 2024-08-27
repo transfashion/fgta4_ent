@@ -19,7 +19,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/affiliation/contacttype/apis/save.php
+ * ent/general/contacttype/apis/save.php
  *
  * ====
  * Save
@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 07/09/2022
+ * tanggal 27/08/2024
  */
 $API = new class extends contacttypeBase {
 	
@@ -52,6 +52,8 @@ $API = new class extends contacttypeBase {
 			$hnd->auth = $this->auth;
 			$hnd->reqinfo = $this->reqinfo;
 			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
 		}
 
 		try {
@@ -59,6 +61,11 @@ $API = new class extends contacttypeBase {
 			// cek apakah user boleh mengeksekusi API ini
 			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
 				throw new \Exception('your group authority is not allowed to do this action.');
+			}
+
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
 			}
 
 			$result = new \stdClass; 
@@ -89,18 +96,26 @@ $API = new class extends contacttypeBase {
 			if ($datastate=='NEW') {
 				$obj->_createby = $userdata->username;
 				$obj->_createdate = date("Y-m-d H:i:s");
+
+				if (method_exists(get_class($hnd), 'PreCheckInsert')) {
+					// PreCheckInsert($data, &$obj, &$options)
+					$hnd->PreCheckInsert($data, $obj, $options);
+				}
 			} else {
 				$obj->_modifyby = $userdata->username;
 				$obj->_modifydate = date("Y-m-d H:i:s");	
+		
+				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
+					// PreCheckUpdate($data, &$obj, &$key, &$options)
+					$hnd->PreCheckUpdate($data, $obj, $key, $options);
+				}
 			}
 
 			//handle data sebelum sebelum save
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataSaving')) {
-					// ** DataSaving(object &$obj, object &$key) : void
-					$hnd->DataSaving($obj, $key);
-				}
-			}	
+			if (method_exists(get_class($hnd), 'DataSaving')) {
+				// ** DataSaving(object &$obj, object &$key)
+				$hnd->DataSaving($obj, $key);
+			}
 
 			$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,0);
 			$this->db->beginTransaction();
@@ -111,11 +126,23 @@ $API = new class extends contacttypeBase {
 				if ($datastate=='NEW') {
 					$action = 'NEW';
 					if ($autoid) {
-						$obj->{$primarykey} = $this->NewId($obj);
+						$obj->{$primarykey} = $this->NewId($hnd, $obj);
+					}
+					
+					// handle data sebelum pada saat pembuatan SQL Insert
+					if (method_exists(get_class($hnd), 'RowInserting')) {
+						// ** RowInserting(object &$obj)
+						$hnd->RowInserting($obj);
 					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLInsert($tablename, $obj);
 				} else {
 					$action = 'MODIFY';
+
+					// handle data sebelum pada saat pembuatan SQL Update
+					if (method_exists(get_class($hnd), 'RowUpdating')) {
+						// ** RowUpdating(object &$obj, object &$key))
+						$hnd->RowUpdating($obj, $key);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
 	
@@ -135,21 +162,17 @@ $API = new class extends contacttypeBase {
 				$criteriaValues = [
 					"contacttype_id" => " contacttype_id = :contacttype_id "
 				];
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
-						// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
-						$hnd->buildOpenCriteriaValues($options, $criteriaValues);
-					}
+				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+					$hnd->buildOpenCriteriaValues($options, $criteriaValues);
 				}
 
 				$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 				$result = new \stdClass; 
 	
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'prepareOpenData')) {
-						// prepareOpenData(object $options, $criteriaValues) : void
-						$hnd->prepareOpenData($options, $criteriaValues);
-					}
+				if (method_exists(get_class($hnd), 'prepareOpenData')) {
+					// prepareOpenData(object $options, $criteriaValues) : void
+					$hnd->prepareOpenData($options, $criteriaValues);
 				}
 
 				$sqlFieldList = [
@@ -159,11 +182,9 @@ $API = new class extends contacttypeBase {
 				$sqlFromTable = "mst_contacttype A";
 				$sqlWhere = $where->sql;
 					
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
-						// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-						$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-					}
+				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 				}
 				$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
 	
@@ -192,19 +213,16 @@ $API = new class extends contacttypeBase {
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				]);
 				
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'DataOpen')) {
-						//  DataOpen(array &$record) : void 
-						$hnd->DataOpen($dataresponse);
-					}
+				if (method_exists(get_class($hnd), 'DataOpen')) {
+					//  DataOpen(array &$record) : void 
+					$hnd->DataOpen($dataresponse);
 				}
 
-
+				$result->username = $userdata->username;
 				$result->dataresponse = (object) $dataresponse;
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
-						$hnd->DataSavedSuccess($result);
-					}
+				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
+					// DataSavedSuccess(object &$result) : void
+					$hnd->DataSavedSuccess($result);
 				}
 
 				$this->db->commit();
@@ -222,16 +240,15 @@ $API = new class extends contacttypeBase {
 		}
 	}
 
-	public function NewId($obj) {
+	public function NewId(object $hnd, object $obj) : string {
 		// dipanggil hanya saat $autoid == true;
 
 		$id = null;
 		$handled = false;
-		if (is_object($hnd)) {
-			if (method_exists(get_class($hnd), 'CreateNewId')) {
-				$id = $hnd->CreateNewId($obj);
-				$handled = true;
-			}
+		if (method_exists(get_class($hnd), 'CreateNewId')) {
+			// CreateNewId(object $obj) : string 
+			$id = $hnd->CreateNewId($obj);
+			$handled = true;
 		}
 
 		if (!$handled) {

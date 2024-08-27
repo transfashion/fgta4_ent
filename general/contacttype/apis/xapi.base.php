@@ -16,7 +16,7 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/affiliation/contacttype/apis/xapi.base.php
+ * ent/general/contacttype/apis/xapi.base.php
  *
  * contacttypeBase
  * Kelas dasar untuk keperluan-keperluan api
@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 07/09/2022
+ * tanggal 27/08/2024
  */
 class contacttypeBase extends WebAPI {
 
@@ -56,13 +56,6 @@ class contacttypeBase extends WebAPI {
 		
 	}
 
-	function pre_action_check($data, $action) {
-		try {
-			return true;
-		} catch (\Exception $ex) {
-			throw $ex;
-		}
-	}
 
 	public function get_header_row($id) {
 		try {
