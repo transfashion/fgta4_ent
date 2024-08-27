@@ -27,7 +27,7 @@ const obj = {
 	txt_land_geoloc: $('#pnl_edit-txt_land_geoloc'),
 	cbo_landtype_id: $('#pnl_edit-cbo_landtype_id'),
 	cbo_city_id: $('#pnl_edit-cbo_city_id'),
-	cbo_territory_id: $('#pnl_edit-cbo_territory_id'),
+	cbo_territorial_id: $('#pnl_edit-cbo_territorial_id'),
 	cbo_partner_id: $('#pnl_edit-cbo_partner_id')
 }
 
@@ -105,17 +105,16 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_territory_id.name = 'pnl_edit-cbo_territory_id'		
-	new fgta4slideselect(obj.cbo_territory_id, {
-		title: 'Pilih territory_id',
+	obj.cbo_territorial_id.name = 'pnl_edit-cbo_territorial_id'		
+	new fgta4slideselect(obj.cbo_territorial_id, {
+		title: 'Pilih territorial_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_territory_id,
-		fieldValue: 'territory_id',
-		fieldDisplay: 'zone_name',
-		fieldValueMap: 'zone_id',
+		api: $ui.apis.load_territorial_id,
+		fieldValue: 'territorial_id',
+		fieldDisplay: 'territorial_name',
 		fields: [
-			{mapping: 'zone_id', text: 'zone_id'},
-			{mapping: 'zone_name', text: 'zone_name'}
+			{mapping: 'territorial_id', text: 'territorial_id'},
+			{mapping: 'territorial_name', text: 'territorial_name'}
 		],
 
 	})				
@@ -235,7 +234,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.territory_id==null) { result.record.territory_id='--NULL--'; result.record.zone_name='NONE'; }
+		if (result.record.territorial_id==null) { result.record.territorial_id='--NULL--'; result.record.territorial_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -261,7 +260,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.fill(record)
 			.setValue(obj.cbo_landtype_id, record.landtype_id, record.landtype_name)
 			.setValue(obj.cbo_city_id, record.city_id, record.city_name)
-			.setValue(obj.cbo_territory_id, record.territory_id, record.zone_name)
+			.setValue(obj.cbo_territorial_id, record.territorial_id, record.territorial_name)
 			.setValue(obj.cbo_partner_id, record.partner_id, record.partner_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -326,8 +325,8 @@ export function createnew() {
 		data.landtype_name = '-- PILIH --'
 		data.city_id = '0'
 		data.city_name = '-- PILIH --'
-		data.territory_id = '--NULL--'
-		data.zone_name = 'NONE'
+		data.territorial_id = '--NULL--'
+		data.territorial_name = 'NONE'
 		data.partner_id = '0'
 		data.partner_name = '-- PILIH --'
 
@@ -478,7 +477,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['territory_id', ];
+	// options.skipmappingresponse = ['territorial_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -527,7 +526,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_territory_id, result.dataresponse.zone_name!=='--NULL--' ? result.dataresponse.territory_id : '--NULL--', result.dataresponse.zone_name!=='--NULL--'?result.dataresponse.zone_name:'NONE')
+	form.setValue(obj.cbo_territorial_id, result.dataresponse.territorial_name!=='--NULL--' ? result.dataresponse.territorial_id : '--NULL--', result.dataresponse.territorial_name!=='--NULL--'?result.dataresponse.territorial_name:'NONE')
 
 	*/
 

@@ -12,7 +12,7 @@ kemdian, di program bisa diakses dengan
 
 export const load_landtype_id = 'ent/location/landtype/list'
 export const load_city_id = 'ent/location/city/list'
-export const load_territory_id = 'ent/location/zone/list'
+export const load_territorial_id = 'ent/location/territorial/list'
 export const load_partner_id = 'ent/affiliation/partner/list'
 
 

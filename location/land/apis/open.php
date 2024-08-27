@@ -93,7 +93,7 @@ $API = new class extends landBase {
 			$sqlFieldList = [
 				'land_id' => 'A.`land_id`', 'land_name' => 'A.`land_name`', 'land_address' => 'A.`land_address`', 'land_phone' => 'A.`land_phone`',
 				'land_email' => 'A.`land_email`', 'land_isdisabled' => 'A.`land_isdisabled`', 'land_geoloc' => 'A.`land_geoloc`', 'landtype_id' => 'A.`landtype_id`',
-				'city_id' => 'A.`city_id`', 'territory_id' => 'A.`territory_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
+				'city_id' => 'A.`city_id`', 'territorial_id' => 'A.`territorial_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_land A";
@@ -134,7 +134,7 @@ $API = new class extends landBase {
 				
 				'landtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['landtype_id'], $this->db, 'mst_landtype', 'landtype_id', 'landtype_name'),
 				'city_name' => \FGTA4\utils\SqlUtility::Lookup($record['city_id'], $this->db, 'mst_city', 'city_id', 'city_name'),
-				'zone_name' => \FGTA4\utils\SqlUtility::Lookup($record['territory_id'], $this->db, 'mst_zone', 'zone_id', 'zone_name'),
+				'territorial_name' => \FGTA4\utils\SqlUtility::Lookup($record['territorial_id'], $this->db, 'mst_territorial', 'territorial_id', 'territorial_name'),
 				'partner_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_id'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 
 

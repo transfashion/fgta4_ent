@@ -45,14 +45,14 @@ module.exports = {
 						api: 'ent/location/city/list'})
 				},				
 
-				territory_id: {
-					text:'Zone', type: dbtype.varchar(10), null:true, 
+				territorial_id: {
+					text:'Territorial', type: dbtype.varchar(10), null:true, 
 					options:{prompt:'NONE'},
 					suppresslist: true,
 					comp: comp.Combo({
-						table: 'mst_zone', 
-						field_value: 'zone_id', field_display: 'zone_name', 
-						api: 'ent/location/zone/list'})
+						table: 'mst_territorial', 
+						field_value: 'territorial_id', field_display: 'territorial_name', 
+						api: 'ent/location/territorial/list'})
 				},
 
 				partner_id: {
