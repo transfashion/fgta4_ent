@@ -1,0 +1,20 @@
+<?php require_once dirname(__FILE__).'/partner-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-typegrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-typeform.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-bankgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-bankform.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-contactgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-contactform.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-refgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/partner-refform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/partner-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
