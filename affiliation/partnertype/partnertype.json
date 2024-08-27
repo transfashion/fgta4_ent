@@ -2,7 +2,9 @@
 	"title" : "Partner Type",
 	"icon": "icon-partnertype-white.png",
 	
-	"variance" : {},
+	"variance" : {
+
+	},
 	"allowanonymous" : false,
 	"allowedgroups" : ["public"],
 	"apis" : {

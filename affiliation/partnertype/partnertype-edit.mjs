@@ -1,8 +1,10 @@
 var this_page_id;
 var this_page_options;
 
-import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+
 import * as hnd from  './partnertype-edit-hnd.mjs'
+
+const txt_caption = $('#pnl_edit-caption')
 
 
 const btn_edit = $('#pnl_edit-btn_edit')
@@ -19,19 +21,7 @@ const obj = {
 	txt_partnertype_id: $('#pnl_edit-txt_partnertype_id'),
 	txt_partnertype_name: $('#pnl_edit-txt_partnertype_name'),
 	txt_partnertype_descr: $('#pnl_edit-txt_partnertype_descr'),
-	cbo_partnercategory_id: $('#pnl_edit-cbo_partnercategory_id'),
-	cbo_itemclass_id: $('#pnl_edit-cbo_itemclass_id'),
-	cbo_unbill_accbudget_id: $('#pnl_edit-cbo_unbill_accbudget_id'),
-	cbo_unbill_coa_id: $('#pnl_edit-cbo_unbill_coa_id'),
-	cbo_payable_accbudget_id: $('#pnl_edit-cbo_payable_accbudget_id'),
-	cbo_payable_coa_id: $('#pnl_edit-cbo_payable_coa_id'),
-	cbo_arunbill_accbudget_id: $('#pnl_edit-cbo_arunbill_accbudget_id'),
-	cbo_arunbill_coa_id: $('#pnl_edit-cbo_arunbill_coa_id'),
-	cbo_ar_accbudget_id: $('#pnl_edit-cbo_ar_accbudget_id'),
-	cbo_ar_coa_id: $('#pnl_edit-cbo_ar_coa_id'),
 	chk_partnertype_isempl: $('#pnl_edit-chk_partnertype_isempl'),
-	chk_partnertype_ishaveae: $('#pnl_edit-chk_partnertype_ishaveae'),
-	chk_partnertype_ishavecollector: $('#pnl_edit-chk_partnertype_ishavecollector'),
 	chk_partnertype_isdisabled: $('#pnl_edit-chk_partnertype_isdisabled')
 }
 
@@ -45,16 +35,8 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -80,161 +62,15 @@ export async function init(opt) {
 		return getHeaderData();
 	}
 
-	// Generator: Print Handler if exist
-	// Generator: Commit Handler if exist
-	// Generator: Approval Handler if exist
-	// Generator: Xtion Handler if exist
-	// Generator: Object Handler if exist
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
 
-	// Generator: Upload Handler if exist
+	// Generator: Upload Handler not exist
 
 
-	new fgta4slideselect(obj.cbo_partnercategory_id, {
-		title: 'Pilih partnercategory_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_partnercategory_id,
-		fieldValue: 'partnercategory_id',
-		fieldDisplay: 'partnercategory_name',
-		fields: [
-			{mapping: 'partnercategory_id', text: 'partnercategory_id'},
-			{mapping: 'partnercategory_name', text: 'partnercategory_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_itemclass_id, {
-		title: 'Pilih itemclass_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_itemclass_id,
-		fieldValue: 'itemclass_id',
-		fieldDisplay: 'itemclass_name',
-		fields: [
-			{mapping: 'itemclass_id', text: 'itemclass_id'},
-			{mapping: 'itemclass_name', text: 'itemclass_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_unbill_accbudget_id, {
-		title: 'Pilih unbill_accbudget_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_unbill_accbudget_id,
-		fieldValue: 'unbill_accbudget_id',
-		fieldDisplay: 'unbill_accbudget_name',
-		fieldValueMap: 'accbudget_id',
-		fieldDisplayMap: 'accbudget_name',
-		fields: [
-			{mapping: 'accbudget_id', text: 'accbudget_id'},
-			{mapping: 'accbudget_name', text: 'accbudget_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_unbill_coa_id, {
-		title: 'Pilih unbill_coa_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_unbill_coa_id,
-		fieldValue: 'unbill_coa_id',
-		fieldDisplay: 'unbill_coa_name',
-		fieldValueMap: 'coa_id',
-		fieldDisplayMap: 'coa_name',
-		fields: [
-			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_payable_accbudget_id, {
-		title: 'Pilih payable_accbudget_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_payable_accbudget_id,
-		fieldValue: 'payable_accbudget_id',
-		fieldDisplay: 'payable_accbudget_name',
-		fieldValueMap: 'accbudget_id',
-		fieldDisplayMap: 'accbudget_name',
-		fields: [
-			{mapping: 'accbudget_id', text: 'accbudget_id'},
-			{mapping: 'accbudget_name', text: 'accbudget_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_payable_coa_id, {
-		title: 'Pilih payable_coa_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_payable_coa_id,
-		fieldValue: 'payable_coa_id',
-		fieldDisplay: 'payable_coa_name',
-		fieldValueMap: 'coa_id',
-		fieldDisplayMap: 'coa_name',
-		fields: [
-			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_arunbill_accbudget_id, {
-		title: 'Pilih arunbill_accbudget_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_arunbill_accbudget_id,
-		fieldValue: 'arunbill_accbudget_id',
-		fieldDisplay: 'arunbill_accbudget_name',
-		fieldValueMap: 'accbudget_id',
-		fieldDisplayMap: 'accbudget_name',
-		fields: [
-			{mapping: 'accbudget_id', text: 'accbudget_id'},
-			{mapping: 'accbudget_name', text: 'accbudget_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_arunbill_coa_id, {
-		title: 'Pilih arunbill_coa_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_arunbill_coa_id,
-		fieldValue: 'arunbill_coa_id',
-		fieldDisplay: 'arunbill_coa_name',
-		fieldValueMap: 'coa_id',
-		fieldDisplayMap: 'coa_name',
-		fields: [
-			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_ar_accbudget_id, {
-		title: 'Pilih ar_accbudget_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_ar_accbudget_id,
-		fieldValue: 'ar_accbudget_id',
-		fieldDisplay: 'ar_accbudget_name',
-		fieldValueMap: 'accbudget_id',
-		fieldDisplayMap: 'accbudget_name',
-		fields: [
-			{mapping: 'accbudget_id', text: 'accbudget_id'},
-			{mapping: 'accbudget_name', text: 'accbudget_name'}
-		],
-
-	})				
-				
-	new fgta4slideselect(obj.cbo_ar_coa_id, {
-		title: 'Pilih ar_coa_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_ar_coa_id,
-		fieldValue: 'ar_coa_id',
-		fieldDisplay: 'ar_coa_name',
-		fieldValueMap: 'coa_id',
-		fieldDisplayMap: 'coa_name',
-		fields: [
-			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'}
-		],
-
-	})				
-				
 
 
 
@@ -256,6 +92,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -290,6 +128,11 @@ export async function init(opt) {
 			form: form,
 			obj: obj,
 			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
 		})
 	}
 
@@ -308,6 +151,12 @@ export function getCurrentRowdata() {
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+
 	rowdata = {
 		data: data,
 		rowid: rowid
@@ -323,16 +172,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.partnercategory_id==null) { result.record.partnercategory_id='--NULL--'; result.record.partnercategory_name='NONE'; }
-		if (result.record.itemclass_id==null) { result.record.itemclass_id='--NULL--'; result.record.itemclass_name='NONE'; }
-		if (result.record.unbill_accbudget_id==null) { result.record.unbill_accbudget_id='--NULL--'; result.record.unbill_accbudget_name='NONE'; }
-		if (result.record.unbill_coa_id==null) { result.record.unbill_coa_id='--NULL--'; result.record.unbill_coa_name='NONE'; }
-		if (result.record.payable_accbudget_id==null) { result.record.payable_accbudget_id='--NULL--'; result.record.payable_accbudget_name='NONE'; }
-		if (result.record.payable_coa_id==null) { result.record.payable_coa_id='--NULL--'; result.record.payable_coa_name='NONE'; }
-		if (result.record.arunbill_accbudget_id==null) { result.record.arunbill_accbudget_id='--NULL--'; result.record.arunbill_accbudget_name='NONE'; }
-		if (result.record.arunbill_coa_id==null) { result.record.arunbill_coa_id='--NULL--'; result.record.arunbill_coa_name='NONE'; }
-		if (result.record.ar_accbudget_id==null) { result.record.ar_accbudget_id='--NULL--'; result.record.ar_accbudget_name='NONE'; }
-		if (result.record.ar_coa_id==null) { result.record.ar_coa_id='--NULL--'; result.record.ar_coa_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -347,19 +186,15 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		}
   		updaterecordstatus(record)
 
+		/* handle data saat opening data */   
+		if (typeof hnd.form_dataopening == 'function') {
+			hnd.form_dataopening(result, options);
+		}
+
+
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_partnercategory_id, record.partnercategory_id, record.partnercategory_name)
-			.setValue(obj.cbo_itemclass_id, record.itemclass_id, record.itemclass_name)
-			.setValue(obj.cbo_unbill_accbudget_id, record.unbill_accbudget_id, record.unbill_accbudget_name)
-			.setValue(obj.cbo_unbill_coa_id, record.unbill_coa_id, record.unbill_coa_name)
-			.setValue(obj.cbo_payable_accbudget_id, record.payable_accbudget_id, record.payable_accbudget_name)
-			.setValue(obj.cbo_payable_coa_id, record.payable_coa_id, record.payable_coa_name)
-			.setValue(obj.cbo_arunbill_accbudget_id, record.arunbill_accbudget_id, record.arunbill_accbudget_name)
-			.setValue(obj.cbo_arunbill_coa_id, record.arunbill_coa_id, record.arunbill_coa_name)
-			.setValue(obj.cbo_ar_accbudget_id, record.ar_accbudget_id, record.ar_accbudget_name)
-			.setValue(obj.cbo_ar_coa_id, record.ar_coa_id, record.ar_coa_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -404,6 +239,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -411,32 +253,15 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.partnertype_isempl = '0'
-		data.partnertype_ishaveae = '0'
-		data.partnertype_ishavecollector = '0'
 		data.partnertype_isdisabled = '0'
 
-		data.partnercategory_id = '--NULL--'
-		data.partnercategory_name = 'NONE'
-		data.itemclass_id = '--NULL--'
-		data.itemclass_name = 'NONE'
-		data.unbill_accbudget_id = '--NULL--'
-		data.unbill_accbudget_name = 'NONE'
-		data.unbill_coa_id = '--NULL--'
-		data.unbill_coa_name = 'NONE'
-		data.payable_accbudget_id = '--NULL--'
-		data.payable_accbudget_name = 'NONE'
-		data.payable_coa_id = '--NULL--'
-		data.payable_coa_name = 'NONE'
-		data.arunbill_accbudget_id = '--NULL--'
-		data.arunbill_accbudget_name = 'NONE'
-		data.arunbill_coa_id = '--NULL--'
-		data.arunbill_coa_name = 'NONE'
-		data.ar_accbudget_id = '--NULL--'
-		data.ar_accbudget_name = 'NONE'
-		data.ar_coa_id = '--NULL--'
-		data.ar_coa_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
+			// untuk mengambil nilai ui component,
+			// di dalam handler form_newdata, gunakan perintah:
+			// options.OnNewData = () => {
+			// 		...
+			// }		
 			hnd.form_newdata(data, options);
 		}
 
@@ -447,7 +272,6 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editaccountgrid'].handler.createnew(data, options)
 
 
 	})
@@ -492,24 +316,57 @@ export function detil_open(pnlname) {
 function updatefilebox(record) {
 	// apabila ada keperluan untuk menampilkan data dari object storage
 
+
+	if (typeof hnd.form_updatefilebox == 'function') {
+		hnd.form_updatefilebox(record);
+	}
 }
 
 function updaterecordstatus(record) {
 	// apabila ada keperluan untuk update status record di sini
 
+
+	if (typeof hnd.form_updaterecordstatus == 'function') {
+		hnd.form_updaterecordstatus(record);
+	}
 }
 
 function updatebuttonstate(record) {
 	// apabila ada keperluan untuk update state action button di sini
-	
+
+
+	if (typeof hnd.form_updatebuttonstate == 'function') {
+		hnd.form_updatebuttonstate(record);
+	}
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
-	
+
+
+	if (typeof hnd.form_updategridstate == 'function') {
+		hnd.form_updategridstate(updategriddata, record);
+	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -546,7 +403,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['partnercategory_id', 'itemclass_id', 'unbill_accbudget_id', 'unbill_coa_id', 'payable_accbudget_id', 'payable_coa_id', 'arunbill_accbudget_id', 'arunbill_coa_id', 'ar_accbudget_id', 'ar_coa_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -566,7 +423,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
+	if (typeof hnd.form_datasaveerror == 'function') {
+		hnd.form_datasaveerror(err, options);
+	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -588,16 +452,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_partnercategory_id, result.dataresponse.partnercategory_name!=='--NULL--' ? result.dataresponse.partnercategory_id : '--NULL--', result.dataresponse.partnercategory_name!=='--NULL--'?result.dataresponse.partnercategory_name:'NONE')
-	form.setValue(obj.cbo_itemclass_id, result.dataresponse.itemclass_name!=='--NULL--' ? result.dataresponse.itemclass_id : '--NULL--', result.dataresponse.itemclass_name!=='--NULL--'?result.dataresponse.itemclass_name:'NONE')
-	form.setValue(obj.cbo_unbill_accbudget_id, result.dataresponse.unbill_accbudget_name!=='--NULL--' ? result.dataresponse.unbill_accbudget_id : '--NULL--', result.dataresponse.unbill_accbudget_name!=='--NULL--'?result.dataresponse.unbill_accbudget_name:'NONE')
-	form.setValue(obj.cbo_unbill_coa_id, result.dataresponse.unbill_coa_name!=='--NULL--' ? result.dataresponse.unbill_coa_id : '--NULL--', result.dataresponse.unbill_coa_name!=='--NULL--'?result.dataresponse.unbill_coa_name:'NONE')
-	form.setValue(obj.cbo_payable_accbudget_id, result.dataresponse.payable_accbudget_name!=='--NULL--' ? result.dataresponse.payable_accbudget_id : '--NULL--', result.dataresponse.payable_accbudget_name!=='--NULL--'?result.dataresponse.payable_accbudget_name:'NONE')
-	form.setValue(obj.cbo_payable_coa_id, result.dataresponse.payable_coa_name!=='--NULL--' ? result.dataresponse.payable_coa_id : '--NULL--', result.dataresponse.payable_coa_name!=='--NULL--'?result.dataresponse.payable_coa_name:'NONE')
-	form.setValue(obj.cbo_arunbill_accbudget_id, result.dataresponse.arunbill_accbudget_name!=='--NULL--' ? result.dataresponse.arunbill_accbudget_id : '--NULL--', result.dataresponse.arunbill_accbudget_name!=='--NULL--'?result.dataresponse.arunbill_accbudget_name:'NONE')
-	form.setValue(obj.cbo_arunbill_coa_id, result.dataresponse.arunbill_coa_name!=='--NULL--' ? result.dataresponse.arunbill_coa_id : '--NULL--', result.dataresponse.arunbill_coa_name!=='--NULL--'?result.dataresponse.arunbill_coa_name:'NONE')
-	form.setValue(obj.cbo_ar_accbudget_id, result.dataresponse.ar_accbudget_name!=='--NULL--' ? result.dataresponse.ar_accbudget_id : '--NULL--', result.dataresponse.ar_accbudget_name!=='--NULL--'?result.dataresponse.ar_accbudget_name:'NONE')
-	form.setValue(obj.cbo_ar_coa_id, result.dataresponse.ar_coa_name!=='--NULL--' ? result.dataresponse.ar_coa_id : '--NULL--', result.dataresponse.ar_coa_name!=='--NULL--'?result.dataresponse.ar_coa_name:'NONE')
 
 	*/
 
@@ -615,7 +469,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -627,9 +481,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data);
+		hnd.form_deleting(data, options);
 	}
 }
 

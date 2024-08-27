@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 07/09/2022
+ * tanggal 27/08/2024
  */
 $API = new class extends partnertypeBase {
 
@@ -55,46 +55,44 @@ $API = new class extends partnertypeBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
-			
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
 			$criteriaValues = [
 				"search" => " A.partnertype_id LIKE CONCAT('%', :search, '%') OR A.partnertype_name LIKE CONCAT('%', :search, '%') "
 			];
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
-					// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
-					//    apabila akan modifikasi parameter2 untuk query
-					//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
-					//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
-					//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
-					//
-					//    untuk memberikan nilai default apabila paramter tidak dikirim
-					//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
-					$hnd->buildListCriteriaValues($options, $criteriaValues);
-				}
+
+			if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
+				// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
+				//    apabila akan modifikasi parameter2 untuk query
+				//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
+				//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
+				//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
+				//
+				//    untuk memberikan nilai default apabila paramter tidak dikirim
+				//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
+				$hnd->buildListCriteriaValues($options, $criteriaValues);
 			}
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
-			$result = new \stdClass; 
+			
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
 			/* prepare DbLayer Temporay Data Helper if needed */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'prepareListData')) {
-					// ** prepareListData(object $options, array $criteriaValues) : void
-					//    misalnya perlu mebuat temporary table,
-					//    untuk membuat query komplex dapat dibuat disini	
-					$hnd->prepareListData($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'prepareListData')) {
+				// ** prepareListData(object $options, array $criteriaValues) : void
+				//    misalnya perlu mebuat temporary table,
+				//    untuk membuat query komplex dapat dibuat disini	
+				$hnd->prepareListData($options, $criteriaValues);
 			}
 
 
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'partnertype_id' => 'A.`partnertype_id`', 'partnertype_name' => 'A.`partnertype_name`', 'partnertype_descr' => 'A.`partnertype_descr`', 'partnercategory_id' => 'A.`partnercategory_id`',
-				'itemclass_id' => 'A.`itemclass_id`', 'unbill_accbudget_id' => 'A.`unbill_accbudget_id`', 'unbill_coa_id' => 'A.`unbill_coa_id`', 'payable_accbudget_id' => 'A.`payable_accbudget_id`',
-				'payable_coa_id' => 'A.`payable_coa_id`', 'arunbill_accbudget_id' => 'A.`arunbill_accbudget_id`', 'arunbill_coa_id' => 'A.`arunbill_coa_id`', 'ar_accbudget_id' => 'A.`ar_accbudget_id`',
-				'ar_coa_id' => 'A.`ar_coa_id`', 'partnertype_isempl' => 'A.`partnertype_isempl`', 'partnertype_ishaveae' => 'A.`partnertype_ishaveae`', 'partnertype_ishavecollector' => 'A.`partnertype_ishavecollector`',
+				'partnertype_id' => 'A.`partnertype_id`', 'partnertype_name' => 'A.`partnertype_name`', 'partnertype_descr' => 'A.`partnertype_descr`', 'partnertype_isempl' => 'A.`partnertype_isempl`',
 				'partnertype_isdisabled' => 'A.`partnertype_isdisabled`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
@@ -102,35 +100,48 @@ $API = new class extends partnertypeBase {
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
-					// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-					//    menambah atau memodifikasi field-field yang akan ditampilkan
-					//    apabila akan memodifikasi join table
-					//    apabila akan memodifikasi nilai parameter
-					$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-				}
+			if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
+				// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				//    menambah atau memodifikasi field-field yang akan ditampilkan
+				//    apabila akan memodifikasi join table
+				//    apabila akan memodifikasi nilai parameter
+				$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
-			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
+			
+			// filter select columns
+			if (!property_exists($options, 'selectFields')) {
+				$options->selectFields = [];
+			}
+			$columsSelected = $this->SelectColumns($sqlFieldList, $options->selectFields);
+			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($columsSelected);
 
 
 			/* Sort Configuration */
-			if (!is_array($options->sortData)) {
+			if (!property_exists($options, 'sortData')) {
 				$options->sortData = [];
 			}
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'sortListOrder')) {
-					// ** sortListOrder(array &$sortData) : void
-					//    jika ada keperluan mengurutkan data
-					//    $sortData['fieldname'] = 'ASC/DESC';
-					$hnd->sortListOrder($options->sortData);
+			if (!is_array($options->sortData)) {
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
 				}
+			}
+
+		
+
+
+			if (method_exists(get_class($hnd), 'sortListOrder')) {
+				// ** sortListOrder(array &$sortData) : void
+				//    jika ada keperluan mengurutkan data
+				//    $sortData['fieldname'] = 'ASC/DESC';
+				$hnd->sortListOrder($options->sortData);
 			}
 			$sqlOrders = \FGTA4\utils\SqlUtility::generateSqlSelectSort($options->sortData);
 
 
 			/* Compose SQL Query */
-			$sqlCount = "select count(*) as n from $sqlFromTable $sqlWhere $sqlLimit";
+			$sqlCount = "select count(*) as n from $sqlFromTable $sqlWhere";
 			$sqlData = "
 				select 
 				$sqlFields 
@@ -153,6 +164,11 @@ $API = new class extends partnertypeBase {
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
 
+			$handleloop = false;
+			if (method_exists(get_class($hnd), 'DataListLooping')) {
+				$handleloop = true;
+			}
+
 			/* Proces result */
 			$records = [];
 			foreach ($rows as $row) {
@@ -161,44 +177,39 @@ $API = new class extends partnertypeBase {
 					$record[$key] = $value;
 				}
 
+
+				/*
 				$record = array_merge($record, [
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'partnercategory_name' => \FGTA4\utils\SqlUtility::Lookup($record['partnercategory_id'], $this->db, 'mst_partnercategory', 'partnercategory_id', 'partnercategory_name'),
-					'itemclass_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemclass_id'], $this->db, 'mst_itemclass', 'itemclass_id', 'itemclass_name'),
-					'unbill_accbudget_name' => \FGTA4\utils\SqlUtility::Lookup($record['unbill_accbudget_id'], $this->db, 'mst_accbudget', 'accbudget_id', 'accbudget_name'),
-					'unbill_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['unbill_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
-					'payable_accbudget_name' => \FGTA4\utils\SqlUtility::Lookup($record['payable_accbudget_id'], $this->db, 'mst_accbudget', 'accbudget_id', 'accbudget_name'),
-					'payable_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['payable_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
-					'arunbill_accbudget_name' => \FGTA4\utils\SqlUtility::Lookup($record['arunbill_accbudget_id'], $this->db, 'mst_accbudget', 'accbudget_id', 'accbudget_name'),
-					'arunbill_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['arunbill_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
-					'ar_accbudget_name' => \FGTA4\utils\SqlUtility::Lookup($record['ar_accbudget_id'], $this->db, 'mst_accbudget', 'accbudget_id', 'accbudget_name'),
-					'ar_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['ar_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
 					 
 				]);
+				*/
 
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'DataListLooping')) {
-						// ** DataListLooping(array &$record) : void
-						//    apabila akan menambahkan field di record
-						$hnd->DataListLooping($record);
-					}
+
+				// lookup data id yang refer ke table lain
+					 
+
+
+				if ($handleloop) {
+					// ** DataListLooping(array &$record) : void
+					//    apabila akan menambahkan field di record
+					$hnd->DataListLooping($record);
 				}
 
 				array_push($records, $record);
 			}
 
 			/* modify and finalize records */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataListFinal')) {
-					// ** DataListFinal(array &$records) : void
-					//    finalisasi data list
-					$hnd->DataListFinal($records);
-				}
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records);
 			}
 
 			// kembalikan hasilnya
+			$result = new \stdClass; 
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;

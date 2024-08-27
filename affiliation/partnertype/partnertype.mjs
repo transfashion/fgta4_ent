@@ -2,18 +2,15 @@ import {fgta4grid} from  '../../../../../index.php/asset/fgta/framework/fgta4lib
 import {fgta4form} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4form.mjs'
 import * as fgta4pages from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pages.mjs'
 import * as fgta4pageslider from '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4pageslider.mjs'
+import * as settings from './partnertype.settings.mjs'
 import * as apis from './partnertype.apis.mjs'
 import * as pList from './partnertype-list.mjs'
 import * as pEdit from './partnertype-edit.mjs'
-import * as pEditAccountgrid from './partnertype-accountgrid.mjs'
-import * as pEditAccountform from './partnertype-accountform.mjs'
 
 
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
-const pnl_editaccountgrid = $('#pnl_editaccountgrid')
-const pnl_editaccountform = $('#pnl_editaccountform')
 
 
 
@@ -31,16 +28,20 @@ export async function init(opt) {
 	global.fgta4grid = fgta4grid
 	global.fgta4form = fgta4form
 
+
+
 	$ui.apis = apis
 	document.getElementsByTagName("body")[0].style.margin = '5px 5px 5px 5px'
+
+	opt.variancedata = global.setup.variancedata;
+	settings.setup(opt);
 
 	pages
 		.setSlider(slider)
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			{panel: pnl_editaccountgrid, handler: pEditAccountgrid},
-			{panel: pnl_editaccountform, handler: pEditAccountform}			
+			
 		], opt)
 
 	$ui.setPages(pages)

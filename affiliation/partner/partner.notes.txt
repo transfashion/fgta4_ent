@@ -1,7 +1,0 @@
-partner
-
-original path : /apps/ent/affiliation/partner
-created by    : Agung Nugroho
-                agung_dhewe@yahoo.com
-created date  : 2019-12-11
-================================================

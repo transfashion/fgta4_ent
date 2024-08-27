@@ -1,7 +1,10 @@
-partnertype
+Partner Type
+		
+Original Path : /Volumes/Development/fgta4/generator/apps/ent/affiliation/partnertype
+Creator Name  : undefined
+                undefined
+Created Date  : Tue Aug 27 2024 09:50:42 GMT+0700 (Western Indonesia Time)				 
+=========================================================================================
 
-original path : /apps/ent/affiliation/partnertype
-created by    : Agung Nugroho
-                agung_dhewe@yahoo.com
-created date  : 2019-12-11
-================================================
+<put your notes here>
+		

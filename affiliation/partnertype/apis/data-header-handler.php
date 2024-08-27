@@ -8,9 +8,6 @@ if (!defined('FGTA4')) {
 
 class partnertype_headerHandler extends WebAPI  {
 
-	public function DataSavedSuccess($result) {
-		// $this->caller->log('save success');
-	}	
 }		
 		
 		
