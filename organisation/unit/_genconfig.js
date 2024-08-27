@@ -12,7 +12,7 @@ module.exports = {
 			primarykeys: ['unit_id'],
 			comment: 'Daftar Unit',
 			data: {
-				unit_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true},
+				unit_id: {text:'ID', type: dbtype.varchar(10), null:false, uppercase: true, options:{required:true,invalidMessage:'Unit ID harus diisi'}},
 
 				unitgroup_id: {
 					text:'Unit Group', type: dbtype.varchar(10), null:false, suppresslist:true, 
@@ -28,7 +28,7 @@ module.exports = {
 					})
 				},
 
-				unit_name: {text:'Unit', type: dbtype.varchar(60), null:false, uppercase: true},
+				unit_name: {text:'Unit Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Unit harus diisi'}},
 				unit_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true},
 
 				dept_id: {
