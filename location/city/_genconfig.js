@@ -30,18 +30,7 @@ module.exports = {
 
 			uniques: {
 				'city_name' : ['city_name']
-			},
-
-			values: [
-				{city_id:'MDN', city_name:'MEDAN', prov_id:'02'},
-				{city_id:'JKT', city_name:'JAKARTA', prov_id:'12'},
-				{city_id:'BDG', city_name:'BANDUNG', prov_id:'13'},
-				{city_id:'SBY', city_name:'SURABAYA', prov_id:'15'},
-				{city_id:'BJM', city_name:'BANJARMASIN', prov_id:'21'},
-				{city_id:'MDO', city_name:'MANADO', prov_id:'29'},
-				{city_id:'MKS', city_name:'MAKASSAR', prov_id:'26'},
-				{city_id:'BAL', city_name:'BALI', prov_id:'17'},
-			],			
+			}
 		}
 	},
 
