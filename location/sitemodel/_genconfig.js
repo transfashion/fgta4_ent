@@ -5,6 +5,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Site Model",
+	icon : "icon-sitemodel-white.png",
 	autoid: false,
 
 	persistent: {
@@ -21,17 +22,7 @@ module.exports = {
 
 			uniques: {
 				'sitemodel_name' : ['sitemodel_name']
-			},
-			
-			values: [
-				{sitemodel_id:"DEA", sitemodel_name:"DEALER"},
-				{sitemodel_id:"DC", sitemodel_name:"DISTRIBUTION CENTER"},
-				{sitemodel_id:"DSO", sitemodel_name:"DEPAPRTEMEN STORE"},
-				{sitemodel_id:"FNF", sitemodel_name:"BAZAAR OR TEMPSHOP"},
-				{sitemodel_id:"HO", sitemodel_name:"HEAD OFFICE"},
-				{sitemodel_id:"STO", sitemodel_name:"STORE"},
-				{sitemodel_id:"OL", sitemodel_name:"ONLINE CHANNEL"}
-			]
+			}
 		}
 	},
 

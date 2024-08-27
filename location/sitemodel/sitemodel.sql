@@ -22,8 +22,8 @@ ALTER TABLE `mst_sitemodel` ADD COLUMN IF NOT EXISTS  `sitemodel_name` varchar(6
 ALTER TABLE `mst_sitemodel` ADD COLUMN IF NOT EXISTS  `sitemodel_descr` varchar(90)   AFTER `sitemodel_name`;
 
 
-ALTER TABLE `mst_sitemodel` MODIFY COLUMN IF EXISTS  `sitemodel_name` varchar(60) NOT NULL  AFTER `sitemodel_id`;
-ALTER TABLE `mst_sitemodel` MODIFY COLUMN IF EXISTS  `sitemodel_descr` varchar(90)   AFTER `sitemodel_name`;
+ALTER TABLE `mst_sitemodel` MODIFY COLUMN IF EXISTS  `sitemodel_name` varchar(60) NOT NULL   AFTER `sitemodel_id`;
+ALTER TABLE `mst_sitemodel` MODIFY COLUMN IF EXISTS  `sitemodel_descr` varchar(90)    AFTER `sitemodel_name`;
 
 
 ALTER TABLE `mst_sitemodel` ADD CONSTRAINT `sitemodel_name` UNIQUE IF NOT EXISTS  (`sitemodel_name`);
@@ -31,13 +31,6 @@ ALTER TABLE `mst_sitemodel` ADD CONSTRAINT `sitemodel_name` UNIQUE IF NOT EXISTS
 
 
 
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('DEA', 'DEALER', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('DC', 'DISTRIBUTION CENTER', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('DSO', 'DEPAPRTEMEN STORE', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('FNF', 'BAZAAR OR TEMPSHOP', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('HO', 'HEAD OFFICE', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('STO', 'STORE', 'root', NOW());
-INSERT INTO mst_sitemodel (`sitemodel_id`, `sitemodel_name`, `_createby`, `_createdate`) VALUES ('OL', 'ONLINE CHANNEL', 'root', NOW());
 
 
 
