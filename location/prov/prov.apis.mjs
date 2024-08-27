@@ -10,6 +10,6 @@ kemdian, di program bisa diakses dengan
 
 */
 
-export const load_area_id = 'ent/location/area/list'
+export const load_country_id = 'ent/location/country/list'
 
 

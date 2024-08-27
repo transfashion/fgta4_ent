@@ -4,6 +4,8 @@ var this_page_options;
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './prov-edit-hnd.mjs'
 
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -19,7 +21,7 @@ const obj = {
 	txt_prov_id: $('#pnl_edit-txt_prov_id'),
 	txt_prov_name: $('#pnl_edit-txt_prov_name'),
 	txt_prov_capital: $('#pnl_edit-txt_prov_capital'),
-	cbo_area_id: $('#pnl_edit-cbo_area_id')
+	cbo_country_id: $('#pnl_edit-cbo_country_id')
 }
 
 
@@ -32,16 +34,8 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -67,25 +61,25 @@ export async function init(opt) {
 		return getHeaderData();
 	}
 
-	// Generator: Print Handler if exist
-	// Generator: Commit Handler if exist
-	// Generator: Approval Handler if exist
-	// Generator: Xtion Handler if exist
-	// Generator: Object Handler if exist
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
 
-	// Generator: Upload Handler if exist
+	// Generator: Upload Handler not exist
 
 
-	obj.cbo_area_id.name = 'pnl_edit-cbo_area_id'		
-	new fgta4slideselect(obj.cbo_area_id, {
-		title: 'Pilih area_id',
+	obj.cbo_country_id.name = 'pnl_edit-cbo_country_id'		
+	new fgta4slideselect(obj.cbo_country_id, {
+		title: 'Pilih country_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_area_id,
-		fieldValue: 'area_id',
-		fieldDisplay: 'area_name',
+		api: $ui.apis.load_country_id,
+		fieldValue: 'country_id',
+		fieldDisplay: 'country_name',
 		fields: [
-			{mapping: 'area_id', text: 'area_id'},
-			{mapping: 'area_name', text: 'area_name'}
+			{mapping: 'country_id', text: 'country_id'},
+			{mapping: 'country_name', text: 'country_name'}
 		],
 
 	})				
@@ -111,6 +105,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -145,6 +141,11 @@ export async function init(opt) {
 			form: form,
 			obj: obj,
 			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
 		})
 	}
 
@@ -162,6 +163,12 @@ export function getCurrentRowdata() {
 }
 
 export function open(data, rowid, viewmode=true, fn_callback) {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
 
 	rowdata = {
 		data: data,
@@ -201,7 +208,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
-			.setValue(obj.cbo_area_id, record.area_id, record.area_name)
+			.setValue(obj.cbo_country_id, record.country_id, record.country_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -246,6 +253,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -253,8 +267,8 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 
-		data.area_id = '0'
-		data.area_name = '-- PILIH --'
+		data.country_id = '0'
+		data.country_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -341,15 +355,32 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -406,10 +437,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -448,7 +483,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -460,9 +495,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data);
+		hnd.form_deleting(data, options);
 	}
 }
 
