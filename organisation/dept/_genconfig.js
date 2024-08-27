@@ -65,6 +65,11 @@ module.exports = {
 						title: 'Pilih Group',
 						table: 'mst_deptgroup', 
 						field_value: 'deptgroup_id', field_display: 'deptgroup_name', field_display_name: 'deptgroup_name',
+						field_mappings: [
+							`{mapping: 'deptgroup_id', text: 'ID', hidden: true, style: 'width: 100px'}`,
+							`{mapping: 'deptgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'}`,
+							`{mapping: '_id', text: 'ID', style: 'width: 100px'}`,
+						],
 						api: 'ent/organisation/deptgroup/list',
 						onDataLoadingHandler: false,
 						onDataLoadedHandler: false,

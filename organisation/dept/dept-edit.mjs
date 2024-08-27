@@ -112,8 +112,8 @@ export async function init(opt) {
 		fieldValue: 'deptgroup_id',
 		fieldDisplay: 'deptgroup_name',
 		fields: [
-			{mapping: 'deptgroup_id', text: 'deptgroup_id'},
-			{mapping: 'deptgroup_name', text: 'deptgroup_name'}
+			{mapping: 'deptgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'},
+			{mapping: '_id', text: 'ID', style: 'width: 100px'}
 		],
 		OnSelected: (value, display, record, args) => {
 			if (value!=args.PreviousValue ) {

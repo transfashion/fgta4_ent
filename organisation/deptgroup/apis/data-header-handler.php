@@ -17,6 +17,10 @@ class deptgroup_headerHandler extends WebAPI  {
 		$sortData['deptgroup_path'] = 'ASC';
 		$sortData['deptgroup_pathid'] = 'ASC';
 	}
+
+	public function DataListLooping(array &$record) : void {
+		$record['_id'] = $record['deptgroup_id'];
+	}
 }		
 		
 		
