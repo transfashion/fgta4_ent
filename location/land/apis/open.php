@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 14/12/2022
+ * tanggal 27/08/2024
  */
 $API = new class extends landBase {
 	
@@ -47,6 +47,8 @@ $API = new class extends landBase {
 			$hnd->auth = $this->auth;
 			$hnd->reqinfo = $this->reqinfo;
 			$hnd->event = $event;
+		} else {
+			$hnd = new \stdClass;
 		}
 
 		try {
@@ -56,40 +58,50 @@ $API = new class extends landBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
+			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
+				// PreCheckOpen($data, &$key, &$options)
+				$hnd->PreCheckOpen($data, $key, $options);
+			}
+
 			$criteriaValues = [
 				"land_id" => " land_id = :land_id "
 			];
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
-					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
-					$hnd->buildOpenCriteriaValues($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
+				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
+				$hnd->buildOpenCriteriaValues($options, $criteriaValues);
 			}
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
 			$result = new \stdClass; 
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'prepareOpenData')) {
-					// prepareOpenData(object $options, $criteriaValues) : void
-					$hnd->prepareOpenData($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
+			}
+			
+
+			if (method_exists(get_class($hnd), 'prepareOpenData')) {
+				// prepareOpenData(object $options, $criteriaValues) : void
+				$hnd->prepareOpenData($options, $criteriaValues);
 			}
 
 
 			$sqlFieldList = [
 				'land_id' => 'A.`land_id`', 'land_name' => 'A.`land_name`', 'land_address' => 'A.`land_address`', 'land_phone' => 'A.`land_phone`',
 				'land_email' => 'A.`land_email`', 'land_isdisabled' => 'A.`land_isdisabled`', 'land_geoloc' => 'A.`land_geoloc`', 'landtype_id' => 'A.`landtype_id`',
-				'zone_id' => 'A.`zone_id`', 'city_id' => 'A.`city_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
+				'city_id' => 'A.`city_id`', 'territory_id' => 'A.`territory_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_land A";
 			$sqlWhere = $where->sql;
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
-					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-				}
+			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
+				// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
 			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
 
@@ -121,8 +133,8 @@ $API = new class extends landBase {
 				//'gendername' => $record['gender']
 				
 				'landtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['landtype_id'], $this->db, 'mst_landtype', 'landtype_id', 'landtype_name'),
-				'zone_name' => \FGTA4\utils\SqlUtility::Lookup($record['zone_id'], $this->db, 'mst_zone', 'zone_id', 'zone_name'),
 				'city_name' => \FGTA4\utils\SqlUtility::Lookup($record['city_id'], $this->db, 'mst_city', 'city_id', 'city_name'),
+				'zone_name' => \FGTA4\utils\SqlUtility::Lookup($record['territory_id'], $this->db, 'mst_zone', 'zone_id', 'zone_name'),
 				'partner_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_id'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 
 
@@ -134,11 +146,9 @@ $API = new class extends landBase {
 
 			
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataOpen')) {
-					//  DataOpen(array &$record) : void 
-					$hnd->DataOpen($result->record);
-				}
+			if (method_exists(get_class($hnd), 'DataOpen')) {
+				//  DataOpen(array &$record) : void 
+				$hnd->DataOpen($result->record);
 			}
 
 			return $result;

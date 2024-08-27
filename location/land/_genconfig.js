@@ -5,6 +5,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Land",
+	icon : "icon-land-white.png",
 	autoid: false,
 
 	persistent: {
@@ -24,7 +25,6 @@ module.exports = {
 
 				land_geoloc: {text:'Geo Location', type: dbtype.varchar(30), null:false, suppresslist: true, default:"''"},
 
-
 				landtype_id: {
 					suppresslist: true,
 					options:{required:true,invalidMessage:'Type Land harus diisi', prompt:'-- PILIH --'},
@@ -33,17 +33,6 @@ module.exports = {
 						table: 'mst_landtype', 
 						field_value: 'landtype_id', field_display: 'landtype_name', 
 						api: 'ent/location/landtype/list'})
-				},
-
-
-				zone_id: {
-					suppresslist: true,
-					options:{required:true,invalidMessage:'Zone harus diisi', prompt:'-- PILIH --'},
-					text:'Zone', type: dbtype.varchar(10), null:false, 
-					comp: comp.Combo({
-						table: 'mst_zone', 
-						field_value: 'zone_id', field_display: 'zone_name', 
-						api: 'ent/location/zone/list'})
 				},
 
 				city_id: {
@@ -56,6 +45,15 @@ module.exports = {
 						api: 'ent/location/city/list'})
 				},				
 
+				territory_id: {
+					text:'Zone', type: dbtype.varchar(10), null:true, 
+					options:{prompt:'NONE'},
+					suppresslist: true,
+					comp: comp.Combo({
+						table: 'mst_zone', 
+						field_value: 'zone_id', field_display: 'zone_name', 
+						api: 'ent/location/zone/list'})
+				},
 
 				partner_id: {
 					suppresslist: true,

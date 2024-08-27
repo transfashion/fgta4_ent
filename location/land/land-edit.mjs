@@ -4,6 +4,8 @@ var this_page_options;
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './land-edit-hnd.mjs'
 
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -24,8 +26,8 @@ const obj = {
 	chk_land_isdisabled: $('#pnl_edit-chk_land_isdisabled'),
 	txt_land_geoloc: $('#pnl_edit-txt_land_geoloc'),
 	cbo_landtype_id: $('#pnl_edit-cbo_landtype_id'),
-	cbo_zone_id: $('#pnl_edit-cbo_zone_id'),
 	cbo_city_id: $('#pnl_edit-cbo_city_id'),
+	cbo_territory_id: $('#pnl_edit-cbo_territory_id'),
 	cbo_partner_id: $('#pnl_edit-cbo_partner_id')
 }
 
@@ -39,16 +41,8 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
-	// switch (this_page_options.variancename) {
-	// 	case 'commit' :
-	//		disableedit = true;
-	//		btn_edit.linkbutton('disable');
-	//		btn_save.linkbutton('disable');
-	//		btn_delete.linkbutton('disable');
-	//		break;
-	// }
 
 
 	form = new global.fgta4form(pnl_form, {
@@ -74,13 +68,13 @@ export async function init(opt) {
 		return getHeaderData();
 	}
 
-	// Generator: Print Handler if exist
-	// Generator: Commit Handler if exist
-	// Generator: Approval Handler if exist
-	// Generator: Xtion Handler if exist
-	// Generator: Object Handler if exist
+	// Generator: Print Handler not exist
+	// Generator: Commit Handler not exist
+	// Generator: Approval Handler not exist
+	// Generator: Xtion Handler not exist
+	// Generator: Object Handler not exist
 
-	// Generator: Upload Handler if exist
+	// Generator: Upload Handler not exist
 
 
 	obj.cbo_landtype_id.name = 'pnl_edit-cbo_landtype_id'		
@@ -97,20 +91,6 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_zone_id.name = 'pnl_edit-cbo_zone_id'		
-	new fgta4slideselect(obj.cbo_zone_id, {
-		title: 'Pilih zone_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_zone_id,
-		fieldValue: 'zone_id',
-		fieldDisplay: 'zone_name',
-		fields: [
-			{mapping: 'zone_id', text: 'zone_id'},
-			{mapping: 'zone_name', text: 'zone_name'}
-		],
-
-	})				
-				
 	obj.cbo_city_id.name = 'pnl_edit-cbo_city_id'		
 	new fgta4slideselect(obj.cbo_city_id, {
 		title: 'Pilih city_id',
@@ -121,6 +101,21 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'city_id', text: 'city_id'},
 			{mapping: 'city_name', text: 'city_name'}
+		],
+
+	})				
+				
+	obj.cbo_territory_id.name = 'pnl_edit-cbo_territory_id'		
+	new fgta4slideselect(obj.cbo_territory_id, {
+		title: 'Pilih territory_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_territory_id,
+		fieldValue: 'territory_id',
+		fieldDisplay: 'zone_name',
+		fieldValueMap: 'zone_id',
+		fields: [
+			{mapping: 'zone_id', text: 'zone_id'},
+			{mapping: 'zone_name', text: 'zone_name'}
 		],
 
 	})				
@@ -160,6 +155,8 @@ export async function init(opt) {
 	})	
 
 	document.addEventListener('OnButtonBack', (ev) => {
+		var element = document.activeElement;
+		element.blur();
 		if ($ui.getPages().getCurrentPage()==this_page_id) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
@@ -194,6 +191,11 @@ export async function init(opt) {
 			form: form,
 			obj: obj,
 			opt: opt,
+			btn_action_click: (actionargs) => {
+				if (typeof btn_action_click == 'function') {
+					btn_action_click(actionargs);
+				}
+			}
 		})
 	}
 
@@ -212,6 +214,12 @@ export function getCurrentRowdata() {
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+
 	rowdata = {
 		data: data,
 		rowid: rowid
@@ -227,6 +235,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
+		if (result.record.territory_id==null) { result.record.territory_id='--NULL--'; result.record.zone_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -251,8 +260,8 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_landtype_id, record.landtype_id, record.landtype_name)
-			.setValue(obj.cbo_zone_id, record.zone_id, record.zone_name)
 			.setValue(obj.cbo_city_id, record.city_id, record.city_name)
+			.setValue(obj.cbo_territory_id, record.territory_id, record.zone_name)
 			.setValue(obj.cbo_partner_id, record.partner_id, record.partner_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -298,6 +307,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -308,10 +324,10 @@ export function createnew() {
 
 		data.landtype_id = '0'
 		data.landtype_name = '-- PILIH --'
-		data.zone_id = '0'
-		data.zone_name = '-- PILIH --'
 		data.city_id = '0'
 		data.city_name = '-- PILIH --'
+		data.territory_id = '--NULL--'
+		data.zone_name = 'NONE'
 		data.partner_id = '0'
 		data.partner_name = '-- PILIH --'
 
@@ -400,15 +416,32 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -445,7 +478,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = [];
+	// options.skipmappingresponse = ['territory_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -465,10 +498,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -490,6 +527,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
+	form.setValue(obj.cbo_territory_id, result.dataresponse.zone_name!=='--NULL--' ? result.dataresponse.territory_id : '--NULL--', result.dataresponse.zone_name!=='--NULL--'?result.dataresponse.zone_name:'NONE')
 
 	*/
 
@@ -507,7 +545,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}
@@ -519,9 +557,9 @@ async function form_datasaved(result, options) {
 
 
 
-async function form_deleting(data) {
+async function form_deleting(data, options) {
 	if (typeof hnd.form_deleting == 'function') {
-		hnd.form_deleting(data);
+		hnd.form_deleting(data, options);
 	}
 }
 

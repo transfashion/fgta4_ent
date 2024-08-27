@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 14/12/2022
+ * tanggal 27/08/2024
  */
 $API = new class extends landBase {
 
@@ -55,37 +55,38 @@ $API = new class extends landBase {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
-			
+			if (method_exists(get_class($hnd), 'init')) {
+				// init(object &$options) : void
+				$hnd->init($options);
+			}
+
 			$criteriaValues = [
 				"search" => " A.land_id LIKE CONCAT('%', :search, '%') OR A.land_name LIKE CONCAT('%', :search, '%') "
 			];
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
-					// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
-					//    apabila akan modifikasi parameter2 untuk query
-					//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
-					//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
-					//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
-					//
-					//    untuk memberikan nilai default apabila paramter tidak dikirim
-					//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
-					$hnd->buildListCriteriaValues($options, $criteriaValues);
-				}
+
+			if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
+				// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
+				//    apabila akan modifikasi parameter2 untuk query
+				//    $criteriaValues['fieldname'] = " A.fieldname = :fieldname";  <-- menambahkan field pada where dan memberi parameter value
+				//    $criteriaValues['fieldname'] = "--";                         <-- memberi parameter value tanpa menambahkan pada where
+				//    $criteriaValues['fieldname'] = null                          <-- tidak memberi efek pada query secara langsung, parameter digunakan untuk keperluan lain 
+				//
+				//    untuk memberikan nilai default apabila paramter tidak dikirim
+				//    // \FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, '--fieldscriteria--', '--value--');
+				$hnd->buildListCriteriaValues($options, $criteriaValues);
 			}
 
 			$where = \FGTA4\utils\SqlUtility::BuildCriteria($options->criteria, $criteriaValues);
-			$result = new \stdClass; 
+			
 			$maxrow = 30;
 			$offset = (property_exists($options, 'offset')) ? $options->offset : 0;
 
 			/* prepare DbLayer Temporay Data Helper if needed */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'prepareListData')) {
-					// ** prepareListData(object $options, array $criteriaValues) : void
-					//    misalnya perlu mebuat temporary table,
-					//    untuk membuat query komplex dapat dibuat disini	
-					$hnd->prepareListData($options, $criteriaValues);
-				}
+			if (method_exists(get_class($hnd), 'prepareListData')) {
+				// ** prepareListData(object $options, array $criteriaValues) : void
+				//    misalnya perlu mebuat temporary table,
+				//    untuk membuat query komplex dapat dibuat disini	
+				$hnd->prepareListData($options, $criteriaValues);
 			}
 
 
@@ -93,21 +94,19 @@ $API = new class extends landBase {
 			$sqlFieldList = [
 				'land_id' => 'A.`land_id`', 'land_name' => 'A.`land_name`', 'land_address' => 'A.`land_address`', 'land_phone' => 'A.`land_phone`',
 				'land_email' => 'A.`land_email`', 'land_isdisabled' => 'A.`land_isdisabled`', 'land_geoloc' => 'A.`land_geoloc`', 'landtype_id' => 'A.`landtype_id`',
-				'zone_id' => 'A.`zone_id`', 'city_id' => 'A.`city_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
+				'city_id' => 'A.`city_id`', 'territory_id' => 'A.`territory_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_land A";
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
-					// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
-					//    menambah atau memodifikasi field-field yang akan ditampilkan
-					//    apabila akan memodifikasi join table
-					//    apabila akan memodifikasi nilai parameter
-					$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
-				}
+			if (method_exists(get_class($hnd), 'SqlQueryListBuilder')) {
+				// ** SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
+				//    menambah atau memodifikasi field-field yang akan ditampilkan
+				//    apabila akan memodifikasi join table
+				//    apabila akan memodifikasi nilai parameter
+				$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
 			
 			// filter select columns
@@ -123,18 +122,21 @@ $API = new class extends landBase {
 				$options->sortData = [];
 			}
 			if (!is_array($options->sortData)) {
-				$options->sortData = [];
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
+				}
 			}
+
 		
 
 
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'sortListOrder')) {
-					// ** sortListOrder(array &$sortData) : void
-					//    jika ada keperluan mengurutkan data
-					//    $sortData['fieldname'] = 'ASC/DESC';
-					$hnd->sortListOrder($options->sortData);
-				}
+			if (method_exists(get_class($hnd), 'sortListOrder')) {
+				// ** sortListOrder(array &$sortData) : void
+				//    jika ada keperluan mengurutkan data
+				//    $sortData['fieldname'] = 'ASC/DESC';
+				$hnd->sortListOrder($options->sortData);
 			}
 			$sqlOrders = \FGTA4\utils\SqlUtility::generateSqlSelectSort($options->sortData);
 
@@ -163,6 +165,11 @@ $API = new class extends landBase {
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
 
+			$handleloop = false;
+			if (method_exists(get_class($hnd), 'DataListLooping')) {
+				$handleloop = true;
+			}
+
 			/* Proces result */
 			$records = [];
 			foreach ($rows as $row) {
@@ -178,8 +185,8 @@ $API = new class extends landBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'landtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['landtype_id'], $this->db, 'mst_landtype', 'landtype_id', 'landtype_name'),
-					'zone_name' => \FGTA4\utils\SqlUtility::Lookup($record['zone_id'], $this->db, 'mst_zone', 'zone_id', 'zone_name'),
 					'city_name' => \FGTA4\utils\SqlUtility::Lookup($record['city_id'], $this->db, 'mst_city', 'city_id', 'city_name'),
+					'zone_name' => \FGTA4\utils\SqlUtility::Lookup($record['territory_id'], $this->db, 'mst_zone', 'zone_id', 'zone_name'),
 					'partner_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_id'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 					 
 				]);
@@ -188,33 +195,30 @@ $API = new class extends landBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('landtype_name', 'landtype_id', $record, 'mst_landtype', 'landtype_name', 'landtype_id');
-				$this->addFields('zone_name', 'zone_id', $record, 'mst_zone', 'zone_name', 'zone_id');
 				$this->addFields('city_name', 'city_id', $record, 'mst_city', 'city_name', 'city_id');
+				$this->addFields('zone_name', 'territory_id', $record, 'mst_zone', 'zone_name', 'zone_id');
 				$this->addFields('partner_name', 'partner_id', $record, 'mst_partner', 'partner_name', 'partner_id');
 					 
 
 
-				if (is_object($hnd)) {
-					if (method_exists(get_class($hnd), 'DataListLooping')) {
-						// ** DataListLooping(array &$record) : void
-						//    apabila akan menambahkan field di record
-						$hnd->DataListLooping($record);
-					}
+				if ($handleloop) {
+					// ** DataListLooping(array &$record) : void
+					//    apabila akan menambahkan field di record
+					$hnd->DataListLooping($record);
 				}
 
 				array_push($records, $record);
 			}
 
 			/* modify and finalize records */
-			if (is_object($hnd)) {
-				if (method_exists(get_class($hnd), 'DataListFinal')) {
-					// ** DataListFinal(array &$records) : void
-					//    finalisasi data list
-					$hnd->DataListFinal($records);
-				}
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records);
 			}
 
 			// kembalikan hasilnya
+			$result = new \stdClass; 
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;
