@@ -36,7 +36,6 @@ class DataList extends WebAPI {
 				throw new \Exception('your group authority is not allowed to do this action.');
 			}
 
-			\FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, 'isparent', '0');
 			\FGTA4\utils\SqlUtility::setDefaultCriteria($options->criteria, 'isdisabled', '0');
 
 			$options->criteria->empl_id = $userdata->employee_id;
@@ -44,9 +43,7 @@ class DataList extends WebAPI {
 				$options->criteria,
 				[
 					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
-					"isparent" => " A.dept_isparent = :isparent ",
 					"isdisabled" => " A.dept_isdisabled = :isdisabled ",
-					"deptmodel_id" => " A.deptmodel_id = :deptmodel_id ",
 					"empl_id" => " B.empl_id = :empl_id "
 				]
 			);
@@ -63,15 +60,10 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-					A.dept_id, 
-					A.dept_name, A.dept_descr, A.dept_isparent, A.dept_isdisabled, A.dept_path, A.dept_level, A.deptgroup_id, 
-					A.dept_parent, A.depttype_id, A.deptmodel_id, A.auth_id, 
-					(select dept_path from mst_dept where dept_id=A.dept_parent) deptparent_path,
-					COALESCE((select dept_level from mst_dept where dept_id=A.dept_parent),0) deptparent_level,				
-					A._createby, A._createdate, A._modifyby, A._modifydate 
+					A.dept_id, A.dept_name, A.dept_descr, A.dept_isdisabled
 				from mst_dept A
 					inner join view_userdept B ON A.dept_id = B.dept_id
-			" . $where->sql . " ORDER BY A.dept_path, deptparent_path, A.dept_name " . $limit);
+			" . $where->sql . " ORDER BY A.dept_name " . $limit);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
 
@@ -86,12 +78,6 @@ class DataList extends WebAPI {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'deptgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptgroup_id'], $this->db, 'mst_deptgroup', 'deptgroup_id', 'deptgroup_name'),
-					'dept_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_parent'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-					'depttype_name' => \FGTA4\utils\SqlUtility::Lookup($record['depttype_id'], $this->db, 'mst_depttype', 'depttype_id', 'depttype_name'),
-					'deptmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['deptmodel_id'], $this->db, 'mst_deptmodel', 'deptmodel_id', 'deptmodel_name'),
-					'auth_name' => \FGTA4\utils\SqlUtility::Lookup($record['auth_id'], $this->db, 'mst_auth', 'auth_id', 'auth_name'),
-					 
 				]));
 			}
 
