@@ -5,6 +5,7 @@ const comp = global.comp;
 
 module.exports = {
 	title: "Site",
+	icon: "icon-site-white.png",
 	autoid: false,
 
 	creatorname: "Agung Nugroho",
@@ -27,7 +28,7 @@ module.exports = {
 	},
 	*/
 
-	// jsonOverwrite: true,
+	jsonOverwrite: true,
 	
 	persistent: {
 		'mst_site' : {
@@ -57,18 +58,6 @@ module.exports = {
 						api: 'ent/location/sitemodel/list'})
 				},
 
-				sitegroup_id: {
-					suppresslist: true,
-					options:{required:true,invalidMessage:'Zone harus diisi', prompt:'-- PILIH --'},
-					text:'Site Group', type: dbtype.varchar(10), null:false, 
-					comp: comp.Combo({
-						title: 'Pilih Kelompok Site',
-						table: 'mst_sitegroup', 
-						field_value: 'sitegroup_id', field_display: 'sitegroup_name', 
-						api: 'ent/location/sitegroup/list'
-					})
-				},
-
 				land_id: {
 					suppresslist: true,
 					options:{required:true,invalidMessage:'Land harus diisi', prompt:'-- PILIH --'},
@@ -81,52 +70,29 @@ module.exports = {
 					})
 				},
 
-				partner_id: {
+				unit_id: {
 					suppresslist: true,
-					options:{prompt:'NONE'},
-					text:'Partner', type: dbtype.varchar(30), null:true, 
+					options:{required:true,invalidMessage:'Unit harus diisi', prompt:'-- PILIH --'},
+					text:'Unit', type: dbtype.varchar(10), null:false, 
 					comp: comp.Combo({
-						table: 'mst_partner', 
-						field_value: 'partner_id', field_display: 'partner_name', 
-						api: 'ent/affiliation/partner/list'
+						title: 'Pilih unit owner',
+						table: 'mst_unit', 
+						field_value: 'unit_id', field_display: 'unit_name', 
+						api: 'ent/organisation/unit/list'
 					})
-				},	
+				},
 
 				dept_id: {
 					suppresslist: true,
 					options:{required:true,invalidMessage:'Departemen harus diisi', prompt:'-- PILIH --'},
 					text:'Dept', type: dbtype.varchar(30), null:false, 
 					comp: comp.Combo({
-						title: 'Pilih allokasi departement',
+						title: 'Pilih departement owner',
 						table: 'mst_dept', 
 						field_value: 'dept_id', field_display: 'dept_name', 
 						api: 'ent/organisation/dept/list'
 					})
-				},
-
-				config_id: {
-					suppresslist: true,
-					options:{required:true,invalidMessage:'Config harus diisi', prompt:'-- PILIH --'},
-					text:'Config', type: dbtype.varchar(30), null:false, 
-					comp: comp.Combo({
-						title: 'Pilih Konfigurasi',
-						table: 'mst_config', 
-						field_value: 'config_id', field_display: 'config_name', 
-						api: 'ent/general/config/list'
-					})
-				},
-				
-				taxtype_id: {
-					suppresslist: true,
-					options:{required:true,invalidMessage:'Taxtype harus diisi', prompt:'-- PILIH --'},
-					text:'Tax Type', type: dbtype.varchar(10), null:false, 
-					comp: comp.Combo({
-						title: 'Pilih tipe tax',
-						table: 'mst_taxtype', 
-						field_value: 'taxtype_id', field_display: 'taxtype_name', 
-						api: 'finact/master/taxtype/list'
-					})
-				}				
+				}
 
 			},
 
@@ -135,70 +101,6 @@ module.exports = {
 				'site_name' : ['site_name'],
 				'site_nameshort' : ['site_nameshort'],
 				'site_code' : ['site_code']
-			}			
-		},
-
-		'mst_siteunit' : {
-			primarykeys: ['siteunit_id'],
-			comment: 'Daftar Site Unit',
-			data: {
-				siteunit_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
-				unit_id: {
-					suppresslist: false,
-					options:{required:true,invalidMessage:'Unit harus diisi', prompt:'-- PILIH --'},
-					text:'Unit', type: dbtype.varchar(10), null:false, 
-					comp: comp.Combo({
-						table: 'mst_unit', 
-						field_value: 'unit_id', field_display: 'unit_name', 
-						api: 'ent/organisation/unit/list'})
-				},
-				dept_id: {
-					suppresslist: false,
-					options:{required:true,invalidMessage:'Departemen harus diisi', prompt:'-- PILIH --'},
-					text:'Dept', type: dbtype.varchar(30), null:false, 
-					comp: comp.Combo({
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', 
-						api: 'ent/organisation/dept/list'})
-				},				
-				site_id: {text:'Site', type: dbtype.varchar(30), null:false, uppercase: true},
-			},
-			defaultsearch : ['unit_id', 'dept_id'],
-			uniques: {
-				'siteunit_siteunit' : ['site_id', 'unit_id']
-			}			
-
-		},
-
-		'mst_sitemapping' : {
-			primarykeys: ['sitemapping_id'],
-			comment: 'Daftar Site Mapping',
-			data: {
-				sitemapping_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
-				sitemapping_mapfrom: {text:'Map From', type: dbtype.varchar(60), null:false, suppresslist: false, uppercase: true, options:{required:true,invalidMessage:'Map From harus diisi'}},
-				unit_id: {
-					suppresslist: false,
-					options:{required:true,invalidMessage:'Unit harus diisi', prompt:'-- PILIH --'},
-					text:'Unit', type: dbtype.varchar(10), null:false, 
-					comp: comp.Combo({
-						table: 'mst_unit', 
-						field_value: 'unit_id', field_display: 'unit_name', 
-						api: 'ent/organisation/unit/list'})
-				},
-				dept_id: {
-					suppresslist: false,
-					options:{required:true,invalidMessage:'Departemen harus diisi', prompt:'-- PILIH --'},
-					text:'Dept', type: dbtype.varchar(30), null:false, 
-					comp: comp.Combo({
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', 
-						api: 'ent/organisation/dept/list'})
-				},						
-				site_id: {text:'Site', type: dbtype.varchar(30), null:false, uppercase: true},
-			},
-			defaultsearch : ['sitemapping_mapfrom', 'unit_id'],
-			uniques: {
-				'sitemapping_map' : ['sitemapping_mapfrom']
 			}			
 		},
 
@@ -247,8 +149,6 @@ module.exports = {
 		title: 'Site',
 		header: 'mst_site',
 		detils: {
-			'unit' : {title: 'Unit', table:'mst_siteunit', form: true, headerview:'site_name', editorHandler: true, listHandler: true},  
-			'mapping' : {title: 'Mapping', table:'mst_sitemapping', form: true, headerview:'site_name', editorHandler: true, listHandler: true},  
 			'event' : {title: 'Event', table:'mst_siteevent', form: true, headerview:'site_name', editorHandler: true, listHandler: true},
 			'ref' : {title: 'Referensi', table:'mst_siteref', form: true, headerview:'site_name', editorHandler: true, listHandler: true},
 		}

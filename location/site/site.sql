@@ -1,8 +1,6 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- drop table if exists `mst_site`;
--- drop table if exists `mst_siteunit`;
--- drop table if exists `mst_sitemapping`;
 -- drop table if exists `mst_siteevent`;
 -- drop table if exists `mst_siteref`;
 
@@ -21,12 +19,9 @@ CREATE TABLE IF NOT EXISTS `mst_site` (
 	`site_geoloc` varchar(30) NOT NULL DEFAULT '', 
 	`site_opendate` date NOT NULL , 
 	`sitemodel_id` varchar(10) NOT NULL , 
-	`sitegroup_id` varchar(10) NOT NULL , 
 	`land_id` varchar(30) NOT NULL , 
-	`partner_id` varchar(30)  , 
+	`unit_id` varchar(10) NOT NULL , 
 	`dept_id` varchar(30) NOT NULL , 
-	`config_id` varchar(30) NOT NULL , 
-	`taxtype_id` varchar(10) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -52,12 +47,9 @@ ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_isdisabled` tinyint(1) NO
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_geoloc` varchar(30) NOT NULL DEFAULT '' AFTER `site_isdisabled`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_opendate` date NOT NULL  AFTER `site_geoloc`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `sitemodel_id` varchar(10) NOT NULL  AFTER `site_opendate`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `sitegroup_id` varchar(10) NOT NULL  AFTER `sitemodel_id`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `land_id` varchar(30) NOT NULL  AFTER `sitegroup_id`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `partner_id` varchar(30)   AFTER `land_id`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `partner_id`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `config_id` varchar(30) NOT NULL  AFTER `dept_id`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `taxtype_id` varchar(10) NOT NULL  AFTER `config_id`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `land_id` varchar(30) NOT NULL  AFTER `sitemodel_id`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `land_id`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `unit_id`;
 
 
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_nameshort` varchar(10) NOT NULL   AFTER `site_id`;
@@ -72,12 +64,9 @@ ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_isdisabled` tinyint(1) NOT
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_geoloc` varchar(30) NOT NULL DEFAULT ''  AFTER `site_isdisabled`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_opendate` date NOT NULL   AFTER `site_geoloc`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `sitemodel_id` varchar(10) NOT NULL   AFTER `site_opendate`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `sitegroup_id` varchar(10) NOT NULL   AFTER `sitemodel_id`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `land_id` varchar(30) NOT NULL   AFTER `sitegroup_id`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `partner_id` varchar(30)    AFTER `land_id`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `partner_id`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `config_id` varchar(30) NOT NULL   AFTER `dept_id`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `taxtype_id` varchar(10) NOT NULL   AFTER `config_id`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `land_id` varchar(30) NOT NULL   AFTER `sitemodel_id`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `land_id`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `unit_id`;
 
 
 ALTER TABLE `mst_site` ADD CONSTRAINT `site_name` UNIQUE IF NOT EXISTS  (`site_name`);
@@ -85,103 +74,14 @@ ALTER TABLE `mst_site` ADD CONSTRAINT `site_nameshort` UNIQUE IF NOT EXISTS  (`s
 ALTER TABLE `mst_site` ADD CONSTRAINT `site_code` UNIQUE IF NOT EXISTS  (`site_code`);
 
 ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `sitemodel_id` (`sitemodel_id`);
-ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `sitegroup_id` (`sitegroup_id`);
 ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `land_id` (`land_id`);
-ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `partner_id` (`partner_id`);
+ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
 ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
-ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `config_id` (`config_id`);
-ALTER TABLE `mst_site` ADD KEY IF NOT EXISTS `taxtype_id` (`taxtype_id`);
 
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_sitemodel` FOREIGN KEY IF NOT EXISTS  (`sitemodel_id`) REFERENCES `mst_sitemodel` (`sitemodel_id`);
-ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_sitegroup` FOREIGN KEY IF NOT EXISTS  (`sitegroup_id`) REFERENCES `mst_sitegroup` (`sitegroup_id`);
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_land` FOREIGN KEY IF NOT EXISTS  (`land_id`) REFERENCES `mst_land` (`land_id`);
-ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_partner` FOREIGN KEY IF NOT EXISTS  (`partner_id`) REFERENCES `mst_partner` (`partner_id`);
+ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
 ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
-ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_config` FOREIGN KEY IF NOT EXISTS  (`config_id`) REFERENCES `mst_config` (`config_id`);
-ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_taxtype` FOREIGN KEY IF NOT EXISTS  (`taxtype_id`) REFERENCES `mst_taxtype` (`taxtype_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `mst_siteunit` (
-	`siteunit_id` varchar(14) NOT NULL , 
-	`unit_id` varchar(10) NOT NULL , 
-	`dept_id` varchar(30) NOT NULL , 
-	`site_id` varchar(30) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	UNIQUE KEY `siteunit_siteunit` (`site_id`, `unit_id`),
-	PRIMARY KEY (`siteunit_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Daftar Site Unit';
-
-
-ALTER TABLE `mst_siteunit` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `siteunit_id`;
-ALTER TABLE `mst_siteunit` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `unit_id`;
-ALTER TABLE `mst_siteunit` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30) NOT NULL  AFTER `dept_id`;
-
-
-ALTER TABLE `mst_siteunit` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `siteunit_id`;
-ALTER TABLE `mst_siteunit` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `unit_id`;
-ALTER TABLE `mst_siteunit` MODIFY COLUMN IF EXISTS  `site_id` varchar(30) NOT NULL   AFTER `dept_id`;
-
-
-ALTER TABLE `mst_siteunit` ADD CONSTRAINT `siteunit_siteunit` UNIQUE IF NOT EXISTS  (`site_id`, `unit_id`);
-
-ALTER TABLE `mst_siteunit` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
-ALTER TABLE `mst_siteunit` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
-ALTER TABLE `mst_siteunit` ADD KEY IF NOT EXISTS `site_id` (`site_id`);
-
-ALTER TABLE `mst_siteunit` ADD CONSTRAINT `fk_mst_siteunit_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
-ALTER TABLE `mst_siteunit` ADD CONSTRAINT `fk_mst_siteunit_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
-ALTER TABLE `mst_siteunit` ADD CONSTRAINT `fk_mst_siteunit_mst_site` FOREIGN KEY IF NOT EXISTS (`site_id`) REFERENCES `mst_site` (`site_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `mst_sitemapping` (
-	`sitemapping_id` varchar(14) NOT NULL , 
-	`sitemapping_mapfrom` varchar(60) NOT NULL , 
-	`unit_id` varchar(10) NOT NULL , 
-	`dept_id` varchar(30) NOT NULL , 
-	`site_id` varchar(30) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	UNIQUE KEY `sitemapping_map` (`sitemapping_mapfrom`),
-	PRIMARY KEY (`sitemapping_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Daftar Site Mapping';
-
-
-ALTER TABLE `mst_sitemapping` ADD COLUMN IF NOT EXISTS  `sitemapping_mapfrom` varchar(60) NOT NULL  AFTER `sitemapping_id`;
-ALTER TABLE `mst_sitemapping` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `sitemapping_mapfrom`;
-ALTER TABLE `mst_sitemapping` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `unit_id`;
-ALTER TABLE `mst_sitemapping` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30) NOT NULL  AFTER `dept_id`;
-
-
-ALTER TABLE `mst_sitemapping` MODIFY COLUMN IF EXISTS  `sitemapping_mapfrom` varchar(60) NOT NULL   AFTER `sitemapping_id`;
-ALTER TABLE `mst_sitemapping` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `sitemapping_mapfrom`;
-ALTER TABLE `mst_sitemapping` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `unit_id`;
-ALTER TABLE `mst_sitemapping` MODIFY COLUMN IF EXISTS  `site_id` varchar(30) NOT NULL   AFTER `dept_id`;
-
-
-ALTER TABLE `mst_sitemapping` ADD CONSTRAINT `sitemapping_map` UNIQUE IF NOT EXISTS  (`sitemapping_mapfrom`);
-
-ALTER TABLE `mst_sitemapping` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
-ALTER TABLE `mst_sitemapping` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
-ALTER TABLE `mst_sitemapping` ADD KEY IF NOT EXISTS `site_id` (`site_id`);
-
-ALTER TABLE `mst_sitemapping` ADD CONSTRAINT `fk_mst_sitemapping_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
-ALTER TABLE `mst_sitemapping` ADD CONSTRAINT `fk_mst_sitemapping_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
-ALTER TABLE `mst_sitemapping` ADD CONSTRAINT `fk_mst_sitemapping_mst_site` FOREIGN KEY IF NOT EXISTS (`site_id`) REFERENCES `mst_site` (`site_id`);
 
 
 

@@ -1,6 +1,6 @@
 {
 	"title" : "Site",
-	
+	"icon": "icon-site-white.png",
 	
 	"variance" : {
 		"view" : {"title":"Site (View)","data":{}}

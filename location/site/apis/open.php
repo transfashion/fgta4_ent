@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 24/03/2023
+ * tanggal 27/08/2024
  */
 $API = new class extends siteBase {
 	
@@ -94,8 +94,7 @@ $API = new class extends siteBase {
 				'site_id' => 'A.`site_id`', 'site_nameshort' => 'A.`site_nameshort`', 'site_code' => 'A.`site_code`', 'site_name' => 'A.`site_name`',
 				'site_descr' => 'A.`site_descr`', 'site_address' => 'A.`site_address`', 'site_phone' => 'A.`site_phone`', 'site_email' => 'A.`site_email`',
 				'site_sqmwide' => 'A.`site_sqmwide`', 'site_isdisabled' => 'A.`site_isdisabled`', 'site_geoloc' => 'A.`site_geoloc`', 'site_opendate' => 'A.`site_opendate`',
-				'sitemodel_id' => 'A.`sitemodel_id`', 'sitegroup_id' => 'A.`sitegroup_id`', 'land_id' => 'A.`land_id`', 'partner_id' => 'A.`partner_id`',
-				'dept_id' => 'A.`dept_id`', 'config_id' => 'A.`config_id`', 'taxtype_id' => 'A.`taxtype_id`', '_createby' => 'A.`_createby`',
+				'sitemodel_id' => 'A.`sitemodel_id`', 'land_id' => 'A.`land_id`', 'unit_id' => 'A.`unit_id`', 'dept_id' => 'A.`dept_id`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_site A";
@@ -136,12 +135,9 @@ $API = new class extends siteBase {
 				//'gendername' => $record['gender']
 				
 				'sitemodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['sitemodel_id'], $this->db, 'mst_sitemodel', 'sitemodel_id', 'sitemodel_name'),
-				'sitegroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['sitegroup_id'], $this->db, 'mst_sitegroup', 'sitegroup_id', 'sitegroup_name'),
 				'land_name' => \FGTA4\utils\SqlUtility::Lookup($record['land_id'], $this->db, 'mst_land', 'land_id', 'land_name'),
-				'partner_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_id'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
+				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-				'config_name' => \FGTA4\utils\SqlUtility::Lookup($record['config_id'], $this->db, 'mst_config', 'config_id', 'config_name'),
-				'taxtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['taxtype_id'], $this->db, 'mst_taxtype', 'taxtype_id', 'taxtype_name'),
 
 
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

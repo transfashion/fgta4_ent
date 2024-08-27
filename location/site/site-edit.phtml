@@ -1,6 +1,6 @@
 <div id="pnl_edit">
 	<div class="fgta-page-title" style="display: flex; align-items: center ">
-		<div>Edit Site</div>
+		<div id="pnl_edit-caption">{{STATE_BEG}}Site{{STATE_END}}</div>
 		<a id="pnl_edit-btn_edit" href="javascript:void(0)" class="easyui-linkbutton fgta-button-edit" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
 	</div>
 
@@ -111,14 +111,6 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Site Group</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_sitegroup_id" class="easyui-combo" style="width: 400px" mapping="sitegroup_id" display="sitegroup_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Zone harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_sitegroup_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Land</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_land_id" class="easyui-combo" style="width: 400px" mapping="land_id" display="land_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Land harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_land_id']" >
@@ -127,9 +119,9 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Partner</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Unit</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_partner_id" class="easyui-combo" style="width: 400px" mapping="partner_id" display="partner_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
+				<input id="pnl_edit-cbo_unit_id" class="easyui-combo" style="width: 400px" mapping="unit_id" display="unit_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Unit harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_unit_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -138,22 +130,6 @@
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Dept</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_dept_id" class="easyui-combo" style="width: 400px" mapping="dept_id" display="dept_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Departemen harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_dept_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Config</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_config_id" class="easyui-combo" style="width: 400px" mapping="config_id" display="config_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Config harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_config_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Tax Type</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_taxtype_id" class="easyui-combo" style="width: 400px" mapping="taxtype_id" display="taxtype_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Taxtype harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_taxtype_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -174,21 +150,13 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col detilbox" style="border: 0px solid black">
 				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editunitgrid')">
-					<div id="pnl_edit-txt_unit_title" class="detilgrid-text">Unit</div>
-					<div id="pnl_edit-txt_unit_value" class="detilgrid-value">&nbsp;</div>
-				</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editmappinggrid')">
-					<div id="pnl_edit-txt_mapping_title" class="detilgrid-text">Mapping</div>
-					<div id="pnl_edit-txt_mapping_value" class="detilgrid-value">&nbsp;</div>
-				</div>
 				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editeventgrid')">
 					<div id="pnl_edit-txt_event_title" class="detilgrid-text">Event</div>
-					<div id="pnl_edit-txt_event_value" class="detilgrid-value">&nbsp;</div>
+					<div id="pnl_edit-txt_event_value" class="detilgrid-value event_totalvalue">&nbsp;</div>
 				</div>
 				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editrefgrid')">
 					<div id="pnl_edit-txt_ref_title" class="detilgrid-text">Referensi</div>
-					<div id="pnl_edit-txt_ref_value" class="detilgrid-value">&nbsp;</div>
+					<div id="pnl_edit-txt_ref_value" class="detilgrid-value ref_totalvalue">&nbsp;</div>
 				</div>
 
 			</div>		

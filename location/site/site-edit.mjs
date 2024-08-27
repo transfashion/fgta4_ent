@@ -4,6 +4,8 @@ var this_page_options;
 import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './site-edit-hnd.mjs'
 
+const txt_caption = $('#pnl_edit-caption')
+
 
 const btn_edit = $('#pnl_edit-btn_edit')
 const btn_save = $('#pnl_edit-btn_save')
@@ -29,12 +31,9 @@ const obj = {
 	txt_site_geoloc: $('#pnl_edit-txt_site_geoloc'),
 	dt_site_opendate: $('#pnl_edit-dt_site_opendate'),
 	cbo_sitemodel_id: $('#pnl_edit-cbo_sitemodel_id'),
-	cbo_sitegroup_id: $('#pnl_edit-cbo_sitegroup_id'),
 	cbo_land_id: $('#pnl_edit-cbo_land_id'),
-	cbo_partner_id: $('#pnl_edit-cbo_partner_id'),
-	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
-	cbo_config_id: $('#pnl_edit-cbo_config_id'),
-	cbo_taxtype_id: $('#pnl_edit-cbo_taxtype_id')
+	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id')
 }
 
 
@@ -47,20 +46,9 @@ export async function init(opt) {
 	this_page_id = opt.id;
 	this_page_options = opt;
 
-
+	txt_caption.template = txt_caption.html();
 	var disableedit = false;
 
-	if (opt.settings.btn_edit_visible===false) {
-		btn_edit.hide();
-	} 
-
-	if (opt.settings.btn_save_visible===false) {
-		btn_save.hide();
-	} 
-
-	if (opt.settings.btn_delete_visible===false) {
-		btn_delete.hide();
-	} 
 
 	form = new global.fgta4form(pnl_form, {
 		primary: obj.txt_site_id,
@@ -108,20 +96,6 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_sitegroup_id.name = 'pnl_edit-cbo_sitegroup_id'		
-	new fgta4slideselect(obj.cbo_sitegroup_id, {
-		title: 'Pilih Kelompok Site',
-		returnpage: this_page_id,
-		api: $ui.apis.load_sitegroup_id,
-		fieldValue: 'sitegroup_id',
-		fieldDisplay: 'sitegroup_name',
-		fields: [
-			{mapping: 'sitegroup_id', text: 'sitegroup_id'},
-			{mapping: 'sitegroup_name', text: 'sitegroup_name'}
-		],
-
-	})				
-				
 	obj.cbo_land_id.name = 'pnl_edit-cbo_land_id'		
 	new fgta4slideselect(obj.cbo_land_id, {
 		title: 'Pilih Land',
@@ -136,23 +110,23 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_partner_id.name = 'pnl_edit-cbo_partner_id'		
-	new fgta4slideselect(obj.cbo_partner_id, {
-		title: 'Pilih partner_id',
+	obj.cbo_unit_id.name = 'pnl_edit-cbo_unit_id'		
+	new fgta4slideselect(obj.cbo_unit_id, {
+		title: 'Pilih unit owner',
 		returnpage: this_page_id,
-		api: $ui.apis.load_partner_id,
-		fieldValue: 'partner_id',
-		fieldDisplay: 'partner_name',
+		api: $ui.apis.load_unit_id,
+		fieldValue: 'unit_id',
+		fieldDisplay: 'unit_name',
 		fields: [
-			{mapping: 'partner_id', text: 'partner_id'},
-			{mapping: 'partner_name', text: 'partner_name'}
+			{mapping: 'unit_id', text: 'unit_id'},
+			{mapping: 'unit_name', text: 'unit_name'}
 		],
 
 	})				
 				
 	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
 	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih allokasi departement',
+		title: 'Pilih departement owner',
 		returnpage: this_page_id,
 		api: $ui.apis.load_dept_id,
 		fieldValue: 'dept_id',
@@ -160,34 +134,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'dept_id', text: 'dept_id'},
 			{mapping: 'dept_name', text: 'dept_name'}
-		],
-
-	})				
-				
-	obj.cbo_config_id.name = 'pnl_edit-cbo_config_id'		
-	new fgta4slideselect(obj.cbo_config_id, {
-		title: 'Pilih Konfigurasi',
-		returnpage: this_page_id,
-		api: $ui.apis.load_config_id,
-		fieldValue: 'config_id',
-		fieldDisplay: 'config_name',
-		fields: [
-			{mapping: 'config_id', text: 'config_id'},
-			{mapping: 'config_name', text: 'config_name'}
-		],
-
-	})				
-				
-	obj.cbo_taxtype_id.name = 'pnl_edit-cbo_taxtype_id'		
-	new fgta4slideselect(obj.cbo_taxtype_id, {
-		title: 'Pilih tipe tax',
-		returnpage: this_page_id,
-		api: $ui.apis.load_taxtype_id,
-		fieldValue: 'taxtype_id',
-		fieldDisplay: 'taxtype_name',
-		fields: [
-			{mapping: 'taxtype_id', text: 'taxtype_id'},
-			{mapping: 'taxtype_name', text: 'taxtype_name'}
 		],
 
 	})				
@@ -272,6 +218,12 @@ export function getCurrentRowdata() {
 
 export function open(data, rowid, viewmode=true, fn_callback) {
 
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', '');
+	caption = caption.replace('{{STATE_END}}', ' View');
+	txt_caption.html(caption);
+
+
 	rowdata = {
 		data: data,
 		rowid: rowid
@@ -287,7 +239,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.partner_id==null) { result.record.partner_id='--NULL--'; result.record.partner_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -312,12 +263,9 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_sitemodel_id, record.sitemodel_id, record.sitemodel_name)
-			.setValue(obj.cbo_sitegroup_id, record.sitegroup_id, record.sitegroup_name)
 			.setValue(obj.cbo_land_id, record.land_id, record.land_name)
-			.setValue(obj.cbo_partner_id, record.partner_id, record.partner_name)
+			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
 			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
-			.setValue(obj.cbo_config_id, record.config_id, record.config_name)
-			.setValue(obj.cbo_taxtype_id, record.taxtype_id, record.taxtype_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -362,6 +310,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 
 
 export function createnew() {
+
+	var caption = txt_caption.template;
+	caption = caption.replace('{{STATE_BEG}}', 'Create New ');
+	caption = caption.replace('{{STATE_END}}', '');
+	txt_caption.html(caption);
+
+
 	form.createnew(async (data, options)=>{
 		// console.log(data)
 		// console.log(options)
@@ -374,18 +329,12 @@ export function createnew() {
 
 		data.sitemodel_id = '0'
 		data.sitemodel_name = '-- PILIH --'
-		data.sitegroup_id = '0'
-		data.sitegroup_name = '-- PILIH --'
 		data.land_id = '0'
 		data.land_name = '-- PILIH --'
-		data.partner_id = '--NULL--'
-		data.partner_name = 'NONE'
+		data.unit_id = '0'
+		data.unit_name = '-- PILIH --'
 		data.dept_id = '0'
 		data.dept_name = '-- PILIH --'
-		data.config_id = '0'
-		data.config_name = '-- PILIH --'
-		data.taxtype_id = '0'
-		data.taxtype_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -403,8 +352,6 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editunitgrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editmappinggrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editeventgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
@@ -476,15 +423,32 @@ function updatebuttonstate(record) {
 }
 
 function updategridstate(record) {
+	var updategriddata = {}
+
 	// apabila ada keperluan untuk update state grid list di sini
 
 
 	if (typeof hnd.form_updategridstate == 'function') {
-		hnd.form_updategridstate(record);
+		hnd.form_updategridstate(updategriddata, record);
 	}
+
+	$ui.getPages().ITEMS['pnl_list'].handler.updategrid(updategriddata, form.rowid);
+
 }
 
 function form_viewmodechanged(viewmode) {
+
+	var caption = txt_caption.template;
+	if (viewmode) {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' View');
+	} else {
+		caption = caption.replace('{{STATE_BEG}}', '');
+		caption = caption.replace('{{STATE_END}}', ' Edit');
+	}
+	txt_caption.html(caption);
+
+
 	var OnViewModeChangedEvent = new CustomEvent('OnViewModeChanged', {detail: {}})
 	$ui.triggerevent(OnViewModeChangedEvent, {
 		viewmode: viewmode
@@ -521,7 +485,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['partner_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -541,10 +505,14 @@ async function form_datasaving(data, options) {
 async function form_datasaveerror(err, options) {
 	// apabila mau olah error messagenya
 	// $ui.ShowMessage(err.errormessage)
-	console.log(err)
+	console.error(err)
 	if (typeof hnd.form_datasaveerror == 'function') {
 		hnd.form_datasaveerror(err, options);
 	}
+	if (options.supress_error_dialog!=true) {
+		$ui.ShowMessage('[ERROR]'+err.message);
+	}
+
 }
 
 
@@ -566,7 +534,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_partner_id, result.dataresponse.partner_name!=='--NULL--' ? result.dataresponse.partner_id : '--NULL--', result.dataresponse.partner_name!=='--NULL--'?result.dataresponse.partner_name:'NONE')
 
 	*/
 
@@ -584,7 +551,7 @@ async function form_datasaved(result, options) {
 		}
 	}
 	form.rowid = $ui.getPages().ITEMS['pnl_list'].handler.updategrid(data, form.rowid)
-	rowdata = {
+	var rowdata = {
 		data: data,
 		rowid: form.rowid
 	}

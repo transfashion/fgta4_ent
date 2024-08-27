@@ -6,10 +6,6 @@ import * as settings from './site.settings.mjs'
 import * as apis from './site.apis.mjs'
 import * as pList from './site-list.mjs'
 import * as pEdit from './site-edit.mjs'
-import * as pEditUnitgrid from './site-unitgrid.mjs'
-import * as pEditUnitform from './site-unitform.mjs'
-import * as pEditMappinggrid from './site-mappinggrid.mjs'
-import * as pEditMappingform from './site-mappingform.mjs'
 import * as pEditEventgrid from './site-eventgrid.mjs'
 import * as pEditEventform from './site-eventform.mjs'
 import * as pEditRefgrid from './site-refgrid.mjs'
@@ -19,10 +15,6 @@ import * as pEditRefform from './site-refform.mjs'
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
-const pnl_editunitgrid = $('#pnl_editunitgrid')
-const pnl_editunitform = $('#pnl_editunitform')
-const pnl_editmappinggrid = $('#pnl_editmappinggrid')
-const pnl_editmappingform = $('#pnl_editmappingform')
 const pnl_editeventgrid = $('#pnl_editeventgrid')
 const pnl_editeventform = $('#pnl_editeventform')
 const pnl_editrefgrid = $('#pnl_editrefgrid')
@@ -57,10 +49,6 @@ export async function init(opt) {
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			{panel: pnl_editunitgrid, handler: pEditUnitgrid},
-			{panel: pnl_editunitform, handler: pEditUnitform},
-			{panel: pnl_editmappinggrid, handler: pEditMappinggrid},
-			{panel: pnl_editmappingform, handler: pEditMappingform},
 			{panel: pnl_editeventgrid, handler: pEditEventgrid},
 			{panel: pnl_editeventform, handler: pEditEventform},
 			{panel: pnl_editrefgrid, handler: pEditRefgrid},
