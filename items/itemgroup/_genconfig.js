@@ -13,6 +13,9 @@ module.exports = {
 			comment: 'Daftar Group Items',
 			data: {
 				itemgroup_id: {text:'ID', type: dbtype.varchar(17), uppercase: true, null:false, options:{required:true,invalidMessage:'ID Group harus diisi'}},
+
+
+
 				itemgroup_name: {text:'Item Group Name', type: dbtype.varchar(60),uppercase: true, null:false, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				itemgroup_nameshort: {text:'Short Name', type: dbtype.varchar(60), null:false, suppresslist: true, options:{required:true,invalidMessage:'Nama Group harus diisi'}},
 				itemgroup_descr: {text:'Descr', type: dbtype.varchar(90), null:true, suppresslist: true},
@@ -47,6 +50,19 @@ module.exports = {
 					options:{labelWidth: '200px'}
 				},
 
+				dept_id: {
+					text: 'Owner Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
+					tips: 'Owner Dept yang akan manage tipe item ini',
+					tipstype: 'visible',
+					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --', disabled:true},
+					comp: comp.Combo({
+						title: 'Pilih Owner Departemen',
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_name', 
+						api: 'ent/organisation/dept/list'
+					})				
+				},
+				
 				itemgroup_pathid: {text:'PathId', type: dbtype.varchar(17), null:false, suppresslist: true, options:{disabled:true}},
 				itemgroup_path: {text:'Path', type: dbtype.varchar(390), null:true,  suppresslist: true, options:{disabled:true}},
 				itemgroup_level: {text:'Level', type: dbtype.int(2), null:false, default:'0', suppresslist: true, options:{disabled:true}},

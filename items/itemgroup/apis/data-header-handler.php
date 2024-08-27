@@ -11,6 +11,7 @@ class itemgroup_headerHandler extends WebAPI  {
 
 	public function buildListCriteriaValues(object &$options, array &$criteriaValues) : void {
 		$criteriaValues['itemgroup_isparent'] = " A.itemgroup_isparent = :itemgroup_isparent "; 
+		$criteriaValues['dept_id'] = " A.dept_id = :dept_id "; 
 	}
 
 	public function sortListOrder(array &$sortData) : void {

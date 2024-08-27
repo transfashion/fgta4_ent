@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS `mst_itemgroup` (
 	`itemgroup_parent` varchar(15)  , 
 	`itemgroup_isparent` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemgroup_isexselect` tinyint(1) NOT NULL DEFAULT 0, 
+	`dept_id` varchar(30)  , 
 	`itemgroup_pathid` varchar(17) NOT NULL , 
 	`itemgroup_path` varchar(390)  , 
 	`itemgroup_level` int(2) NOT NULL DEFAULT 0, 
@@ -32,7 +33,8 @@ ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_descr` varchar(
 ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_parent` varchar(15)   AFTER `itemgroup_descr`;
 ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_isparent` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemgroup_parent`;
 ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_isexselect` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemgroup_isparent`;
-ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_pathid` varchar(17) NOT NULL  AFTER `itemgroup_isexselect`;
+ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30)   AFTER `itemgroup_isexselect`;
+ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_pathid` varchar(17) NOT NULL  AFTER `dept_id`;
 ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_path` varchar(390)   AFTER `itemgroup_pathid`;
 ALTER TABLE `mst_itemgroup` ADD COLUMN IF NOT EXISTS  `itemgroup_level` int(2) NOT NULL DEFAULT 0 AFTER `itemgroup_path`;
 
@@ -43,7 +45,8 @@ ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_descr` varchar(9
 ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_parent` varchar(15)    AFTER `itemgroup_descr`;
 ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_isparent` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemgroup_parent`;
 ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_isexselect` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemgroup_isparent`;
-ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_pathid` varchar(17) NOT NULL   AFTER `itemgroup_isexselect`;
+ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30)    AFTER `itemgroup_isexselect`;
+ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_pathid` varchar(17) NOT NULL   AFTER `dept_id`;
 ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_path` varchar(390)    AFTER `itemgroup_pathid`;
 ALTER TABLE `mst_itemgroup` MODIFY COLUMN IF EXISTS  `itemgroup_level` int(2) NOT NULL DEFAULT 0  AFTER `itemgroup_path`;
 
@@ -52,8 +55,10 @@ ALTER TABLE `mst_itemgroup` ADD CONSTRAINT `itemgroup_name` UNIQUE IF NOT EXISTS
 ALTER TABLE `mst_itemgroup` ADD CONSTRAINT `itemgroup_path` UNIQUE IF NOT EXISTS  (`itemgroup_path`, `itemgroup_pathid`);
 
 ALTER TABLE `mst_itemgroup` ADD KEY IF NOT EXISTS `itemgroup_parent` (`itemgroup_parent`);
+ALTER TABLE `mst_itemgroup` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
 
 ALTER TABLE `mst_itemgroup` ADD CONSTRAINT `fk_mst_itemgroup_mst_itemgroup` FOREIGN KEY IF NOT EXISTS  (`itemgroup_parent`) REFERENCES `mst_itemgroup` (`itemgroup_id`);
+ALTER TABLE `mst_itemgroup` ADD CONSTRAINT `fk_mst_itemgroup_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
 
 
 

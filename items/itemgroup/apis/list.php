@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 26/08/2024
+ * tanggal 27/08/2024
  */
 $API = new class extends itemgroupBase {
 
@@ -93,8 +93,8 @@ $API = new class extends itemgroupBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'itemgroup_id' => 'A.`itemgroup_id`', 'itemgroup_name' => 'A.`itemgroup_name`', 'itemgroup_nameshort' => 'A.`itemgroup_nameshort`', 'itemgroup_descr' => 'A.`itemgroup_descr`',
-				'itemgroup_parent' => 'A.`itemgroup_parent`', 'itemgroup_isparent' => 'A.`itemgroup_isparent`', 'itemgroup_isexselect' => 'A.`itemgroup_isexselect`', 'itemgroup_pathid' => 'A.`itemgroup_pathid`',
-				'itemgroup_path' => 'A.`itemgroup_path`', 'itemgroup_level' => 'A.`itemgroup_level`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'itemgroup_parent' => 'A.`itemgroup_parent`', 'itemgroup_isparent' => 'A.`itemgroup_isparent`', 'itemgroup_isexselect' => 'A.`itemgroup_isexselect`', 'dept_id' => 'A.`dept_id`',
+				'itemgroup_pathid' => 'A.`itemgroup_pathid`', 'itemgroup_path' => 'A.`itemgroup_path`', 'itemgroup_level' => 'A.`itemgroup_level`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemgroup A";
@@ -185,6 +185,7 @@ $API = new class extends itemgroupBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'itemgroup_parent_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemgroup_parent'], $this->db, 'mst_itemgroup', 'itemgroup_id', 'itemgroup_name'),
+					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					 
 				]);
 				*/
@@ -192,6 +193,7 @@ $API = new class extends itemgroupBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('itemgroup_parent_name', 'itemgroup_parent', $record, 'mst_itemgroup', 'itemgroup_name', 'itemgroup_id');
+				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 					 
 
 

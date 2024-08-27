@@ -16,6 +16,8 @@ export function init(param, fn_callback) {
 	this_page_id = opt.id;
 	this_page_options = opt;	
 
+	global.search = {};
+
 	btn_reindex.linkbutton({
 		onClick: () => { btn_reindex_click() }
 	})
@@ -34,12 +36,12 @@ export function init(param, fn_callback) {
 	})
 
 
-
+	global.search.cbo_search_dept = cbo_search_dept;
 	cbo_search_dept.name = 'pnl_list-cbo_search_dept'	
 	cbo_search_dept.comp = new fgta4slideselect(cbo_search_dept, {
 		title: 'Pilih Dept',
 		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
+		api: 'ent/organisation/dept/list-byuser',
 
 		fieldValue: 'dept_id',
 		fieldValueMap: 'dept_id',
@@ -49,10 +51,11 @@ export function init(param, fn_callback) {
 		],
 		OnDataLoading: (criteria) => {
 			// console.log('loading...');
-			criteria.dept_isitemowner = 1;
+			criteria.isitemowner = 1;
 		},
 		OnDataLoaded: (result, options) => {
-			result.records.unshift({ dept_id: '--ALL--', dept_name: 'ALL' });
+			console.log(result)
+			// result.records.unshift({ dept_id: '--NULL--', dept_name: '-- PILIH --' });
 		},
 		OnSelected: (value, display, record, options) => {
 			// console.log(record);
@@ -60,9 +63,13 @@ export function init(param, fn_callback) {
 			grd_list.doLoad();
 		},
 		OnCreated: () => {
-			console.log(global.setup);
-			cbo_search_dept.combo('setValue', '--ALL--');
-			cbo_search_dept.combo('setText', 'ALL');
+			// console.log(global.setup);
+			// cbo_search_dept.combo('setValue', '--ALL--');
+			// cbo_search_dept.combo('setText', 'ALL');
+
+			cbo_search_dept.combo('setValue', global.setup.dept_id);
+			cbo_search_dept.combo('setText', global.setup.dept_name);
+
 			parallelProcess.setFinished('cbo_search_dept');
 		},
 		// OnRowRender: (tr) => {
@@ -70,9 +77,14 @@ export function init(param, fn_callback) {
 		// }
 	});
 
+
 	fn_callback();
 }
 
+
+export function list_loading(options) {
+	options.criteria.dept_id = cbo_search_dept.combo('getValue');
+}
 
 async function btn_reindex_click() {
 	

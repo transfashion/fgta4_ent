@@ -25,6 +25,7 @@ const obj = {
 	cbo_itemgroup_parent: $('#pnl_edit-cbo_itemgroup_parent'),
 	chk_itemgroup_isparent: $('#pnl_edit-chk_itemgroup_isparent'),
 	chk_itemgroup_isexselect: $('#pnl_edit-chk_itemgroup_isexselect'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	txt_itemgroup_pathid: $('#pnl_edit-txt_itemgroup_pathid'),
 	txt_itemgroup_path: $('#pnl_edit-txt_itemgroup_path'),
 	txt_itemgroup_level: $('#pnl_edit-txt_itemgroup_level')
@@ -102,6 +103,20 @@ export async function init(opt) {
 				}
 			}
 		},
+
+	})				
+				
+	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
+	new fgta4slideselect(obj.cbo_dept_id, {
+		title: 'Pilih Owner Departemen',
+		returnpage: this_page_id,
+		api: $ui.apis.load_dept_id,
+		fieldValue: 'dept_id',
+		fieldDisplay: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'}
+		],
 
 	})				
 				
@@ -231,6 +246,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_itemgroup_parent, record.itemgroup_parent, record.itemgroup_parent_name)
+			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -294,6 +310,8 @@ export function createnew() {
 
 		data.itemgroup_parent = '--NULL--'
 		data.itemgroup_parent_name = 'NONE'
+		data.dept_id = '0'
+		data.dept_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
