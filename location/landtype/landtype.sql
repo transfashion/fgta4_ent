@@ -22,8 +22,8 @@ ALTER TABLE `mst_landtype` ADD COLUMN IF NOT EXISTS  `landtype_name` varchar(60)
 ALTER TABLE `mst_landtype` ADD COLUMN IF NOT EXISTS  `landtype_descr` varchar(90)   AFTER `landtype_name`;
 
 
-ALTER TABLE `mst_landtype` MODIFY COLUMN IF EXISTS  `landtype_name` varchar(60) NOT NULL  AFTER `landtype_id`;
-ALTER TABLE `mst_landtype` MODIFY COLUMN IF EXISTS  `landtype_descr` varchar(90)   AFTER `landtype_name`;
+ALTER TABLE `mst_landtype` MODIFY COLUMN IF EXISTS  `landtype_name` varchar(60) NOT NULL   AFTER `landtype_id`;
+ALTER TABLE `mst_landtype` MODIFY COLUMN IF EXISTS  `landtype_descr` varchar(90)    AFTER `landtype_name`;
 
 
 ALTER TABLE `mst_landtype` ADD CONSTRAINT `landtype_name` UNIQUE IF NOT EXISTS  (`landtype_name`);
@@ -31,10 +31,10 @@ ALTER TABLE `mst_landtype` ADD CONSTRAINT `landtype_name` UNIQUE IF NOT EXISTS  
 
 
 
-INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('MALL', 'MALL', 'root', NOW());
-INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('KANTOR', 'PERKANTORAN', 'root', NOW());
-INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('HOTEL', 'HOTEL', 'root', NOW());
-INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('SPORTCLUB', 'SPORTCLUB', 'root', NOW());
+INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('MLL', 'MALL', 'root', NOW());
+INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('KTR', 'PERKANTORAN', 'root', NOW());
+INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('HTL', 'HOTEL', 'root', NOW());
+INSERT INTO mst_landtype (`landtype_id`, `landtype_name`, `_createby`, `_createdate`) VALUES ('SPC', 'SPORTCLUB', 'root', NOW());
 
 
 

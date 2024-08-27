@@ -24,10 +24,10 @@ module.exports = {
 			},
 
 			values: [
-				{landtype_id:'MALL', landtype_name:'MALL'},
-				{landtype_id:'KANTOR', landtype_name:'PERKANTORAN'},
-				{landtype_id:'HOTEL', landtype_name:'HOTEL'},
-				{landtype_id:'SPORTCLUB', landtype_name:'SPORTCLUB'}
+				{landtype_id:'MLL', landtype_name:'MALL'},
+				{landtype_id:'KTR', landtype_name:'PERKANTORAN'},
+				{landtype_id:'HTL', landtype_name:'HOTEL'},
+				{landtype_id:'SPC', landtype_name:'SPORTCLUB'}
 			],			
 		}
 	},
