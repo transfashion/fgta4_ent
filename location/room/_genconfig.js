@@ -14,6 +14,7 @@ module.exports = {
 			data: {
 				room_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
 				room_name: {text:'Room Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Ruangan harus diisi'}},
+				room_descr: {text:'Descr', type: dbtype.varchar(255), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Ruangan harus diisi'}},
 				room_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				site_id: {
 					suppresslist: true,

@@ -6,6 +6,7 @@
 CREATE TABLE IF NOT EXISTS `mst_room` (
 	`room_id` varchar(30) NOT NULL , 
 	`room_name` varchar(60) NOT NULL , 
+	`room_descr` varchar(255) NOT NULL , 
 	`room_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`site_id` varchar(30) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
@@ -20,13 +21,15 @@ COMMENT='Daftar City';
 
 
 ALTER TABLE `mst_room` ADD COLUMN IF NOT EXISTS  `room_name` varchar(60) NOT NULL  AFTER `room_id`;
-ALTER TABLE `mst_room` ADD COLUMN IF NOT EXISTS  `room_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `room_name`;
+ALTER TABLE `mst_room` ADD COLUMN IF NOT EXISTS  `room_descr` varchar(255) NOT NULL  AFTER `room_name`;
+ALTER TABLE `mst_room` ADD COLUMN IF NOT EXISTS  `room_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `room_descr`;
 ALTER TABLE `mst_room` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30) NOT NULL  AFTER `room_isdisabled`;
 
 
-ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `room_name` varchar(60) NOT NULL  AFTER `room_id`;
-ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `room_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `room_name`;
-ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `site_id` varchar(30) NOT NULL  AFTER `room_isdisabled`;
+ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `room_name` varchar(60) NOT NULL   AFTER `room_id`;
+ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `room_descr` varchar(255) NOT NULL   AFTER `room_name`;
+ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `room_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `room_descr`;
+ALTER TABLE `mst_room` MODIFY COLUMN IF EXISTS  `site_id` varchar(30) NOT NULL   AFTER `room_isdisabled`;
 
 
 ALTER TABLE `mst_room` ADD CONSTRAINT `room_name` UNIQUE IF NOT EXISTS  (`site_id`, `room_name`);
