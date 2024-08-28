@@ -17,8 +17,7 @@ module.exports = {
 
 				// Main Data
 				itemasset_id: { text: 'ID', type: dbtype.varchar(14), null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
-				itemasset_name: { text: 'Asset Name', type: dbtype.varchar(150), null: false, options: { required: true, invalidMessage: 'Nama Klasifikasi item harus diisi' } },
-				itemasset_serial: { text: 'Serial', type: dbtype.varchar(30), null: true },
+	
 				item_id: {
 					text:'Item', type: dbtype.varchar(14), null:true, suppresslist: true,
 					options: { required: true, invalidMessage: 'Item harus diisi', prompt:'-- PILIH --' } ,
@@ -27,38 +26,85 @@ module.exports = {
 						field_value: 'item_id', field_display: 'item_name', field_display_name: 'item_name', 
 						api: 'ent/items/item/list'})					
 				},
-				itemassetstatus_id: {
-					text:'Status', type: dbtype.varchar(2), null:false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Status harus diisi', prompt:'-- PILIH --' } ,
+
+	
+				itemasset_name: { text: 'Asset Name', type: dbtype.varchar(150), null: false, options: { required: true, invalidMessage: 'Nama Klasifikasi item harus diisi' } },
+				itemasset_merk: { text: 'Merk', type: dbtype.varchar(255), suppresslist: true },
+				itemasset_type: { text: 'Type', type: dbtype.varchar(255), suppresslist: true },
+				itemasset_serial: { text: 'Serial', type: dbtype.varchar(30), null: true },
+				itemasset_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
+
+				// Status
+				itemstatus_id: {
+					section: section.Begin('Brief'),	
+					text:'Status', type: dbtype.varchar(2), null:true, suppresslist: true,
+					options: { prompt:'NONE' } ,
 					comp: comp.Combo({
-						table: 'mst_itemassetstatus', 
-						field_value: 'itemassetstatus_id', field_display: 'itemassetstatus_name', field_display_name: 'itemassetstatus_name', 
-						api: 'ent/items/itemassetstatus/list'})					
+						table: 'mst_itemstatus', 
+						field_value: 'itemstatus_id', field_display: 'itemstatus_name', field_display_name: 'itemstatus_name', 
+						api: 'ent/items/itemstatus/list'})					
 				},
 				itemasset_statusnote: { text: 'Status Note', type: dbtype.varchar(255), suppresslist: true },
 				itemasset_ischeckout: { text: 'Checked Out', type: dbtype.boolean, null: false, default: '0', tips:'true: sedang dipakai', suppresslist: true },
 				itemasset_ismoveable: { text: 'Movable', type: dbtype.boolean, null: false, default: '0', tips:'true: bisa dipinjam-pinjamkan', suppresslist: true },
 				itemasset_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0' },
-				itemasset_iswrittenof: { text: 'Writen Off', type: dbtype.boolean, null: false, default: '0', options:{disabled:true} },
+				itemasset_iswrittenof: { 
+					section: section.End(),
+					text: 'Writen Off', type: dbtype.boolean, null: false, default: '0', options:{disabled:true} },
 
-
-				// Brief
-				itemasset_descr: { 
-					section: section.Begin('Breif'),	
-					text: 'Descr', type: dbtype.varchar(255), suppresslist: true 
+				// Klasifikasi
+				itemgroup_id: {
+					section: section.Begin('CLassification'),	
+					text:'Item Group', type: dbtype.varchar(15), null:false, suppresslist: true,
+					options:{required:true,invalidMessage:'Item Group harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						title: 'Pilih Group',
+						table: 'mst_itemgroup', 
+						field_value: 'itemgroup_id', field_display: 'itemgroup_name', field_display_name: 'itemgroup_name', 
+						field_mappings: [
+							`{mapping: 'itemgroup_id', text: 'ID', hidden: true, style: 'width: 100px'}`,
+							`{mapping: 'itemgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'}`,
+							`{mapping: '_id', text: 'ID', style: 'width: 100px'}`,
+						],
+						api: 'ent/items/itemgroup/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: true,
+						onSelectedHandler: false
+					
+					})					
 				},
-				itemasset_merk: { text: 'Merk', type: dbtype.varchar(255), suppresslist: true },
-				itemasset_type: { text: 'Type', type: dbtype.varchar(255), suppresslist: true },
+
+				itemmodel_id: { 
+					text: 'Item Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Model harus diisi' } ,
+					comp: comp.Combo({
+						title: 'Pilih Model Item',
+						table: 'mst_itemmodel', 
+						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
+						api: 'ent/items/itemmodel/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})
+				},
+
 				itemclass_id: {
 					section: section.End(),
-					text:'Class', type: dbtype.varchar(14), null:true, suppresslist: true,
-					options: { required: true, invalidMessage: 'Class harus diisi', disabled: true } ,
+					text:'Item Class', type: dbtype.varchar(14), null:false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Class harus diisi' } ,
 					comp: comp.Combo({
+						title: 'Pilih Klasifikasi',
 						table: 'mst_itemclass', 
 						field_value: 'itemclass_id', field_display: 'itemclass_name', field_display_name: 'itemclass_name', 
-						api: 'ent/items/itemclass/list'})					
+						api: 'ent/items/itemclass/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false
+					})					
 				},
-
 
 				
 				// Asset Base Location
@@ -76,6 +122,7 @@ module.exports = {
 						field_value: 'site_id', field_display: 'site_name', field_display_name: 'site_name', 
 						api: 'ent/location/site/list'})				
 				},
+
 				owner_dept_id: {
 					text: 'Owner Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
 					tips: 'Dept sebagai owner asset ini',
@@ -86,6 +133,7 @@ module.exports = {
 						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'owner_dept_name', 
 						api: 'ent/organisation/dept/list'})				
 				},
+
 				maintainer_dept_id: {
 					section: section.End(),
 					text: 'Maintainer Dept', type: dbtype.varchar(30), null:true,  suppresslist: false,
@@ -97,7 +145,6 @@ module.exports = {
 						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'maintainer_dept_name', 
 						api: 'ent/organisation/dept/list'})				
 				},
-
 
 
 
@@ -123,6 +170,7 @@ module.exports = {
 						field_value: 'site_id', field_display: 'site_name', field_display_name: 'site_name', 
 						api: 'ent/location/site/list'})				
 				},
+
 				location_room_id: {
 					text: 'Room', type: dbtype.varchar(30), null:true,  suppresslist: true,
 					tips: 'Ruangan dimana asset saat ini berada',
@@ -133,6 +181,7 @@ module.exports = {
 						field_value: 'room_id', field_display: 'room_name', field_display_name: 'location_room_name', 
 						api: 'ent/location/room/list'})				
 				},
+
 				location_empl_id: {
 					section: section.End(),
 					text:'Empl', type: dbtype.varchar(14), null:true, suppresslist: true,
@@ -145,8 +194,6 @@ module.exports = {
 						api: 'hrms/master/empl/list'})
 				},	
 
-
-
 				// Purchase Info
 				partner_id: {
 					section: section.Begin('Purchase Info'),	
@@ -155,8 +202,9 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_partner', 
 						field_value: 'partner_id', field_display: 'partner_name',  field_display_name: 'partner_name',
-						api: 'ent/affiliation/partner/list-approved'})
+						api: 'ent/affiliation/partner/list'})
 				},
+
 				itemasset_purchasedate: {text:'Purchase Date', type: dbtype.date, null:false, suppresslist: true, tips:'Tanggal terima asset',  tipstype: 'visible'},
 				itemasset_lastsupportdate: {text:'Last Support Date', type: dbtype.date, null:false, suppresslist: true, tips:'Tanggal terakhir support / garansi',  tipstype: 'visible'},
 				itemasset_purchasevalue: { text: 'Purchase Value', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true, options: { required: true}},
@@ -166,7 +214,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_curr', 
 						field_value: 'curr_id', field_display: 'curr_name', 
-						api: 'ent/general/curr/list'})
+						api: 'ent/financial/curr/list'})
 				},
 				itemasset_purchasevalue_idr: { 
 					section: section.End(),
@@ -182,7 +230,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_coa', 
 						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'asset_coa_name', 
-						api: 'finact/master/coa/list'})
+						api: 'ent/financial/coa/list'})
 				},
 				depremodel_id: { 
 					text: 'Depresiasi', 
@@ -191,7 +239,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_depremodel', 
 						field_value: 'depremodel_id', field_display: 'depremodel_name', field_display_name: 'depremodel_name', 
-						api: 'finact/master/depremodel/list'})				
+						api: 'ent/items/depremodel/list'})				
 				},
 				cost_coa_id: {
 					text:'Account Biaya', type: dbtype.varchar(20), null:true, suppresslist: true,
@@ -201,7 +249,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_coa', 
 						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'cost_coa_name', 
-						api: 'finact/master/coa/list'})
+						api: 'ent/financial/coa/list'})
 				},
 				itemasset_depreage: { text: 'Depre Age', type: dbtype.int(2), null:false, default:5, suppresslist: true},
 				itemasset_depreresidu: { text: 'Depre Residu', type: dbtype.decimal(11,2), null:false, default:1, suppresslist: true },
@@ -225,7 +273,7 @@ module.exports = {
 		},
 
 
-		'mst_itemassetspec' : {
+		'itemassetspec_id' : {
 			comment: 'Spesifikasi item asset',
 			primarykeys: ['itemassetspec_id'],		
 			data: {
@@ -237,7 +285,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_itemspec', 
 						field_value: 'itemspec_id', field_display: 'itemspec_name', field_display_name: 'itemspec_name', 
-						api: 'finact/asset/itemspec/list'})				
+						api: 'ent/items/itemspec/list'})				
 				
 				},
 				itemspec_isnumber: { text: 'Number', type: dbtype.boolean, null: false, default:0, suppresslist: true, options:{disabled:true}},
@@ -246,7 +294,7 @@ module.exports = {
 		},
 
 
-
+		/*
 		'trn_inquiryfiles' : {
 			primarykeys: ['inquiryfiles_id'],
 			comment: 'Daftar FIle Inquiry',
@@ -270,6 +318,7 @@ module.exports = {
 				'inquiryfiles_doc' : ['inquiry_id', 'doctype_id']
 			}
 		},
+		*/
 
 
 		'mst_itemassetdepre': {
@@ -284,6 +333,7 @@ module.exports = {
 			}
 		},
 
+		/*
 		'mst_itemassetbooking': {
 			comment: 'Daftar Booking',
 			primarykeys: ['itemassetbooking_id'],
@@ -295,8 +345,9 @@ module.exports = {
 				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false }
 			}
 		},
+		*/
 
-
+		/*
 		'log_itemassetmoving': {
 			comment: 'Log Moving Item Asset',
 			primarykeys: ['itemassetmoving_id'],
@@ -311,7 +362,9 @@ module.exports = {
 				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
 			}
 		},
+		*/
 
+		/*
 		'log_itemassetmaintenace': {
 			comment: 'Log Maintenance Item Asset',
 			primarykeys: ['itemassetmaintenace_id'],
@@ -325,7 +378,9 @@ module.exports = {
 				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
 			}
 		},
+		*/
 
+		/*
 		'log_itemassetfail': {
 			comment: 'Log Failure Item Asset',
 			primarykeys: ['itemassetfail_id'],
@@ -338,6 +393,7 @@ module.exports = {
 				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
 			}
 		},
+		*/
 
 	},
 
