@@ -20,6 +20,14 @@ export function init(ed) {
 }
 
 
+export function form_newdata(data, options) {
+	options.OnNewData = () => {
+		var dept_id = global.search.cbo_search_dept.combo('getValue')
+		var dept_name = global.search.cbo_search_dept.combo('getText')
+		form.setValue(obj.cbo_dept_id, dept_id, dept_name)
+	}	
+}
+
 export function cbo_itemgroup_id_selecting(value, display, record, args) {
 	// args.Cancel=true; // apabila ingin membatalkan pilihan
 	if (record.itemgroup_isparent==1) {

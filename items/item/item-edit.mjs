@@ -26,11 +26,11 @@ const obj = {
 	txt_item_nameshort: $('#pnl_edit-txt_item_nameshort'),
 	chk_item_isdisabled: $('#pnl_edit-chk_item_isdisabled'),
 	txt_item_descr: $('#pnl_edit-txt_item_descr'),
-	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	txt_item_estcost: $('#pnl_edit-txt_item_estcost'),
 	txt_item_maxcost: $('#pnl_edit-txt_item_maxcost'),
 	txt_item_avgcost: $('#pnl_edit-txt_item_avgcost'),
-	txt_item_mincost: $('#pnl_edit-txt_item_mincost')
+	txt_item_mincost: $('#pnl_edit-txt_item_mincost'),
+	cbo_dept_id: $('#pnl_edit-cbo_dept_id')
 }
 
 

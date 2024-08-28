@@ -72,25 +72,25 @@ module.exports = {
 				item_nameshort: { text: 'Short Name', type: dbtype.varchar(255), null: false, uppercase: true, options: { required: true, invalidMessage: 'Nama Pendek item harus diisi' } },
 				item_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0' },
 				item_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
-
-				dept_id: {
-					text: 'Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
-					tips: 'Owner Dept yang akan manage tipe item ini',
-					tipstype: 'visible',
-					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --'},
-					comp: comp.Combo({
-						title: 'Pilih Owner Departemen',
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_name', 
-						api: 'ent/organisation/dept/list'
-					})				
-				},		
 				
 				item_estcost: { text: 'Estimated Cost', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true },
 				item_maxcost: { text: 'Max Cost', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true, hidden: true, options:{disabled: true} },
 				item_avgcost: { text: 'Avg Cost', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true, hidden: true, options:{disabled: true} },
 				item_mincost: { text: 'Min Cost', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true, hidden: true, options:{disabled: true} },
 
+
+				dept_id: {
+					text: 'Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
+					tips: 'Owner Dept yang akan manage tipe item ini',
+					tipstype: 'visible',
+					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --', disabled:true},
+					comp: comp.Combo({
+						title: 'Pilih Owner Departemen',
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_name', 
+						api: 'ent/organisation/dept/list'
+					})				
+				},
 			},
 
 			uniques: {
