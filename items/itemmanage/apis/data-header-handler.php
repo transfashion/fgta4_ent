@@ -8,6 +8,10 @@ if (!defined('FGTA4')) {
 
 class itemmanage_headerHandler extends WebAPI  {
 
+
+	public function DataListLooping(array &$record) : void {
+		$record['_id'] = $record['itemmanage_id'];
+	}
 }		
 		
 		

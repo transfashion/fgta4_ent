@@ -61,7 +61,7 @@ class DataList extends WebAPI {
 			$limit = " LIMIT $maxrow OFFSET $offset ";
 			$stmt = $this->db->prepare("
 				select 
-					A.dept_id, A.dept_name, A.dept_descr, A.dept_isdisabled
+					A.dept_id, A.dept_name, A.dept_descr, A.dept_isdisabled, A.dept_id as _id
 				from mst_dept A
 					inner join view_userdept B ON A.dept_id = B.dept_id
 			" . $where->sql . " ORDER BY A.dept_name " . $limit);

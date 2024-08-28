@@ -24,6 +24,9 @@ class itemmodel_headerHandler extends WebAPI  {
 
 	// }
 
+	public function DataListLooping(array &$record) : void {
+		$record['_id'] = $record['itemmodel_id'];
+	}
 
 }		
 		

@@ -27,6 +27,11 @@ class itemclass_headerHandler extends WebAPI  {
 		}
 	}
 
+
+	public function DataListLooping(array &$record) : void {
+		$record['_id'] = $record['itemclass_id'];
+	}
+
 	public function sortListOrder(array &$sortData) : void {
 		$sortData['itemclass_name'] = 'ASC';
 	}

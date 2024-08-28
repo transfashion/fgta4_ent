@@ -31,6 +31,12 @@ class dept_headerHandler extends WebAPI  {
 		// $criteriaValues['dept_isitemmanager'] = " (A.dept_isitemaintainer=:dept_isitemmanager or A.dept_isitemowner=:dept_isitemmanager)";
 	}
 
+
+	public function DataListLooping(array &$record) : void {
+		$record['_id'] = $record['dept_id'];
+	}
+
+
 	public function sortListOrder(array &$sortData) : void {
 		$sortData['dept_name'] = 'ASC';
 	}
