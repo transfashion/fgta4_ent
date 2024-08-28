@@ -25,9 +25,7 @@ const obj = {
 	chk_brand_isdisabled: $('#pnl_edit-chk_brand_isdisabled'),
 	txt_brand_grouping01: $('#pnl_edit-txt_brand_grouping01'),
 	txt_brand_grouping02: $('#pnl_edit-txt_brand_grouping02'),
-	cbo_brandtype_id: $('#pnl_edit-cbo_brandtype_id'),
-	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
-	cbo_partner_id: $('#pnl_edit-cbo_partner_id')
+	cbo_brandtype_id: $('#pnl_edit-cbo_brandtype_id')
 }
 
 
@@ -86,34 +84,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'brandtype_id', text: 'brandtype_id'},
 			{mapping: 'brandtype_name', text: 'brandtype_name'}
-		],
-
-	})				
-				
-	obj.cbo_unit_id.name = 'pnl_edit-cbo_unit_id'		
-	new fgta4slideselect(obj.cbo_unit_id, {
-		title: 'Pilih unit_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_unit_id,
-		fieldValue: 'unit_id',
-		fieldDisplay: 'unit_name',
-		fields: [
-			{mapping: 'unit_id', text: 'unit_id'},
-			{mapping: 'unit_name', text: 'unit_name'}
-		],
-
-	})				
-				
-	obj.cbo_partner_id.name = 'pnl_edit-cbo_partner_id'		
-	new fgta4slideselect(obj.cbo_partner_id, {
-		title: 'Pilih partner_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_partner_id,
-		fieldValue: 'partner_id',
-		fieldDisplay: 'partner_name',
-		fields: [
-			{mapping: 'partner_id', text: 'partner_id'},
-			{mapping: 'partner_name', text: 'partner_name'}
 		],
 
 	})				
@@ -219,8 +189,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.unit_id==null) { result.record.unit_id='--NULL--'; result.record.unit_name='NONE'; }
-		if (result.record.partner_id==null) { result.record.partner_id='--NULL--'; result.record.partner_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -245,8 +213,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_brandtype_id, record.brandtype_id, record.brandtype_name)
-			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
-			.setValue(obj.cbo_partner_id, record.partner_id, record.partner_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -308,10 +274,6 @@ export function createnew() {
 
 		data.brandtype_id = '0'
 		data.brandtype_name = '-- PILIH --'
-		data.unit_id = '--NULL--'
-		data.unit_name = 'NONE'
-		data.partner_id = '--NULL--'
-		data.partner_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -329,7 +291,6 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editpartnergrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
@@ -462,7 +423,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['unit_id', 'partner_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -511,8 +472,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_unit_id, result.dataresponse.unit_name!=='--NULL--' ? result.dataresponse.unit_id : '--NULL--', result.dataresponse.unit_name!=='--NULL--'?result.dataresponse.unit_name:'NONE')
-	form.setValue(obj.cbo_partner_id, result.dataresponse.partner_name!=='--NULL--' ? result.dataresponse.partner_id : '--NULL--', result.dataresponse.partner_name!=='--NULL--'?result.dataresponse.partner_name:'NONE')
 
 	*/
 

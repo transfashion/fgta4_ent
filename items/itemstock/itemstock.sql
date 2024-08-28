@@ -1,14 +1,14 @@
-SET FOREIGN_KEY_CHECKS=0;
+-- SET FOREIGN_KEY_CHECKS=0;
 
-drop table if exists `mst_itemstock`;
-drop table if exists `mst_itemstockposition`;
-drop table if exists `mst_itemstockcompound`;
-drop table if exists `mst_itemstockconversion`;
-drop table if exists `mst_itemstockprop`;
-drop table if exists `mst_itemstockbarcode`;
-drop table if exists `mst_itemstockpic`;
-drop table if exists `trn_itemstockmoving`;
-drop table if exists `mst_itemstocksaldo`;
+-- drop table if exists `mst_itemstock`;
+-- drop table if exists `mst_itemstockposition`;
+-- drop table if exists `mst_itemstockcompound`;
+-- drop table if exists `mst_itemstockconversion`;
+-- drop table if exists `mst_itemstockprop`;
+-- drop table if exists `mst_itemstockbarcode`;
+-- drop table if exists `mst_itemstockpic`;
+-- drop table if exists `trn_itemstockmoving`;
+-- drop table if exists `mst_itemstocksaldo`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_itemstock` (

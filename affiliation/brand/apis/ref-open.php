@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 29/09/2023
+ * tanggal 28/08/2024
  */
 $API = new class extends brandBase {
 
@@ -78,7 +78,7 @@ $API = new class extends brandBase {
 
 			$sqlFieldList = [
 				'brandref_id' => 'A.`brandref_id`', 'interface_id' => 'A.`interface_id`', 'brandref_name' => 'A.`brandref_name`', 'brandref_code' => 'A.`brandref_code`',
-				'dept_id' => 'A.`dept_id`', 'unit_id' => 'A.`unit_id`', 'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`',
+				'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_brandref A";
@@ -117,8 +117,6 @@ $API = new class extends brandBase {
 				//'gendername' => $record['gender']
 				
 				'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
-				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 
 /*{__LOOKUPUSERMERGE__}*/
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

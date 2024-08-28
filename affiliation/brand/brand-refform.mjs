@@ -23,8 +23,6 @@ const obj = {
 	cbo_interface_id: $('#pnl_editrefform-cbo_interface_id'),
 	txt_brandref_name: $('#pnl_editrefform-txt_brandref_name'),
 	txt_brandref_code: $('#pnl_editrefform-txt_brandref_code'),
-	cbo_dept_id: $('#pnl_editrefform-cbo_dept_id'),
-	cbo_unit_id: $('#pnl_editrefform-cbo_unit_id'),
 	txt_brand_id: $('#pnl_editrefform-txt_brand_id')
 }
 
@@ -82,34 +80,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'interface_id', text: 'interface_id'},
 			{mapping: 'interface_name', text: 'interface_name'}
-		],
-
-	})				
-			
-	obj.cbo_dept_id.name = 'pnl_editrefform-cbo_dept_id'		
-	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih dept_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
-		fieldValue: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-
-	})				
-			
-	obj.cbo_unit_id.name = 'pnl_editrefform-cbo_unit_id'		
-	new fgta4slideselect(obj.cbo_unit_id, {
-		title: 'Pilih unit_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_unit_id,
-		fieldValue: 'unit_id',
-		fieldDisplay: 'unit_name',
-		fields: [
-			{mapping: 'unit_id', text: 'unit_id'},
-			{mapping: 'unit_name', text: 'unit_name'}
 		],
 
 	})				
@@ -226,8 +196,6 @@ export function open(data, rowid, hdata) {
 		var record = result.record;
 		updatefilebox(result.record);
 /*
-		if (record.dept_id==null) { record.dept_id='--NULL--'; record.dept_name='NONE'; }
-		if (record.unit_id==null) { record.unit_id='--NULL--'; record.unit_name='NONE'; }
 
 */
 		for (var objid in obj) {
@@ -251,8 +219,6 @@ export function open(data, rowid, hdata) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_interface_id, record.interface_id, record.interface_name)
-			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
-			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
 			.setViewMode()
 			.rowid = rowid
 
@@ -340,10 +306,6 @@ export function createnew(hdata) {
 
 		data.interface_id = '0'
 		data.interface_name = '-- PILIH --'
-		data.dept_id = '--NULL--'
-		data.dept_name = 'NONE'
-		data.unit_id = '--NULL--'
-		data.unit_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			hnd.form_newdata(data, options);
@@ -361,7 +323,7 @@ export function createnew(hdata) {
 async function form_datasaving(data, options) {
 	options.api = `${global.modulefullname}/ref-save`
 
-	// options.skipmappingresponse = ['dept_id', 'unit_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -395,8 +357,6 @@ async function form_datasaved(result, options) {
 	Object.assign(data, form.getData(), result.dataresponse)
 
 	/*
-	form.setValue(obj.cbo_dept_id, result.dataresponse.dept_name!=='--NULL--' ? result.dataresponse.dept_id : '--NULL--', result.dataresponse.dept_name!=='--NULL--'?result.dataresponse.dept_name:'NONE')
-	form.setValue(obj.cbo_unit_id, result.dataresponse.unit_name!=='--NULL--' ? result.dataresponse.unit_id : '--NULL--', result.dataresponse.unit_name!=='--NULL--'?result.dataresponse.unit_name:'NONE')
 
 	*/
 

@@ -33,27 +33,27 @@ module.exports = {
 				
 				},
 				
-				unit_id: {
-					suppresslist: true,
-					text:'Unit', type: dbtype.varchar(10), null:true, uppercase: true, 
-					options:{required:false},
-					comp: comp.Combo({
-						table: 'mst_unit', 
-						field_value: 'unit_id', field_display: 'unit_name', 
-						api: 'ent/organisation/unit/list'})					
+				// unit_id: {
+				// 	suppresslist: true,
+				// 	text:'Unit', type: dbtype.varchar(10), null:true, uppercase: true, 
+				// 	options:{required:false},
+				// 	comp: comp.Combo({
+				// 		table: 'mst_unit', 
+				// 		field_value: 'unit_id', field_display: 'unit_name', 
+				// 		api: 'ent/organisation/unit/list'})					
 				
-				},
+				// },
 				
-				partner_id: {
-					suppresslist: true,
-					options:{prompt:'NONE'},
-					text:'Partner', type: dbtype.varchar(30), null:true, 
-					comp: comp.Combo({
-						table: 'mst_partner', 
-						field_value: 'partner_id', field_display: 'partner_name', 
-						api: 'ent/affiliation/partner/list'
-					})
-				},	
+				// partner_id: {
+				// 	suppresslist: true,
+				// 	options:{prompt:'NONE'},
+				// 	text:'Partner', type: dbtype.varchar(30), null:true, 
+				// 	comp: comp.Combo({
+				// 		table: 'mst_partner', 
+				// 		field_value: 'partner_id', field_display: 'partner_name', 
+				// 		api: 'ent/affiliation/partner/list'
+				// 	})
+				// },	
 						
 			},
 
@@ -65,27 +65,27 @@ module.exports = {
 			}
 		},
 
-		'mst_brandpartner' : {
-			primarykeys: ['brandpartner_id'],
-			comment: 'Daftar Partner Brand',
-			data: {
-				brandpartner_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
-				partner_id: {
-					text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true,
-					options:{required:true,invalidMessage:'Partner harus diisi'},
-					comp: comp.Combo({
-						table: 'mst_partner', 
-						field_value: 'partner_id', field_display: 'partner_name', 
-						api: 'ent/mst/partner/list'})
+		// 'mst_brandpartner' : {
+		// 	primarykeys: ['brandpartner_id'],
+		// 	comment: 'Daftar Partner Brand',
+		// 	data: {
+		// 		brandpartner_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+		// 		partner_id: {
+		// 			text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true,
+		// 			options:{required:true,invalidMessage:'Partner harus diisi'},
+		// 			comp: comp.Combo({
+		// 				table: 'mst_partner', 
+		// 				field_value: 'partner_id', field_display: 'partner_name', 
+		// 				api: 'ent/mst/partner/list'})
 			
-				},
-				brand_id: {text:'Brand', type: dbtype.varchar(14), null:false, hidden: true},				
-			},
+		// 		},
+		// 		brand_id: {text:'Brand', type: dbtype.varchar(14), null:false, hidden: true},				
+		// 	},
 
-			uniques: {
-				'brandpartner_name' : ['brand_id', 'partner_id']
-			}
-		},
+		// 	uniques: {
+		// 		'brandpartner_name' : ['brand_id', 'partner_id']
+		// 	}
+		// },
 
 
 		'mst_brandref' : {
@@ -105,25 +105,25 @@ module.exports = {
 				brandref_name: {text:'Name', type: dbtype.varchar(30), null:false},		
 				brandref_code: {text:'Code', type: dbtype.varchar(255), null:false},		
 				
-				dept_id: { 
-					text: 'Dept', type: dbtype.varchar(30), null: true,  suppresslist: true,
-					options: { },
-					comp: comp.Combo({
-						table: 'mst_dept',
-						field_value: 'dept_id', field_display: 'dept_name',
-						api: 'ent/organisation/dept/list'
-					})
-				},
+				// dept_id: { 
+				// 	text: 'Dept', type: dbtype.varchar(30), null: true,  suppresslist: true,
+				// 	options: { },
+				// 	comp: comp.Combo({
+				// 		table: 'mst_dept',
+				// 		field_value: 'dept_id', field_display: 'dept_name',
+				// 		api: 'ent/organisation/dept/list'
+				// 	})
+				// },
 				
-				unit_id: { 
-					text: 'Unit', type: dbtype.varchar(10), null: true,  suppresslist: true,
-					options: { },
-					comp: comp.Combo({
-						table: 'mst_unit',
-						field_value: 'unit_id', field_display: 'unit_name',
-						api: 'ent/organisation/unit/list'
-					})
-				},
+				// unit_id: { 
+				// 	text: 'Unit', type: dbtype.varchar(10), null: true,  suppresslist: true,
+				// 	options: { },
+				// 	comp: comp.Combo({
+				// 		table: 'mst_unit',
+				// 		field_value: 'unit_id', field_display: 'unit_name',
+				// 		api: 'ent/organisation/unit/list'
+				// 	})
+				// },
 
 				brand_id: {text:'Partner', type: dbtype.varchar(14), null:false, hidden: true},
 			},
@@ -138,7 +138,7 @@ module.exports = {
 		title: 'Brand',
 		header: 'mst_brand',
 		detils: {
-			'partner' : {title: 'Other Partners', table:'mst_brandpartner', form: true, headerview:'brand_name'},
+			// 'partner' : {title: 'Other Partners', table:'mst_brandpartner', form: true, headerview:'brand_name'},
 			'ref' : {title: 'Referensi', table:'mst_brandref', form: true, headerview:'brand_name', editorHandler: true, listHandler: true},
 		}
 	}

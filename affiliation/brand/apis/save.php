@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 29/09/2023
+ * tanggal 28/08/2024
  */
 $API = new class extends brandBase {
 	
@@ -88,7 +88,6 @@ $API = new class extends brandBase {
 			$obj->brand_grouping01 = strtoupper($obj->brand_grouping01);
 			$obj->brand_grouping02 = strtoupper($obj->brand_grouping02);
 			$obj->brandtype_id = strtoupper($obj->brandtype_id);
-			$obj->unit_id = strtoupper($obj->unit_id);
 
 
 			if ($obj->brand_descr=='') { $obj->brand_descr = '--NULL--'; }
@@ -184,7 +183,6 @@ $API = new class extends brandBase {
 				$sqlFieldList = [
 					'brand_id' => 'A.`brand_id`', 'brand_name' => 'A.`brand_name`', 'brand_nameshort' => 'A.`brand_nameshort`', 'brand_descr' => 'A.`brand_descr`',
 					'brand_isdisabled' => 'A.`brand_isdisabled`', 'brand_grouping01' => 'A.`brand_grouping01`', 'brand_grouping02' => 'A.`brand_grouping02`', 'brandtype_id' => 'A.`brandtype_id`',
-					'unit_id' => 'A.`unit_id`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_brand A";
@@ -217,8 +215,6 @@ $API = new class extends brandBase {
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
 					'brandtype_name' => \FGTA4\utils\SqlUtility::Lookup($record['brandtype_id'], $this->db, 'mst_brandtype', 'brandtype_id', 'brandtype_name'),
-					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
-					'partner_name' => \FGTA4\utils\SqlUtility::Lookup($record['partner_id'], $this->db, 'mst_partner', 'partner_id', 'partner_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
