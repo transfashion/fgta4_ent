@@ -1,0 +1,12 @@
+<?php require_once dirname(__FILE__).'/itemprop-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemprop-edit.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/itemprop-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>
