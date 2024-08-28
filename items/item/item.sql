@@ -1,6 +1,7 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- drop table if exists `mst_item`;
+-- drop table if exists `mst_itemprop`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_item` (
@@ -67,6 +68,40 @@ ALTER TABLE `mst_item` ADD CONSTRAINT `fk_mst_item_mst_itemgroup` FOREIGN KEY IF
 ALTER TABLE `mst_item` ADD CONSTRAINT `fk_mst_item_mst_itemmodel` FOREIGN KEY IF NOT EXISTS  (`itemmodel_id`) REFERENCES `mst_itemmodel` (`itemmodel_id`);
 ALTER TABLE `mst_item` ADD CONSTRAINT `fk_mst_item_mst_itemclass` FOREIGN KEY IF NOT EXISTS  (`itemclass_id`) REFERENCES `mst_itemclass` (`itemclass_id`);
 ALTER TABLE `mst_item` ADD CONSTRAINT `fk_mst_item_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `mst_itemprop` (
+	`itemprop_id` varchar(14) NOT NULL , 
+	`prop_id` varchar(26) NOT NULL , 
+	`itemmodelprop_order` int(4) NOT NULL DEFAULT 0, 
+	`itemmodel_id` varchar(10) NOT NULL , 
+	`_createby` varchar(14) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(14)  , 
+	`_modifydate` datetime  , 
+	PRIMARY KEY (`itemprop_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Template Properti / Spesifikasi item';
+
+
+ALTER TABLE `mst_itemprop` ADD COLUMN IF NOT EXISTS  `prop_id` varchar(26) NOT NULL  AFTER `itemprop_id`;
+ALTER TABLE `mst_itemprop` ADD COLUMN IF NOT EXISTS  `itemmodelprop_order` int(4) NOT NULL DEFAULT 0 AFTER `prop_id`;
+ALTER TABLE `mst_itemprop` ADD COLUMN IF NOT EXISTS  `itemmodel_id` varchar(10) NOT NULL  AFTER `itemmodelprop_order`;
+
+
+ALTER TABLE `mst_itemprop` MODIFY COLUMN IF EXISTS  `prop_id` varchar(26) NOT NULL   AFTER `itemprop_id`;
+ALTER TABLE `mst_itemprop` MODIFY COLUMN IF EXISTS  `itemmodelprop_order` int(4) NOT NULL DEFAULT 0  AFTER `prop_id`;
+ALTER TABLE `mst_itemprop` MODIFY COLUMN IF EXISTS  `itemmodel_id` varchar(10) NOT NULL   AFTER `itemmodelprop_order`;
+
+
+
+ALTER TABLE `mst_itemprop` ADD KEY IF NOT EXISTS `prop_id` (`prop_id`);
+
+ALTER TABLE `mst_itemprop` ADD CONSTRAINT `fk_mst_itemprop_mst_prop` FOREIGN KEY IF NOT EXISTS  (`prop_id`) REFERENCES `mst_prop` (`prop_id`);
 
 
 

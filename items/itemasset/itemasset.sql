@@ -1,30 +1,27 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- drop table if exists `mst_itemasset`;
--- drop table if exists `mst_itemassetspec`;
--- drop table if exists `trn_inquiryfiles`;
+-- drop table if exists `mst_itemassetprop`;
 -- drop table if exists `mst_itemassetdepre`;
--- drop table if exists `mst_itemassetbooking`;
--- drop table if exists `log_itemassetmoving`;
--- drop table if exists `log_itemassetmaintenace`;
--- drop table if exists `log_itemassetfail`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_itemasset` (
 	`itemasset_id` varchar(14) NOT NULL , 
-	`itemasset_name` varchar(150) NOT NULL , 
-	`itemasset_serial` varchar(30)  , 
 	`item_id` varchar(14)  , 
-	`itemassetstatus_id` varchar(2) NOT NULL , 
+	`itemasset_name` varchar(150) NOT NULL , 
+	`itemasset_merk` varchar(255)  , 
+	`itemasset_type` varchar(255)  , 
+	`itemasset_serial` varchar(30)  , 
+	`itemasset_descr` varchar(255)  , 
+	`itemstatus_id` varchar(2)  , 
 	`itemasset_statusnote` varchar(255)  , 
 	`itemasset_ischeckout` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemasset_ismoveable` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemasset_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemasset_iswrittenof` tinyint(1) NOT NULL DEFAULT 0, 
-	`itemasset_descr` varchar(255)  , 
-	`itemasset_merk` varchar(255)  , 
-	`itemasset_type` varchar(255)  , 
-	`itemclass_id` varchar(14)  , 
+	`itemgroup_id` varchar(15) NOT NULL , 
+	`itemmodel_id` varchar(10) NOT NULL , 
+	`itemclass_id` varchar(14) NOT NULL , 
 	`itemasset_baselocation` varchar(255)  , 
 	`site_id` varchar(30)  , 
 	`owner_dept_id` varchar(30)  , 
@@ -61,19 +58,21 @@ ENGINE=InnoDB
 COMMENT='Daftar Item Asset';
 
 
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_name` varchar(150) NOT NULL  AFTER `itemasset_id`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_serial` varchar(30)   AFTER `itemasset_name`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `item_id` varchar(14)   AFTER `itemasset_serial`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemassetstatus_id` varchar(2) NOT NULL  AFTER `item_id`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_statusnote` varchar(255)   AFTER `itemassetstatus_id`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `item_id` varchar(14)   AFTER `itemasset_id`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_name` varchar(150) NOT NULL  AFTER `item_id`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_merk` varchar(255)   AFTER `itemasset_name`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_type` varchar(255)   AFTER `itemasset_merk`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_serial` varchar(30)   AFTER `itemasset_type`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_descr` varchar(255)   AFTER `itemasset_serial`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemstatus_id` varchar(2)   AFTER `itemasset_descr`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_statusnote` varchar(255)   AFTER `itemstatus_id`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_ischeckout` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemasset_statusnote`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_ismoveable` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemasset_ischeckout`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemasset_ismoveable`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_iswrittenof` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemasset_isdisabled`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_descr` varchar(255)   AFTER `itemasset_iswrittenof`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_merk` varchar(255)   AFTER `itemasset_descr`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_type` varchar(255)   AFTER `itemasset_merk`;
-ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemclass_id` varchar(14)   AFTER `itemasset_type`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemgroup_id` varchar(15) NOT NULL  AFTER `itemasset_iswrittenof`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemmodel_id` varchar(10) NOT NULL  AFTER `itemgroup_id`;
+ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemclass_id` varchar(14) NOT NULL  AFTER `itemmodel_id`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_baselocation` varchar(255)   AFTER `itemclass_id`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30)   AFTER `itemasset_baselocation`;
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `owner_dept_id` varchar(30)   AFTER `site_id`;
@@ -101,19 +100,21 @@ ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_writeoffdate` d
 ALTER TABLE `mst_itemasset` ADD COLUMN IF NOT EXISTS  `itemasset_writeoffref` varchar(30)   AFTER `itemasset_writeoffdate`;
 
 
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_name` varchar(150) NOT NULL   AFTER `itemasset_id`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_serial` varchar(30)    AFTER `itemasset_name`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `item_id` varchar(14)    AFTER `itemasset_serial`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemassetstatus_id` varchar(2) NOT NULL   AFTER `item_id`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_statusnote` varchar(255)    AFTER `itemassetstatus_id`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `item_id` varchar(14)    AFTER `itemasset_id`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_name` varchar(150) NOT NULL   AFTER `item_id`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_merk` varchar(255)    AFTER `itemasset_name`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_type` varchar(255)    AFTER `itemasset_merk`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_serial` varchar(30)    AFTER `itemasset_type`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_descr` varchar(255)    AFTER `itemasset_serial`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemstatus_id` varchar(2)    AFTER `itemasset_descr`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_statusnote` varchar(255)    AFTER `itemstatus_id`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_ischeckout` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemasset_statusnote`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_ismoveable` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemasset_ischeckout`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemasset_ismoveable`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_iswrittenof` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemasset_isdisabled`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_descr` varchar(255)    AFTER `itemasset_iswrittenof`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_merk` varchar(255)    AFTER `itemasset_descr`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_type` varchar(255)    AFTER `itemasset_merk`;
-ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemclass_id` varchar(14)    AFTER `itemasset_type`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemgroup_id` varchar(15) NOT NULL   AFTER `itemasset_iswrittenof`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemmodel_id` varchar(10) NOT NULL   AFTER `itemgroup_id`;
+ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemclass_id` varchar(14) NOT NULL   AFTER `itemmodel_id`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_baselocation` varchar(255)    AFTER `itemclass_id`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `site_id` varchar(30)    AFTER `itemasset_baselocation`;
 ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `owner_dept_id` varchar(30)    AFTER `site_id`;
@@ -144,7 +145,9 @@ ALTER TABLE `mst_itemasset` MODIFY COLUMN IF EXISTS  `itemasset_writeoffref` var
 ALTER TABLE `mst_itemasset` ADD CONSTRAINT `itemasset_serial` UNIQUE IF NOT EXISTS  (`itemasset_serial`);
 
 ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `item_id` (`item_id`);
-ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `itemassetstatus_id` (`itemassetstatus_id`);
+ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `itemstatus_id` (`itemstatus_id`);
+ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `itemgroup_id` (`itemgroup_id`);
+ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `itemmodel_id` (`itemmodel_id`);
 ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `itemclass_id` (`itemclass_id`);
 ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `site_id` (`site_id`);
 ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `owner_dept_id` (`owner_dept_id`);
@@ -160,7 +163,9 @@ ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `depremodel_id` (`depremodel_i
 ALTER TABLE `mst_itemasset` ADD KEY IF NOT EXISTS `cost_coa_id` (`cost_coa_id`);
 
 ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_item` FOREIGN KEY IF NOT EXISTS  (`item_id`) REFERENCES `mst_item` (`item_id`);
-ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_itemassetstatus` FOREIGN KEY IF NOT EXISTS  (`itemassetstatus_id`) REFERENCES `mst_itemassetstatus` (`itemassetstatus_id`);
+ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_itemstatus` FOREIGN KEY IF NOT EXISTS  (`itemstatus_id`) REFERENCES `mst_itemstatus` (`itemstatus_id`);
+ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_itemgroup` FOREIGN KEY IF NOT EXISTS  (`itemgroup_id`) REFERENCES `mst_itemgroup` (`itemgroup_id`);
+ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_itemmodel` FOREIGN KEY IF NOT EXISTS  (`itemmodel_id`) REFERENCES `mst_itemmodel` (`itemmodel_id`);
 ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_itemclass` FOREIGN KEY IF NOT EXISTS  (`itemclass_id`) REFERENCES `mst_itemclass` (`itemclass_id`);
 ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_site` FOREIGN KEY IF NOT EXISTS  (`site_id`) REFERENCES `mst_site` (`site_id`);
 ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_dept` FOREIGN KEY IF NOT EXISTS  (`owner_dept_id`) REFERENCES `mst_dept` (`dept_id`);
@@ -179,82 +184,40 @@ ALTER TABLE `mst_itemasset` ADD CONSTRAINT `fk_mst_itemasset_mst_coa_2` FOREIGN 
 
 
 
-CREATE TABLE IF NOT EXISTS `mst_itemassetspec` (
-	`itemassetspec_id` varchar(14) NOT NULL , 
-	`itemassetspec_value` varchar(90) NOT NULL , 
-	`itemspec_id` varchar(10) NOT NULL , 
-	`itemspec_isnumber` tinyint(1) NOT NULL DEFAULT 0, 
+CREATE TABLE IF NOT EXISTS `mst_itemassetprop` (
+	`itemassetprop_id` varchar(14) NOT NULL , 
+	`prop_id` varchar(26) NOT NULL , 
+	`itemassetprop_value` varchar(254) NOT NULL , 
+	`itemassetprop_order` int(4) NOT NULL DEFAULT 0, 
 	`itemasset_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	PRIMARY KEY (`itemassetspec_id`)
+	PRIMARY KEY (`itemassetprop_id`)
 ) 
 ENGINE=InnoDB
-COMMENT='Spesifikasi item asset';
+COMMENT='Properti / Spesifikasi item asset';
 
 
-ALTER TABLE `mst_itemassetspec` ADD COLUMN IF NOT EXISTS  `itemassetspec_value` varchar(90) NOT NULL  AFTER `itemassetspec_id`;
-ALTER TABLE `mst_itemassetspec` ADD COLUMN IF NOT EXISTS  `itemspec_id` varchar(10) NOT NULL  AFTER `itemassetspec_value`;
-ALTER TABLE `mst_itemassetspec` ADD COLUMN IF NOT EXISTS  `itemspec_isnumber` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemspec_id`;
-ALTER TABLE `mst_itemassetspec` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `itemspec_isnumber`;
+ALTER TABLE `mst_itemassetprop` ADD COLUMN IF NOT EXISTS  `prop_id` varchar(26) NOT NULL  AFTER `itemassetprop_id`;
+ALTER TABLE `mst_itemassetprop` ADD COLUMN IF NOT EXISTS  `itemassetprop_value` varchar(254) NOT NULL  AFTER `prop_id`;
+ALTER TABLE `mst_itemassetprop` ADD COLUMN IF NOT EXISTS  `itemassetprop_order` int(4) NOT NULL DEFAULT 0 AFTER `itemassetprop_value`;
+ALTER TABLE `mst_itemassetprop` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `itemassetprop_order`;
 
 
-ALTER TABLE `mst_itemassetspec` MODIFY COLUMN IF EXISTS  `itemassetspec_value` varchar(90) NOT NULL   AFTER `itemassetspec_id`;
-ALTER TABLE `mst_itemassetspec` MODIFY COLUMN IF EXISTS  `itemspec_id` varchar(10) NOT NULL   AFTER `itemassetspec_value`;
-ALTER TABLE `mst_itemassetspec` MODIFY COLUMN IF EXISTS  `itemspec_isnumber` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemspec_id`;
-ALTER TABLE `mst_itemassetspec` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `itemspec_isnumber`;
-
-
-
-ALTER TABLE `mst_itemassetspec` ADD KEY IF NOT EXISTS `itemspec_id` (`itemspec_id`);
-ALTER TABLE `mst_itemassetspec` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
-
-ALTER TABLE `mst_itemassetspec` ADD CONSTRAINT `fk_mst_itemassetspec_mst_itemspec` FOREIGN KEY IF NOT EXISTS  (`itemspec_id`) REFERENCES `mst_itemspec` (`itemspec_id`);
-ALTER TABLE `mst_itemassetspec` ADD CONSTRAINT `fk_mst_itemassetspec_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
+ALTER TABLE `mst_itemassetprop` MODIFY COLUMN IF EXISTS  `prop_id` varchar(26) NOT NULL   AFTER `itemassetprop_id`;
+ALTER TABLE `mst_itemassetprop` MODIFY COLUMN IF EXISTS  `itemassetprop_value` varchar(254) NOT NULL   AFTER `prop_id`;
+ALTER TABLE `mst_itemassetprop` MODIFY COLUMN IF EXISTS  `itemassetprop_order` int(4) NOT NULL DEFAULT 0  AFTER `itemassetprop_value`;
+ALTER TABLE `mst_itemassetprop` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `itemassetprop_order`;
 
 
 
+ALTER TABLE `mst_itemassetprop` ADD KEY IF NOT EXISTS `prop_id` (`prop_id`);
+ALTER TABLE `mst_itemassetprop` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
 
-
-CREATE TABLE IF NOT EXISTS `trn_inquiryfiles` (
-	`inquiryfiles_id` varchar(14) NOT NULL , 
-	`doctype_id` varchar(10) NOT NULL , 
-	`inquiryfiles_descr` varchar(90) NOT NULL , 
-	`inquiryfiles_order` int(4) NOT NULL DEFAULT 0, 
-	`inquiryfiles_file` varchar(90)  , 
-	`inquiry_id` varchar(14) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	UNIQUE KEY `inquiryfiles_doc` (`inquiry_id`, `doctype_id`),
-	PRIMARY KEY (`inquiryfiles_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Daftar FIle Inquiry';
-
-
-ALTER TABLE `trn_inquiryfiles` ADD COLUMN IF NOT EXISTS  `doctype_id` varchar(10) NOT NULL  AFTER `inquiryfiles_id`;
-ALTER TABLE `trn_inquiryfiles` ADD COLUMN IF NOT EXISTS  `inquiryfiles_descr` varchar(90) NOT NULL  AFTER `doctype_id`;
-ALTER TABLE `trn_inquiryfiles` ADD COLUMN IF NOT EXISTS  `inquiryfiles_order` int(4) NOT NULL DEFAULT 0 AFTER `inquiryfiles_descr`;
-ALTER TABLE `trn_inquiryfiles` ADD COLUMN IF NOT EXISTS  `inquiryfiles_file` varchar(90)   AFTER `inquiryfiles_order`;
-ALTER TABLE `trn_inquiryfiles` ADD COLUMN IF NOT EXISTS  `inquiry_id` varchar(14) NOT NULL  AFTER `inquiryfiles_file`;
-
-
-ALTER TABLE `trn_inquiryfiles` MODIFY COLUMN IF EXISTS  `doctype_id` varchar(10) NOT NULL   AFTER `inquiryfiles_id`;
-ALTER TABLE `trn_inquiryfiles` MODIFY COLUMN IF EXISTS  `inquiryfiles_descr` varchar(90) NOT NULL   AFTER `doctype_id`;
-ALTER TABLE `trn_inquiryfiles` MODIFY COLUMN IF EXISTS  `inquiryfiles_order` int(4) NOT NULL DEFAULT 0  AFTER `inquiryfiles_descr`;
-ALTER TABLE `trn_inquiryfiles` MODIFY COLUMN IF EXISTS  `inquiryfiles_file` varchar(90)    AFTER `inquiryfiles_order`;
-ALTER TABLE `trn_inquiryfiles` MODIFY COLUMN IF EXISTS  `inquiry_id` varchar(14) NOT NULL   AFTER `inquiryfiles_file`;
-
-
-ALTER TABLE `trn_inquiryfiles` ADD CONSTRAINT `inquiryfiles_doc` UNIQUE IF NOT EXISTS  (`inquiry_id`, `doctype_id`);
-
-ALTER TABLE `trn_inquiryfiles` ADD KEY IF NOT EXISTS `doctype_id` (`doctype_id`);
-
-ALTER TABLE `trn_inquiryfiles` ADD CONSTRAINT `fk_trn_inquiryfiles_mst_doctype` FOREIGN KEY IF NOT EXISTS  (`doctype_id`) REFERENCES `mst_doctype` (`doctype_id`);
+ALTER TABLE `mst_itemassetprop` ADD CONSTRAINT `fk_mst_itemassetprop_mst_itemprop` FOREIGN KEY IF NOT EXISTS  (`prop_id`) REFERENCES `mst_itemprop` (`prop_id`);
+ALTER TABLE `mst_itemassetprop` ADD CONSTRAINT `fk_mst_itemassetprop_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
 
 
 
@@ -292,169 +255,6 @@ ALTER TABLE `mst_itemassetdepre` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar
 ALTER TABLE `mst_itemassetdepre` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
 
 ALTER TABLE `mst_itemassetdepre` ADD CONSTRAINT `fk_mst_itemassetdepre_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `mst_itemassetbooking` (
-	`itemassetbooking_id` varchar(14) NOT NULL , 
-	`itemassetbooking_date` date NOT NULL , 
-	`assetbooking_id` varchar(14)  , 
-	`itemasset_id` varchar(14) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	PRIMARY KEY (`itemassetbooking_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Daftar Booking';
-
-
-ALTER TABLE `mst_itemassetbooking` ADD COLUMN IF NOT EXISTS  `itemassetbooking_date` date NOT NULL  AFTER `itemassetbooking_id`;
-ALTER TABLE `mst_itemassetbooking` ADD COLUMN IF NOT EXISTS  `assetbooking_id` varchar(14)   AFTER `itemassetbooking_date`;
-ALTER TABLE `mst_itemassetbooking` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `assetbooking_id`;
-
-
-ALTER TABLE `mst_itemassetbooking` MODIFY COLUMN IF EXISTS  `itemassetbooking_date` date NOT NULL   AFTER `itemassetbooking_id`;
-ALTER TABLE `mst_itemassetbooking` MODIFY COLUMN IF EXISTS  `assetbooking_id` varchar(14)    AFTER `itemassetbooking_date`;
-ALTER TABLE `mst_itemassetbooking` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `assetbooking_id`;
-
-
-
-ALTER TABLE `mst_itemassetbooking` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
-
-ALTER TABLE `mst_itemassetbooking` ADD CONSTRAINT `fk_mst_itemassetbooking_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `log_itemassetmoving` (
-	`itemassetmoving_id` varchar(14) NOT NULL , 
-	`itemassetmoving_date` date NOT NULL , 
-	`itemassetmoving_ref` varchar(30)  , 
-	`itemassetmoving_typename` varchar(150)  , 
-	`dept_name` varchar(150)  , 
-	`site_name` varchar(150)  , 
-	`empl_name` varchar(150)  , 
-	`itemasset_id` varchar(14) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	PRIMARY KEY (`itemassetmoving_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Log Moving Item Asset';
-
-
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `itemassetmoving_date` date NOT NULL  AFTER `itemassetmoving_id`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `itemassetmoving_ref` varchar(30)   AFTER `itemassetmoving_date`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `itemassetmoving_typename` varchar(150)   AFTER `itemassetmoving_ref`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `dept_name` varchar(150)   AFTER `itemassetmoving_typename`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `site_name` varchar(150)   AFTER `dept_name`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `empl_name` varchar(150)   AFTER `site_name`;
-ALTER TABLE `log_itemassetmoving` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `empl_name`;
-
-
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `itemassetmoving_date` date NOT NULL   AFTER `itemassetmoving_id`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `itemassetmoving_ref` varchar(30)    AFTER `itemassetmoving_date`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `itemassetmoving_typename` varchar(150)    AFTER `itemassetmoving_ref`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `dept_name` varchar(150)    AFTER `itemassetmoving_typename`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `site_name` varchar(150)    AFTER `dept_name`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `empl_name` varchar(150)    AFTER `site_name`;
-ALTER TABLE `log_itemassetmoving` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `empl_name`;
-
-
-
-ALTER TABLE `log_itemassetmoving` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
-
-ALTER TABLE `log_itemassetmoving` ADD CONSTRAINT `fk_log_itemassetmoving_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `log_itemassetmaintenace` (
-	`itemassetmaintenace_id` varchar(14) NOT NULL , 
-	`itemassetmaintenace_date` date NOT NULL , 
-	`itemassetmaintenace_ref` varchar(30)  , 
-	`itemassetmaintenace_typename` varchar(150)  , 
-	`itemassetmaintenace_status` varchar(150)  , 
-	`partner_name` varchar(150)  , 
-	`itemasset_id` varchar(14) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	PRIMARY KEY (`itemassetmaintenace_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Log Maintenance Item Asset';
-
-
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `itemassetmaintenace_date` date NOT NULL  AFTER `itemassetmaintenace_id`;
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `itemassetmaintenace_ref` varchar(30)   AFTER `itemassetmaintenace_date`;
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `itemassetmaintenace_typename` varchar(150)   AFTER `itemassetmaintenace_ref`;
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `itemassetmaintenace_status` varchar(150)   AFTER `itemassetmaintenace_typename`;
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `partner_name` varchar(150)   AFTER `itemassetmaintenace_status`;
-ALTER TABLE `log_itemassetmaintenace` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `partner_name`;
-
-
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `itemassetmaintenace_date` date NOT NULL   AFTER `itemassetmaintenace_id`;
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `itemassetmaintenace_ref` varchar(30)    AFTER `itemassetmaintenace_date`;
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `itemassetmaintenace_typename` varchar(150)    AFTER `itemassetmaintenace_ref`;
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `itemassetmaintenace_status` varchar(150)    AFTER `itemassetmaintenace_typename`;
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `partner_name` varchar(150)    AFTER `itemassetmaintenace_status`;
-ALTER TABLE `log_itemassetmaintenace` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `partner_name`;
-
-
-
-ALTER TABLE `log_itemassetmaintenace` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
-
-ALTER TABLE `log_itemassetmaintenace` ADD CONSTRAINT `fk_log_itemassetmaintenace_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
-
-
-
-
-
-CREATE TABLE IF NOT EXISTS `log_itemassetfail` (
-	`itemassetfail_id` varchar(14) NOT NULL , 
-	`itemassetfail_date` date NOT NULL , 
-	`itemassetfail_ref` varchar(30)  , 
-	`itemassetfail_descr` varchar(150)  , 
-	`empl_name` varchar(150)  , 
-	`itemasset_id` varchar(14) NOT NULL , 
-	`_createby` varchar(14) NOT NULL , 
-	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
-	`_modifyby` varchar(14)  , 
-	`_modifydate` datetime  , 
-	PRIMARY KEY (`itemassetfail_id`)
-) 
-ENGINE=InnoDB
-COMMENT='Log Failure Item Asset';
-
-
-ALTER TABLE `log_itemassetfail` ADD COLUMN IF NOT EXISTS  `itemassetfail_date` date NOT NULL  AFTER `itemassetfail_id`;
-ALTER TABLE `log_itemassetfail` ADD COLUMN IF NOT EXISTS  `itemassetfail_ref` varchar(30)   AFTER `itemassetfail_date`;
-ALTER TABLE `log_itemassetfail` ADD COLUMN IF NOT EXISTS  `itemassetfail_descr` varchar(150)   AFTER `itemassetfail_ref`;
-ALTER TABLE `log_itemassetfail` ADD COLUMN IF NOT EXISTS  `empl_name` varchar(150)   AFTER `itemassetfail_descr`;
-ALTER TABLE `log_itemassetfail` ADD COLUMN IF NOT EXISTS  `itemasset_id` varchar(14) NOT NULL  AFTER `empl_name`;
-
-
-ALTER TABLE `log_itemassetfail` MODIFY COLUMN IF EXISTS  `itemassetfail_date` date NOT NULL   AFTER `itemassetfail_id`;
-ALTER TABLE `log_itemassetfail` MODIFY COLUMN IF EXISTS  `itemassetfail_ref` varchar(30)    AFTER `itemassetfail_date`;
-ALTER TABLE `log_itemassetfail` MODIFY COLUMN IF EXISTS  `itemassetfail_descr` varchar(150)    AFTER `itemassetfail_ref`;
-ALTER TABLE `log_itemassetfail` MODIFY COLUMN IF EXISTS  `empl_name` varchar(150)    AFTER `itemassetfail_descr`;
-ALTER TABLE `log_itemassetfail` MODIFY COLUMN IF EXISTS  `itemasset_id` varchar(14) NOT NULL   AFTER `empl_name`;
-
-
-
-ALTER TABLE `log_itemassetfail` ADD KEY IF NOT EXISTS `itemasset_id` (`itemasset_id`);
-
-ALTER TABLE `log_itemassetfail` ADD CONSTRAINT `fk_log_itemassetfail_mst_itemasset` FOREIGN KEY IF NOT EXISTS (`itemasset_id`) REFERENCES `mst_itemasset` (`itemasset_id`);
 
 
 

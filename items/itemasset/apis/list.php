@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/08/2024
+ * tanggal 28/08/2024
  */
 $API = new class extends itemassetBase {
 
@@ -92,16 +92,17 @@ $API = new class extends itemassetBase {
 
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'itemasset_id' => 'A.`itemasset_id`', 'itemasset_name' => 'A.`itemasset_name`', 'itemasset_serial' => 'A.`itemasset_serial`', 'item_id' => 'A.`item_id`',
-				'itemassetstatus_id' => 'A.`itemassetstatus_id`', 'itemasset_statusnote' => 'A.`itemasset_statusnote`', 'itemasset_ischeckout' => 'A.`itemasset_ischeckout`', 'itemasset_ismoveable' => 'A.`itemasset_ismoveable`',
-				'itemasset_isdisabled' => 'A.`itemasset_isdisabled`', 'itemasset_iswrittenof' => 'A.`itemasset_iswrittenof`', 'itemasset_descr' => 'A.`itemasset_descr`', 'itemasset_merk' => 'A.`itemasset_merk`',
-				'itemasset_type' => 'A.`itemasset_type`', 'itemclass_id' => 'A.`itemclass_id`', 'itemasset_baselocation' => 'A.`itemasset_baselocation`', 'site_id' => 'A.`site_id`',
-				'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`', 'location_dept_id' => 'A.`location_dept_id`', 'location_site_id' => 'A.`location_site_id`',
-				'location_room_id' => 'A.`location_room_id`', 'location_empl_id' => 'A.`location_empl_id`', 'partner_id' => 'A.`partner_id`', 'itemasset_purchasedate' => 'A.`itemasset_purchasedate`',
-				'itemasset_lastsupportdate' => 'A.`itemasset_lastsupportdate`', 'itemasset_purchasevalue' => 'A.`itemasset_purchasevalue`', 'curr_id' => 'A.`curr_id`', 'itemasset_purchasevalue_idr' => 'A.`itemasset_purchasevalue_idr`',
-				'asset_coa_id' => 'A.`asset_coa_id`', 'depremodel_id' => 'A.`depremodel_id`', 'cost_coa_id' => 'A.`cost_coa_id`', 'itemasset_depreage' => 'A.`itemasset_depreage`',
-				'itemasset_depreresidu' => 'A.`itemasset_depreresidu`', 'itemasset_currentvalue_idr' => 'A.`itemasset_currentvalue_idr`', 'itemasset_currentvalue_date' => 'A.`itemasset_currentvalue_date`', 'itemasset_usevaluerate' => 'A.`itemasset_usevaluerate`',
-				'itemasset_writeoffby' => 'A.`itemasset_writeoffby`', 'itemasset_writeoffdate' => 'A.`itemasset_writeoffdate`', 'itemasset_writeoffref' => 'A.`itemasset_writeoffref`', '_createby' => 'A.`_createby`',
+				'itemasset_id' => 'A.`itemasset_id`', 'item_id' => 'A.`item_id`', 'itemasset_name' => 'A.`itemasset_name`', 'itemasset_merk' => 'A.`itemasset_merk`',
+				'itemasset_type' => 'A.`itemasset_type`', 'itemasset_serial' => 'A.`itemasset_serial`', 'itemasset_descr' => 'A.`itemasset_descr`', 'itemstatus_id' => 'A.`itemstatus_id`',
+				'itemasset_statusnote' => 'A.`itemasset_statusnote`', 'itemasset_ischeckout' => 'A.`itemasset_ischeckout`', 'itemasset_ismoveable' => 'A.`itemasset_ismoveable`', 'itemasset_isdisabled' => 'A.`itemasset_isdisabled`',
+				'itemasset_iswrittenof' => 'A.`itemasset_iswrittenof`', 'itemgroup_id' => 'A.`itemgroup_id`', 'itemmodel_id' => 'A.`itemmodel_id`', 'itemclass_id' => 'A.`itemclass_id`',
+				'itemasset_baselocation' => 'A.`itemasset_baselocation`', 'site_id' => 'A.`site_id`', 'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`',
+				'location_dept_id' => 'A.`location_dept_id`', 'location_site_id' => 'A.`location_site_id`', 'location_room_id' => 'A.`location_room_id`', 'location_empl_id' => 'A.`location_empl_id`',
+				'partner_id' => 'A.`partner_id`', 'itemasset_purchasedate' => 'A.`itemasset_purchasedate`', 'itemasset_lastsupportdate' => 'A.`itemasset_lastsupportdate`', 'itemasset_purchasevalue' => 'A.`itemasset_purchasevalue`',
+				'curr_id' => 'A.`curr_id`', 'itemasset_purchasevalue_idr' => 'A.`itemasset_purchasevalue_idr`', 'asset_coa_id' => 'A.`asset_coa_id`', 'depremodel_id' => 'A.`depremodel_id`',
+				'cost_coa_id' => 'A.`cost_coa_id`', 'itemasset_depreage' => 'A.`itemasset_depreage`', 'itemasset_depreresidu' => 'A.`itemasset_depreresidu`', 'itemasset_currentvalue_idr' => 'A.`itemasset_currentvalue_idr`',
+				'itemasset_currentvalue_date' => 'A.`itemasset_currentvalue_date`', 'itemasset_usevaluerate' => 'A.`itemasset_usevaluerate`', 'itemasset_writeoffby' => 'A.`itemasset_writeoffby`', 'itemasset_writeoffdate' => 'A.`itemasset_writeoffdate`',
+				'itemasset_writeoffref' => 'A.`itemasset_writeoffref`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemasset A";
@@ -192,7 +193,9 @@ $API = new class extends itemassetBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'item_name' => \FGTA4\utils\SqlUtility::Lookup($record['item_id'], $this->db, 'mst_item', 'item_id', 'item_name'),
-					'itemassetstatus_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemassetstatus_id'], $this->db, 'mst_itemassetstatus', 'itemassetstatus_id', 'itemassetstatus_name'),
+					'itemstatus_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstatus_id'], $this->db, 'mst_itemstatus', 'itemstatus_id', 'itemstatus_name'),
+					'itemgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemgroup_id'], $this->db, 'mst_itemgroup', 'itemgroup_id', 'itemgroup_name'),
+					'itemmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmodel_id'], $this->db, 'mst_itemmodel', 'itemmodel_id', 'itemmodel_name'),
 					'itemclass_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemclass_id'], $this->db, 'mst_itemclass', 'itemclass_id', 'itemclass_name'),
 					'site_name' => \FGTA4\utils\SqlUtility::Lookup($record['site_id'], $this->db, 'mst_site', 'site_id', 'site_name'),
 					'owner_dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['owner_dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
@@ -214,7 +217,9 @@ $API = new class extends itemassetBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('item_name', 'item_id', $record, 'mst_item', 'item_name', 'item_id');
-				$this->addFields('itemassetstatus_name', 'itemassetstatus_id', $record, 'mst_itemassetstatus', 'itemassetstatus_name', 'itemassetstatus_id');
+				$this->addFields('itemstatus_name', 'itemstatus_id', $record, 'mst_itemstatus', 'itemstatus_name', 'itemstatus_id');
+				$this->addFields('itemgroup_name', 'itemgroup_id', $record, 'mst_itemgroup', 'itemgroup_name', 'itemgroup_id');
+				$this->addFields('itemmodel_name', 'itemmodel_id', $record, 'mst_itemmodel', 'itemmodel_name', 'itemmodel_id');
 				$this->addFields('itemclass_name', 'itemclass_id', $record, 'mst_itemclass', 'itemclass_name', 'itemclass_id');
 				$this->addFields('site_name', 'site_id', $record, 'mst_site', 'site_name', 'site_id');
 				$this->addFields('owner_dept_name', 'owner_dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');

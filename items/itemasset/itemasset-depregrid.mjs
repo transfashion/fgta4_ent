@@ -1,6 +1,7 @@
 var this_page_id;
 var this_page_options;
 
+import * as hnd from  './itemasset-depregrid-hnd.mjs'
 
 const tbl_list = $('#pnl_editdepregrid-tbl_list');
 const txt_title = $('#pnl_editdepregrid-title');
@@ -73,7 +74,13 @@ export async function init(opt) {
 		}
 	});	
 
-	
+	if (typeof hnd.init==='function') {
+		hnd.init({
+			grd_list: grd_list,
+			opt: opt,
+			header_data: header_data
+		}, ()=>{})
+	}	
 
 }
 
@@ -224,7 +231,11 @@ function grd_list_cellclick(td, ev) {
 }
 
 function grd_list_cellrender(td) {
-	
+	if (typeof hnd!=='undefined') { 
+		if (typeof hnd.grd_list_cellrender === 'function') {
+			hnd.grd_list_cellrender({td:td, mapping:td.mapping, text:td.innerHTML});
+		}
+	}
 }
 
 function grd_list_rowrender(tr) {
@@ -233,7 +244,11 @@ function grd_list_rowrender(tr) {
 	var record = grd_list.DATA[dataid]
 	$(tr).find('td').each((i, td) => {
 		var mapping = td.getAttribute('mapping')
-		
+		if (typeof hnd!=='undefined') { 
+			if (typeof hnd.grd_list_rowrender === 'function') {
+				hnd.grd_list_rowrender({tr:tr, td:td, record:record, mapping:mapping, dataid:dataid, i:i});
+			}
+		}
 	});
 		
 }

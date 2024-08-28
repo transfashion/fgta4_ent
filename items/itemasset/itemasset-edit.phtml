@@ -16,9 +16,33 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Item</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_item_id" class="easyui-combo" style="width: 400px" mapping="item_id" display="item_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Item harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_item_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Asset Name</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_itemasset_name" class="easyui-textbox" mapping="itemasset_name"  maxlength="150" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Nama Klasifikasi item harus diisi' ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Merk</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_itemasset_merk" class="easyui-textbox" mapping="itemasset_merk"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Type</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_itemasset_type" class="easyui-textbox" mapping="itemasset_type"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -32,17 +56,20 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Item</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_item_id" class="easyui-combo" style="width: 400px" mapping="item_id" display="item_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Item harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_item_id']" >
+				<input id="pnl_edit-txt_itemasset_descr" class="easyui-textbox" mapping="itemasset_descr"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
+		<?=$this->SectionBegin('Brief', true, true, '')?>
+		<div class="fgta_section_collapsible " style="display: none">
+					
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Status</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_itemassetstatus_id" class="easyui-combo" style="width: 400px" mapping="itemassetstatus_id" display="itemassetstatus_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Status harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_itemassetstatus_id']" >
+				<input id="pnl_edit-cbo_itemstatus_id" class="easyui-combo" style="width: 400px" mapping="itemstatus_id" display="itemstatus_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -83,37 +110,32 @@
 			</div>
 		</div>
 
-		<?=$this->SectionBegin('Breif', true, true, '')?>
+		</div>			
+		<?=$this->SectionEnd('')?>
+					
+		<?=$this->SectionBegin('CLassification', true, true, '')?>
 		<div class="fgta_section_collapsible " style="display: none">
 					
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Item Group</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_itemasset_descr" class="easyui-textbox" mapping="itemasset_descr"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-cbo_itemgroup_id" class="easyui-combo" style="width: 400px" mapping="itemgroup_id" display="itemgroup_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Item Group harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_itemgroup_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Merk</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Item Model</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_itemasset_merk" class="easyui-textbox" mapping="itemasset_merk"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
+				<input id="pnl_edit-cbo_itemmodel_id" class="easyui-combo" style="width: 400px" mapping="itemmodel_id" display="itemmodel_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Model harus diisi'"   validType="requiredcombo['pnl_edit-cbo_itemmodel_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Type</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Item Class</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_itemasset_type" class="easyui-textbox" mapping="itemasset_type"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Class</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_itemclass_id" class="easyui-combo" style="width: 400px" mapping="itemclass_id" display="itemclass_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Class harus diisi', disabled: true"   validType="requiredcombo['pnl_edit-cbo_itemclass_id']" >
+				<input id="pnl_edit-cbo_itemclass_id" class="easyui-combo" style="width: 400px" mapping="itemclass_id" display="itemclass_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Class harus diisi'"   validType="requiredcombo['pnl_edit-cbo_itemclass_id']" >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -361,29 +383,13 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col detilbox" style="border: 0px solid black">
 				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editspecgrid')">
-					<div id="pnl_edit-txt_spec_title" class="detilgrid-text">Spesifikasi</div>
-					<div id="pnl_edit-txt_spec_value" class="detilgrid-value spec_totalvalue">&nbsp;</div>
-				</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editfilesgrid')">
-					<div id="pnl_edit-txt_files_title" class="detilgrid-text">Files</div>
-					<div id="pnl_edit-txt_files_value" class="detilgrid-value files_totalvalue">&nbsp;</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editpropgrid')">
+					<div id="pnl_edit-txt_prop_title" class="detilgrid-text">Properties</div>
+					<div id="pnl_edit-txt_prop_value" class="detilgrid-value prop_totalvalue">&nbsp;</div>
 				</div>
 				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editdepregrid')">
 					<div id="pnl_edit-txt_depre_title" class="detilgrid-text">Depresiasi</div>
 					<div id="pnl_edit-txt_depre_value" class="detilgrid-value depre_totalvalue">&nbsp;</div>
-				</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editbookinggrid')">
-					<div id="pnl_edit-txt_booking_title" class="detilgrid-text">Booking</div>
-					<div id="pnl_edit-txt_booking_value" class="detilgrid-value booking_totalvalue">&nbsp;</div>
-				</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editmovinggrid')">
-					<div id="pnl_edit-txt_moving_title" class="detilgrid-text">Moving Log</div>
-					<div id="pnl_edit-txt_moving_value" class="detilgrid-value moving_totalvalue">&nbsp;</div>
-				</div>
-				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editmaintenancegrid')">
-					<div id="pnl_edit-txt_maintenance_title" class="detilgrid-text">Maintenance Log</div>
-					<div id="pnl_edit-txt_maintenance_value" class="detilgrid-value maintenance_totalvalue">&nbsp;</div>
 				</div>
 
 			</div>		

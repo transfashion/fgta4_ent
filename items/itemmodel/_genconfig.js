@@ -59,66 +59,46 @@ module.exports = {
 				itemmanage_isasset: { 
 					text: 'Manage As Asset ', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ disabled: true, labelWidth:'300px'}},
 
-
-				/*	
-				depremodel_id: { 
-					text: 'Depresiasi', 
-					type: dbtype.varchar(10), null: true, suppresslist: true,
-					// options: { required: true, invalidMessage: 'Depre Model harus diisi' } ,
-					options: {prompt:'NONE'},
-					comp: comp.Combo({
-						title: 'Pilih Model Depresiasi',
-						table: 'mst_depremodel', 
-						field_value: 'depremodel_id', field_display: 'depremodel_name', field_display_name: 'depremodel_name', 
-						api: 'ent/items/depremodel/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: true	
-					})				
-				},
-				depremodel_isautocalc: { 
-					text: 'Auto Calculation', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options:{ disabled: true, labelWidth:'300px'}
-				},
-				itemmodel_depreage: { 
-					class: 'deprevaluepanel deprevaluepanel-hidden',
-					text: 'Depre Age', type: dbtype.int(2), null:false, default:5, suppresslist: true,
-					tips: 'masa depresiasi dalam satuan <b>tahun</b>',
-					tipstype: 'visible' 
-				},
-				itemmodel_depreresidu: { 
-					class: 'deprevaluepanel deprevaluepanel-hidden',
-					text: 'Depre Residu', type: dbtype.decimal(11,2), null:false, default:1, suppresslist: true 
-				},
-				*/
-
 			},
 
 			uniques: {
 				'itemmodel_name': ['itemmodel_name']
 			},
 			defaultsearch: ['itemmodel_id', 'itemmodel_name'],
-
-			// values: [
-			// 	{itemmodel_id:'TAN', itemmodel_name:'TANAH', itemmanage_id:'AS', depremodel_id:'MN'},
-			// 	{itemmodel_id:'BGN', itemmodel_name:'BANGUNAN', itemmanage_id:'AS', depremodel_id:'SL'},
-			// 	{itemmodel_id:'PKM', itemmodel_name:'PERALATAN - KOMPUTER', itemmanage_id:'AS', depremodel_id:'SL'},
-			// 	{itemmodel_id:'PPM', itemmodel_name:'PERALATAN - PRODUKSI - MEDIA', itemmanage_id:'AS', depremodel_id:'SL'},
-			// 	{itemmodel_id:'SLC', itemmodel_name:'SOFTWARE - LISENSI', itemmanage_id:'AS', itemmodel_isintangible:1, depremodel_id:'SL'},
-			// 	{itemmodel_id:'SHC', itemmodel_name:'SOFTWARE - HAK CIPTA / PATEN', itemmanage_id:'AS', itemmodel_isintangible:1, depremodel_id:'SL'},
-			// 	{itemmodel_id:'PAC', itemmodel_name:'PROGRAM ACARA', itemmanage_id:'AS', itemmodel_isintangible:1, depremodel_id:'MN'},
-			// 	{itemmodel_id:'OFS', itemmodel_name:'OFFICE SUPPLIES', itemmanage_id:'ST', itemmodel_isintangible:0, depremodel_id:'MN', itemmodel_issupplies:1},
-			// 	{itemmodel_id:'MER', itemmodel_name:'MERCHANDISE', itemmanage_id:'ST', itemmodel_isintangible:0, depremodel_id:'MN', itemmodel_issupplies:0, itemmodel_issellable:1},
-			// 	{itemmodel_id:'CON', itemmodel_name:'CONSUMABLE GOODS', itemmanage_id:'ST', itemmodel_isintangible:0, depremodel_id:'NO', itemmodel_issupplies:1, itemmodel_issellable:1},
-			// 	{itemmodel_id:'VDC', itemmodel_name:'VISUAL DISPLAY ITEMS', itemmanage_id:'AS', itemmodel_isintangible:0, depremodel_id:'NO', itemmodel_issupplies:0, itemmodel_issellable:0}
-			// ]
 		},
+
+
+		'mst_itemmodelprop' : {
+			comment: 'Template Properti / Spesifikasi item',
+			primarykeys: ['itemmodelprop_id'],		
+			data: {
+				itemmodelprop_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				prop_id: { 
+					text: 'Properti', type: dbtype.varchar(26), null: false, 
+					options: { required: true, invalidMessage: 'Item Property harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_prop', 
+						field_value: 'prop_id', field_display: 'prop_name', field_display_name: 'prop_name', 
+						api: 'ent/items/prop/list'
+					})				
+				
+				},
+				itemmodelprop_order: {text:'Order', type: dbtype.int(4), null:false, default:0},
+				itemmodel_id: {text:'Model', type: dbtype.varchar(10), null:false, uppercase: true},		
+			}
+		},		
 
 	},
 
 	schema: {
+		title: 'Item Model',
 		header: 'mst_itemmodel',
 		detils: {
+			'prop': {
+				title: 'Properties', table: 'mst_itemmodelprop', form: true, headerview: 'itemmodel_name' ,
+				editorHandler: true,
+				listHandler: true
+			},			
 		}
 	}
 

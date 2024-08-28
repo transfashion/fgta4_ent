@@ -6,35 +6,19 @@ import * as settings from './itemasset.settings.mjs'
 import * as apis from './itemasset.apis.mjs'
 import * as pList from './itemasset-list.mjs'
 import * as pEdit from './itemasset-edit.mjs'
-import * as pEditSpecgrid from './itemasset-specgrid.mjs'
-import * as pEditSpecform from './itemasset-specform.mjs'
-import * as pEditFilesgrid from './itemasset-filesgrid.mjs'
-import * as pEditFilesform from './itemasset-filesform.mjs'
+import * as pEditPropgrid from './itemasset-propgrid.mjs'
+import * as pEditPropform from './itemasset-propform.mjs'
 import * as pEditDepregrid from './itemasset-depregrid.mjs'
 import * as pEditDepreform from './itemasset-depreform.mjs'
-import * as pEditBookinggrid from './itemasset-bookinggrid.mjs'
-import * as pEditBookingform from './itemasset-bookingform.mjs'
-import * as pEditMovinggrid from './itemasset-movinggrid.mjs'
-import * as pEditMovingform from './itemasset-movingform.mjs'
-import * as pEditMaintenancegrid from './itemasset-maintenancegrid.mjs'
-import * as pEditMaintenanceform from './itemasset-maintenanceform.mjs'
 
 
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
-const pnl_editspecgrid = $('#pnl_editspecgrid')
-const pnl_editspecform = $('#pnl_editspecform')
-const pnl_editfilesgrid = $('#pnl_editfilesgrid')
-const pnl_editfilesform = $('#pnl_editfilesform')
+const pnl_editpropgrid = $('#pnl_editpropgrid')
+const pnl_editpropform = $('#pnl_editpropform')
 const pnl_editdepregrid = $('#pnl_editdepregrid')
 const pnl_editdepreform = $('#pnl_editdepreform')
-const pnl_editbookinggrid = $('#pnl_editbookinggrid')
-const pnl_editbookingform = $('#pnl_editbookingform')
-const pnl_editmovinggrid = $('#pnl_editmovinggrid')
-const pnl_editmovingform = $('#pnl_editmovingform')
-const pnl_editmaintenancegrid = $('#pnl_editmaintenancegrid')
-const pnl_editmaintenanceform = $('#pnl_editmaintenanceform')
 
 
 
@@ -65,18 +49,10 @@ export async function init(opt) {
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			{panel: pnl_editspecgrid, handler: pEditSpecgrid},
-			{panel: pnl_editspecform, handler: pEditSpecform},
-			{panel: pnl_editfilesgrid, handler: pEditFilesgrid},
-			{panel: pnl_editfilesform, handler: pEditFilesform},
+			{panel: pnl_editpropgrid, handler: pEditPropgrid},
+			{panel: pnl_editpropform, handler: pEditPropform},
 			{panel: pnl_editdepregrid, handler: pEditDepregrid},
-			{panel: pnl_editdepreform, handler: pEditDepreform},
-			{panel: pnl_editbookinggrid, handler: pEditBookinggrid},
-			{panel: pnl_editbookingform, handler: pEditBookingform},
-			{panel: pnl_editmovinggrid, handler: pEditMovinggrid},
-			{panel: pnl_editmovingform, handler: pEditMovingform},
-			{panel: pnl_editmaintenancegrid, handler: pEditMaintenancegrid},
-			{panel: pnl_editmaintenanceform, handler: pEditMaintenanceform}			
+			{panel: pnl_editdepreform, handler: pEditDepreform}			
 		], opt)
 
 	$ui.setPages(pages)

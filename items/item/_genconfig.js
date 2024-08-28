@@ -99,11 +99,37 @@ module.exports = {
 
 			defaultsearch: ['item_id', 'item_name', 'item_nameshort']
 		},
+
+
+		'mst_itemprop' : {
+			comment: 'Template Properti / Spesifikasi item',
+			primarykeys: ['itemprop_id'],		
+			data: {
+				itemprop_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				prop_id: { 
+					text: 'Properti', type: dbtype.varchar(26), null: false, 
+					options: { required: true, invalidMessage: 'Item Property harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_prop', 
+						field_value: 'prop_id', field_display: 'prop_name', field_display_name: 'prop_name', 
+						api: 'ent/items/prop/list'
+					})				
+				
+				},
+				itemmodelprop_order: {text:'Order', type: dbtype.int(4), null:false, default:0},
+				itemmodel_id: {text:'Model', type: dbtype.varchar(10), null:false, uppercase: true},		
+			}
+		},	
 	},
 
 	schema: {
 		header: 'mst_item',
 		detils: {
+			'prop': {
+				title: 'Properties', table: 'mst_itemprop', form: true, headerview: 'itemasset_name' ,
+				editorHandler: true,
+				listHandler: true
+			},
 		}
 	}
 

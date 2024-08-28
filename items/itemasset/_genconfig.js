@@ -273,53 +273,26 @@ module.exports = {
 		},
 
 
-		'itemassetspec_id' : {
-			comment: 'Spesifikasi item asset',
-			primarykeys: ['itemassetspec_id'],		
+		'mst_itemassetprop' : {
+			comment: 'Properti / Spesifikasi item asset',
+			primarykeys: ['itemassetprop_id'],		
 			data: {
-				itemassetspec_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
-				itemassetspec_value: {text:'Value', type: dbtype.varchar(90), null:false},
-				itemspec_id: { 
-					text: 'Spec', type: dbtype.varchar(10), uppercase: true, null: false, 
-					options: { required: true, invalidMessage: 'Item Spesifikasi harus diisi' }, 
+				itemassetprop_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				prop_id: { 
+					text: 'Properti', type: dbtype.varchar(26), null: false, 
+					options: { required: true, invalidMessage: 'Item Property harus diisi' }, 
 					comp: comp.Combo({
-						table: 'mst_itemspec', 
-						field_value: 'itemspec_id', field_display: 'itemspec_name', field_display_name: 'itemspec_name', 
-						api: 'ent/items/itemspec/list'})				
+						table: 'mst_itemprop', 
+						field_value: 'prop_id', field_display: 'prop_name', field_display_name: 'prop_name', 
+						api: 'ent/items/prop/list'
+					})				
 				
 				},
-				itemspec_isnumber: { text: 'Number', type: dbtype.boolean, null: false, default:0, suppresslist: true, options:{disabled:true}},
+				itemassetprop_value: {text:'Value', type: dbtype.varchar(254), null:false},
+				itemassetprop_order: {text:'Order', type: dbtype.int(4), null:false, default:0},
 				itemasset_id: {text:'Item', type: dbtype.varchar(14), null:false, uppercase: true},		
 			}
 		},
-
-
-		/*
-		'trn_inquiryfiles' : {
-			primarykeys: ['inquiryfiles_id'],
-			comment: 'Daftar FIle Inquiry',
-			data: {
-				inquiryfiles_id: {text:'ID', type: dbtype.varchar(14), null:false},	
-				doctype_id: {
-					text:'Document Type', type: dbtype.varchar(10), null:false, 
-					options: { required: true, invalidMessage: 'Tipe dokumen harus diisi' } ,
-					comp: comp.Combo({
-						table: 'mst_doctype', 
-						field_value: 'doctype_id', field_display: 'doctype_name', 
-						api: 'ent/general/doctype/list'})
-				},
-				inquiryfiles_descr: {text:'Descr', type: dbtype.varchar(90), null:false},	
-				inquiryfiles_order: {text:'Order', type: dbtype.int(4), null:false, default:'0', suppresslist: true},
-				inquiryfiles_file: {text:'File', type: dbtype.varchar(90), suppresslist: true,  comp: comp.Filebox(), options: { accept: 'image/*' }},
-				inquiry_id: {text:'Inquiry', type: dbtype.varchar(14), null:false},		
-			},
-			defaultsearch: ['inquiryfiles_descr'],
-			uniques: {
-				'inquiryfiles_doc' : ['inquiry_id', 'doctype_id']
-			}
-		},
-		*/
-
 
 		'mst_itemassetdepre': {
 			comment: 'Daftar Depresiasi Item Asset',
@@ -331,81 +304,22 @@ module.exports = {
 				itemassetdepre_ref: { text: 'Ref', type: dbtype.varchar(30), null: true, uppercase: true },
 				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false }
 			}
-		},
-
-		/*
-		'mst_itemassetbooking': {
-			comment: 'Daftar Booking',
-			primarykeys: ['itemassetbooking_id'],
-			data: {
-				itemassetbooking_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				itemassetbooking_date: {text:'Date', type: dbtype.date, null:false},
-				assetbooking_id: { text: 'Booking Ref', type: dbtype.varchar(14), null: true, uppercase: true },
-				assetbooking_id: { text: 'Moving Ref', type: dbtype.varchar(14), null: true, uppercase: true },
-				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false }
-			}
-		},
-		*/
-
-		/*
-		'log_itemassetmoving': {
-			comment: 'Log Moving Item Asset',
-			primarykeys: ['itemassetmoving_id'],
-			data: {
-				itemassetmoving_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				itemassetmoving_date: {text:'Date', type: dbtype.date, null:false},
-				itemassetmoving_ref: { text: 'Ref', type: dbtype.varchar(30), null: true, uppercase: true },
-				itemassetmoving_typename: { text: 'Type', type: dbtype.varchar(150), null: true, uppercase: true },
-				dept_name: { text: 'Dept', type: dbtype.varchar(150), null: true, uppercase: true },
-				site_name: { text: 'Site', type: dbtype.varchar(150), null: true, uppercase: true },
-				empl_name: { text: 'PIC', type: dbtype.varchar(150), null: true, uppercase: true },
-				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
-			}
-		},
-		*/
-
-		/*
-		'log_itemassetmaintenace': {
-			comment: 'Log Maintenance Item Asset',
-			primarykeys: ['itemassetmaintenace_id'],
-			data: {
-				itemassetmaintenace_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				itemassetmaintenace_date: {text:'Date', type: dbtype.date, null:false},
-				itemassetmaintenace_ref: { text: 'Ref', type: dbtype.varchar(30), null: true, uppercase: true },
-				itemassetmaintenace_typename: { text: 'Type', type: dbtype.varchar(150), null: true, uppercase: true },
-				itemassetmaintenace_status: { text: 'Status', type: dbtype.varchar(150), null: true, uppercase: true },
-				partner_name:  { text: 'Partner', type: dbtype.varchar(150), null: true, uppercase: true },
-				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
-			}
-		},
-		*/
-
-		/*
-		'log_itemassetfail': {
-			comment: 'Log Failure Item Asset',
-			primarykeys: ['itemassetfail_id'],
-			data: {
-				itemassetfail_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				itemassetfail_date: {text:'Date', type: dbtype.date, null:false},
-				itemassetfail_ref: { text: 'Ref', type: dbtype.varchar(30), null: true, uppercase: true },
-				itemassetfail_descr: { text: 'Descr', type: dbtype.varchar(150), null: true, uppercase: true },
-				empl_name:  { text: 'Reporter', type: dbtype.varchar(150), null: true, uppercase: true },
-				itemasset_id: { text: 'Asset ID', type: dbtype.varchar(14), uppercase: true, null: false },
-			}
-		},
-		*/
-
+		}
 	},
 
 	schema: {
 		header: 'mst_itemasset',
 		detils: {
-			'spec': {title: 'Spesifikasi', table: 'mst_itemassetspec', form: true, headerview: 'itemasset_name' },
-			'files': {title: 'Files', table: 'trn_inquiryfiles', form: true, headerview: 'inquiry_descr' },
-			'depre': {title: 'Depresiasi', table: 'mst_itemassetdepre', form: true, headerview: 'itemasset_name' },
-			'booking': {title: 'Booking', table: 'mst_itemassetbooking', form: true, headerview: 'itemasset_name' },
-			'moving': {title: 'Moving Log', table: 'log_itemassetmoving', form: true, headerview: 'itemasset_name' },
-			'maintenance': {title: 'Maintenance Log', table: 'log_itemassetmaintenace', form: true, headerview: 'itemasset_name' },
+			'prop': {
+				title: 'Properties', table: 'mst_itemassetprop', form: true, headerview: 'itemasset_name' ,
+				editorHandler: true,
+				listHandler: true
+			},
+			'depre': {
+				title: 'Depresiasi', table: 'mst_itemassetdepre', form: true, headerview: 'itemasset_name' ,
+				editorHandler: true,
+				listHandler: true
+			}
 		}
 	}
 

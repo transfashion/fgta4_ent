@@ -6,11 +6,15 @@ import * as settings from './item.settings.mjs'
 import * as apis from './item.apis.mjs'
 import * as pList from './item-list.mjs'
 import * as pEdit from './item-edit.mjs'
+import * as pEditPropgrid from './item-propgrid.mjs'
+import * as pEditPropform from './item-propform.mjs'
 
 
 
 const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
+const pnl_editpropgrid = $('#pnl_editpropgrid')
+const pnl_editpropform = $('#pnl_editpropform')
 
 
 
@@ -41,7 +45,8 @@ export async function init(opt) {
 		.initPages([
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
-			
+			{panel: pnl_editpropgrid, handler: pEditPropgrid},
+			{panel: pnl_editpropform, handler: pEditPropform}			
 		], opt)
 
 	$ui.setPages(pages)

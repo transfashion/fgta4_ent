@@ -330,6 +330,7 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
+		$ui.getPages().ITEMS['pnl_editpropgrid'].handler.createnew(data, options)
 
 
 	})

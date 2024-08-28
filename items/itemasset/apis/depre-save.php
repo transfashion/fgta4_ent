@@ -33,11 +33,11 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/08/2024
+ * tanggal 28/08/2024
  */
 $API = new class extends itemassetBase {
 	
-	public function execute($data, $options, $files) {
+	public function execute($data, $options) {
 		$event = 'on-save';
 		$tablename = 'mst_itemassetdepre';
 		$primarykey = 'itemassetdepre_id';

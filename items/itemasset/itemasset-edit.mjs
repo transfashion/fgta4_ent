@@ -19,18 +19,20 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_itemasset_id: $('#pnl_edit-txt_itemasset_id'),
-	txt_itemasset_name: $('#pnl_edit-txt_itemasset_name'),
-	txt_itemasset_serial: $('#pnl_edit-txt_itemasset_serial'),
 	cbo_item_id: $('#pnl_edit-cbo_item_id'),
-	cbo_itemassetstatus_id: $('#pnl_edit-cbo_itemassetstatus_id'),
+	txt_itemasset_name: $('#pnl_edit-txt_itemasset_name'),
+	txt_itemasset_merk: $('#pnl_edit-txt_itemasset_merk'),
+	txt_itemasset_type: $('#pnl_edit-txt_itemasset_type'),
+	txt_itemasset_serial: $('#pnl_edit-txt_itemasset_serial'),
+	txt_itemasset_descr: $('#pnl_edit-txt_itemasset_descr'),
+	cbo_itemstatus_id: $('#pnl_edit-cbo_itemstatus_id'),
 	txt_itemasset_statusnote: $('#pnl_edit-txt_itemasset_statusnote'),
 	chk_itemasset_ischeckout: $('#pnl_edit-chk_itemasset_ischeckout'),
 	chk_itemasset_ismoveable: $('#pnl_edit-chk_itemasset_ismoveable'),
 	chk_itemasset_isdisabled: $('#pnl_edit-chk_itemasset_isdisabled'),
 	chk_itemasset_iswrittenof: $('#pnl_edit-chk_itemasset_iswrittenof'),
-	txt_itemasset_descr: $('#pnl_edit-txt_itemasset_descr'),
-	txt_itemasset_merk: $('#pnl_edit-txt_itemasset_merk'),
-	txt_itemasset_type: $('#pnl_edit-txt_itemasset_type'),
+	cbo_itemgroup_id: $('#pnl_edit-cbo_itemgroup_id'),
+	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
 	cbo_itemclass_id: $('#pnl_edit-cbo_itemclass_id'),
 	txt_itemasset_baselocation: $('#pnl_edit-txt_itemasset_baselocation'),
 	cbo_site_id: $('#pnl_edit-cbo_site_id'),
@@ -119,23 +121,65 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_itemassetstatus_id.name = 'pnl_edit-cbo_itemassetstatus_id'		
-	new fgta4slideselect(obj.cbo_itemassetstatus_id, {
-		title: 'Pilih itemassetstatus_id',
+	obj.cbo_itemstatus_id.name = 'pnl_edit-cbo_itemstatus_id'		
+	new fgta4slideselect(obj.cbo_itemstatus_id, {
+		title: 'Pilih itemstatus_id',
 		returnpage: this_page_id,
-		api: $ui.apis.load_itemassetstatus_id,
-		fieldValue: 'itemassetstatus_id',
-		fieldDisplay: 'itemassetstatus_name',
+		api: $ui.apis.load_itemstatus_id,
+		fieldValue: 'itemstatus_id',
+		fieldDisplay: 'itemstatus_name',
 		fields: [
-			{mapping: 'itemassetstatus_id', text: 'itemassetstatus_id'},
-			{mapping: 'itemassetstatus_name', text: 'itemassetstatus_name'}
+			{mapping: 'itemstatus_id', text: 'itemstatus_id'},
+			{mapping: 'itemstatus_name', text: 'itemstatus_name'}
 		],
+
+	})				
+				
+	obj.cbo_itemgroup_id.name = 'pnl_edit-cbo_itemgroup_id'		
+	new fgta4slideselect(obj.cbo_itemgroup_id, {
+		title: 'Pilih Group',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemgroup_id,
+		fieldValue: 'itemgroup_id',
+		fieldDisplay: 'itemgroup_name',
+		fields: [
+			{mapping: 'itemgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'},
+			{mapping: '_id', text: 'ID', style: 'width: 100px'}
+		],
+		OnSelecting: (value, display, record, args) => {
+			// args.Cancel=true; // apabila ingin membatalkan pilihan			
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemgroup_id_selecting === 'function') {
+					hnd.cbo_itemgroup_id_selecting(value, display, record, args);
+				}
+			}
+		},
+
+	})				
+				
+	obj.cbo_itemmodel_id.name = 'pnl_edit-cbo_itemmodel_id'		
+	new fgta4slideselect(obj.cbo_itemmodel_id, {
+		title: 'Pilih Model Item',
+		returnpage: this_page_id,
+		api: $ui.apis.load_itemmodel_id,
+		fieldValue: 'itemmodel_id',
+		fieldDisplay: 'itemmodel_name',
+		fields: [
+			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
+			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_itemmodel_id_dataloading === 'function') {
+				hnd.cbo_itemmodel_id_dataloading(criteria, options);
+			}						
+		},					
 
 	})				
 				
 	obj.cbo_itemclass_id.name = 'pnl_edit-cbo_itemclass_id'		
 	new fgta4slideselect(obj.cbo_itemclass_id, {
-		title: 'Pilih itemclass_id',
+		title: 'Pilih Klasifikasi',
 		returnpage: this_page_id,
 		api: $ui.apis.load_itemclass_id,
 		fieldValue: 'itemclass_id',
@@ -144,6 +188,12 @@ export async function init(opt) {
 			{mapping: 'itemclass_id', text: 'itemclass_id'},
 			{mapping: 'itemclass_name', text: 'itemclass_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_itemclass_id_dataloading === 'function') {
+				hnd.cbo_itemclass_id_dataloading(criteria, options);
+			}						
+		},					
 
 	})				
 				
@@ -429,6 +479,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
+		if (result.record.itemstatus_id==null) { result.record.itemstatus_id='--NULL--'; result.record.itemstatus_name='NONE'; }
 		if (result.record.location_room_id==null) { result.record.location_room_id='--NULL--'; result.record.location_room_name='NONE'; }
 		if (result.record.location_empl_id==null) { result.record.location_empl_id='--NULL--'; result.record.empl_name='NONE'; }
 		if (result.record.asset_coa_id==null) { result.record.asset_coa_id='--NULL--'; result.record.asset_coa_name='NONE'; }
@@ -457,7 +508,9 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_item_id, record.item_id, record.item_name)
-			.setValue(obj.cbo_itemassetstatus_id, record.itemassetstatus_id, record.itemassetstatus_name)
+			.setValue(obj.cbo_itemstatus_id, record.itemstatus_id, record.itemstatus_name)
+			.setValue(obj.cbo_itemgroup_id, record.itemgroup_id, record.itemgroup_name)
+			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
 			.setValue(obj.cbo_itemclass_id, record.itemclass_id, record.itemclass_name)
 			.setValue(obj.cbo_site_id, record.site_id, record.site_name)
 			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
@@ -544,8 +597,12 @@ export function createnew() {
 
 		data.item_id = '0'
 		data.item_name = '-- PILIH --'
-		data.itemassetstatus_id = '0'
-		data.itemassetstatus_name = '-- PILIH --'
+		data.itemstatus_id = '--NULL--'
+		data.itemstatus_name = 'NONE'
+		data.itemgroup_id = '0'
+		data.itemgroup_name = '-- PILIH --'
+		data.itemmodel_id = '0'
+		data.itemmodel_name = '-- PILIH --'
 		data.itemclass_id = '0'
 		data.itemclass_name = '-- PILIH --'
 		data.site_id = '0'
@@ -589,12 +646,8 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editspecgrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editfilesgrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editpropgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editdepregrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editbookinggrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editmovinggrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editmaintenancegrid'].handler.createnew(data, options)
 
 
 	})
@@ -726,7 +779,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['location_room_id', 'location_empl_id', 'asset_coa_id', 'cost_coa_id', ];
+	// options.skipmappingresponse = ['itemstatus_id', 'location_room_id', 'location_empl_id', 'asset_coa_id', 'cost_coa_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -775,6 +828,7 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
+	form.setValue(obj.cbo_itemstatus_id, result.dataresponse.itemstatus_name!=='--NULL--' ? result.dataresponse.itemstatus_id : '--NULL--', result.dataresponse.itemstatus_name!=='--NULL--'?result.dataresponse.itemstatus_name:'NONE')
 	form.setValue(obj.cbo_location_room_id, result.dataresponse.location_room_name!=='--NULL--' ? result.dataresponse.location_room_id : '--NULL--', result.dataresponse.location_room_name!=='--NULL--'?result.dataresponse.location_room_name:'NONE')
 	form.setValue(obj.cbo_location_empl_id, result.dataresponse.empl_name!=='--NULL--' ? result.dataresponse.location_empl_id : '--NULL--', result.dataresponse.empl_name!=='--NULL--'?result.dataresponse.empl_name:'NONE')
 	form.setValue(obj.cbo_asset_coa_id, result.dataresponse.asset_coa_name!=='--NULL--' ? result.dataresponse.asset_coa_id : '--NULL--', result.dataresponse.asset_coa_name!=='--NULL--'?result.dataresponse.asset_coa_name:'NONE')
