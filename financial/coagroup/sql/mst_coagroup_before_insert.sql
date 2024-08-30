@@ -1,7 +1,3 @@
-
-
-
-
 DROP TRIGGER IF EXISTS mst_coagroup_before_insert;
 
 DELIMITER //
