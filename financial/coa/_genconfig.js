@@ -31,6 +31,7 @@ module.exports = {
 
 				coa_name: { text: 'Nama COA', type: dbtype.varchar(255), uppercase: false, options: { required: true, invalidMessage: 'Nama COA harus diisi' } },
 				coa_nameshort: { text: 'Nama Pendek', type: dbtype.varchar(255), uppercase: false, options: { required: true, invalidMessage: 'Nama Pendek harus diisi' } },
+				coa_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
 
 				curr_id: {
 					text: 'Currency', type: dbtype.varchar(10), null: true, uppercase: false, suppresslist: true,
@@ -46,6 +47,32 @@ module.exports = {
 					})
 				},	
 
+				coamodel_id: {
+					text: 'Model', type: dbtype.varchar(10), null: false, uppercase: false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Model COA harus diisi', disabled: false },
+					comp: comp.Combo({
+						table: 'mst_coamodel',
+						field_value: 'coamodel_id',
+						field_display: 'coamodel_name',
+						api: 'ent/financial/coamodel/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true
+					})
+				},
+
+				coareport_id: {
+					text: 'Report', type: dbtype.varchar(10), null: false, uppercase: false, suppresslist: true,
+					options: { required: true, invalidMessage: 'Report COA harus diisi' },
+					comp: comp.Combo({
+						table: 'mst_coareport',
+						field_value: 'coareport_id',
+						field_display: 'coareport_name',
+						api: 'ent/financial/coareport/list'
+					})
+				},
+
 				coa_dk: { 
 					text: 'D/K', type: dbtype.varchar(1), suppresslist: true, null: false, 
 					tips: 'Saldo Normal (D: Debet, K: Kredit) ',
@@ -57,31 +84,12 @@ module.exports = {
 					options: { required: true, invalidMessage: 'Faktor Pengali harus diisi 1 / -1' }, 
 				},
 								
-				coa_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
 
 				coa_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0' },
 				
-				coamodel_id: {
-					text: 'Model', type: dbtype.varchar(10), null: false, uppercase: false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Model COA harus diisi', disabled: false },
-					comp: comp.Combo({
-						table: 'mst_coamodel',
-						field_value: 'coamodel_id',
-						field_display: 'coamodel_name',
-						api: 'ent/financial/coamodel/list'
-					})
-				},
+
 				
-				coareport_id: {
-					text: 'Report', type: dbtype.varchar(10), null: false, uppercase: false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Report COA harus diisi', disabled: true },
-					comp: comp.Combo({
-						table: 'mst_coareport',
-						field_value: 'coareport_id',
-						field_display: 'coareport_name',
-						api: 'ent/financial/coareport/list'
-					})
-				},
+
 			},
 
 			defaultsearch: ['coa_id', 'coa_name'],

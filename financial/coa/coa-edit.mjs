@@ -22,13 +22,13 @@ const obj = {
 	cbo_coagroup_id: $('#pnl_edit-cbo_coagroup_id'),
 	txt_coa_name: $('#pnl_edit-txt_coa_name'),
 	txt_coa_nameshort: $('#pnl_edit-txt_coa_nameshort'),
+	txt_coa_descr: $('#pnl_edit-txt_coa_descr'),
 	cbo_curr_id: $('#pnl_edit-cbo_curr_id'),
+	cbo_coamodel_id: $('#pnl_edit-cbo_coamodel_id'),
+	cbo_coareport_id: $('#pnl_edit-cbo_coareport_id'),
 	txt_coa_dk: $('#pnl_edit-txt_coa_dk'),
 	txt_coa_mp: $('#pnl_edit-txt_coa_mp'),
-	txt_coa_descr: $('#pnl_edit-txt_coa_descr'),
-	chk_coa_isdisabled: $('#pnl_edit-chk_coa_isdisabled'),
-	cbo_coamodel_id: $('#pnl_edit-cbo_coamodel_id'),
-	cbo_coareport_id: $('#pnl_edit-cbo_coareport_id')
+	chk_coa_isdisabled: $('#pnl_edit-chk_coa_isdisabled')
 }
 
 
@@ -129,6 +129,13 @@ export async function init(opt) {
 			{mapping: 'coamodel_id', text: 'coamodel_id'},
 			{mapping: 'coamodel_name', text: 'coamodel_name'}
 		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_coamodel_id_selected === 'function') {
+					hnd.cbo_coamodel_id_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				

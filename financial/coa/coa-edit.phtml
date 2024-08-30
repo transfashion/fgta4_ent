@@ -40,10 +40,34 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_coa_descr" class="easyui-textbox" mapping="coa_descr"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Currency</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_curr_id" class="easyui-combo" style="width: 400px" mapping="curr_id" display="curr_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">apabila diisi, transaksi akan menggunakan currency ini, jika tidak bisa multi currency</div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Model</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_coamodel_id" class="easyui-combo" style="width: 400px" mapping="coamodel_id" display="coamodel_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Model COA harus diisi', disabled: false"   validType="requiredcombo['pnl_edit-cbo_coamodel_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Report</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_coareport_id" class="easyui-combo" style="width: 400px" mapping="coareport_id" display="coareport_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Report COA harus diisi'"   validType="requiredcombo['pnl_edit-cbo_coareport_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
@@ -64,33 +88,9 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Descr</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_coa_descr" class="easyui-textbox" mapping="coa_descr"  maxlength="255" style="width: 400px" data-options="multiline: false  ">
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"></div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-chk_coa_isdisabled" class="easyui-checkbox c1" mapping="coa_isdisabled" data-options="label: 'Disabled', labelPosition: 'after', checked: false ">
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Model</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_coamodel_id" class="easyui-combo" style="width: 400px" mapping="coamodel_id" display="coamodel_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Model COA harus diisi', disabled: false"   validType="requiredcombo['pnl_edit-cbo_coamodel_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Report</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_coareport_id" class="easyui-combo" style="width: 400px" mapping="coareport_id" display="coareport_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Report COA harus diisi', disabled: true"   validType="requiredcombo['pnl_edit-cbo_coareport_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 

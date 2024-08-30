@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 26/08/2024
+ * tanggal 30/08/2024
  */
 $API = new class extends coaBase {
 
@@ -93,8 +93,8 @@ $API = new class extends coaBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'coa_id' => 'A.`coa_id`', 'coagroup_id' => 'A.`coagroup_id`', 'coa_name' => 'A.`coa_name`', 'coa_nameshort' => 'A.`coa_nameshort`',
-				'curr_id' => 'A.`curr_id`', 'coa_dk' => 'A.`coa_dk`', 'coa_mp' => 'A.`coa_mp`', 'coa_descr' => 'A.`coa_descr`',
-				'coa_isdisabled' => 'A.`coa_isdisabled`', 'coamodel_id' => 'A.`coamodel_id`', 'coareport_id' => 'A.`coareport_id`', '_createby' => 'A.`_createby`',
+				'coa_descr' => 'A.`coa_descr`', 'curr_id' => 'A.`curr_id`', 'coamodel_id' => 'A.`coamodel_id`', 'coareport_id' => 'A.`coareport_id`',
+				'coa_dk' => 'A.`coa_dk`', 'coa_mp' => 'A.`coa_mp`', 'coa_isdisabled' => 'A.`coa_isdisabled`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_coa A";
