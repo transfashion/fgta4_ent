@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/08/2024
+ * tanggal 30/08/2024
  */
 $API = new class extends coamodelBase {
 	
@@ -83,6 +83,7 @@ $API = new class extends coamodelBase {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
+			$obj->coamodel_id = strtoupper($obj->coamodel_id);
 			$obj->coamodel_name = strtoupper($obj->coamodel_name);
 
 

@@ -12,7 +12,7 @@ module.exports = {
 		comment: 'Daftar model COA',
 		primarykeys: ['coamodel_id'],
 			data: {
-				coamodel_id: { text: 'ID', type: dbtype.varchar(10),  null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
+				coamodel_id: { text: 'ID', type: dbtype.varchar(10),  null: false,uppercase: true, options: { required: true, invalidMessage: 'ID harus diisi' } },
 				coamodel_name: { text: 'Model COA', type: dbtype.varchar(90), null: false, uppercase: true, options: { required: true, invalidMessage: 'Model coa harus diisi' } },
 				coamodel_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0' },
 				coamodel_descr: { text: 'Descr', type: dbtype.varchar(90), suppresslist: true },
