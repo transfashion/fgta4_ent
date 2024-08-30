@@ -84,14 +84,14 @@ module.exports = {
 					text: 'If Value More Than', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true 
 				},
 
-				inquiry_accbudget_id: {
-					text: 'Inquiry Budget', type: dbtype.varchar(20), null: true, suppresslist: true,
+				cob_id: {
+					text: 'Budget Account', type: dbtype.varchar(20), null: true, suppresslist: true,
 					options: { prompt: 'NONE' },
 					comp: comp.Combo({
 						title: 'Pilih Budget untuk Inquiry',
-						table: 'mst_accbudget',
-						field_value: 'accbudget_id', field_display: 'accbudget_name', field_display_name: 'inquiry_accbudget_name', 
-						api: 'ent/financial/accbudget/list'
+						table: 'mst_cob',
+						field_value: 'cob_id', field_display: 'cob_name', field_display_name: 'cob_name', 
+						api: 'ent/financial/cob/list'
 					})
 				},
 

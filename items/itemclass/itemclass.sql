@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS `mst_itemclass` (
 	`owner_unit_id` varchar(10)  , 
 	`unitmeasurement_id` varchar(10) NOT NULL , 
 	`itemclass_minassetvalue` decimal(11, 2) NOT NULL DEFAULT 0, 
-	`inquiry_accbudget_id` varchar(20)  , 
+	`cob_id` varchar(20)  , 
 	`nr_coa_id` varchar(17)  , 
 	`lr_coa_id` varchar(17)  , 
 	`itemmodel_id` varchar(10) NOT NULL , 
@@ -60,8 +60,8 @@ ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `itemclassgroup_id` varcha
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `owner_unit_id` varchar(10)   AFTER `itemclassgroup_id`;
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `unitmeasurement_id` varchar(10) NOT NULL  AFTER `owner_unit_id`;
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `itemclass_minassetvalue` decimal(11, 2) NOT NULL DEFAULT 0 AFTER `unitmeasurement_id`;
-ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `inquiry_accbudget_id` varchar(20)   AFTER `itemclass_minassetvalue`;
-ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `nr_coa_id` varchar(17)   AFTER `inquiry_accbudget_id`;
+ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `cob_id` varchar(20)   AFTER `itemclass_minassetvalue`;
+ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `nr_coa_id` varchar(17)   AFTER `cob_id`;
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `lr_coa_id` varchar(17)   AFTER `nr_coa_id`;
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `itemmodel_id` varchar(10) NOT NULL  AFTER `lr_coa_id`;
 ALTER TABLE `mst_itemclass` ADD COLUMN IF NOT EXISTS  `itemmanage_id` varchar(2) NOT NULL  AFTER `itemmodel_id`;
@@ -96,8 +96,8 @@ ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `itemclassgroup_id` varchar
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `owner_unit_id` varchar(10)    AFTER `itemclassgroup_id`;
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `unitmeasurement_id` varchar(10) NOT NULL   AFTER `owner_unit_id`;
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `itemclass_minassetvalue` decimal(11, 2) NOT NULL DEFAULT 0  AFTER `unitmeasurement_id`;
-ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `inquiry_accbudget_id` varchar(20)    AFTER `itemclass_minassetvalue`;
-ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `nr_coa_id` varchar(17)    AFTER `inquiry_accbudget_id`;
+ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `cob_id` varchar(20)    AFTER `itemclass_minassetvalue`;
+ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `nr_coa_id` varchar(17)    AFTER `cob_id`;
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `lr_coa_id` varchar(17)    AFTER `nr_coa_id`;
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `itemmodel_id` varchar(10) NOT NULL   AFTER `lr_coa_id`;
 ALTER TABLE `mst_itemclass` MODIFY COLUMN IF EXISTS  `itemmanage_id` varchar(2) NOT NULL   AFTER `itemmodel_id`;
@@ -129,7 +129,7 @@ ALTER TABLE `mst_itemclass` ADD CONSTRAINT `itemclass_name` UNIQUE IF NOT EXISTS
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `itemclassgroup_id` (`itemclassgroup_id`);
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `owner_unit_id` (`owner_unit_id`);
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `unitmeasurement_id` (`unitmeasurement_id`);
-ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `inquiry_accbudget_id` (`inquiry_accbudget_id`);
+ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `cob_id` (`cob_id`);
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `nr_coa_id` (`nr_coa_id`);
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `lr_coa_id` (`lr_coa_id`);
 ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `itemmodel_id` (`itemmodel_id`);
@@ -141,7 +141,7 @@ ALTER TABLE `mst_itemclass` ADD KEY IF NOT EXISTS `depremodel_id` (`depremodel_i
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_itemclassgroup` FOREIGN KEY IF NOT EXISTS  (`itemclassgroup_id`) REFERENCES `mst_itemclassgroup` (`itemclassgroup_id`);
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_unit` FOREIGN KEY IF NOT EXISTS  (`owner_unit_id`) REFERENCES `mst_unit` (`unit_id`);
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_unitmeasurement` FOREIGN KEY IF NOT EXISTS  (`unitmeasurement_id`) REFERENCES `mst_unitmeasurement` (`unitmeasurement_id`);
-ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_accbudget` FOREIGN KEY IF NOT EXISTS  (`inquiry_accbudget_id`) REFERENCES `mst_accbudget` (`accbudget_id`);
+ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_cob` FOREIGN KEY IF NOT EXISTS  (`cob_id`) REFERENCES `mst_cob` (`cob_id`);
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_coa` FOREIGN KEY IF NOT EXISTS  (`nr_coa_id`) REFERENCES `mst_coa` (`coa_id`);
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_coa_2` FOREIGN KEY IF NOT EXISTS  (`lr_coa_id`) REFERENCES `mst_coa` (`coa_id`);
 ALTER TABLE `mst_itemclass` ADD CONSTRAINT `fk_mst_itemclass_mst_itemmodel` FOREIGN KEY IF NOT EXISTS  (`itemmodel_id`) REFERENCES `mst_itemmodel` (`itemmodel_id`);

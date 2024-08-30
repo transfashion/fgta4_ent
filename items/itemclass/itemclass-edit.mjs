@@ -27,7 +27,7 @@ const obj = {
 	cbo_owner_unit_id: $('#pnl_edit-cbo_owner_unit_id'),
 	cbo_unitmeasurement_id: $('#pnl_edit-cbo_unitmeasurement_id'),
 	txt_itemclass_minassetvalue: $('#pnl_edit-txt_itemclass_minassetvalue'),
-	cbo_inquiry_accbudget_id: $('#pnl_edit-cbo_inquiry_accbudget_id'),
+	cbo_cob_id: $('#pnl_edit-cbo_cob_id'),
 	cbo_nr_coa_id: $('#pnl_edit-cbo_nr_coa_id'),
 	cbo_lr_coa_id: $('#pnl_edit-cbo_lr_coa_id'),
 	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
@@ -145,18 +145,16 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_inquiry_accbudget_id.name = 'pnl_edit-cbo_inquiry_accbudget_id'		
-	new fgta4slideselect(obj.cbo_inquiry_accbudget_id, {
+	obj.cbo_cob_id.name = 'pnl_edit-cbo_cob_id'		
+	new fgta4slideselect(obj.cbo_cob_id, {
 		title: 'Pilih Budget untuk Inquiry',
 		returnpage: this_page_id,
-		api: $ui.apis.load_inquiry_accbudget_id,
-		fieldValue: 'inquiry_accbudget_id',
-		fieldDisplay: 'inquiry_accbudget_name',
-		fieldValueMap: 'accbudget_id',
-		fieldDisplayMap: 'accbudget_name',
+		api: $ui.apis.load_cob_id,
+		fieldValue: 'cob_id',
+		fieldDisplay: 'cob_name',
 		fields: [
-			{mapping: 'accbudget_id', text: 'accbudget_id'},
-			{mapping: 'accbudget_name', text: 'accbudget_name'}
+			{mapping: 'cob_id', text: 'cob_id'},
+			{mapping: 'cob_name', text: 'cob_name'}
 		],
 
 	})				
@@ -422,7 +420,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		/*
 		if (result.record.itemclassgroup_id==null) { result.record.itemclassgroup_id='--NULL--'; result.record.itemclassgroup_name='NONE'; }
 		if (result.record.owner_unit_id==null) { result.record.owner_unit_id='--NULL--'; result.record.owner_unit_name='NONE'; }
-		if (result.record.inquiry_accbudget_id==null) { result.record.inquiry_accbudget_id='--NULL--'; result.record.inquiry_accbudget_name='NONE'; }
+		if (result.record.cob_id==null) { result.record.cob_id='--NULL--'; result.record.cob_name='NONE'; }
 		if (result.record.nr_coa_id==null) { result.record.nr_coa_id='--NULL--'; result.record.settl_coa_name='NONE'; }
 		if (result.record.lr_coa_id==null) { result.record.lr_coa_id='--NULL--'; result.record.cost_coa_name='NONE'; }
 		if (result.record.owner_dept_id==null) { result.record.owner_dept_id='--NULL--'; result.record.owner_dept_name='NONE'; }
@@ -454,7 +452,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.setValue(obj.cbo_itemclassgroup_id, record.itemclassgroup_id, record.itemclassgroup_name)
 			.setValue(obj.cbo_owner_unit_id, record.owner_unit_id, record.owner_unit_name)
 			.setValue(obj.cbo_unitmeasurement_id, record.unitmeasurement_id, record.unitmeasurement_name)
-			.setValue(obj.cbo_inquiry_accbudget_id, record.inquiry_accbudget_id, record.inquiry_accbudget_name)
+			.setValue(obj.cbo_cob_id, record.cob_id, record.cob_name)
 			.setValue(obj.cbo_nr_coa_id, record.nr_coa_id, record.settl_coa_name)
 			.setValue(obj.cbo_lr_coa_id, record.lr_coa_id, record.cost_coa_name)
 			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
@@ -547,8 +545,8 @@ export function createnew() {
 		data.owner_unit_name = 'NONE'
 		data.unitmeasurement_id = '0'
 		data.unitmeasurement_name = '-- PILIH --'
-		data.inquiry_accbudget_id = '--NULL--'
-		data.inquiry_accbudget_name = 'NONE'
+		data.cob_id = '--NULL--'
+		data.cob_name = 'NONE'
 		data.nr_coa_id = '--NULL--'
 		data.settl_coa_name = 'NONE'
 		data.lr_coa_id = '--NULL--'
@@ -713,7 +711,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'inquiry_accbudget_id', 'nr_coa_id', 'lr_coa_id', 'owner_dept_id', 'maintainer_dept_id', 'depremodel_id', ];
+	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'cob_id', 'nr_coa_id', 'lr_coa_id', 'owner_dept_id', 'maintainer_dept_id', 'depremodel_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -764,7 +762,7 @@ async function form_datasaved(result, options) {
 	/*
 	form.setValue(obj.cbo_itemclassgroup_id, result.dataresponse.itemclassgroup_name!=='--NULL--' ? result.dataresponse.itemclassgroup_id : '--NULL--', result.dataresponse.itemclassgroup_name!=='--NULL--'?result.dataresponse.itemclassgroup_name:'NONE')
 	form.setValue(obj.cbo_owner_unit_id, result.dataresponse.owner_unit_name!=='--NULL--' ? result.dataresponse.owner_unit_id : '--NULL--', result.dataresponse.owner_unit_name!=='--NULL--'?result.dataresponse.owner_unit_name:'NONE')
-	form.setValue(obj.cbo_inquiry_accbudget_id, result.dataresponse.inquiry_accbudget_name!=='--NULL--' ? result.dataresponse.inquiry_accbudget_id : '--NULL--', result.dataresponse.inquiry_accbudget_name!=='--NULL--'?result.dataresponse.inquiry_accbudget_name:'NONE')
+	form.setValue(obj.cbo_cob_id, result.dataresponse.cob_name!=='--NULL--' ? result.dataresponse.cob_id : '--NULL--', result.dataresponse.cob_name!=='--NULL--'?result.dataresponse.cob_name:'NONE')
 	form.setValue(obj.cbo_nr_coa_id, result.dataresponse.settl_coa_name!=='--NULL--' ? result.dataresponse.nr_coa_id : '--NULL--', result.dataresponse.settl_coa_name!=='--NULL--'?result.dataresponse.settl_coa_name:'NONE')
 	form.setValue(obj.cbo_lr_coa_id, result.dataresponse.cost_coa_name!=='--NULL--' ? result.dataresponse.lr_coa_id : '--NULL--', result.dataresponse.cost_coa_name!=='--NULL--'?result.dataresponse.cost_coa_name:'NONE')
 	form.setValue(obj.cbo_owner_dept_id, result.dataresponse.owner_dept_name!=='--NULL--' ? result.dataresponse.owner_dept_id : '--NULL--', result.dataresponse.owner_dept_name!=='--NULL--'?result.dataresponse.owner_dept_name:'NONE')

@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 26/08/2024
+ * tanggal 30/08/2024
  */
 $API = new class extends itemclassBase {
 
@@ -94,7 +94,7 @@ $API = new class extends itemclassBase {
 			$sqlFieldList = [
 				'itemclass_id' => 'A.`itemclass_id`', 'itemclass_name' => 'A.`itemclass_name`', 'itemclass_isdisabled' => 'A.`itemclass_isdisabled`', 'itemclass_isadvproces' => 'A.`itemclass_isadvproces`',
 				'itemclass_descr' => 'A.`itemclass_descr`', 'itemclassgroup_id' => 'A.`itemclassgroup_id`', 'owner_unit_id' => 'A.`owner_unit_id`', 'unitmeasurement_id' => 'A.`unitmeasurement_id`',
-				'itemclass_minassetvalue' => 'A.`itemclass_minassetvalue`', 'inquiry_accbudget_id' => 'A.`inquiry_accbudget_id`', 'nr_coa_id' => 'A.`nr_coa_id`', 'lr_coa_id' => 'A.`lr_coa_id`',
+				'itemclass_minassetvalue' => 'A.`itemclass_minassetvalue`', 'cob_id' => 'A.`cob_id`', 'nr_coa_id' => 'A.`nr_coa_id`', 'lr_coa_id' => 'A.`lr_coa_id`',
 				'itemmodel_id' => 'A.`itemmodel_id`', 'itemmanage_id' => 'A.`itemmanage_id`', 'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`',
 				'depremodel_id' => 'A.`depremodel_id`', 'itemclass_depreage' => 'A.`itemclass_depreage`', 'itemclass_depreresidu' => 'A.`itemclass_depreresidu`', 'itemclass_isallowoverqty' => 'A.`itemclass_isallowoverqty`',
 				'itemclass_isallowoverdays' => 'A.`itemclass_isallowoverdays`', 'itemclass_isallowovertask' => 'A.`itemclass_isallowovertask`', 'itemclass_isallowovervalue' => 'A.`itemclass_isallowovervalue`', 'itemclass_isallowunbudget' => 'A.`itemclass_isallowunbudget`',
@@ -193,7 +193,7 @@ $API = new class extends itemclassBase {
 					'itemclassgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemclassgroup_id'], $this->db, 'mst_itemclassgroup', 'itemclassgroup_id', 'itemclassgroup_name'),
 					'owner_unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['owner_unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 					'unitmeasurement_name' => \FGTA4\utils\SqlUtility::Lookup($record['unitmeasurement_id'], $this->db, 'mst_unitmeasurement', 'unitmeasurement_id', 'unitmeasurement_name'),
-					'inquiry_accbudget_name' => \FGTA4\utils\SqlUtility::Lookup($record['inquiry_accbudget_id'], $this->db, 'mst_accbudget', 'accbudget_id', 'accbudget_name'),
+					'cob_name' => \FGTA4\utils\SqlUtility::Lookup($record['cob_id'], $this->db, 'mst_cob', 'cob_id', 'cob_name'),
 					'settl_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['nr_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
 					'cost_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['lr_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
 					'itemmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmodel_id'], $this->db, 'mst_itemmodel', 'itemmodel_id', 'itemmodel_name'),
@@ -210,7 +210,7 @@ $API = new class extends itemclassBase {
 				$this->addFields('itemclassgroup_name', 'itemclassgroup_id', $record, 'mst_itemclassgroup', 'itemclassgroup_name', 'itemclassgroup_id');
 				$this->addFields('owner_unit_name', 'owner_unit_id', $record, 'mst_unit', 'unit_name', 'unit_id');
 				$this->addFields('unitmeasurement_name', 'unitmeasurement_id', $record, 'mst_unitmeasurement', 'unitmeasurement_name', 'unitmeasurement_id');
-				$this->addFields('inquiry_accbudget_name', 'inquiry_accbudget_id', $record, 'mst_accbudget', 'accbudget_name', 'accbudget_id');
+				$this->addFields('cob_name', 'cob_id', $record, 'mst_cob', 'cob_name', 'cob_id');
 				$this->addFields('settl_coa_name', 'nr_coa_id', $record, 'mst_coa', 'coa_name', 'coa_id');
 				$this->addFields('cost_coa_name', 'lr_coa_id', $record, 'mst_coa', 'coa_name', 'coa_id');
 				$this->addFields('itemmodel_name', 'itemmodel_id', $record, 'mst_itemmodel', 'itemmodel_name', 'itemmodel_id');
