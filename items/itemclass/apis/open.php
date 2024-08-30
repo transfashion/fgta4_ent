@@ -93,13 +93,13 @@ $API = new class extends itemclassBase {
 			$sqlFieldList = [
 				'itemclass_id' => 'A.`itemclass_id`', 'itemclass_name' => 'A.`itemclass_name`', 'itemclass_isdisabled' => 'A.`itemclass_isdisabled`', 'itemclass_isadvproces' => 'A.`itemclass_isadvproces`',
 				'itemclass_descr' => 'A.`itemclass_descr`', 'itemclassgroup_id' => 'A.`itemclassgroup_id`', 'owner_unit_id' => 'A.`owner_unit_id`', 'unitmeasurement_id' => 'A.`unitmeasurement_id`',
-				'itemclass_minassetvalue' => 'A.`itemclass_minassetvalue`', 'cob_id' => 'A.`cob_id`', 'nr_coa_id' => 'A.`nr_coa_id`', 'lr_coa_id' => 'A.`lr_coa_id`',
-				'itemmodel_id' => 'A.`itemmodel_id`', 'itemmanage_id' => 'A.`itemmanage_id`', 'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`',
-				'depremodel_id' => 'A.`depremodel_id`', 'itemclass_depreage' => 'A.`itemclass_depreage`', 'itemclass_depreresidu' => 'A.`itemclass_depreresidu`', 'itemclass_isallowoverqty' => 'A.`itemclass_isallowoverqty`',
-				'itemclass_isallowoverdays' => 'A.`itemclass_isallowoverdays`', 'itemclass_isallowovertask' => 'A.`itemclass_isallowovertask`', 'itemclass_isallowovervalue' => 'A.`itemclass_isallowovervalue`', 'itemclass_isallowunbudget' => 'A.`itemclass_isallowunbudget`',
-				'itemclass_isindependentsetting' => 'A.`itemclass_isindependentsetting`', 'itemmodel_isintangible' => 'A.`itemmodel_isintangible`', 'itemmodel_issellable' => 'A.`itemmodel_issellable`', 'itemmodel_isnonitem' => 'A.`itemmodel_isnonitem`',
-				'itemmodel_ishasmainteinerdept' => 'A.`itemmodel_ishasmainteinerdept`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`', 'depremodel_isautocalc' => 'A.`depremodel_isautocalc`', 'itemmanage_isbyassetowner' => 'A.`itemmanage_isbyassetowner`',
-				'itemmanage_isbystockowner' => 'A.`itemmanage_isbystockowner`', 'itemmanage_isbynonitemowner' => 'A.`itemmanage_isbynonitemowner`', 'itemmanage_isbypartnerselect' => 'A.`itemmanage_isbypartnerselect`', '_createby' => 'A.`_createby`',
+				'cob_id' => 'A.`cob_id`', 'cost_coa_id' => 'A.`cost_coa_id`', 'itemmodel_id' => 'A.`itemmodel_id`', 'itemmanage_id' => 'A.`itemmanage_id`',
+				'owner_dept_id' => 'A.`owner_dept_id`', 'maintainer_dept_id' => 'A.`maintainer_dept_id`', 'depremodel_id' => 'A.`depremodel_id`', 'itemclass_minassetvalue' => 'A.`itemclass_minassetvalue`',
+				'asset_coa_id' => 'A.`asset_coa_id`', 'depre_coa_id' => 'A.`depre_coa_id`', 'itemclass_depreage' => 'A.`itemclass_depreage`', 'itemclass_depreresidu' => 'A.`itemclass_depreresidu`',
+				'itemclass_isallowoverqty' => 'A.`itemclass_isallowoverqty`', 'itemclass_isallowoverdays' => 'A.`itemclass_isallowoverdays`', 'itemclass_isallowovertask' => 'A.`itemclass_isallowovertask`', 'itemclass_isallowovervalue' => 'A.`itemclass_isallowovervalue`',
+				'itemclass_isallowunbudget' => 'A.`itemclass_isallowunbudget`', 'itemclass_isindependentsetting' => 'A.`itemclass_isindependentsetting`', 'itemmodel_isintangible' => 'A.`itemmodel_isintangible`', 'itemmodel_issellable' => 'A.`itemmodel_issellable`',
+				'itemmodel_isnonitem' => 'A.`itemmodel_isnonitem`', 'itemmodel_ishasmainteinerdept' => 'A.`itemmodel_ishasmainteinerdept`', 'itemmanage_isasset' => 'A.`itemmanage_isasset`', 'depremodel_isautocalc' => 'A.`depremodel_isautocalc`',
+				'itemmanage_isbyassetowner' => 'A.`itemmanage_isbyassetowner`', 'itemmanage_isbystockowner' => 'A.`itemmanage_isbystockowner`', 'itemmanage_isbynonitemowner' => 'A.`itemmanage_isbynonitemowner`', 'itemmanage_isbypartnerselect' => 'A.`itemmanage_isbypartnerselect`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemclass A";
@@ -142,13 +142,14 @@ $API = new class extends itemclassBase {
 				'owner_unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['owner_unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
 				'unitmeasurement_name' => \FGTA4\utils\SqlUtility::Lookup($record['unitmeasurement_id'], $this->db, 'mst_unitmeasurement', 'unitmeasurement_id', 'unitmeasurement_name'),
 				'cob_name' => \FGTA4\utils\SqlUtility::Lookup($record['cob_id'], $this->db, 'mst_cob', 'cob_id', 'cob_name'),
-				'settl_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['nr_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
-				'cost_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['lr_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
+				'cost_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['cost_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
 				'itemmodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmodel_id'], $this->db, 'mst_itemmodel', 'itemmodel_id', 'itemmodel_name'),
 				'itemmanage_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemmanage_id'], $this->db, 'mst_itemmanage', 'itemmanage_id', 'itemmanage_name'),
 				'owner_dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['owner_dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 				'maintainer_dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['maintainer_dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 				'depremodel_name' => \FGTA4\utils\SqlUtility::Lookup($record['depremodel_id'], $this->db, 'mst_depremodel', 'depremodel_id', 'depremodel_name'),
+				'asset_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['asset_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
+				'depre_coa_name' => \FGTA4\utils\SqlUtility::Lookup($record['depre_coa_id'], $this->db, 'mst_coa', 'coa_id', 'coa_name'),
 
 
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

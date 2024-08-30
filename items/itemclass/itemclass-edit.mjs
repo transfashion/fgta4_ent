@@ -26,15 +26,16 @@ const obj = {
 	cbo_itemclassgroup_id: $('#pnl_edit-cbo_itemclassgroup_id'),
 	cbo_owner_unit_id: $('#pnl_edit-cbo_owner_unit_id'),
 	cbo_unitmeasurement_id: $('#pnl_edit-cbo_unitmeasurement_id'),
-	txt_itemclass_minassetvalue: $('#pnl_edit-txt_itemclass_minassetvalue'),
 	cbo_cob_id: $('#pnl_edit-cbo_cob_id'),
-	cbo_nr_coa_id: $('#pnl_edit-cbo_nr_coa_id'),
-	cbo_lr_coa_id: $('#pnl_edit-cbo_lr_coa_id'),
+	cbo_cost_coa_id: $('#pnl_edit-cbo_cost_coa_id'),
 	cbo_itemmodel_id: $('#pnl_edit-cbo_itemmodel_id'),
 	cbo_itemmanage_id: $('#pnl_edit-cbo_itemmanage_id'),
 	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
 	cbo_maintainer_dept_id: $('#pnl_edit-cbo_maintainer_dept_id'),
 	cbo_depremodel_id: $('#pnl_edit-cbo_depremodel_id'),
+	txt_itemclass_minassetvalue: $('#pnl_edit-txt_itemclass_minassetvalue'),
+	cbo_asset_coa_id: $('#pnl_edit-cbo_asset_coa_id'),
+	cbo_depre_coa_id: $('#pnl_edit-cbo_depre_coa_id'),
 	txt_itemclass_depreage: $('#pnl_edit-txt_itemclass_depreage'),
 	txt_itemclass_depreresidu: $('#pnl_edit-txt_itemclass_depreresidu'),
 	chk_itemclass_isallowoverqty: $('#pnl_edit-chk_itemclass_isallowoverqty'),
@@ -159,34 +160,12 @@ export async function init(opt) {
 
 	})				
 				
-	obj.cbo_nr_coa_id.name = 'pnl_edit-cbo_nr_coa_id'		
-	new fgta4slideselect(obj.cbo_nr_coa_id, {
-		title: 'Pilih COA Neraca',
-		returnpage: this_page_id,
-		api: $ui.apis.load_nr_coa_id,
-		fieldValue: 'nr_coa_id',
-		fieldDisplay: 'settl_coa_name',
-		fieldValueMap: 'coa_id',
-		fieldDisplayMap: 'coa_name',
-		fields: [
-			{mapping: 'coa_id', text: 'coa_id'},
-			{mapping: 'coa_name', text: 'coa_name'}
-		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_nr_coa_id_dataloading === 'function') {
-				hnd.cbo_nr_coa_id_dataloading(criteria, options);
-			}						
-		},					
-
-	})				
-				
-	obj.cbo_lr_coa_id.name = 'pnl_edit-cbo_lr_coa_id'		
-	new fgta4slideselect(obj.cbo_lr_coa_id, {
+	obj.cbo_cost_coa_id.name = 'pnl_edit-cbo_cost_coa_id'		
+	new fgta4slideselect(obj.cbo_cost_coa_id, {
 		title: 'Pilih COA Laba Rugi',
 		returnpage: this_page_id,
-		api: $ui.apis.load_lr_coa_id,
-		fieldValue: 'lr_coa_id',
+		api: $ui.apis.load_cost_coa_id,
+		fieldValue: 'cost_coa_id',
 		fieldDisplay: 'cost_coa_name',
 		fieldValueMap: 'coa_id',
 		fieldDisplayMap: 'coa_name',
@@ -196,8 +175,8 @@ export async function init(opt) {
 		],
 		OnDataLoading: (criteria, options) => {
 			
-			if (typeof hnd.cbo_lr_coa_id_dataloading === 'function') {
-				hnd.cbo_lr_coa_id_dataloading(criteria, options);
+			if (typeof hnd.cbo_cost_coa_id_dataloading === 'function') {
+				hnd.cbo_cost_coa_id_dataloading(criteria, options);
 			}						
 		},					
 
@@ -317,6 +296,50 @@ export async function init(opt) {
 
 	})				
 				
+	obj.cbo_asset_coa_id.name = 'pnl_edit-cbo_asset_coa_id'		
+	new fgta4slideselect(obj.cbo_asset_coa_id, {
+		title: 'Pilih COA Neraca',
+		returnpage: this_page_id,
+		api: $ui.apis.load_asset_coa_id,
+		fieldValue: 'asset_coa_id',
+		fieldDisplay: 'asset_coa_name',
+		fieldValueMap: 'coa_id',
+		fieldDisplayMap: 'coa_name',
+		fields: [
+			{mapping: 'coa_id', text: 'coa_id'},
+			{mapping: 'coa_name', text: 'coa_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_asset_coa_id_dataloading === 'function') {
+				hnd.cbo_asset_coa_id_dataloading(criteria, options);
+			}						
+		},					
+
+	})				
+				
+	obj.cbo_depre_coa_id.name = 'pnl_edit-cbo_depre_coa_id'		
+	new fgta4slideselect(obj.cbo_depre_coa_id, {
+		title: 'Pilih COA Laba Rugi',
+		returnpage: this_page_id,
+		api: $ui.apis.load_depre_coa_id,
+		fieldValue: 'depre_coa_id',
+		fieldDisplay: 'depre_coa_name',
+		fieldValueMap: 'coa_id',
+		fieldDisplayMap: 'coa_name',
+		fields: [
+			{mapping: 'coa_id', text: 'coa_id'},
+			{mapping: 'coa_name', text: 'coa_name'}
+		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_depre_coa_id_dataloading === 'function') {
+				hnd.cbo_depre_coa_id_dataloading(criteria, options);
+			}						
+		},					
+
+	})				
+				
 
 
 
@@ -421,11 +444,12 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		if (result.record.itemclassgroup_id==null) { result.record.itemclassgroup_id='--NULL--'; result.record.itemclassgroup_name='NONE'; }
 		if (result.record.owner_unit_id==null) { result.record.owner_unit_id='--NULL--'; result.record.owner_unit_name='NONE'; }
 		if (result.record.cob_id==null) { result.record.cob_id='--NULL--'; result.record.cob_name='NONE'; }
-		if (result.record.nr_coa_id==null) { result.record.nr_coa_id='--NULL--'; result.record.settl_coa_name='NONE'; }
-		if (result.record.lr_coa_id==null) { result.record.lr_coa_id='--NULL--'; result.record.cost_coa_name='NONE'; }
+		if (result.record.cost_coa_id==null) { result.record.cost_coa_id='--NULL--'; result.record.cost_coa_name='NONE'; }
 		if (result.record.owner_dept_id==null) { result.record.owner_dept_id='--NULL--'; result.record.owner_dept_name='NONE'; }
 		if (result.record.maintainer_dept_id==null) { result.record.maintainer_dept_id='--NULL--'; result.record.maintainer_dept_name='NONE'; }
 		if (result.record.depremodel_id==null) { result.record.depremodel_id='--NULL--'; result.record.depremodel_name='NONE'; }
+		if (result.record.asset_coa_id==null) { result.record.asset_coa_id='--NULL--'; result.record.asset_coa_name='NONE'; }
+		if (result.record.depre_coa_id==null) { result.record.depre_coa_id='--NULL--'; result.record.depre_coa_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -453,13 +477,14 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.setValue(obj.cbo_owner_unit_id, record.owner_unit_id, record.owner_unit_name)
 			.setValue(obj.cbo_unitmeasurement_id, record.unitmeasurement_id, record.unitmeasurement_name)
 			.setValue(obj.cbo_cob_id, record.cob_id, record.cob_name)
-			.setValue(obj.cbo_nr_coa_id, record.nr_coa_id, record.settl_coa_name)
-			.setValue(obj.cbo_lr_coa_id, record.lr_coa_id, record.cost_coa_name)
+			.setValue(obj.cbo_cost_coa_id, record.cost_coa_id, record.cost_coa_name)
 			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
 			.setValue(obj.cbo_itemmanage_id, record.itemmanage_id, record.itemmanage_name)
 			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
 			.setValue(obj.cbo_maintainer_dept_id, record.maintainer_dept_id, record.maintainer_dept_name)
 			.setValue(obj.cbo_depremodel_id, record.depremodel_id, record.depremodel_name)
+			.setValue(obj.cbo_asset_coa_id, record.asset_coa_id, record.asset_coa_name)
+			.setValue(obj.cbo_depre_coa_id, record.depre_coa_id, record.depre_coa_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -547,9 +572,7 @@ export function createnew() {
 		data.unitmeasurement_name = '-- PILIH --'
 		data.cob_id = '--NULL--'
 		data.cob_name = 'NONE'
-		data.nr_coa_id = '--NULL--'
-		data.settl_coa_name = 'NONE'
-		data.lr_coa_id = '--NULL--'
+		data.cost_coa_id = '--NULL--'
 		data.cost_coa_name = 'NONE'
 		data.itemmodel_id = '0'
 		data.itemmodel_name = '-- PILIH --'
@@ -561,6 +584,10 @@ export function createnew() {
 		data.maintainer_dept_name = 'NONE'
 		data.depremodel_id = '--NULL--'
 		data.depremodel_name = 'NONE'
+		data.asset_coa_id = '--NULL--'
+		data.asset_coa_name = 'NONE'
+		data.depre_coa_id = '--NULL--'
+		data.depre_coa_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -711,7 +738,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'cob_id', 'nr_coa_id', 'lr_coa_id', 'owner_dept_id', 'maintainer_dept_id', 'depremodel_id', ];
+	// options.skipmappingresponse = ['itemclassgroup_id', 'owner_unit_id', 'cob_id', 'cost_coa_id', 'owner_dept_id', 'maintainer_dept_id', 'depremodel_id', 'asset_coa_id', 'depre_coa_id', ];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -763,11 +790,12 @@ async function form_datasaved(result, options) {
 	form.setValue(obj.cbo_itemclassgroup_id, result.dataresponse.itemclassgroup_name!=='--NULL--' ? result.dataresponse.itemclassgroup_id : '--NULL--', result.dataresponse.itemclassgroup_name!=='--NULL--'?result.dataresponse.itemclassgroup_name:'NONE')
 	form.setValue(obj.cbo_owner_unit_id, result.dataresponse.owner_unit_name!=='--NULL--' ? result.dataresponse.owner_unit_id : '--NULL--', result.dataresponse.owner_unit_name!=='--NULL--'?result.dataresponse.owner_unit_name:'NONE')
 	form.setValue(obj.cbo_cob_id, result.dataresponse.cob_name!=='--NULL--' ? result.dataresponse.cob_id : '--NULL--', result.dataresponse.cob_name!=='--NULL--'?result.dataresponse.cob_name:'NONE')
-	form.setValue(obj.cbo_nr_coa_id, result.dataresponse.settl_coa_name!=='--NULL--' ? result.dataresponse.nr_coa_id : '--NULL--', result.dataresponse.settl_coa_name!=='--NULL--'?result.dataresponse.settl_coa_name:'NONE')
-	form.setValue(obj.cbo_lr_coa_id, result.dataresponse.cost_coa_name!=='--NULL--' ? result.dataresponse.lr_coa_id : '--NULL--', result.dataresponse.cost_coa_name!=='--NULL--'?result.dataresponse.cost_coa_name:'NONE')
+	form.setValue(obj.cbo_cost_coa_id, result.dataresponse.cost_coa_name!=='--NULL--' ? result.dataresponse.cost_coa_id : '--NULL--', result.dataresponse.cost_coa_name!=='--NULL--'?result.dataresponse.cost_coa_name:'NONE')
 	form.setValue(obj.cbo_owner_dept_id, result.dataresponse.owner_dept_name!=='--NULL--' ? result.dataresponse.owner_dept_id : '--NULL--', result.dataresponse.owner_dept_name!=='--NULL--'?result.dataresponse.owner_dept_name:'NONE')
 	form.setValue(obj.cbo_maintainer_dept_id, result.dataresponse.maintainer_dept_name!=='--NULL--' ? result.dataresponse.maintainer_dept_id : '--NULL--', result.dataresponse.maintainer_dept_name!=='--NULL--'?result.dataresponse.maintainer_dept_name:'NONE')
 	form.setValue(obj.cbo_depremodel_id, result.dataresponse.depremodel_name!=='--NULL--' ? result.dataresponse.depremodel_id : '--NULL--', result.dataresponse.depremodel_name!=='--NULL--'?result.dataresponse.depremodel_name:'NONE')
+	form.setValue(obj.cbo_asset_coa_id, result.dataresponse.asset_coa_name!=='--NULL--' ? result.dataresponse.asset_coa_id : '--NULL--', result.dataresponse.asset_coa_name!=='--NULL--'?result.dataresponse.asset_coa_name:'NONE')
+	form.setValue(obj.cbo_depre_coa_id, result.dataresponse.depre_coa_name!=='--NULL--' ? result.dataresponse.depre_coa_id : '--NULL--', result.dataresponse.depre_coa_name!=='--NULL--'?result.dataresponse.depre_coa_name:'NONE')
 
 	*/
 

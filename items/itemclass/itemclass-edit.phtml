@@ -69,14 +69,6 @@
 			</div>
 		</div>
 
-		<div class="form_row pnl_edit_row assetpanel assetpanel-hide" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">If Value More Than</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_itemclass_minassetvalue" class="easyui-numberbox" mapping="itemclass_minassetvalue" style="width: 400px; text-align:right" data-options="precision: 2, decimalSeparator:'.', groupSeparator:','  ">
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Budget Account</div>
 			<div class="form_input_col" style="border: 0px solid black">
@@ -86,18 +78,10 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Account BS</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Account Cost</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_nr_coa_id" class="easyui-combo" style="width: 400px" mapping="nr_coa_id" display="settl_coa_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">Ivnentory / Persediaan, Asset</div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Account IS</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-cbo_lr_coa_id" class="easyui-combo" style="width: 400px" mapping="lr_coa_id" display="cost_coa_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">Account Cost / Amortisasi / Depresiasi (asset)</div>
+				<input id="pnl_edit-cbo_cost_coa_id" class="easyui-combo" style="width: 400px" mapping="cost_coa_id" display="cost_coa_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
@@ -138,6 +122,30 @@
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-cbo_depremodel_id" class="easyui-combo" style="width: 400px" mapping="depremodel_id" display="depremodel_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row assetpanel assetpanel-hide" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">If Value More Than</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_itemclass_minassetvalue" class="easyui-numberbox" mapping="itemclass_minassetvalue" style="width: 400px; text-align:right" data-options="precision: 2, decimalSeparator:'.', groupSeparator:','  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row assetpanel assetpanel-hide" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Account Asset</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_asset_coa_id" class="easyui-combo" style="width: 400px" mapping="asset_coa_id" display="asset_coa_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">Ivnentory / Persediaan, Asset</div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row assetpanel assetpanel-hide" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Account Depre</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_depre_coa_id" class="easyui-combo" style="width: 400px" mapping="depre_coa_id" display="depre_coa_name" data-options="editable:false, valueField:'id', textField:'text' , prompt: 'NONE'"  >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;">Account  Amortisasi / Depresiasi (asset)</div>
 			</div>
 		</div>
 

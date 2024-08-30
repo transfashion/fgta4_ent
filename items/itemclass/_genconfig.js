@@ -79,10 +79,7 @@ module.exports = {
 
 
 
-				itemclass_minassetvalue: { 
-					class: 'assetpanel assetpanel-hide',	
-					text: 'If Value More Than', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true 
-				},
+
 
 				cob_id: {
 					text: 'Budget Account', type: dbtype.varchar(20), null: true, suppresslist: true,
@@ -95,27 +92,8 @@ module.exports = {
 					})
 				},
 
-				nr_coa_id: {
-					text: 'Account BS', type: dbtype.varchar(17), null: true, suppresslist: true,
-					tips: 'Ivnentory / Persediaan, Asset',
-					tipstype: 'visible',
-					options: { prompt: 'NONE' },
-					comp: comp.Combo({
-						title: 'Pilih COA Neraca',
-						table: 'mst_coa',
-						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'settl_coa_name', 
-						api: 'ent/financial/coa/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false	
-					})
-				},
-
-				lr_coa_id: {
-					text: 'Account IS', type: dbtype.varchar(17), null: true, suppresslist: true,
-					tips: 'Account Cost / Amortisasi / Depresiasi (asset)',
-					tipstype: 'visible',
+				cost_coa_id: {
+					text: 'Account Cost', type: dbtype.varchar(17), null: true, suppresslist: true,
 					options: { prompt:'NONE' },
 					comp: comp.Combo({
 						title: 'Pilih COA Laba Rugi',
@@ -127,8 +105,7 @@ module.exports = {
 						onSelectingHandler: false,
 						onSelectedHandler: false
 					})
-				},			
-				
+				},	
 
 				itemmodel_id: { 
 					text: 'Default Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
@@ -161,6 +138,8 @@ module.exports = {
 						onSelectedHandler: true	
 					})
 				},
+
+
 
 				owner_dept_id: {
 					text: 'Default Owner Dept', type: dbtype.varchar(30), null:true,  suppresslist: true,
@@ -214,6 +193,48 @@ module.exports = {
 						onSelectedHandler: true	
 					})				
 				},	
+
+				itemclass_minassetvalue: { 
+					class: 'assetpanel assetpanel-hide',	
+					text: 'If Value More Than', type: dbtype.decimal(11,2), null:false, default:0, suppresslist: true 
+				},
+
+				asset_coa_id: {
+					class: 'assetpanel assetpanel-hide',	
+					text: 'Account Asset', type: dbtype.varchar(17), null: true, suppresslist: true,
+					tips: 'Ivnentory / Persediaan, Asset',
+					tipstype: 'visible',
+					options: { prompt: 'NONE' },
+					comp: comp.Combo({
+						title: 'Pilih COA Neraca',
+						table: 'mst_coa',
+						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'asset_coa_name', 
+						api: 'ent/financial/coa/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false	
+					})
+				},
+
+				depre_coa_id: {
+					class: 'assetpanel assetpanel-hide',	
+					text: 'Account Depre', type: dbtype.varchar(17), null: true, suppresslist: true,
+					tips: 'Account  Amortisasi / Depresiasi (asset)',
+					tipstype: 'visible',
+					options: { prompt:'NONE' },
+					comp: comp.Combo({
+						title: 'Pilih COA Laba Rugi',
+						table: 'mst_coa',
+						field_value: 'coa_id', field_display: 'coa_name', field_display_name: 'depre_coa_name', 
+						api: 'ent/financial/coa/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false
+					})
+				},			
+				
 
 				itemclass_depreage: { 
 					class: 'assetpanel assetpanel-hide',	
