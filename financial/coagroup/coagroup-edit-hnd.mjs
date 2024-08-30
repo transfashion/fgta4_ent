@@ -12,4 +12,6 @@ export function init(ed) {
 }
 
 	
-	
+export function cbo_coagroup_parent_selected(value, display, record, args) {
+	console.log(value)
+}	

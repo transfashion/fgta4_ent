@@ -91,6 +91,13 @@ export async function init(opt) {
 			{mapping: 'coagroup_id', text: 'coagroup_id'},
 			{mapping: 'coagroup_name', text: 'coagroup_name'}
 		],
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_coagroup_parent_selected === 'function') {
+					hnd.cbo_coagroup_parent_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				

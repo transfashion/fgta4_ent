@@ -25,13 +25,18 @@ module.exports = {
 					field_value: 'coagroup_id',
 					field_display: 'coagroup_name',
 					field_display_name: 'coagroup_parent_name',
-					api: 'ent/financial/coagroup/list'
+					api: 'ent/financial/coagroup/list',
+					onDataLoadingHandler: false,
+					onDataLoadedHandler: false,
+					onSelectingHandler: false,
+					onSelectedHandler: true
+
 				})
 			},
 
 			coamodel_id: {
 				text: 'Model', type: dbtype.varchar(10), null: false,  suppresslist: true,
-				options: { required: true, invalidMessage: 'Model harus diisi', disabled: true },
+				options: { required: true, invalidMessage: 'Model harus diisi' },
 				comp: comp.Combo({
 					table: 'mst_coamodel',
 					field_value: 'coamodel_id',
@@ -42,7 +47,7 @@ module.exports = {
 
 			coareport_id: {
 				text: 'Report', type: dbtype.varchar(2), null: false, suppresslist: true,
-				options: { required: true, invalidMessage: 'Report harus diisi', disabled: true },
+				options: { required: true, invalidMessage: 'Report harus diisi' },
 				comp: comp.Combo({
 					table: 'mst_coareport',
 					field_value: 'coareport_id',
