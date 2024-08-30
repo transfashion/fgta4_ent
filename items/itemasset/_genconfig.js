@@ -225,7 +225,7 @@ module.exports = {
 						api: 'ent/financial/coa/list'})
 				},
 				depremodel_id: { 
-					text: 'Depresiasi', 
+					text: 'Metode Depresiasi', 
 					type: dbtype.varchar(10), null: true, suppresslist: true,
 					options: { required: true, invalidMessage: 'ID harus diisi' },
 					comp: comp.Combo({
