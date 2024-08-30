@@ -12,4 +12,7 @@ export function init(ed) {
 }
 
 	
+export function cbo_cobgroup_parent_dataloading(criteria, options) {
+	criteria.cobgroup_isparent = 1
+}
 	
