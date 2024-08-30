@@ -10,13 +10,13 @@ kemdian, di program bisa diakses dengan
 
 */
 
+export const load_owner_dept_id = 'ent/organisation/dept/list'
 export const load_item_id = 'ent/items/item/list'
 export const load_itemstatus_id = 'ent/items/itemstatus/list'
 export const load_itemgroup_id = 'ent/items/itemgroup/list'
 export const load_itemmodel_id = 'ent/items/itemmodel/list'
 export const load_itemclass_id = 'ent/items/itemclass/list'
 export const load_site_id = 'ent/location/site/list'
-export const load_owner_dept_id = 'ent/organisation/dept/list'
 export const load_maintainer_dept_id = 'ent/organisation/dept/list'
 export const load_location_dept_id = 'ent/organisation/dept/list'
 export const load_location_site_id = 'ent/location/site/list'

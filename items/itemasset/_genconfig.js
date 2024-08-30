@@ -17,14 +17,29 @@ module.exports = {
 
 				// Main Data
 				itemasset_id: { text: 'ID', type: dbtype.varchar(14), null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
-	
+
+				owner_dept_id: {
+					text: 'Owner Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
+					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --', disabled:true},
+					comp: comp.Combo({
+						table: 'mst_dept', 
+						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'owner_dept_name', 
+						api: 'ent/organisation/dept/list'
+					})				
+				},
+
 				item_id: {
 					text:'Item', type: dbtype.varchar(14), null:true, suppresslist: true,
 					options: { required: true, invalidMessage: 'Item harus diisi', prompt:'-- PILIH --' } ,
 					comp: comp.Combo({
 						table: 'mst_item', 
 						field_value: 'item_id', field_display: 'item_name', field_display_name: 'item_name', 
-						api: 'ent/items/item/list'})					
+						api: 'ent/items/item/list',
+						onDataLoadingHandler: true,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: true
+					})					
 				},
 
 	
@@ -56,44 +71,30 @@ module.exports = {
 				itemgroup_id: {
 					section: section.Begin('CLassification'),	
 					text:'Item Group', type: dbtype.varchar(15), null:false, suppresslist: true,
-					options:{required:true,invalidMessage:'Item Group harus diisi', prompt:'-- PILIH --'},
+					options:{required:true,invalidMessage:'Item Group harus diisi', prompt:'-- PILIH --', disabled:true },
 					comp: comp.Combo({
 						title: 'Pilih Group',
 						table: 'mst_itemgroup', 
 						field_value: 'itemgroup_id', field_display: 'itemgroup_name', field_display_name: 'itemgroup_name', 
-						field_mappings: [
-							`{mapping: 'itemgroup_id', text: 'ID', hidden: true, style: 'width: 100px'}`,
-							`{mapping: 'itemgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'}`,
-							`{mapping: '_id', text: 'ID', style: 'width: 100px'}`,
-						],
-						api: 'ent/items/itemgroup/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: true,
-						onSelectedHandler: false
-					
+						api: 'ent/items/itemgroup/list'
 					})					
 				},
 
 				itemmodel_id: { 
 					text: 'Item Model', type: dbtype.varchar(10), uppercase: true, null: false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Model harus diisi' } ,
+					options: { required: true, invalidMessage: 'Model harus diisi',prompt:'-- PILIH --', disabled:true } ,
 					comp: comp.Combo({
 						title: 'Pilih Model Item',
 						table: 'mst_itemmodel', 
 						field_value: 'itemmodel_id', field_display: 'itemmodel_name', field_display_name: 'itemmodel_name', 
-						api: 'ent/items/itemmodel/list',
-						onDataLoadingHandler: true,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false	
+						api: 'ent/items/itemmodel/list'
 					})
 				},
 
 				itemclass_id: {
 					section: section.End(),
 					text:'Item Class', type: dbtype.varchar(14), null:false, suppresslist: true,
-					options: { required: true, invalidMessage: 'Class harus diisi' } ,
+					options: { required: true, invalidMessage: 'Class harus diisi',prompt:'-- PILIH --', disabled:true  } ,
 					comp: comp.Combo({
 						title: 'Pilih Klasifikasi',
 						table: 'mst_itemclass', 
@@ -123,16 +124,7 @@ module.exports = {
 						api: 'ent/location/site/list'})				
 				},
 
-				owner_dept_id: {
-					text: 'Owner Dept', type: dbtype.varchar(30), null:true, suppresslist: false,
-					tips: 'Dept sebagai owner asset ini',
-					tipstype: 'visible',
-					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --'},
-					comp: comp.Combo({
-						table: 'mst_dept', 
-						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'owner_dept_name', 
-						api: 'ent/organisation/dept/list'})				
-				},
+
 
 				maintainer_dept_id: {
 					section: section.End(),

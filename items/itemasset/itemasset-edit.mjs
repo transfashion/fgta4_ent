@@ -19,6 +19,7 @@ const btn_delete = $('#pnl_edit-btn_delete')
 const pnl_form = $('#pnl_edit-form')
 const obj = {
 	txt_itemasset_id: $('#pnl_edit-txt_itemasset_id'),
+	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
 	cbo_item_id: $('#pnl_edit-cbo_item_id'),
 	txt_itemasset_name: $('#pnl_edit-txt_itemasset_name'),
 	txt_itemasset_merk: $('#pnl_edit-txt_itemasset_merk'),
@@ -36,7 +37,6 @@ const obj = {
 	cbo_itemclass_id: $('#pnl_edit-cbo_itemclass_id'),
 	txt_itemasset_baselocation: $('#pnl_edit-txt_itemasset_baselocation'),
 	cbo_site_id: $('#pnl_edit-cbo_site_id'),
-	cbo_owner_dept_id: $('#pnl_edit-cbo_owner_dept_id'),
 	cbo_maintainer_dept_id: $('#pnl_edit-cbo_maintainer_dept_id'),
 	cbo_location_dept_id: $('#pnl_edit-cbo_location_dept_id'),
 	cbo_location_site_id: $('#pnl_edit-cbo_location_site_id'),
@@ -107,6 +107,22 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_owner_dept_id.name = 'pnl_edit-cbo_owner_dept_id'		
+	new fgta4slideselect(obj.cbo_owner_dept_id, {
+		title: 'Pilih owner_dept_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_owner_dept_id,
+		fieldValue: 'owner_dept_id',
+		fieldDisplay: 'owner_dept_name',
+		fieldValueMap: 'dept_id',
+		fieldDisplayMap: 'dept_name',
+		fields: [
+			{mapping: 'dept_id', text: 'dept_id'},
+			{mapping: 'dept_name', text: 'dept_name'}
+		],
+
+	})				
+				
 	obj.cbo_item_id.name = 'pnl_edit-cbo_item_id'		
 	new fgta4slideselect(obj.cbo_item_id, {
 		title: 'Pilih item_id',
@@ -118,6 +134,19 @@ export async function init(opt) {
 			{mapping: 'item_id', text: 'item_id'},
 			{mapping: 'item_name', text: 'item_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_item_id_dataloading === 'function') {
+				hnd.cbo_item_id_dataloading(criteria, options);
+			}						
+		},					
+		OnSelected: (value, display, record, args) => {
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_item_id_selected === 'function') {
+					hnd.cbo_item_id_selected(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				
@@ -143,17 +172,9 @@ export async function init(opt) {
 		fieldValue: 'itemgroup_id',
 		fieldDisplay: 'itemgroup_name',
 		fields: [
-			{mapping: 'itemgroup_name', text: 'Item Group', style: 'width: auto; padding-left: 10px'},
-			{mapping: '_id', text: 'ID', style: 'width: 100px'}
+			{mapping: 'itemgroup_id', text: 'itemgroup_id'},
+			{mapping: 'itemgroup_name', text: 'itemgroup_name'}
 		],
-		OnSelecting: (value, display, record, args) => {
-			// args.Cancel=true; // apabila ingin membatalkan pilihan			
-			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemgroup_id_selecting === 'function') {
-					hnd.cbo_itemgroup_id_selecting(value, display, record, args);
-				}
-			}
-		},
 
 	})				
 				
@@ -168,12 +189,6 @@ export async function init(opt) {
 			{mapping: 'itemmodel_id', text: 'itemmodel_id'},
 			{mapping: 'itemmodel_name', text: 'itemmodel_name'}
 		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_itemmodel_id_dataloading === 'function') {
-				hnd.cbo_itemmodel_id_dataloading(criteria, options);
-			}						
-		},					
 
 	})				
 				
@@ -207,22 +222,6 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'site_id', text: 'site_id'},
 			{mapping: 'site_name', text: 'site_name'}
-		],
-
-	})				
-				
-	obj.cbo_owner_dept_id.name = 'pnl_edit-cbo_owner_dept_id'		
-	new fgta4slideselect(obj.cbo_owner_dept_id, {
-		title: 'Pilih owner_dept_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_owner_dept_id,
-		fieldValue: 'owner_dept_id',
-		fieldDisplay: 'owner_dept_name',
-		fieldValueMap: 'dept_id',
-		fieldDisplayMap: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
 		],
 
 	})				
@@ -507,13 +506,13 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
 			.setValue(obj.cbo_item_id, record.item_id, record.item_name)
 			.setValue(obj.cbo_itemstatus_id, record.itemstatus_id, record.itemstatus_name)
 			.setValue(obj.cbo_itemgroup_id, record.itemgroup_id, record.itemgroup_name)
 			.setValue(obj.cbo_itemmodel_id, record.itemmodel_id, record.itemmodel_name)
 			.setValue(obj.cbo_itemclass_id, record.itemclass_id, record.itemclass_name)
 			.setValue(obj.cbo_site_id, record.site_id, record.site_name)
-			.setValue(obj.cbo_owner_dept_id, record.owner_dept_id, record.owner_dept_name)
 			.setValue(obj.cbo_maintainer_dept_id, record.maintainer_dept_id, record.maintainer_dept_name)
 			.setValue(obj.cbo_location_dept_id, record.location_dept_id, record.dept_name)
 			.setValue(obj.cbo_location_site_id, record.location_site_id, record.site_name)
@@ -595,6 +594,8 @@ export function createnew() {
 		data.itemasset_currentvalue_date = global.now()
 		data.itemasset_usevaluerate = 0
 
+		data.owner_dept_id = '0'
+		data.owner_dept_name = '-- PILIH --'
 		data.item_id = '0'
 		data.item_name = '-- PILIH --'
 		data.itemstatus_id = '--NULL--'
@@ -607,8 +608,6 @@ export function createnew() {
 		data.itemclass_name = '-- PILIH --'
 		data.site_id = '0'
 		data.site_name = '-- PILIH --'
-		data.owner_dept_id = '0'
-		data.owner_dept_name = '-- PILIH --'
 		data.maintainer_dept_id = '0'
 		data.maintainer_dept_name = '-- PILIH --'
 		data.location_dept_id = '0'
