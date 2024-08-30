@@ -95,6 +95,7 @@ $API = new class extends coareportBase {
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
 			$obj->coareportcol_name = strtoupper($obj->coareportcol_name);
+			$obj->coa_dk = strtoupper($obj->coa_dk);
 
 
 
