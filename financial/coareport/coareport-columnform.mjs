@@ -288,7 +288,6 @@ export function createnew(hdata) {
 		data.coareport_id = hdata.coareport_id
 		data.column_value = 0
 
-		data.coa_dk = 0
 
 
 		if (typeof hnd.form_newdata == 'function') {

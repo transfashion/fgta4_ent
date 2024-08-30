@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS `mst_coareportcol` (
 	`coareportcol_id` varchar(14)  , 
 	`coareportcol_name` varchar(30)  , 
 	`coareport_col` varchar(1)  , 
-	`coa_dk` int(1) NOT NULL , 
+	`coa_dk` varchar(1) NOT NULL , 
 	`coareport_id` varchar(2)  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -54,13 +54,13 @@ COMMENT='Kolom Report COA';
 
 ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coareportcol_name` varchar(30)   AFTER `coareportcol_id`;
 ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coareport_col` varchar(1)   AFTER `coareportcol_name`;
-ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coa_dk` int(1) NOT NULL  AFTER `coareport_col`;
+ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coa_dk` varchar(1) NOT NULL  AFTER `coareport_col`;
 ALTER TABLE `mst_coareportcol` ADD COLUMN IF NOT EXISTS  `coareport_id` varchar(2)   AFTER `coa_dk`;
 
 
 ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareportcol_name` varchar(30)    AFTER `coareportcol_id`;
 ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_col` varchar(1)    AFTER `coareportcol_name`;
-ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coa_dk` int(1) NOT NULL   AFTER `coareport_col`;
+ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coa_dk` varchar(1) NOT NULL   AFTER `coareport_col`;
 ALTER TABLE `mst_coareportcol` MODIFY COLUMN IF EXISTS  `coareport_id` varchar(2)    AFTER `coa_dk`;
 
 

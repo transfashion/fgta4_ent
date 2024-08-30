@@ -36,7 +36,7 @@ module.exports = {
 				coareportcol_id: { text: 'ID', type: dbtype.varchar(14) },
 				coareportcol_name: { text: 'Nama Report', type: dbtype.varchar(30), uppercase: true, options: { required: true, invalidMessage: 'Nama Kolom harus diisi' } },
 				coareport_col: { text: 'Column Code', type: dbtype.varchar(1), suppresslist: true },
-				coa_dk: { text: 'D/K', type: dbtype.int(1), suppresslist: true, null: false, options: { required: true, invalidMessage: 'D/K harus diisi 1 / -1' }, },
+				coa_dk: { text: 'D/K', type: dbtype.varchar(1), suppresslist: true, null: false, options: { required: true, invalidMessage: 'D/K harus diisi 1 / -1' }, },
 				coareport_id: { text: 'Report', type: dbtype.varchar(2) },
 			},
 			uniques: {
