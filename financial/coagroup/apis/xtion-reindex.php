@@ -38,7 +38,15 @@ $API = new class extends coagroupBase {
 			$this->db->beginTransaction();
 
 			try {
-				$sql = "call coagroup_reindex(); ";
+				$sql = "
+					set @coagroup_skip_trigger = 1;
+					set max_sp_recursion_depth = 10;
+				
+					call coagroup_reindex(); 
+				
+					set max_sp_recursion_depth = 0;
+					set @coagroup_skip_trigger = null;
+				";
 				$this->db->exec($sql);
 				$this->db->commit();
 				return (object)[

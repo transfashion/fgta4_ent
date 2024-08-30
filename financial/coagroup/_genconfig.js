@@ -26,7 +26,7 @@ module.exports = {
 					field_display: 'coagroup_name',
 					field_display_name: 'coagroup_parent_name',
 					api: 'ent/financial/coagroup/list',
-					onDataLoadingHandler: false,
+					onDataLoadingHandler: true,
 					onDataLoadedHandler: false,
 					onSelectingHandler: false,
 					onSelectedHandler: true
