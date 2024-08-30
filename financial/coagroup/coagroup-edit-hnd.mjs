@@ -22,10 +22,10 @@ export function cbo_coagroup_parent_selected(value, display, record, args) {
 	console.log(record)
 
 	if (value=='--NULL--') {
-		form.setDisable(obj.cbo_coamodel_id, false)
+		//form.setDisable(obj.cbo_coamodel_id, false)
 		form.setDisable(obj.cbo_coareport_id, false)
 	} else {
-		form.setDisable(obj.cbo_coamodel_id, true)
+		//form.setDisable(obj.cbo_coamodel_id, true)
 		form.setDisable(obj.cbo_coareport_id, true)
 
 		// set sesuai parent

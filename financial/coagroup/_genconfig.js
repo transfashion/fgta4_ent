@@ -15,7 +15,7 @@ module.exports = {
 			coagroup_id: { text: 'ID', type: dbtype.varchar(17), uppercase: true, null: false, options: { required: true, invalidMessage: 'ID harus diisi' } },
 			coagroup_name: { text: 'Group COA', type: dbtype.varchar(90), uppercase: true, options: { required: true, invalidMessage: 'Nama Group COA harus diisi' } },
 			coagroup_descr: { text: 'Descr', type: dbtype.varchar(255), suppresslist: true },
-			coagroup_isparent: { text: 'Parent Dept', type: dbtype.boolean, null: false, default: '0', suppresslist: true },
+			coagroup_isparent: { text: 'Parent Group', type: dbtype.boolean, null: false, default: '0', suppresslist: true },
 			coagroup_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0', suppresslist: true },
 			coagroup_parent: {
 				text: 'Parent', type: dbtype.varchar(17), null: true, suppresslist: true,
