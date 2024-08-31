@@ -21,6 +21,11 @@ module.exports = {
 						table: 'mst_coagroup',
 						field_value: 'coagroup_id',
 						field_display: 'coagroup_name',
+						field_mappings: [
+							`{mapping: 'coagroup_id', text: 'ID', hidden: true, style: 'width: 100px'}`,
+							`{mapping: 'coagroup_name', text: 'Coa Group', style: 'width: auto; padding-left: 10px'}`,
+							`{mapping: '_id', text: 'ID', style: 'width: 100px'}`,
+						],
 						api: 'ent/financial/coagroup/list',
 						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,

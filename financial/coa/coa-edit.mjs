@@ -85,8 +85,8 @@ export async function init(opt) {
 		fieldValue: 'coagroup_id',
 		fieldDisplay: 'coagroup_name',
 		fields: [
-			{mapping: 'coagroup_id', text: 'coagroup_id'},
-			{mapping: 'coagroup_name', text: 'coagroup_name'}
+			{mapping: 'coagroup_name', text: 'Coa Group', style: 'width: auto; padding-left: 10px'},
+			{mapping: '_id', text: 'ID', style: 'width: 100px'}
 		],
 		OnDataLoading: (criteria, options) => {
 			
