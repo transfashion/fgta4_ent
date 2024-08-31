@@ -45,7 +45,7 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_empl', 
 						field_value: 'empl_id', field_display: 'empl_name', 
-						api: 'hrms/master/empl/list'})
+						api: 'ent/organisation/empl/list'})
 				},
 				
 				auth_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
