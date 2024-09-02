@@ -18,6 +18,8 @@ export function init(param, fn_callback) {
 	this_page_id = opt.id;
 	this_page_options = opt;	
 
+	global.search = {};
+
 	grd_list.autoload = false;
 
 	var parallelProcess = fgta4ParallelProcess({
@@ -32,7 +34,7 @@ export function init(param, fn_callback) {
 	})
 
 
-
+	global.search.cbo_search_dept = cbo_search_dept;
 	cbo_search_dept.name = 'pnl_list-cbo_search_dept'	
 	new fgta4slideselect(cbo_search_dept, {
 		title: 'Pilih Dept',

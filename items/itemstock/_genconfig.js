@@ -21,7 +21,12 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_itemgroup', 
 						field_value: 'itemgroup_id', field_display: 'itemgroup_name', field_display_name: 'itemgroup_name', 
-						api: 'ent/items/itemgroup/list'})					
+						api: 'ent/items/itemgroup/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: true,
+						onSelectedHandler: false						
+					})					
 				},
 
 				itemclass_id: {
@@ -44,7 +49,7 @@ module.exports = {
 					tips: 'Owner Dept yang akan manage item ini',
 					autobylogin: 'dept',
 					tipstype: 'visible',
-					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --'},
+					options:{required:true,invalidMessage:'Dept harus diisi', prompt:'-- PILIH --', disabled:true},
 					comp: comp.Combo({
 						table: 'mst_dept', 
 						field_value: 'dept_id', field_display: 'dept_name', field_display_name: 'dept_name', 

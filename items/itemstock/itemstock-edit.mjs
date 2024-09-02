@@ -146,6 +146,14 @@ export async function init(opt) {
 			{mapping: 'itemgroup_id', text: 'itemgroup_id'},
 			{mapping: 'itemgroup_name', text: 'itemgroup_name'}
 		],
+		OnSelecting: (value, display, record, args) => {
+			// args.Cancel=true; // apabila ingin membatalkan pilihan			
+			if (value!=args.PreviousValue ) {
+				if (typeof hnd.cbo_itemgroup_id_selecting === 'function') {
+					hnd.cbo_itemgroup_id_selecting(value, display, record, args);
+				}
+			}
+		},
 
 	})				
 				
