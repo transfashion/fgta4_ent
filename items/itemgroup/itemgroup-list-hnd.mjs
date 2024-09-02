@@ -54,8 +54,7 @@ export function init(param, fn_callback) {
 			criteria.isitemdefiner = 1;
 		},
 		OnDataLoaded: (result, options) => {
-			console.log(result)
-			// result.records.unshift({ dept_id: '--NULL--', dept_name: '-- PILIH --' });
+			delete result.records[0];
 		},
 		OnSelected: (value, display, record, options) => {
 			// console.log(record);

@@ -45,6 +45,7 @@ class DataList extends WebAPI {
 					"search" => " A.dept_id LIKE CONCAT('%', :search, '%') OR A.dept_name LIKE CONCAT('%', :search, '%') ",
 					"isdisabled" => " A.dept_isdisabled = :isdisabled ",
 					"isitemowner" => " ( A.dept_isassetowner=:isitemowner or A.dept_isstockowner=:isitemowner or A.dept_isnonitemowner=:isitemowner ) ",
+					"isitemdefiner" => " A.dept_isitemdefiner=:isitemdefiner ",
 					"empl_id" => " B.empl_id = :empl_id "
 				]
 			);
