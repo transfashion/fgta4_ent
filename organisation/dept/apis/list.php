@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 02/09/2024
  */
 $API = new class extends deptBase {
 
@@ -94,9 +94,9 @@ $API = new class extends deptBase {
 			$sqlFieldList = [
 				'dept_id' => 'A.`dept_id`', 'deptdegree_id' => 'A.`deptdegree_id`', 'dept_name' => 'A.`dept_name`', 'dept_descr' => 'A.`dept_descr`',
 				'deptgroup_id' => 'A.`deptgroup_id`', 'unit_id' => 'A.`unit_id`', 'depttype_id' => 'A.`depttype_id`', 'deptmodel_id' => 'A.`deptmodel_id`',
-				'authlevel_id' => 'A.`authlevel_id`', 'dept_isdisabled' => 'A.`dept_isdisabled`', 'dept_isassetowner' => 'A.`dept_isassetowner`', 'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`',
-				'dept_isstockowner' => 'A.`dept_isstockowner`', 'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`', 'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`',
-				'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'authlevel_id' => 'A.`authlevel_id`', 'dept_isdisabled' => 'A.`dept_isdisabled`', 'dept_isitemdefiner' => 'A.`dept_isitemdefiner`', 'dept_isassetowner' => 'A.`dept_isassetowner`',
+				'dept_isassetmaintainer' => 'A.`dept_isassetmaintainer`', 'dept_isstockowner' => 'A.`dept_isstockowner`', 'dept_isnonitemowner' => 'A.`dept_isnonitemowner`', 'dept_ispartnerselect' => 'A.`dept_ispartnerselect`',
+				'dept_isbudgetmandatory' => 'A.`dept_isbudgetmandatory`', 'dept_issingleprojectbudget' => 'A.`dept_issingleprojectbudget`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_dept A";

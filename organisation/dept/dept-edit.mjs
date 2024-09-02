@@ -28,6 +28,7 @@ const obj = {
 	cbo_deptmodel_id: $('#pnl_edit-cbo_deptmodel_id'),
 	cbo_authlevel_id: $('#pnl_edit-cbo_authlevel_id'),
 	chk_dept_isdisabled: $('#pnl_edit-chk_dept_isdisabled'),
+	chk_dept_isitemdefiner: $('#pnl_edit-chk_dept_isitemdefiner'),
 	chk_dept_isassetowner: $('#pnl_edit-chk_dept_isassetowner'),
 	chk_dept_isassetmaintainer: $('#pnl_edit-chk_dept_isassetmaintainer'),
 	chk_dept_isstockowner: $('#pnl_edit-chk_dept_isstockowner'),
@@ -369,6 +370,7 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.dept_isdisabled = '0'
+		data.dept_isitemdefiner = '0'
 		data.dept_isassetowner = '0'
 		data.dept_isassetmaintainer = '0'
 		data.dept_isstockowner = '0'

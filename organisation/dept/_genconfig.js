@@ -139,7 +139,8 @@ module.exports = {
 				
 				// dept_isparent: {text:'Parent Dept', type: dbtype.boolean, null:false, default:'0'},
 
-				dept_isassetowner: {caption:'Item Management', text:'Asset Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_isitemdefiner: {caption:'Item Management', text:'Item Definer', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
+				dept_isassetowner: {text:'Asset Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
 				dept_isassetmaintainer: {text:'Asset Maintainer', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
 				dept_isstockowner: {text:'Stock Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
 				dept_isnonitemowner: {text:'Non Item Owner', type: dbtype.boolean, null:false, default:'0',  suppresslist: true, options:{labelWidth:'300px'}},
