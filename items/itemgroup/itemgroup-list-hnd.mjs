@@ -51,7 +51,7 @@ export function init(param, fn_callback) {
 		],
 		OnDataLoading: (criteria) => {
 			// console.log('loading...');
-			criteria.isitemowner = 1;
+			criteria.isitemdefiner = 1;
 		},
 		OnDataLoaded: (result, options) => {
 			console.log(result)
@@ -64,11 +64,11 @@ export function init(param, fn_callback) {
 		},
 		OnCreated: () => {
 			// console.log(global.setup);
-			// cbo_search_dept.combo('setValue', '--ALL--');
-			// cbo_search_dept.combo('setText', 'ALL');
+			cbo_search_dept.combo('setValue', '--NULL--');
+			cbo_search_dept.combo('setText', '--PILIH--');
 
-			cbo_search_dept.combo('setValue', global.setup.dept_id);
-			cbo_search_dept.combo('setText', global.setup.dept_name);
+			// cbo_search_dept.combo('setValue', global.setup.dept_id);
+			// cbo_search_dept.combo('setText', global.setup.dept_name);
 
 			parallelProcess.setFinished('cbo_search_dept');
 		},
