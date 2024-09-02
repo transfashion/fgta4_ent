@@ -27,6 +27,10 @@ export function form_newdata(data, options) {
 	}	
 }
 
+export function cbo_itemgroup_id_dataloading(criteria, options) {
+	criteria.dept_id = form.getValue(obj.cbo_dept_id)
+}
+
 export function cbo_itemgroup_id_selecting(value, display, record, args) {
 	// args.Cancel=true; // apabila ingin membatalkan pilihan
 	if (record.itemgroup_isparent==1) {

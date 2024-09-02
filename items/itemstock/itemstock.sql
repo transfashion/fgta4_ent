@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS `mst_itemstock` (
 	`unitmeasurement_id` varchar(10) NOT NULL , 
 	`itemstock_couchdbid` varchar(255)  , 
 	`itemstock_picture` varchar(90)  , 
+	`itemstock_source` varchar(30) NOT NULL , 
 	`itemstock_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemstock_ishascompound` tinyint(1) NOT NULL DEFAULT 0, 
 	`itemstock_issellable` tinyint(1) NOT NULL DEFAULT 0, 
@@ -75,7 +76,8 @@ ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT 
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `unitmeasurement_id` varchar(10) NOT NULL  AFTER `unit_id`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_couchdbid` varchar(255)   AFTER `unitmeasurement_id`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_picture` varchar(90)   AFTER `itemstock_couchdbid`;
-ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemstock_picture`;
+ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_source` varchar(30) NOT NULL  AFTER `itemstock_picture`;
+ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemstock_source`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_ishascompound` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemstock_isdisabled`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_issellable` tinyint(1) NOT NULL DEFAULT 0 AFTER `itemstock_ishascompound`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_priceori` decimal(16, 0) NOT NULL DEFAULT 0 AFTER `itemstock_issellable`;
@@ -117,7 +119,8 @@ ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT N
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `unitmeasurement_id` varchar(10) NOT NULL   AFTER `unit_id`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_couchdbid` varchar(255)    AFTER `unitmeasurement_id`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_picture` varchar(90)    AFTER `itemstock_couchdbid`;
-ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemstock_picture`;
+ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_source` varchar(30) NOT NULL   AFTER `itemstock_picture`;
+ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemstock_source`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_ishascompound` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemstock_isdisabled`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_issellable` tinyint(1) NOT NULL DEFAULT 0  AFTER `itemstock_ishascompound`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_priceori` decimal(16, 0) NOT NULL DEFAULT 0  AFTER `itemstock_issellable`;

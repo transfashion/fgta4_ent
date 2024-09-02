@@ -21,8 +21,8 @@ module.exports = {
 					comp: comp.Combo({
 						table: 'mst_itemgroup', 
 						field_value: 'itemgroup_id', field_display: 'itemgroup_name', field_display_name: 'itemgroup_name', 
-						api: 'ent/items/itemgroup/list',
-						onDataLoadingHandler: false,
+						api: 'ent/items/itemgroup/list-bydept',
+						onDataLoadingHandler: true,
 						onDataLoadedHandler: false,
 						onSelectingHandler: true,
 						onSelectedHandler: false						
@@ -86,6 +86,9 @@ module.exports = {
 
 				itemstock_couchdbid: {text:'CouchDb.Id', type: dbtype.varchar(255), null:true, suppresslist: true}, // id di couchdb
 				itemstock_picture: {text:'Picture', type: dbtype.varchar(90), suppresslist: true,  comp: comp.Filebox(), options: { accept: 'image/*' }},
+
+				itemstock_source: { text: 'Sumber', type: dbtype.varchar(30), null: false, suppresslist: true, options: { disabled: true} },
+
 
 				itemstock_isdisabled: { text: 'Disabled', type: dbtype.boolean, null: false, default: '0' },
 				itemstock_ishascompound: { text: 'Has Compound', type: dbtype.boolean, null: false, default: '0', suppresslist: true, options: {labelWidth:'300px'} },

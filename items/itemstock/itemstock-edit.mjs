@@ -33,6 +33,7 @@ const obj = {
 	cbo_unitmeasurement_id: $('#pnl_edit-cbo_unitmeasurement_id'),
 	txt_itemstock_couchdbid: $('#pnl_edit-txt_itemstock_couchdbid'),
 	fl_itemstock_picture: $('#pnl_edit-fl_itemstock_picture'),
+	txt_itemstock_source: $('#pnl_edit-txt_itemstock_source'),
 	chk_itemstock_isdisabled: $('#pnl_edit-chk_itemstock_isdisabled'),
 	chk_itemstock_ishascompound: $('#pnl_edit-chk_itemstock_ishascompound'),
 	chk_itemstock_issellable: $('#pnl_edit-chk_itemstock_issellable'),
@@ -146,6 +147,12 @@ export async function init(opt) {
 			{mapping: 'itemgroup_id', text: 'itemgroup_id'},
 			{mapping: 'itemgroup_name', text: 'itemgroup_name'}
 		],
+		OnDataLoading: (criteria, options) => {
+			
+			if (typeof hnd.cbo_itemgroup_id_dataloading === 'function') {
+				hnd.cbo_itemgroup_id_dataloading(criteria, options);
+			}						
+		},					
 		OnSelecting: (value, display, record, args) => {
 			// args.Cancel=true; // apabila ingin membatalkan pilihan			
 			if (value!=args.PreviousValue ) {
