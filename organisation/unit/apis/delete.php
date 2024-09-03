@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 02/09/2024
  */
 $API = new class extends unitBase {
 	
@@ -78,7 +78,7 @@ $API = new class extends unitBase {
 			try {
 				
 				// Deleting child data referenced to this table
-				$tabletodelete = ['mst_unitbrand', 'mst_unititemclass', 'mst_unitref'];
+				$tabletodelete = ['mst_unitref'];
 				if (method_exists(get_class($hnd), 'DocumentDeleting')) {
 					// ** DocumentDeleting(string $id, array &$tabletodelete)
 					$hnd->DocumentDeleting($data->{$primarykey}, $tabletodelete);

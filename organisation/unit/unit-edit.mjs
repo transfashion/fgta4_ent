@@ -22,10 +22,7 @@ const obj = {
 	cbo_unitgroup_id: $('#pnl_edit-cbo_unitgroup_id'),
 	txt_unit_name: $('#pnl_edit-txt_unit_name'),
 	txt_unit_descr: $('#pnl_edit-txt_unit_descr'),
-	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
-	chk_unit_isdisabled: $('#pnl_edit-chk_unit_isdisabled'),
-	chk_unit_isincallbrand: $('#pnl_edit-chk_unit_isincallbrand'),
-	chk_unit_isincallitemclass: $('#pnl_edit-chk_unit_isincallitemclass')
+	chk_unit_isdisabled: $('#pnl_edit-chk_unit_isdisabled')
 }
 
 
@@ -85,26 +82,6 @@ export async function init(opt) {
 			{mapping: 'unitgroup_id', text: 'unitgroup_id'},
 			{mapping: 'unitgroup_name', text: 'unitgroup_name'}
 		],
-
-	})				
-				
-	obj.cbo_dept_id.name = 'pnl_edit-cbo_dept_id'		
-	new fgta4slideselect(obj.cbo_dept_id, {
-		title: 'Pilih dept_id',
-		returnpage: this_page_id,
-		api: $ui.apis.load_dept_id,
-		fieldValue: 'dept_id',
-		fieldDisplay: 'dept_name',
-		fields: [
-			{mapping: 'dept_id', text: 'dept_id'},
-			{mapping: 'dept_name', text: 'dept_name'}
-		],
-		OnDataLoading: (criteria, options) => {
-			
-			if (typeof hnd.cbo_dept_id_dataloading === 'function') {
-				hnd.cbo_dept_id_dataloading(criteria, options);
-			}						
-		},					
 
 	})				
 				
@@ -209,7 +186,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		updatefilebox(record);
 
 		/*
-		if (result.record.dept_id==null) { result.record.dept_id='--NULL--'; result.record.dept_name='NONE'; }
 
 		*/
 		for (var objid in obj) {
@@ -234,7 +210,6 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form
 			.fill(record)
 			.setValue(obj.cbo_unitgroup_id, record.unitgroup_id, record.unitgroup_name)
-			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -293,13 +268,9 @@ export function createnew() {
 
 		// set nilai-nilai default untuk form
 		data.unit_isdisabled = '0'
-		data.unit_isincallbrand = '0'
-		data.unit_isincallitemclass = '0'
 
 		data.unitgroup_id = '0'
 		data.unitgroup_name = '-- PILIH --'
-		data.dept_id = '--NULL--'
-		data.dept_name = 'NONE'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -317,8 +288,6 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
-		$ui.getPages().ITEMS['pnl_editbrandgrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_edititemclassgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
@@ -451,7 +420,7 @@ async function form_datasaving(data, options) {
 	//    options.cancel = true
 
 	// Modifikasi object data, apabila ingin menambahkan variabel yang akan dikirim ke server
-	// options.skipmappingresponse = ['dept_id', ];
+	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
 	for (var objid in obj) {
 		var o = obj[objid]
@@ -500,7 +469,6 @@ async function form_datasaved(result, options) {
 	var data = {}
 	Object.assign(data, form.getData(), result.dataresponse)
 	/*
-	form.setValue(obj.cbo_dept_id, result.dataresponse.dept_name!=='--NULL--' ? result.dataresponse.dept_id : '--NULL--', result.dataresponse.dept_name!=='--NULL--'?result.dataresponse.dept_name:'NONE')
 
 	*/
 

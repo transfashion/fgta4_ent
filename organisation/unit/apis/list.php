@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 02/09/2024
  */
 $API = new class extends unitBase {
 
@@ -93,7 +93,7 @@ $API = new class extends unitBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'unit_id' => 'A.`unit_id`', 'unitgroup_id' => 'A.`unitgroup_id`', 'unit_name' => 'A.`unit_name`', 'unit_descr' => 'A.`unit_descr`',
-				'dept_id' => 'A.`dept_id`', 'unit_isdisabled' => 'A.`unit_isdisabled`', 'unit_isincallbrand' => 'A.`unit_isincallbrand`', 'unit_isincallitemclass' => 'A.`unit_isincallitemclass`',
+				'unit_isdisabled' => 'A.`unit_isdisabled`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_unit A";
@@ -184,7 +184,6 @@ $API = new class extends unitBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'unitgroup_name' => \FGTA4\utils\SqlUtility::Lookup($record['unitgroup_id'], $this->db, 'mst_unitgroup', 'unitgroup_id', 'unitgroup_name'),
-					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					 
 				]);
 				*/
@@ -192,7 +191,6 @@ $API = new class extends unitBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('unitgroup_name', 'unitgroup_id', $record, 'mst_unitgroup', 'unitgroup_name', 'unitgroup_id');
-				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 					 
 
 
