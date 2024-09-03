@@ -131,6 +131,7 @@ $API = new class extends itemgroupBase {
 				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 
 
+				$record['_id'] = $record['itemgroup_id'];
 				array_push($records, $record);
 			}
 

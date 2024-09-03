@@ -46,6 +46,7 @@ class DataList extends WebAPI {
 					"isdisabled" => " A.dept_isdisabled = :isdisabled ",
 					"isitemowner" => " ( A.dept_isassetowner=:isitemowner or A.dept_isstockowner=:isitemowner or A.dept_isnonitemowner=:isitemowner ) ",
 					"isitemdefiner" => " A.dept_isitemdefiner=:isitemdefiner ",
+					"unit_id" => " A.unit_id = :unit_id ",
 					"empl_id" => " B.empl_id = :empl_id "
 				]
 			);
