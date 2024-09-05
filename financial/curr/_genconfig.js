@@ -39,14 +39,47 @@ module.exports = {
 			uniques: {
 				'currrate_date' : ['curr_id', 'currrate_date']
 			}			
-		}
+		},
+
+		'mst_currref' : {
+			comment: 'Kode referensi currency untuk keperluan interfacing dengan system lain',
+			primarykeys: ['currref_id'],		
+			data: {
+				currref_id: {text:'ID', type: dbtype.varchar(14), null:false, suppresslist: true},
+				interface_id: { 
+					text: 'Interface', type: dbtype.varchar(7), uppercase: true, null: false, 
+					options: { required: true, invalidMessage: 'Interface harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_interface', 
+						field_value: 'interface_id', field_display: 'interface_name', field_display_name: 'interface_name', 
+						api: 'ent/general/interface/list'})				
+				
+				},
+				currref_name: {text:'Name', type: dbtype.varchar(30), null:false},	
+				currref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},		
+				currref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
+				currref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},		
+				curr_id: {text:'Unit', type: dbtype.varchar(10), null:false, hidden: true},
+			},
+			uniques: {
+				'currref_pair': ['curr_id', 'interface_id', 'currref_name']
+			},			
+		},
 	},
 
 	schema: {
 		title: 'Currency',
 		header: 'mst_curr',
 		detils: {
-			'rate' : {title: 'Currency Rate', table:'mst_currrate', form: true, headerview:'curr_name'},  
+			'rate' : {title: 'Currency Rate', table:'mst_currrate', form: true, headerview:'curr_name',
+				editorHandler: true,
+				listHandler: true
+			},  
+			'ref': {
+				title: 'Reference', table: 'mst_currref', form: true, headerview: 'curr_name', 
+				editorHandler: true,
+				listHandler: true
+			},
 		}
 	}
 }
