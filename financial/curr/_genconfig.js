@@ -62,7 +62,7 @@ module.exports = {
 				curr_id: {text:'Unit', type: dbtype.varchar(10), null:false, hidden: true},
 			},
 			uniques: {
-				'currref_pair': ['curr_id', 'interface_id', 'currref_name']
+				'currref_pair': ['interface_id', 'currref_name', 'currref_code']
 			},			
 		},
 	},

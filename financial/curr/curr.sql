@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS `mst_currref` (
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `currref_pair` (`curr_id`, `interface_id`, `currref_name`),
+	UNIQUE KEY `currref_pair` (`interface_id`, `currref_name`, `currref_code`),
 	PRIMARY KEY (`currref_id`)
 ) 
 ENGINE=InnoDB
@@ -110,7 +110,7 @@ ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `currref_notes` varchar(255) 
 ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `curr_id` varchar(10) NOT NULL   AFTER `currref_notes`;
 
 
-ALTER TABLE `mst_currref` ADD CONSTRAINT `currref_pair` UNIQUE IF NOT EXISTS  (`curr_id`, `interface_id`, `currref_name`);
+ALTER TABLE `mst_currref` ADD CONSTRAINT `currref_pair` UNIQUE IF NOT EXISTS  (`interface_id`, `currref_name`, `currref_code`);
 
 ALTER TABLE `mst_currref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
 ALTER TABLE `mst_currref` ADD KEY IF NOT EXISTS `curr_id` (`curr_id`);
