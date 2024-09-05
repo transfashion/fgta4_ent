@@ -49,6 +49,7 @@ CREATE TABLE IF NOT EXISTS `mst_unitref` (
 	`unitref_name` varchar(30) NOT NULL , 
 	`unitref_code` varchar(30) NOT NULL , 
 	`unitref_otherdata` varchar(1000)  , 
+	`unitref_notes` varchar(255)  , 
 	`unit_id` varchar(10) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -65,14 +66,16 @@ ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `interface_id` varchar(7) NO
 ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unitref_name` varchar(30) NOT NULL  AFTER `interface_id`;
 ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unitref_code` varchar(30) NOT NULL  AFTER `unitref_name`;
 ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unitref_otherdata` varchar(1000)   AFTER `unitref_code`;
-ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `unitref_otherdata`;
+ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unitref_notes` varchar(255)   AFTER `unitref_otherdata`;
+ALTER TABLE `mst_unitref` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `unitref_notes`;
 
 
 ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `interface_id` varchar(7) NOT NULL   AFTER `unitref_id`;
 ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unitref_name` varchar(30) NOT NULL   AFTER `interface_id`;
 ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unitref_code` varchar(30) NOT NULL   AFTER `unitref_name`;
 ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unitref_otherdata` varchar(1000)    AFTER `unitref_code`;
-ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `unitref_otherdata`;
+ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unitref_notes` varchar(255)    AFTER `unitref_otherdata`;
+ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `unitref_notes`;
 
 
 ALTER TABLE `mst_unitref` ADD CONSTRAINT `unitref_pair` UNIQUE IF NOT EXISTS  (`unit_id`, `interface_id`);

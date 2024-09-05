@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 02/09/2024
+ * tanggal 06/09/2024
  */
 $API = new class extends unitBase {
 
@@ -78,7 +78,7 @@ $API = new class extends unitBase {
 
 			$sqlFieldList = [
 				'unitref_id' => 'A.`unitref_id`', 'interface_id' => 'A.`interface_id`', 'unitref_name' => 'A.`unitref_name`', 'unitref_code' => 'A.`unitref_code`',
-				'unitref_otherdata' => 'A.`unitref_otherdata`', 'unit_id' => 'A.`unit_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'unitref_otherdata' => 'A.`unitref_otherdata`', 'unitref_notes' => 'A.`unitref_notes`', 'unit_id' => 'A.`unit_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_unitref A";

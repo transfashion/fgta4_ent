@@ -24,6 +24,7 @@ const obj = {
 	txt_unitref_name: $('#pnl_editrefform-txt_unitref_name'),
 	txt_unitref_code: $('#pnl_editrefform-txt_unitref_code'),
 	txt_unitref_otherdata: $('#pnl_editrefform-txt_unitref_otherdata'),
+	txt_unitref_notes: $('#pnl_editrefform-txt_unitref_notes'),
 	txt_unit_id: $('#pnl_editrefform-txt_unit_id')
 }
 
