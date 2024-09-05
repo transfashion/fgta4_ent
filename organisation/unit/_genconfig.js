@@ -74,7 +74,7 @@ module.exports = {
 				unitref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},		
 				unitref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
 				unitref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},		
-				unit_id: {text:'Unit', type: dbtype.varchar(10), null:false},
+				unit_id: {text:'Unit', type: dbtype.varchar(10), null:false, hidden: true},
 			},
 			uniques: {
 				'unitref_pair': ['unit_id', 'interface_id']
