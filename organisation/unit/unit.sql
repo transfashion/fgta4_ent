@@ -55,7 +55,7 @@ CREATE TABLE IF NOT EXISTS `mst_unitref` (
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `unitref_pair` (`unit_id`, `interface_id`, `unitref_name`),
+	UNIQUE KEY `unitref_pair` (`interface_id`, `unitref_name`, `unitref_code`),
 	PRIMARY KEY (`unitref_id`)
 ) 
 ENGINE=InnoDB
@@ -78,7 +78,7 @@ ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unitref_notes` varchar(255) 
 ALTER TABLE `mst_unitref` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `unitref_notes`;
 
 
-ALTER TABLE `mst_unitref` ADD CONSTRAINT `unitref_pair` UNIQUE IF NOT EXISTS  (`unit_id`, `interface_id`, `unitref_name`);
+ALTER TABLE `mst_unitref` ADD CONSTRAINT `unitref_pair` UNIQUE IF NOT EXISTS  (`interface_id`, `unitref_name`, `unitref_code`);
 
 ALTER TABLE `mst_unitref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
 ALTER TABLE `mst_unitref` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);

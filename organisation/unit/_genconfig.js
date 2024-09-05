@@ -77,7 +77,7 @@ module.exports = {
 				unit_id: {text:'Unit', type: dbtype.varchar(10), null:false, hidden: true},
 			},
 			uniques: {
-				'unitref_pair': ['unit_id', 'interface_id', 'unitref_name']
+				'unitref_pair': ['interface_id', 'unitref_name', 'unitref_code']
 			},			
 		},
 
