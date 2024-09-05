@@ -57,7 +57,11 @@ module.exports = {
 				},
 				currref_name: {text:'Name', type: dbtype.varchar(30), null:false},	
 				currref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},		
-				currref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
+				currref_otherdata: {
+					text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true,
+					tips: 'pisahkan code dan nilai dengan semicolon (;) <b>contoh:</b> code1:nilai1; code2:nilai2; code3:nilai3',
+					tipstype: 'visible'				
+				},	
 				currref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},		
 				curr_id: {text:'Unit', type: dbtype.varchar(10), null:false, hidden: true},
 			},

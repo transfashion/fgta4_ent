@@ -134,7 +134,11 @@ module.exports = {
 				},
 				siteref_name: {text:'Name', type: dbtype.varchar(30), null:false},		
 				siteref_code: {text:'Code', type: dbtype.varchar(255), null:true},	
-				siteref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
+				siteref_otherdata: {
+					text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true,
+					tips: 'pisahkan code dan nilai dengan semicolon (;) <b>contoh:</b> code1:nilai1; code2:nilai2; code3:nilai3',
+					tipstype: 'visible'				
+				},	
 				siteref_notes: {text:'Notes', type: dbtype.varchar(255), null:true},			
 				site_id: {text:'Site', type: dbtype.varchar(14), null:false, hidden: true},
 			},

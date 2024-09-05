@@ -183,9 +183,13 @@ module.exports = {
 				},
 				partnerref_name: {text:'Name', type: dbtype.varchar(30), null:false},	
 				partnerref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},	
-				partnerref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
+				partnerref_otherdata: {
+					text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true,
+					tips: 'pisahkan code dan nilai dengan semicolon (;) <b>contoh:</b> code1:nilai1; code2:nilai2; code3:nilai3',
+					tipstype: 'visible'
+				},	
 				partnerref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},			
-				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false},
+				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false, hidden:true},
 			},
 			uniques: {
 				'partnerref_pair': ['interface_id', 'partnerref_name', 'partnerref_code']
