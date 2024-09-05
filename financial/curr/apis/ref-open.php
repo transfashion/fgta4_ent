@@ -7,22 +7,23 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-header-handler.php')) {
-	require_once __DIR__ .'/data-header-handler.php';
+if (is_file(__DIR__ .'/data-ref-handler.php')) {
+	require_once __DIR__ .'/data-ref-handler.php';
 }
 
 
 use \FGTA4\exceptions\WebException;
 
 
+
 /**
- * ent/financial/curr/apis/open.php
+ * ent/financial/curr/apis/ref-open.php
  *
- * ====
- * Open
- * ====
+ * ==========
+ * Detil-Open
+ * ==========
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel header curr (mst_curr)
+ * dari tabel ref curr (mst_currref)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -31,17 +32,17 @@ use \FGTA4\exceptions\WebException;
  * tanggal 06/09/2024
  */
 $API = new class extends currBase {
-	
+
 	public function execute($options) {
 		$event = 'on-open';
-		$tablename = 'mst_curr';
-		$primarykey = 'curr_id';
+		$tablename = 'mst_currref';
+		$primarykey = 'currref_id';
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\curr_headerHandler";
+		$handlerclassname = "\\FGTA4\\apis\\curr_refHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new curr_headerHandler($options);
+			$hnd = new curr_refHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
@@ -53,23 +54,15 @@ $API = new class extends currBase {
 
 		try {
 
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "open", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
 			if (method_exists(get_class($hnd), 'init')) {
 				// init(object &$options) : void
 				$hnd->init($options);
 			}
 
-			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
-				// PreCheckOpen($data, &$key, &$options)
-				$hnd->PreCheckOpen($data, $key, $options);
-			}
+			$result = new \stdClass; 
 
 			$criteriaValues = [
-				"curr_id" => " curr_id = :curr_id "
+				"currref_id" => " currref_id = :currref_id "
 			];
 			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -82,19 +75,13 @@ $API = new class extends currBase {
 				// prepareOpenData(object $options, $criteriaValues) : void
 				$hnd->prepareOpenData($options, $criteriaValues);
 			}
-			
-
-			if (method_exists(get_class($hnd), 'prepareOpenData')) {
-				// prepareOpenData(object $options, $criteriaValues) : void
-				$hnd->prepareOpenData($options, $criteriaValues);
-			}
-
 
 			$sqlFieldList = [
-				'curr_id' => 'A.`curr_id`', 'curr_name' => 'A.`curr_name`', 'curr_descr' => 'A.`curr_descr`', 'curr_isdisabled' => 'A.`curr_isdisabled`',
+				'currref_id' => 'A.`currref_id`', 'interface_id' => 'A.`interface_id`', 'currref_name' => 'A.`currref_name`', 'currref_code' => 'A.`currref_code`',
+				'currref_otherdata' => 'A.`currref_otherdata`', 'currref_notes' => 'A.`currref_notes`', 'curr_id' => 'A.`curr_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_curr A";
+			$sqlFromTable = "mst_currref A";
 			$sqlWhere = $where->sql;
 
 			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
@@ -103,7 +90,8 @@ $API = new class extends currBase {
 			}
 			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
 
-			
+
+
 			$sqlData = "
 				select 
 				$sqlFields 
@@ -121,8 +109,6 @@ $API = new class extends currBase {
 				$record[$key] = $value;
 			}
 
-
-
 			$result->record = array_merge($record, [
 				
 				// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
@@ -130,20 +116,23 @@ $API = new class extends currBase {
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
+				'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
 
-
+/*{__LOOKUPUSERMERGE__}*/
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 
 			]);
 
 
-			
+	
+
 
 			if (method_exists(get_class($hnd), 'DataOpen')) {
 				//  DataOpen(array &$record) : void 
 				$hnd->DataOpen($result->record);
 			}
+
 
 			return $result;
 		} catch (\Exception $ex) {

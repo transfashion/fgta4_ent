@@ -8,6 +8,8 @@ import * as pList from './curr-list.mjs'
 import * as pEdit from './curr-edit.mjs'
 import * as pEditRategrid from './curr-rategrid.mjs'
 import * as pEditRateform from './curr-rateform.mjs'
+import * as pEditRefgrid from './curr-refgrid.mjs'
+import * as pEditRefform from './curr-refform.mjs'
 
 
 
@@ -15,6 +17,8 @@ const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
 const pnl_editrategrid = $('#pnl_editrategrid')
 const pnl_editrateform = $('#pnl_editrateform')
+const pnl_editrefgrid = $('#pnl_editrefgrid')
+const pnl_editrefform = $('#pnl_editrefform')
 
 
 
@@ -46,7 +50,9 @@ export async function init(opt) {
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
 			{panel: pnl_editrategrid, handler: pEditRategrid},
-			{panel: pnl_editrateform, handler: pEditRateform}			
+			{panel: pnl_editrateform, handler: pEditRateform},
+			{panel: pnl_editrefgrid, handler: pEditRefgrid},
+			{panel: pnl_editrefform, handler: pEditRefform}			
 		], opt)
 
 	$ui.setPages(pages)

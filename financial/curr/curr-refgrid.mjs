@@ -1,13 +1,13 @@
 var this_page_id;
 var this_page_options;
 
-import * as hnd from  './curr-rategrid-hnd.mjs'
+import * as hnd from  './curr-refgrid-hnd.mjs'
 
-const tbl_list = $('#pnl_editrategrid-tbl_list');
-const txt_title = $('#pnl_editrategrid-title');
-const pnl_control = $('.pnl_editrategrid-control');
-const btn_removechecked  = $('#pnl_editrategrid-removechecked');
-const btn_addrow = $('#pnl_editrategrid-addrow');
+const tbl_list = $('#pnl_editrefgrid-tbl_list');
+const txt_title = $('#pnl_editrefgrid-title');
+const pnl_control = $('.pnl_editrefgrid-control');
+const btn_removechecked  = $('#pnl_editrefgrid-removechecked');
+const btn_addrow = $('#pnl_editrefgrid-addrow');
 
 let grd_list = {};
 let header_data = {};
@@ -126,7 +126,7 @@ export function OpenDetil(data) {
 	}
 
 	var fn_listloading = async (options) => {
-		options.api = `${global.modulefullname}/rate-list`
+		options.api = `${global.modulefullname}/ref-list`
 		options.criteria['id'] = data.curr_id
 
 		if (typeof hnd!=='undefined') { 
@@ -138,7 +138,7 @@ export function OpenDetil(data) {
 	var fn_listloaded = async (result, options) => {
 		// console.log(result)
 
-		var detilform = $ui.getPages().ITEMS['pnl_editrateform'].handler.getForm()
+		var detilform = $ui.getPages().ITEMS['pnl_editrefform'].handler.getForm()
 
 		if (detilform.AllowAddRecord) {
 			btn_addrow.show()
@@ -153,7 +153,7 @@ export function OpenDetil(data) {
 		}
 
 		setTimeout(()=>{
-			var checkcolumns = document.querySelectorAll('#pnl_editrategrid-tbl_list .rowcheck');
+			var checkcolumns = document.querySelectorAll('#pnl_editrefgrid-tbl_list .rowcheck');
 			
 			for (var c of checkcolumns) {
 				if (detilform.AllowRemoveRecord) {
@@ -163,7 +163,7 @@ export function OpenDetil(data) {
 				}
 			}
 
-			var selectbutton = document.getElementById('pnl_editrategrid-tbl_list-selectall-button');
+			var selectbutton = document.getElementById('pnl_editrefgrid-tbl_list-selectall-button');
 			if (detilform.AllowRemoveRecord) {
 				selectbutton.classList.remove('hidden');
 			} else {
@@ -221,8 +221,8 @@ function grd_list_rowclick(tr, ev) {
 	// console.log(record)
 
 	last_scrolltop = $(window).scrollTop()
-	$ui.getPages().show('pnl_editrateform', () => {
-		$ui.getPages().ITEMS['pnl_editrateform'].handler.open(record, trid, header_data)
+	$ui.getPages().show('pnl_editrefform', () => {
+		$ui.getPages().ITEMS['pnl_editrefform'].handler.open(record, trid, header_data)
 	})	
 }
 
@@ -259,7 +259,7 @@ function btn_removechecked_click() {
 		yes: () => {
 			grd_list.removechecked({
 				OnRemoving : async (options) => {
-					var apiurl = `${global.modulefullname}/rate-delete`
+					var apiurl = `${global.modulefullname}/ref-delete`
 					var args = {data: options.data, options: {}}
 					try {
 						let result = await $ui.apicall(apiurl, args)
@@ -276,7 +276,7 @@ function btn_removechecked_click() {
 
 
 function btn_addrow_click() {
-	$ui.getPages().show('pnl_editrateform', ()=>{
-		$ui.getPages().ITEMS['pnl_editrateform'].handler.createnew(header_data)
+	$ui.getPages().show('pnl_editrefform', ()=>{
+		$ui.getPages().ITEMS['pnl_editrefform'].handler.createnew(header_data)
 	})	
 }

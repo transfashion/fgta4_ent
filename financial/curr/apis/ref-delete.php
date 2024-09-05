@@ -8,8 +8,8 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-rate-handler.php')) {
-	require_once __DIR__ .'/data-rate-handler.php';
+if (is_file(__DIR__ .'/data-ref-handler.php')) {
+	require_once __DIR__ .'/data-ref-handler.php';
 }
 
 
@@ -17,13 +17,13 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/financial/curr/apis/rate-delete.php
+ * ent/financial/curr/apis/ref-delete.php
  *
  * ============
  * Detil-Delete
  * ============
  * Menghapus satu baris data/record berdasarkan PrimaryKey
- * pada tabel rate curr (mst_curr)
+ * pada tabel ref curr (mst_curr)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -34,15 +34,15 @@ use \FGTA4\exceptions\WebException;
 $API = new class extends currBase {
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_currrate';
-		$primarykey = 'currrate_id';
+		$tablename = 'mst_currref';
+		$primarykey = 'currref_id';
 
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\curr_rateHandler";
+		$handlerclassname = "\\FGTA4\\apis\\curr_refHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new curr_rateHandler($options);
+			$hnd = new curr_refHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;

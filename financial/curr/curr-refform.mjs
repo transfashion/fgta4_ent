@@ -1,28 +1,31 @@
 var this_page_id;
 var this_page_options;
 
-
-import * as hnd from  './curr-rateform-hnd.mjs'
+import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
+import * as hnd from  './curr-refform-hnd.mjs'
 
 const reload_header_modified = true;
 
-const txt_caption = $('#pnl_editrateform-caption')
-const txt_title = $('#pnl_editrateform-title')
-const btn_edit = $('#pnl_editrateform-btn_edit')
-const btn_save = $('#pnl_editrateform-btn_save')
-const btn_delete = $('#pnl_editrateform-btn_delete')
-const btn_prev = $('#pnl_editrateform-btn_prev')
-const btn_next = $('#pnl_editrateform-btn_next')
-const btn_addnew = $('#pnl_editrateform-btn_addnew')
-const chk_autoadd = $('#pnl_editrateform-autoadd')
+const txt_caption = $('#pnl_editrefform-caption')
+const txt_title = $('#pnl_editrefform-title')
+const btn_edit = $('#pnl_editrefform-btn_edit')
+const btn_save = $('#pnl_editrefform-btn_save')
+const btn_delete = $('#pnl_editrefform-btn_delete')
+const btn_prev = $('#pnl_editrefform-btn_prev')
+const btn_next = $('#pnl_editrefform-btn_next')
+const btn_addnew = $('#pnl_editrefform-btn_addnew')
+const chk_autoadd = $('#pnl_editrefform-autoadd')
 
 
-const pnl_form = $('#pnl_editrateform-form')
+const pnl_form = $('#pnl_editrefform-form')
 const obj = {
-	txt_currrate_id: $('#pnl_editrateform-txt_currrate_id'),
-	dt_currrate_date: $('#pnl_editrateform-dt_currrate_date'),
-	txt_currrate_value: $('#pnl_editrateform-txt_currrate_value'),
-	txt_curr_id: $('#pnl_editrateform-txt_curr_id')
+	txt_currref_id: $('#pnl_editrefform-txt_currref_id'),
+	cbo_interface_id: $('#pnl_editrefform-cbo_interface_id'),
+	txt_currref_name: $('#pnl_editrefform-txt_currref_name'),
+	txt_currref_code: $('#pnl_editrefform-txt_currref_code'),
+	txt_currref_otherdata: $('#pnl_editrefform-txt_currref_otherdata'),
+	txt_currref_notes: $('#pnl_editrefform-txt_currref_notes'),
+	txt_curr_id: $('#pnl_editrefform-txt_curr_id')
 }
 
 
@@ -38,9 +41,9 @@ export async function init(opt) {
 	txt_caption.template = txt_caption.html();
 
 	form = new global.fgta4form(pnl_form, {
-		primary: obj.txt_currrate_id,
+		primary: obj.txt_currref_id,
 		autoid: true,
-		logview: 'mst_currrate',
+		logview: 'mst_currref',
 		btn_edit: btn_edit,
 		btn_save: btn_save,
 		btn_delete: btn_delete,		
@@ -69,6 +72,20 @@ export async function init(opt) {
 
 
 
+	obj.cbo_interface_id.name = 'pnl_editrefform-cbo_interface_id'		
+	new fgta4slideselect(obj.cbo_interface_id, {
+		title: 'Pilih interface_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_interface_id,
+		fieldValue: 'interface_id',
+		fieldDisplay: 'interface_name',
+		fields: [
+			{mapping: 'interface_id', text: 'interface_id'},
+			{mapping: 'interface_name', text: 'interface_name'}
+		],
+
+	})				
+			
 
 
 	btn_addnew.linkbutton({ onClick: () => { btn_addnew_click() }  })
@@ -94,15 +111,15 @@ export async function init(opt) {
 			ev.detail.cancel = true;
 			if (form.isDataChanged()) {
 				form.canceledit(()=>{
-					$ui.getPages().show('pnl_editrategrid', ()=>{
+					$ui.getPages().show('pnl_editrefgrid', ()=>{
 						form.setViewMode()
-						$ui.getPages().ITEMS['pnl_editrategrid'].handler.scrolllast()
+						$ui.getPages().ITEMS['pnl_editrefgrid'].handler.scrolllast()
 					})					
 				})
 			} else {
-				$ui.getPages().show('pnl_editrategrid', ()=>{
+				$ui.getPages().show('pnl_editrefgrid', ()=>{
 					form.setViewMode()
-					$ui.getPages().ITEMS['pnl_editrategrid'].handler.scrolllast()
+					$ui.getPages().ITEMS['pnl_editrefgrid'].handler.scrolllast()
 				})
 			}
 		
@@ -173,7 +190,7 @@ export function open(data, rowid, hdata) {
 
 	var pOpt = form.getDefaultPrompt(false)
 	var fn_dataopening = async (options) => {
-		options.api = `${global.modulefullname}/rate-open`
+		options.api = `${global.modulefullname}/ref-open`
 		options.criteria[form.primary.mapping] = data[form.primary.mapping]
 	}
 
@@ -203,6 +220,7 @@ export function open(data, rowid, hdata) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_interface_id, record.interface_id, record.interface_name)
 			.setViewMode()
 			.rowid = rowid
 
@@ -285,11 +303,11 @@ export function createnew(hdata) {
 
 	form.createnew(async (data, options)=>{
 		data.curr_id = hdata.curr_id
-		data.rate_value = 0
+		data.ref_value = 0
 
-		data.currrate_date = global.now()
-		data.currrate_value = 0
 
+		data.interface_id = '0'
+		data.interface_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			hnd.form_newdata(data, options);
@@ -298,14 +316,14 @@ export function createnew(hdata) {
 
 		form.rowid = null
 		options.OnCanceled = () => {
-			$ui.getPages().show('pnl_editrategrid')
+			$ui.getPages().show('pnl_editrefgrid')
 		}
 	})
 }
 
 
 async function form_datasaving(data, options) {
-	options.api = `${global.modulefullname}/rate-save`
+	options.api = `${global.modulefullname}/ref-save`
 
 	// options.skipmappingresponse = [];
 	options.skipmappingresponse = [];
@@ -357,7 +375,7 @@ async function form_datasaved(result, options) {
 			form.setValue(o, value, text);
 		}
 	}
-	form.rowid = $ui.getPages().ITEMS['pnl_editrategrid'].handler.updategrid(data, form.rowid)
+	form.rowid = $ui.getPages().ITEMS['pnl_editrefgrid'].handler.updategrid(data, form.rowid)
 	var rowdata = {
 		data: data,
 		rowid: form.rowid
@@ -387,7 +405,7 @@ async function form_datasaved(result, options) {
 }
 
 async function form_deleting(data, options) {
-	options.api = `${global.modulefullname}/rate-delete`
+	options.api = `${global.modulefullname}/ref-delete`
 	if (typeof hnd.form_deleting == 'function') {
 		hnd.form_deleting(data);
 	}
@@ -395,8 +413,8 @@ async function form_deleting(data, options) {
 
 async function form_deleted(result, options) {
 	options.suppressdialog = true
-	$ui.getPages().show('pnl_editrategrid', ()=>{
-		$ui.getPages().ITEMS['pnl_editrategrid'].handler.removerow(form.rowid)
+	$ui.getPages().show('pnl_editrefgrid', ()=>{
+		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.removerow(form.rowid)
 	});
 
 	if (reload_header_modified) {
@@ -468,7 +486,7 @@ function form_viewmodechanged(viewonly) {
 
 
 function form_idsetup(options) {
-	var objid = obj.txt_currrate_id
+	var objid = obj.txt_currref_id
 	switch (options.action) {
 		case 'fill' :
 			objid.textbox('disable') 
@@ -503,7 +521,7 @@ function btn_prev_click() {
 	
 	var trid = prevode.attr('id')
 	var dataid = prevode.attr('dataid')
-	var record = $ui.getPages().ITEMS['pnl_editrategrid'].handler.getGrid().DATA[dataid]
+	var record = $ui.getPages().ITEMS['pnl_editrefgrid'].handler.getGrid().DATA[dataid]
 
 	if (form.isDataChanged()) {
 		var datachangemessage = form.getDataChangeMessage();
@@ -526,7 +544,7 @@ function btn_next_click() {
 
 	var trid = nextode.attr('id')
 	var dataid = nextode.attr('dataid')
-	var record = $ui.getPages().ITEMS['pnl_editrategrid'].handler.getGrid().DATA[dataid]
+	var record = $ui.getPages().ITEMS['pnl_editrefgrid'].handler.getGrid().DATA[dataid]
 
 	if (form.isDataChanged()) {
 		var datachangemessage = form.getDataChangeMessage();

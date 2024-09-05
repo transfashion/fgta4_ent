@@ -9,8 +9,8 @@ require_once __DIR__ . '/xapi.base.php';
 //require_once __ROOT_DIR . "/core/sequencer.php";
 
 
-if (is_file(__DIR__ .'/data-rate-handler.php')) {
-	require_once __DIR__ .'/data-rate-handler.php';
+if (is_file(__DIR__ .'/data-ref-handler.php')) {
+	require_once __DIR__ .'/data-ref-handler.php';
 }
 
 
@@ -21,13 +21,13 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/financial/curr/apis/rate-save.php
+ * ent/financial/curr/apis/ref-save.php
  *
  * ==========
  * Detil-Save
  * ==========
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel rate curr (mst_currrate)
+ * dari tabel ref curr (mst_currref)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -39,16 +39,16 @@ $API = new class extends currBase {
 	
 	public function execute($data, $options) {
 		$event = 'on-save';
-		$tablename = 'mst_currrate';
-		$primarykey = 'currrate_id';
+		$tablename = 'mst_currref';
+		$primarykey = 'currref_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
 
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\curr_rateHandler";
+		$handlerclassname = "\\FGTA4\\apis\\curr_refHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new curr_rateHandler($data, $options);
+			$hnd = new curr_refHandler($data, $options);
 			$hnd->caller = &$this;
 			$hnd->db = &$this->db;
 			$hnd->auth = $this->auth;
@@ -67,7 +67,8 @@ $API = new class extends currBase {
 			
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
-					'currrate_id', 'currrate_date', 'currrate_value', 'curr_id'
+					'currref_id', 'interface_id', 'currref_name', 'currref_code',
+					'currref_otherdata', 'currref_notes', 'curr_id'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -92,11 +93,13 @@ $API = new class extends currBase {
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
-			$obj->currrate_date = (\DateTime::createFromFormat('d/m/Y',$obj->currrate_date))->format('Y-m-d');
 
-			$obj->curr_id = strtoupper($obj->curr_id);
+			$obj->interface_id = strtoupper($obj->interface_id);
+			$obj->currref_code = strtoupper($obj->currref_code);
 
 
+			if ($obj->currref_otherdata=='') { $obj->currref_otherdata = '--NULL--'; }
+			if ($obj->currref_notes=='') { $obj->currref_notes = '--NULL--'; }
 
 
 
@@ -168,11 +171,11 @@ $API = new class extends currBase {
 
 				// result
 				$options->criteria = [
-					"currrate_id" => $obj->currrate_id
+					"currref_id" => $obj->currref_id
 				];
 
 				$criteriaValues = [
-					"currrate_id" => " currrate_id = :currrate_id "
+					"currref_id" => " currref_id = :currref_id "
 				];
 				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -188,10 +191,11 @@ $API = new class extends currBase {
 				}
 
 				$sqlFieldList = [
-					'currrate_id' => 'A.`currrate_id`', 'currrate_date' => 'A.`currrate_date`', 'currrate_value' => 'A.`currrate_value`', 'curr_id' => 'A.`curr_id`',
+					'currref_id' => 'A.`currref_id`', 'interface_id' => 'A.`interface_id`', 'currref_name' => 'A.`currref_name`', 'currref_code' => 'A.`currref_code`',
+					'currref_otherdata' => 'A.`currref_otherdata`', 'currref_notes' => 'A.`currref_notes`', 'curr_id' => 'A.`curr_id`', '_createby' => 'A.`_createby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
-				$sqlFromTable = "mst_currrate A";
+				$sqlFromTable = "mst_currref A";
 				$sqlWhere = $where->sql;
 
 
@@ -221,7 +225,7 @@ $API = new class extends currBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
-					'currrate_date' => date("d/m/Y", strtotime($row['currrate_date'])),
+					'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

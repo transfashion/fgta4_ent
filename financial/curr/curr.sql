@@ -2,6 +2,7 @@
 
 -- drop table if exists `mst_curr`;
 -- drop table if exists `mst_currrate`;
+-- drop table if exists `mst_currref`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_curr` (
@@ -69,6 +70,53 @@ ALTER TABLE `mst_currrate` ADD CONSTRAINT `currrate_date` UNIQUE IF NOT EXISTS  
 ALTER TABLE `mst_currrate` ADD KEY IF NOT EXISTS `curr_id` (`curr_id`);
 
 ALTER TABLE `mst_currrate` ADD CONSTRAINT `fk_mst_currrate_mst_curr` FOREIGN KEY IF NOT EXISTS (`curr_id`) REFERENCES `mst_curr` (`curr_id`);
+
+
+
+
+
+CREATE TABLE IF NOT EXISTS `mst_currref` (
+	`currref_id` varchar(14) NOT NULL , 
+	`interface_id` varchar(7) NOT NULL , 
+	`currref_name` varchar(30) NOT NULL , 
+	`currref_code` varchar(30) NOT NULL , 
+	`currref_otherdata` varchar(1000)  , 
+	`currref_notes` varchar(255)  , 
+	`curr_id` varchar(10) NOT NULL , 
+	`_createby` varchar(14) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(14)  , 
+	`_modifydate` datetime  , 
+	UNIQUE KEY `currref_pair` (`curr_id`, `interface_id`, `currref_name`),
+	PRIMARY KEY (`currref_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Kode referensi currency untuk keperluan interfacing dengan system lain';
+
+
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `interface_id` varchar(7) NOT NULL  AFTER `currref_id`;
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `currref_name` varchar(30) NOT NULL  AFTER `interface_id`;
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `currref_code` varchar(30) NOT NULL  AFTER `currref_name`;
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `currref_otherdata` varchar(1000)   AFTER `currref_code`;
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `currref_notes` varchar(255)   AFTER `currref_otherdata`;
+ALTER TABLE `mst_currref` ADD COLUMN IF NOT EXISTS  `curr_id` varchar(10) NOT NULL  AFTER `currref_notes`;
+
+
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `interface_id` varchar(7) NOT NULL   AFTER `currref_id`;
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `currref_name` varchar(30) NOT NULL   AFTER `interface_id`;
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `currref_code` varchar(30) NOT NULL   AFTER `currref_name`;
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `currref_otherdata` varchar(1000)    AFTER `currref_code`;
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `currref_notes` varchar(255)    AFTER `currref_otherdata`;
+ALTER TABLE `mst_currref` MODIFY COLUMN IF EXISTS  `curr_id` varchar(10) NOT NULL   AFTER `currref_notes`;
+
+
+ALTER TABLE `mst_currref` ADD CONSTRAINT `currref_pair` UNIQUE IF NOT EXISTS  (`curr_id`, `interface_id`, `currref_name`);
+
+ALTER TABLE `mst_currref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
+ALTER TABLE `mst_currref` ADD KEY IF NOT EXISTS `curr_id` (`curr_id`);
+
+ALTER TABLE `mst_currref` ADD CONSTRAINT `fk_mst_currref_mst_interface` FOREIGN KEY IF NOT EXISTS  (`interface_id`) REFERENCES `mst_interface` (`interface_id`);
+ALTER TABLE `mst_currref` ADD CONSTRAINT `fk_mst_currref_mst_curr` FOREIGN KEY IF NOT EXISTS (`curr_id`) REFERENCES `mst_curr` (`curr_id`);
 
 
 

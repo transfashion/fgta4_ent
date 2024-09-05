@@ -271,6 +271,7 @@ export function createnew() {
 		}
 
 		$ui.getPages().ITEMS['pnl_editrategrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
 	})

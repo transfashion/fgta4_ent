@@ -10,5 +10,6 @@ kemdian, di program bisa diakses dengan
 
 */
 
+export const load_interface_id = 'ent/general/interface/list'
 
 

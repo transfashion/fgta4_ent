@@ -7,20 +7,20 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-rate-handler.php')) {
-	require_once __DIR__ .'/data-rate-handler.php';
+if (is_file(__DIR__ .'/data-ref-handler.php')) {
+	require_once __DIR__ .'/data-ref-handler.php';
 }
 
 use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/financial/curr/apis/rate-list.php
+ * ent/financial/curr/apis/ref-list.php
  *
  * ==============
  * Detil-DataList
  * ==============
- * Menampilkan data-data pada tabel rate curr (mst_currrate)
+ * Menampilkan data-data pada tabel ref curr (mst_currref)
  * sesuai dengan parameter yang dikirimkan melalui variable $option->criteria
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
@@ -34,9 +34,9 @@ $API = new class extends currBase {
 	public function execute($options) {
 		$userdata = $this->auth->session_get_user();
 		
-		$handlerclassname = "\\FGTA4\\apis\\curr_rateHandler";
+		$handlerclassname = "\\FGTA4\\apis\\curr_refHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new curr_rateHandler($options);
+			$hnd = new curr_refHandler($options);
 			$hnd->caller = $this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
@@ -83,10 +83,11 @@ $API = new class extends currBase {
 			
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'currrate_id' => 'A.`currrate_id`', 'currrate_date' => 'A.`currrate_date`', 'currrate_value' => 'A.`currrate_value`', 'curr_id' => 'A.`curr_id`',
+				'currref_id' => 'A.`currref_id`', 'interface_id' => 'A.`interface_id`', 'currref_name' => 'A.`currref_name`', 'currref_code' => 'A.`currref_code`',
+				'currref_otherdata' => 'A.`currref_otherdata`', 'currref_notes' => 'A.`currref_notes`', 'curr_id' => 'A.`curr_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_currrate A";
+			$sqlFromTable = "mst_currref A";
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
@@ -171,12 +172,14 @@ $API = new class extends currBase {
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
+					'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
 					 
 				]);
 				*/
 
 
 				// lookup data id yang refer ke table lain
+				$this->addFields('interface_name', 'interface_id', $record, 'mst_interface', 'interface_name', 'interface_id');
 					 
 
 
