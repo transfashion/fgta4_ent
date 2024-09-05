@@ -182,11 +182,13 @@ module.exports = {
 				
 				},
 				partnerref_name: {text:'Name', type: dbtype.varchar(30), null:false},	
-				partnerref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},			
+				partnerref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},	
+				partnerref_otherdata: {text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true},	
+				partnerref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},			
 				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false},
 			},
 			uniques: {
-				'partnerref_pair': ['partner_id', 'interface_id']
+				'partnerref_pair': ['partner_id', 'interface_id', 'partnerref_name']
 			},			
 		}
 

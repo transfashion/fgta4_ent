@@ -23,6 +23,8 @@ const obj = {
 	cbo_interface_id: $('#pnl_editrefform-cbo_interface_id'),
 	txt_partnerref_name: $('#pnl_editrefform-txt_partnerref_name'),
 	txt_partnerref_code: $('#pnl_editrefform-txt_partnerref_code'),
+	txt_partnerref_otherdata: $('#pnl_editrefform-txt_partnerref_otherdata'),
+	txt_partnerref_notes: $('#pnl_editrefform-txt_partnerref_notes'),
 	txt_partner_id: $('#pnl_editrefform-txt_partner_id')
 }
 

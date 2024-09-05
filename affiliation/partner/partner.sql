@@ -224,12 +224,14 @@ CREATE TABLE IF NOT EXISTS `mst_partnerref` (
 	`interface_id` varchar(7) NOT NULL , 
 	`partnerref_name` varchar(30) NOT NULL , 
 	`partnerref_code` varchar(30) NOT NULL , 
+	`partnerref_otherdata` varchar(1000)  , 
+	`partnerref_notes` varchar(255)  , 
 	`partner_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `partnerref_pair` (`partner_id`, `interface_id`),
+	UNIQUE KEY `partnerref_pair` (`partner_id`, `interface_id`, `partnerref_name`),
 	PRIMARY KEY (`partnerref_id`)
 ) 
 ENGINE=InnoDB
@@ -239,16 +241,20 @@ COMMENT='Kode referensi partner untuk keperluan interfacing dengan system lain';
 ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `interface_id` varchar(7) NOT NULL  AFTER `partnerref_id`;
 ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partnerref_name` varchar(30) NOT NULL  AFTER `interface_id`;
 ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partnerref_code` varchar(30) NOT NULL  AFTER `partnerref_name`;
-ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partner_id` varchar(14) NOT NULL  AFTER `partnerref_code`;
+ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partnerref_otherdata` varchar(1000)   AFTER `partnerref_code`;
+ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partnerref_notes` varchar(255)   AFTER `partnerref_otherdata`;
+ALTER TABLE `mst_partnerref` ADD COLUMN IF NOT EXISTS  `partner_id` varchar(14) NOT NULL  AFTER `partnerref_notes`;
 
 
 ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `interface_id` varchar(7) NOT NULL   AFTER `partnerref_id`;
 ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partnerref_name` varchar(30) NOT NULL   AFTER `interface_id`;
 ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partnerref_code` varchar(30) NOT NULL   AFTER `partnerref_name`;
-ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partner_id` varchar(14) NOT NULL   AFTER `partnerref_code`;
+ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partnerref_otherdata` varchar(1000)    AFTER `partnerref_code`;
+ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partnerref_notes` varchar(255)    AFTER `partnerref_otherdata`;
+ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partner_id` varchar(14) NOT NULL   AFTER `partnerref_notes`;
 
 
-ALTER TABLE `mst_partnerref` ADD CONSTRAINT `partnerref_pair` UNIQUE IF NOT EXISTS  (`partner_id`, `interface_id`);
+ALTER TABLE `mst_partnerref` ADD CONSTRAINT `partnerref_pair` UNIQUE IF NOT EXISTS  (`partner_id`, `interface_id`, `partnerref_name`);
 
 ALTER TABLE `mst_partnerref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
 ALTER TABLE `mst_partnerref` ADD KEY IF NOT EXISTS `partner_id` (`partner_id`);

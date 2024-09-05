@@ -27,7 +27,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 06/09/2024
  */
 $API = new class extends partnerBase {
 
@@ -84,7 +84,7 @@ $API = new class extends partnerBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'partnerref_id' => 'A.`partnerref_id`', 'interface_id' => 'A.`interface_id`', 'partnerref_name' => 'A.`partnerref_name`', 'partnerref_code' => 'A.`partnerref_code`',
-				'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'partnerref_otherdata' => 'A.`partnerref_otherdata`', 'partnerref_notes' => 'A.`partnerref_notes`', 'partner_id' => 'A.`partner_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_partnerref A";
