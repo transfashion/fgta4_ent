@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 06/09/2024
  */
 $API = new class extends siteBase {
 
@@ -78,7 +78,7 @@ $API = new class extends siteBase {
 
 			$sqlFieldList = [
 				'siteref_id' => 'A.`siteref_id`', 'interface_id' => 'A.`interface_id`', 'siteref_name' => 'A.`siteref_name`', 'siteref_code' => 'A.`siteref_code`',
-				'siteref_notes' => 'A.`siteref_notes`', 'site_id' => 'A.`site_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'siteref_otherdata' => 'A.`siteref_otherdata`', 'siteref_notes' => 'A.`siteref_notes`', 'site_id' => 'A.`site_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_siteref A";

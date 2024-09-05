@@ -23,6 +23,7 @@ const obj = {
 	cbo_interface_id: $('#pnl_editrefform-cbo_interface_id'),
 	txt_siteref_name: $('#pnl_editrefform-txt_siteref_name'),
 	txt_siteref_code: $('#pnl_editrefform-txt_siteref_code'),
+	txt_siteref_otherdata: $('#pnl_editrefform-txt_siteref_otherdata'),
 	txt_siteref_notes: $('#pnl_editrefform-txt_siteref_notes'),
 	txt_site_id: $('#pnl_editrefform-txt_site_id')
 }

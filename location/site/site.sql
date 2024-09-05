@@ -132,13 +132,14 @@ CREATE TABLE IF NOT EXISTS `mst_siteref` (
 	`interface_id` varchar(7) NOT NULL , 
 	`siteref_name` varchar(30) NOT NULL , 
 	`siteref_code` varchar(255)  , 
+	`siteref_otherdata` varchar(1000)  , 
 	`siteref_notes` varchar(255)  , 
 	`site_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `siteref_pair` (`site_id`, `interface_id`, `siteref_name`),
+	UNIQUE KEY `siteref_pair` (`interface_id`, `siteref_name`, `siteref_code`),
 	PRIMARY KEY (`siteref_id`)
 ) 
 ENGINE=InnoDB
@@ -148,18 +149,20 @@ COMMENT='Kode referensi site untuk keperluan interfacing dengan system lain';
 ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `interface_id` varchar(7) NOT NULL  AFTER `siteref_id`;
 ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `siteref_name` varchar(30) NOT NULL  AFTER `interface_id`;
 ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `siteref_code` varchar(255)   AFTER `siteref_name`;
-ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `siteref_notes` varchar(255)   AFTER `siteref_code`;
+ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `siteref_otherdata` varchar(1000)   AFTER `siteref_code`;
+ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `siteref_notes` varchar(255)   AFTER `siteref_otherdata`;
 ALTER TABLE `mst_siteref` ADD COLUMN IF NOT EXISTS  `site_id` varchar(14) NOT NULL  AFTER `siteref_notes`;
 
 
 ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `interface_id` varchar(7) NOT NULL   AFTER `siteref_id`;
 ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `siteref_name` varchar(30) NOT NULL   AFTER `interface_id`;
 ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `siteref_code` varchar(255)    AFTER `siteref_name`;
-ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `siteref_notes` varchar(255)    AFTER `siteref_code`;
+ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `siteref_otherdata` varchar(1000)    AFTER `siteref_code`;
+ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `siteref_notes` varchar(255)    AFTER `siteref_otherdata`;
 ALTER TABLE `mst_siteref` MODIFY COLUMN IF EXISTS  `site_id` varchar(14) NOT NULL   AFTER `siteref_notes`;
 
 
-ALTER TABLE `mst_siteref` ADD CONSTRAINT `siteref_pair` UNIQUE IF NOT EXISTS  (`site_id`, `interface_id`, `siteref_name`);
+ALTER TABLE `mst_siteref` ADD CONSTRAINT `siteref_pair` UNIQUE IF NOT EXISTS  (`interface_id`, `siteref_name`, `siteref_code`);
 
 ALTER TABLE `mst_siteref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
 ALTER TABLE `mst_siteref` ADD KEY IF NOT EXISTS `site_id` (`site_id`);
