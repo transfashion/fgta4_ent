@@ -231,7 +231,7 @@ CREATE TABLE IF NOT EXISTS `mst_partnerref` (
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
 	`_modifydate` datetime  , 
-	UNIQUE KEY `partnerref_pair` (`partner_id`, `interface_id`, `partnerref_name`),
+	UNIQUE KEY `partnerref_pair` (`interface_id`, `partnerref_name`, `partnerref_code`),
 	PRIMARY KEY (`partnerref_id`)
 ) 
 ENGINE=InnoDB
@@ -254,7 +254,7 @@ ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partnerref_notes` varchar
 ALTER TABLE `mst_partnerref` MODIFY COLUMN IF EXISTS  `partner_id` varchar(14) NOT NULL   AFTER `partnerref_notes`;
 
 
-ALTER TABLE `mst_partnerref` ADD CONSTRAINT `partnerref_pair` UNIQUE IF NOT EXISTS  (`partner_id`, `interface_id`, `partnerref_name`);
+ALTER TABLE `mst_partnerref` ADD CONSTRAINT `partnerref_pair` UNIQUE IF NOT EXISTS  (`interface_id`, `partnerref_name`, `partnerref_code`);
 
 ALTER TABLE `mst_partnerref` ADD KEY IF NOT EXISTS `interface_id` (`interface_id`);
 ALTER TABLE `mst_partnerref` ADD KEY IF NOT EXISTS `partner_id` (`partner_id`);

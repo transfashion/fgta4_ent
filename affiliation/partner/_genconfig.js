@@ -188,7 +188,7 @@ module.exports = {
 				partner_id: {text:'Partner', type: dbtype.varchar(14), null:false},
 			},
 			uniques: {
-				'partnerref_pair': ['partner_id', 'interface_id', 'partnerref_name']
+				'partnerref_pair': ['interface_id', 'partnerref_name', 'partnerref_code']
 			},			
 		}
 
