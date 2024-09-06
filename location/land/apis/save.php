@@ -90,6 +90,10 @@ $API = new class extends landBase {
 			$obj->land_email = strtoupper($obj->land_email);
 
 
+			if ($obj->land_address=='') { $obj->land_address = '--NULL--'; }
+			if ($obj->land_phone=='') { $obj->land_phone = '--NULL--'; }
+			if ($obj->land_email=='') { $obj->land_email = '--NULL--'; }
+			if ($obj->land_geoloc=='') { $obj->land_geoloc = '--NULL--'; }
 
 
 

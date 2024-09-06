@@ -16,14 +16,14 @@ module.exports = {
 				land_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
 				land_name: {text:'Land Name', type: dbtype.varchar(90), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Land harus diisi'}},
 
-				land_address: {text:'Address', type: dbtype.varchar(250), null:false, suppresslist: true, uppercase: true, options:{required:true,invalidMessage:'Alamat harus diisi'}},
+				land_address: {text:'Address', type: dbtype.varchar(250), null:true, suppresslist: true, uppercase: true, options:{required:true,invalidMessage:'Alamat harus diisi'}},
 
-				land_phone: {text:'Phone', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'Phone harus diisi'},},	
-				land_email: {text:'Email', type: dbtype.varchar(150), null:false, uppercase: true, suppresslist: true},				
+				land_phone: {text:'Phone', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'Phone harus diisi'},},	
+				land_email: {text:'Email', type: dbtype.varchar(150), null:true, uppercase: true, suppresslist: true},				
 
 				land_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, suppresslist: true, default:'0'},
 
-				land_geoloc: {text:'Geo Location', type: dbtype.varchar(30), null:false, suppresslist: true, default:"''"},
+				land_geoloc: {text:'Geo Location', type: dbtype.varchar(30), null:true, suppresslist: true, default:"''"},
 
 				landtype_id: {
 					suppresslist: true,
