@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS `mst_land` (
 	`landtype_id` varchar(10) NOT NULL , 
 	`city_id` varchar(30) NOT NULL , 
 	`territorial_id` varchar(10)  , 
-	`partner_id` varchar(30) NOT NULL , 
+	`partner_id` varchar(30)  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -35,7 +35,7 @@ ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `land_geoloc` varchar(30) NOT N
 ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `landtype_id` varchar(10) NOT NULL  AFTER `land_geoloc`;
 ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `city_id` varchar(30) NOT NULL  AFTER `landtype_id`;
 ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `territorial_id` varchar(10)   AFTER `city_id`;
-ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `partner_id` varchar(30) NOT NULL  AFTER `territorial_id`;
+ALTER TABLE `mst_land` ADD COLUMN IF NOT EXISTS  `partner_id` varchar(30)   AFTER `territorial_id`;
 
 
 ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `land_name` varchar(90) NOT NULL   AFTER `land_id`;
@@ -47,7 +47,7 @@ ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `land_geoloc` varchar(30) NOT NU
 ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `landtype_id` varchar(10) NOT NULL   AFTER `land_geoloc`;
 ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `city_id` varchar(30) NOT NULL   AFTER `landtype_id`;
 ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `territorial_id` varchar(10)    AFTER `city_id`;
-ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `partner_id` varchar(30) NOT NULL   AFTER `territorial_id`;
+ALTER TABLE `mst_land` MODIFY COLUMN IF EXISTS  `partner_id` varchar(30)    AFTER `territorial_id`;
 
 
 ALTER TABLE `mst_land` ADD CONSTRAINT `land_name` UNIQUE IF NOT EXISTS  (`land_name`);

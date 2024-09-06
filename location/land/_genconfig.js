@@ -58,7 +58,7 @@ module.exports = {
 				partner_id: {
 					suppresslist: true,
 					options:{required:true,invalidMessage:'Partner harus diisi', prompt:'-- PILIH --'},
-					text:'Partner', type: dbtype.varchar(30), null:false, 
+					text:'Partner', type: dbtype.varchar(30), null:true, 
 					comp: comp.Combo({
 						table: 'mst_partner', 
 						field_value: 'partner_id', field_display: 'partner_name', 
