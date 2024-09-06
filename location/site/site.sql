@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS `mst_site` (
 	`site_nameshort` varchar(10) NOT NULL , 
 	`site_code` varchar(3)  , 
 	`site_name` varchar(90) NOT NULL , 
-	`site_descr` varchar(250) NOT NULL , 
-	`site_address` varchar(250) NOT NULL , 
-	`site_phone` varchar(30) NOT NULL , 
-	`site_email` varchar(150) NOT NULL , 
+	`site_descr` varchar(250)  , 
+	`site_address` varchar(250)  , 
+	`site_phone` varchar(30)  , 
+	`site_email` varchar(150)  , 
 	`site_sqmwide` decimal(12, 2) NOT NULL DEFAULT 0, 
 	`site_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
-	`site_geoloc` varchar(30) NOT NULL DEFAULT '', 
-	`site_opendate` date NOT NULL , 
+	`site_geoloc` varchar(30)  DEFAULT '', 
+	`site_opendate` date  , 
 	`sitemodel_id` varchar(10) NOT NULL , 
 	`land_id` varchar(30) NOT NULL , 
 	`unit_id` varchar(10) NOT NULL , 
@@ -38,14 +38,14 @@ COMMENT='Daftar Site';
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_nameshort` varchar(10) NOT NULL  AFTER `site_id`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_code` varchar(3)   AFTER `site_nameshort`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_name` varchar(90) NOT NULL  AFTER `site_code`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_descr` varchar(250) NOT NULL  AFTER `site_name`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_address` varchar(250) NOT NULL  AFTER `site_descr`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_phone` varchar(30) NOT NULL  AFTER `site_address`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_email` varchar(150) NOT NULL  AFTER `site_phone`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_descr` varchar(250)   AFTER `site_name`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_address` varchar(250)   AFTER `site_descr`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_phone` varchar(30)   AFTER `site_address`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_email` varchar(150)   AFTER `site_phone`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_sqmwide` decimal(12, 2) NOT NULL DEFAULT 0 AFTER `site_email`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `site_sqmwide`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_geoloc` varchar(30) NOT NULL DEFAULT '' AFTER `site_isdisabled`;
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_opendate` date NOT NULL  AFTER `site_geoloc`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_geoloc` varchar(30)  DEFAULT '' AFTER `site_isdisabled`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_opendate` date   AFTER `site_geoloc`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `sitemodel_id` varchar(10) NOT NULL  AFTER `site_opendate`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `land_id` varchar(30) NOT NULL  AFTER `sitemodel_id`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `land_id`;
@@ -55,14 +55,14 @@ ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL 
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_nameshort` varchar(10) NOT NULL   AFTER `site_id`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_code` varchar(3)    AFTER `site_nameshort`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_name` varchar(90) NOT NULL   AFTER `site_code`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_descr` varchar(250) NOT NULL   AFTER `site_name`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_address` varchar(250) NOT NULL   AFTER `site_descr`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_phone` varchar(30) NOT NULL   AFTER `site_address`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_email` varchar(150) NOT NULL   AFTER `site_phone`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_descr` varchar(250)    AFTER `site_name`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_address` varchar(250)    AFTER `site_descr`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_phone` varchar(30)    AFTER `site_address`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_email` varchar(150)    AFTER `site_phone`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_sqmwide` decimal(12, 2) NOT NULL DEFAULT 0  AFTER `site_email`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `site_sqmwide`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_geoloc` varchar(30) NOT NULL DEFAULT ''  AFTER `site_isdisabled`;
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_opendate` date NOT NULL   AFTER `site_geoloc`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_geoloc` varchar(30)  DEFAULT ''  AFTER `site_isdisabled`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_opendate` date    AFTER `site_geoloc`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `sitemodel_id` varchar(10) NOT NULL   AFTER `site_opendate`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `land_id` varchar(30) NOT NULL   AFTER `sitemodel_id`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `land_id`;

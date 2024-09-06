@@ -93,6 +93,12 @@ $API = new class extends siteBase {
 
 
 			if ($obj->site_code=='') { $obj->site_code = '--NULL--'; }
+			if ($obj->site_descr=='') { $obj->site_descr = '--NULL--'; }
+			if ($obj->site_address=='') { $obj->site_address = '--NULL--'; }
+			if ($obj->site_phone=='') { $obj->site_phone = '--NULL--'; }
+			if ($obj->site_email=='') { $obj->site_email = '--NULL--'; }
+			if ($obj->site_geoloc=='') { $obj->site_geoloc = '--NULL--'; }
+			if ($obj->site_opendate=='') { $obj->site_opendate = '--NULL--'; }
 
 
 
