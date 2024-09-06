@@ -89,6 +89,15 @@ $API = new class extends partnerBase {
 			$obj->partner_email = strtolower($obj->partner_email);
 
 
+			if ($obj->partner_addressline1=='') { $obj->partner_addressline1 = '--NULL--'; }
+			if ($obj->partner_addressline2=='') { $obj->partner_addressline2 = '--NULL--'; }
+			if ($obj->partner_addressline3=='') { $obj->partner_addressline3 = '--NULL--'; }
+			if ($obj->partner_city=='') { $obj->partner_city = '--NULL--'; }
+			if ($obj->partner_postcode=='') { $obj->partner_postcode = '--NULL--'; }
+			if ($obj->partner_phone=='') { $obj->partner_phone = '--NULL--'; }
+			if ($obj->partner_mobilephone=='') { $obj->partner_mobilephone = '--NULL--'; }
+			if ($obj->partner_email=='') { $obj->partner_email = '--NULL--'; }
+			if ($obj->partner_npwp=='') { $obj->partner_npwp = '--NULL--'; }
 
 
 

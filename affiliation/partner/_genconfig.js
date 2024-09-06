@@ -60,20 +60,20 @@ module.exports = {
 
 				partner_addressline1: {
 					id: "pnl_edit-partner_addressline1",
-					text:'Address', type: dbtype.varchar(100), null:false, suppresslist: true,  options:{required:true,invalidMessage:'Alamat harus diisi'}},
+					text:'Address', type: dbtype.varchar(100), null:true, suppresslist: true,  options:{required:true,invalidMessage:'Alamat harus diisi'}},
 				partner_addressline2: {
 					id: "pnl_edit-partner_addressline2",
-					text:'&nbsp;', type: dbtype.varchar(100), null:false, suppresslist: true},
+					text:'&nbsp;', type: dbtype.varchar(100), null:true, suppresslist: true},
 				partner_addressline3: {
 					id: "pnl_edit-partner_addressline3",
-					text:'&nbsp;', type: dbtype.varchar(100), null:false, suppresslist: true},
+					text:'&nbsp;', type: dbtype.varchar(100), null:true, suppresslist: true},
 				
 				
-				partner_city: {text:'City', type: dbtype.varchar(30), null:false, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'City harus diisi'}},
-				partner_postcode: {text:'Post Code', type: dbtype.varchar(10), null:false, suppresslist: true},
+				partner_city: {text:'City', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'City harus diisi'}},
+				partner_postcode: {text:'Post Code', type: dbtype.varchar(10), null:true, suppresslist: true},
 
 				partner_country: {
-					text:'Country', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true,
+					text:'Country', type: dbtype.varchar(10), null:true, uppercase: true, suppresslist: true,
 					options:{required:true,invalidMessage:'Country harus diisi'},
 					comp: comp.Combo({
 						table: 'mst_country', 
@@ -81,10 +81,10 @@ module.exports = {
 						api: 'ent/location/country/list'})					
 				},
 
-				partner_phone: {text:'Phone', type: dbtype.varchar(30), null:false,  suppresslist: true, options:{required:true,invalidMessage:'Phone harus diisi'},},	
-				partner_mobilephone: {text:'HP', type: dbtype.varchar(30), null:false,  suppresslist: true},
-				partner_email: {text:'Email', type: dbtype.varchar(150), null:false, lowercase: true, suppresslist: true},				
-				partner_npwp: {text:'NPWP', type: dbtype.varchar(30), null:false,  suppresslist: true},
+				partner_phone: {text:'Phone', type: dbtype.varchar(30), null:true,  suppresslist: true, options:{required:true,invalidMessage:'Phone harus diisi'},},	
+				partner_mobilephone: {text:'HP', type: dbtype.varchar(30), null:true,  suppresslist: true},
+				partner_email: {text:'Email', type: dbtype.varchar(150), null:true, lowercase: true, suppresslist: true},				
+				partner_npwp: {text:'NPWP', type: dbtype.varchar(30), null:true,  suppresslist: true},
 				partner_isnonnpwp: {text:'Non NPWP', type: dbtype.boolean, null:false, default:'0', suppresslist: true},
 				partner_isgroup: {text:'Group Partner', type: dbtype.boolean, null:false, default:'0', suppresslist: true},
 				partner_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},

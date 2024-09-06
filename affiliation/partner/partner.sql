@@ -13,16 +13,16 @@ CREATE TABLE IF NOT EXISTS `mst_partner` (
 	`partnertype_isempl` tinyint(1) NOT NULL DEFAULT 0, 
 	`empl_id` varchar(14)  , 
 	`partner_name` varchar(60) NOT NULL , 
-	`partner_addressline1` varchar(100) NOT NULL , 
-	`partner_addressline2` varchar(100) NOT NULL , 
-	`partner_addressline3` varchar(100) NOT NULL , 
-	`partner_city` varchar(30) NOT NULL , 
-	`partner_postcode` varchar(10) NOT NULL , 
-	`partner_country` varchar(10) NOT NULL , 
-	`partner_phone` varchar(30) NOT NULL , 
-	`partner_mobilephone` varchar(30) NOT NULL , 
-	`partner_email` varchar(150) NOT NULL , 
-	`partner_npwp` varchar(30) NOT NULL , 
+	`partner_addressline1` varchar(100)  , 
+	`partner_addressline2` varchar(100)  , 
+	`partner_addressline3` varchar(100)  , 
+	`partner_city` varchar(30)  , 
+	`partner_postcode` varchar(10)  , 
+	`partner_country` varchar(10)  , 
+	`partner_phone` varchar(30)  , 
+	`partner_mobilephone` varchar(30)  , 
+	`partner_email` varchar(150)  , 
+	`partner_npwp` varchar(30)  , 
 	`partner_isnonnpwp` tinyint(1) NOT NULL DEFAULT 0, 
 	`partner_isgroup` tinyint(1) NOT NULL DEFAULT 0, 
 	`partner_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
@@ -41,16 +41,16 @@ ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partnertype_id` varchar(10)
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partnertype_isempl` tinyint(1) NOT NULL DEFAULT 0 AFTER `partnertype_id`;
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `empl_id` varchar(14)   AFTER `partnertype_isempl`;
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_name` varchar(60) NOT NULL  AFTER `empl_id`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline1` varchar(100) NOT NULL  AFTER `partner_name`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline2` varchar(100) NOT NULL  AFTER `partner_addressline1`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline3` varchar(100) NOT NULL  AFTER `partner_addressline2`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_city` varchar(30) NOT NULL  AFTER `partner_addressline3`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_postcode` varchar(10) NOT NULL  AFTER `partner_city`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_country` varchar(10) NOT NULL  AFTER `partner_postcode`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_phone` varchar(30) NOT NULL  AFTER `partner_country`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_mobilephone` varchar(30) NOT NULL  AFTER `partner_phone`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_email` varchar(150) NOT NULL  AFTER `partner_mobilephone`;
-ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_npwp` varchar(30) NOT NULL  AFTER `partner_email`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline1` varchar(100)   AFTER `partner_name`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline2` varchar(100)   AFTER `partner_addressline1`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_addressline3` varchar(100)   AFTER `partner_addressline2`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_city` varchar(30)   AFTER `partner_addressline3`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_postcode` varchar(10)   AFTER `partner_city`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_country` varchar(10)   AFTER `partner_postcode`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_phone` varchar(30)   AFTER `partner_country`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_mobilephone` varchar(30)   AFTER `partner_phone`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_email` varchar(150)   AFTER `partner_mobilephone`;
+ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_npwp` varchar(30)   AFTER `partner_email`;
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_isnonnpwp` tinyint(1) NOT NULL DEFAULT 0 AFTER `partner_npwp`;
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_isgroup` tinyint(1) NOT NULL DEFAULT 0 AFTER `partner_isnonnpwp`;
 ALTER TABLE `mst_partner` ADD COLUMN IF NOT EXISTS  `partner_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `partner_isgroup`;
@@ -60,16 +60,16 @@ ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partnertype_id` varchar(10) 
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partnertype_isempl` tinyint(1) NOT NULL DEFAULT 0  AFTER `partnertype_id`;
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `empl_id` varchar(14)    AFTER `partnertype_isempl`;
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_name` varchar(60) NOT NULL   AFTER `empl_id`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline1` varchar(100) NOT NULL   AFTER `partner_name`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline2` varchar(100) NOT NULL   AFTER `partner_addressline1`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline3` varchar(100) NOT NULL   AFTER `partner_addressline2`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_city` varchar(30) NOT NULL   AFTER `partner_addressline3`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_postcode` varchar(10) NOT NULL   AFTER `partner_city`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_country` varchar(10) NOT NULL   AFTER `partner_postcode`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_phone` varchar(30) NOT NULL   AFTER `partner_country`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_mobilephone` varchar(30) NOT NULL   AFTER `partner_phone`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_email` varchar(150) NOT NULL   AFTER `partner_mobilephone`;
-ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_npwp` varchar(30) NOT NULL   AFTER `partner_email`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline1` varchar(100)    AFTER `partner_name`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline2` varchar(100)    AFTER `partner_addressline1`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_addressline3` varchar(100)    AFTER `partner_addressline2`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_city` varchar(30)    AFTER `partner_addressline3`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_postcode` varchar(10)    AFTER `partner_city`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_country` varchar(10)    AFTER `partner_postcode`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_phone` varchar(30)    AFTER `partner_country`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_mobilephone` varchar(30)    AFTER `partner_phone`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_email` varchar(150)    AFTER `partner_mobilephone`;
+ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_npwp` varchar(30)    AFTER `partner_email`;
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_isnonnpwp` tinyint(1) NOT NULL DEFAULT 0  AFTER `partner_npwp`;
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_isgroup` tinyint(1) NOT NULL DEFAULT 0  AFTER `partner_isnonnpwp`;
 ALTER TABLE `mst_partner` MODIFY COLUMN IF EXISTS  `partner_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `partner_isgroup`;
