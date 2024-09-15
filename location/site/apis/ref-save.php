@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 06/09/2024
+ * tanggal 16/09/2024
  */
 $API = new class extends siteBase {
 	
@@ -94,7 +94,6 @@ $API = new class extends siteBase {
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 
-			$obj->interface_id = strtoupper($obj->interface_id);
 
 
 			if ($obj->siteref_code=='') { $obj->siteref_code = '--NULL--'; }

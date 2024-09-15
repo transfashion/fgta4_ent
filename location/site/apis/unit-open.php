@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 24/03/2023
+ * tanggal 16/09/2024
  */
 $API = new class extends siteBase {
 
@@ -77,7 +77,7 @@ $API = new class extends siteBase {
 			}
 
 			$sqlFieldList = [
-				'siteunit_id' => 'A.`siteunit_id`', 'unit_id' => 'A.`unit_id`', 'dept_id' => 'A.`dept_id`', 'site_id' => 'A.`site_id`',
+				'siteunit_id' => 'A.`siteunit_id`', 'unit_id' => 'A.`unit_id`', 'site_id' => 'A.`site_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_siteunit A";
@@ -116,7 +116,6 @@ $API = new class extends siteBase {
 				//'gendername' => $record['gender']
 				
 				'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
-				'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 
 /*{__LOOKUPUSERMERGE__}*/
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

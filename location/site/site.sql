@@ -1,13 +1,14 @@
 -- SET FOREIGN_KEY_CHECKS=0;
 
 -- drop table if exists `mst_site`;
+-- drop table if exists `mst_siteunit`;
 -- drop table if exists `mst_siteevent`;
 -- drop table if exists `mst_siteref`;
 
 
 CREATE TABLE IF NOT EXISTS `mst_site` (
 	`site_id` varchar(30) NOT NULL , 
-	`site_nameshort` varchar(10) NOT NULL , 
+	`site_nameshort` varchar(90) NOT NULL , 
 	`site_code` varchar(3)  , 
 	`site_name` varchar(90) NOT NULL , 
 	`site_descr` varchar(250)  , 
@@ -35,7 +36,7 @@ ENGINE=InnoDB
 COMMENT='Daftar Site';
 
 
-ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_nameshort` varchar(10) NOT NULL  AFTER `site_id`;
+ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_nameshort` varchar(90) NOT NULL  AFTER `site_id`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_code` varchar(3)   AFTER `site_nameshort`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_name` varchar(90) NOT NULL  AFTER `site_code`;
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `site_descr` varchar(250)   AFTER `site_name`;
@@ -52,7 +53,7 @@ ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL 
 ALTER TABLE `mst_site` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `unit_id`;
 
 
-ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_nameshort` varchar(10) NOT NULL   AFTER `site_id`;
+ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_nameshort` varchar(90) NOT NULL   AFTER `site_id`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_code` varchar(3)    AFTER `site_nameshort`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_name` varchar(90) NOT NULL   AFTER `site_code`;
 ALTER TABLE `mst_site` MODIFY COLUMN IF EXISTS  `site_descr` varchar(250)    AFTER `site_name`;
@@ -87,13 +88,48 @@ ALTER TABLE `mst_site` ADD CONSTRAINT `fk_mst_site_mst_dept` FOREIGN KEY IF NOT 
 
 
 
+CREATE TABLE IF NOT EXISTS `mst_siteunit` (
+	`siteunit_id` varchar(14) NOT NULL , 
+	`unit_id` varchar(10) NOT NULL , 
+	`site_id` varchar(14) NOT NULL , 
+	`_createby` varchar(14) NOT NULL , 
+	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
+	`_modifyby` varchar(14)  , 
+	`_modifydate` datetime  , 
+	UNIQUE KEY `siteunit_pair` (`site_id`, `unit_id`),
+	PRIMARY KEY (`siteunit_id`)
+) 
+ENGINE=InnoDB
+COMMENT='Daftar unit yang dimiliki site';
+
+
+ALTER TABLE `mst_siteunit` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `siteunit_id`;
+ALTER TABLE `mst_siteunit` ADD COLUMN IF NOT EXISTS  `site_id` varchar(14) NOT NULL  AFTER `unit_id`;
+
+
+ALTER TABLE `mst_siteunit` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `siteunit_id`;
+ALTER TABLE `mst_siteunit` MODIFY COLUMN IF EXISTS  `site_id` varchar(14) NOT NULL   AFTER `unit_id`;
+
+
+ALTER TABLE `mst_siteunit` ADD CONSTRAINT `siteunit_pair` UNIQUE IF NOT EXISTS  (`site_id`, `unit_id`);
+
+ALTER TABLE `mst_siteunit` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
+ALTER TABLE `mst_siteunit` ADD KEY IF NOT EXISTS `site_id` (`site_id`);
+
+ALTER TABLE `mst_siteunit` ADD CONSTRAINT `fk_mst_siteunit_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
+ALTER TABLE `mst_siteunit` ADD CONSTRAINT `fk_mst_siteunit_mst_site` FOREIGN KEY IF NOT EXISTS (`site_id`) REFERENCES `mst_site` (`site_id`);
+
+
+
+
+
 CREATE TABLE IF NOT EXISTS `mst_siteevent` (
 	`siteevent_id` varchar(14) NOT NULL , 
 	`siteevent_name` varchar(60) NOT NULL , 
 	`siteevent_date` date NOT NULL , 
 	`siteevent_enabling` tinyint(1) NOT NULL DEFAULT 0, 
 	`siteevent_disabling` tinyint(1) NOT NULL DEFAULT 0, 
-	`site_id` varchar(30) NOT NULL , 
+	`site_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -108,14 +144,14 @@ ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `siteevent_name` varchar(6
 ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `siteevent_date` date NOT NULL  AFTER `siteevent_name`;
 ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `siteevent_enabling` tinyint(1) NOT NULL DEFAULT 0 AFTER `siteevent_date`;
 ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `siteevent_disabling` tinyint(1) NOT NULL DEFAULT 0 AFTER `siteevent_enabling`;
-ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30) NOT NULL  AFTER `siteevent_disabling`;
+ALTER TABLE `mst_siteevent` ADD COLUMN IF NOT EXISTS  `site_id` varchar(14) NOT NULL  AFTER `siteevent_disabling`;
 
 
 ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `siteevent_name` varchar(60) NOT NULL   AFTER `siteevent_id`;
 ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `siteevent_date` date NOT NULL   AFTER `siteevent_name`;
 ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `siteevent_enabling` tinyint(1) NOT NULL DEFAULT 0  AFTER `siteevent_date`;
 ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `siteevent_disabling` tinyint(1) NOT NULL DEFAULT 0  AFTER `siteevent_enabling`;
-ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `site_id` varchar(30) NOT NULL   AFTER `siteevent_disabling`;
+ALTER TABLE `mst_siteevent` MODIFY COLUMN IF EXISTS  `site_id` varchar(14) NOT NULL   AFTER `siteevent_disabling`;
 
 
 

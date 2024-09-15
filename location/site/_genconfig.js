@@ -36,13 +36,13 @@ module.exports = {
 			comment: 'Daftar Site',
 			data: {
 				site_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true, options:{required:true,invalidMessage:'ID harus diisi'}},
-				site_nameshort: {text:'Short Name', type: dbtype.varchar(10), null:false, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'Short Name harus diisi'}},
+				site_nameshort: {text:'Short Name', type: dbtype.varchar(90), null:false, uppercase: true, suppresslist: true, options:{required:true,invalidMessage:'Short Name harus diisi'}},
 				site_code: {text:'Site Code', type: dbtype.varchar(3), null:true, suppresslist: true},
 				site_name: {text:'Site Name', type: dbtype.varchar(90), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Site harus diisi'}},
 				site_descr: {text:'Descr', type: dbtype.varchar(250), null:true, suppresslist: true},
 				site_address: {text:'Address', type: dbtype.varchar(250), null:true, suppresslist: true, options:{required:true,invalidMessage:'Alamat harus diisi'}},
 				site_phone: {text:'Phone', type: dbtype.varchar(30), null:true, uppercase: true, suppresslist: true},	
-				site_email: {text:'Email', type: dbtype.varchar(150), null:true, uppercase: true, suppresslist: true, options:{validType:'email',invalidMessage:'Email harus salah'}},				
+				site_email: {text:'Email', type: dbtype.varchar(150), null:true, lowercase: true, suppresslist: true, options:{validType:'email',invalidMessage:'Email harus salah'}},				
 				site_sqmwide: {text:'Wide (sqm)', type: dbtype.decimal(12,2), null:false, uppercase: true, suppresslist: true, default:'0'},				
 				site_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, suppresslist: false, default:'0'},
 				site_geoloc: {text:'Geo Location', type: dbtype.varchar(30), null:true, suppresslist: true, default:"''"},
@@ -104,16 +104,41 @@ module.exports = {
 			}			
 		},
 
+
+		'mst_siteunit' : {
+			primarykeys: ['siteunit_id'],
+			comment: 'Daftar unit yang dimiliki site',
+			data: {			
+				siteunit_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				unit_id: {
+					suppresslist: false,
+					options:{required:true,invalidMessage:'Unit harus diisi', prompt:'-- PILIH --'},
+					text:'Unit', type: dbtype.varchar(10), null:false, 
+					comp: comp.Combo({
+						table: 'mst_unit', 
+						field_value: 'unit_id', field_display: 'unit_name', 
+						api: 'ent/organisation/unit/list'
+					})
+				},			
+				site_id: {text:'Site', type: dbtype.varchar(14), null:false, hidden: true},
+			},
+
+			uniques: {
+				'siteunit_pair': ['site_id', 'unit_id']
+			}	
+
+		},
+
 		'mst_siteevent' : {
 			primarykeys: ['siteevent_id'],
 			comment: 'Daftar Site Event',
 			data: {
-				siteevent_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
+				siteevent_id: {text:'ID', type: dbtype.varchar(14), null:false, suppresslist: true},
 				siteevent_name: {text:'Event Name', type: dbtype.varchar(60), null:false, suppresslist: false, uppercase: true, options:{required:true,invalidMessage:'Event Name harus diisi'}},
 				siteevent_date: {text:'Date', type: dbtype.date, null:false, suppresslist: false},
 				siteevent_enabling: {text:'Enabling', type: dbtype.boolean, null:false, suppresslist: true, default:'0'},
 				siteevent_disabling: {text:'Disabling', type: dbtype.boolean, null:false, suppresslist: true, default:'0'},
-				site_id: {text:'Site', type: dbtype.varchar(30), null:false, uppercase: true},
+				site_id: {text:'Site', type: dbtype.varchar(14), null:false, hidden: true},
 			},
 			defaultsearch : ['siteevent_name']
 		},
@@ -124,7 +149,7 @@ module.exports = {
 			data: {
 				siteref_id: {text:'ID', type: dbtype.varchar(14), null:false, suppresslist: true},
 				interface_id: { 
-					text: 'Interface', type: dbtype.varchar(7), uppercase: true, null: false, 
+					text: 'Interface', type: dbtype.varchar(7), null: false, 
 					options: { required: true, invalidMessage: 'Interface harus diisi' }, 
 					comp: comp.Combo({
 						table: 'mst_interface', 
@@ -154,6 +179,7 @@ module.exports = {
 		title: 'Site',
 		header: 'mst_site',
 		detils: {
+			'unit' : {title: 'Unit', table:'mst_siteunit', form: true, headerview:'site_name', editorHandler: true, listHandler: true},
 			'event' : {title: 'Event', table:'mst_siteevent', form: true, headerview:'site_name', editorHandler: true, listHandler: true},
 			'ref' : {title: 'Referensi', table:'mst_siteref', form: true, headerview:'site_name', editorHandler: true, listHandler: true},
 		}

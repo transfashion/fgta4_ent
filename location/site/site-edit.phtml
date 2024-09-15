@@ -18,7 +18,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Short Name</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_site_nameshort" class="easyui-textbox" mapping="site_nameshort" uppercase="true" maxlength="10" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Short Name harus diisi' ">
+				<input id="pnl_edit-txt_site_nameshort" class="easyui-textbox" mapping="site_nameshort" uppercase="true" maxlength="90" style="width: 400px" data-options="multiline: false , required: true, invalidMessage: 'Short Name harus diisi' ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -66,7 +66,7 @@
 		<div class="form_row pnl_edit_row" >
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Email</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_edit-txt_site_email" class="easyui-textbox" mapping="site_email" uppercase="true" maxlength="150" style="width: 400px" data-options="multiline: false , validType: 'email', invalidMessage: 'Email harus salah' ">
+				<input id="pnl_edit-txt_site_email" class="easyui-textbox" mapping="site_email" lowercase="true" maxlength="150" style="width: 400px" data-options="multiline: false , validType: 'email', invalidMessage: 'Email harus salah' ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -150,6 +150,10 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col detilbox" style="border: 0px solid black">
 				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editunitgrid')">
+					<div id="pnl_edit-txt_unit_title" class="detilgrid-text">Unit</div>
+					<div id="pnl_edit-txt_unit_value" class="detilgrid-value unit_totalvalue">&nbsp;</div>
+				</div>
 				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editeventgrid')">
 					<div id="pnl_edit-txt_event_title" class="detilgrid-text">Event</div>
 					<div id="pnl_edit-txt_event_value" class="detilgrid-value event_totalvalue">&nbsp;</div>

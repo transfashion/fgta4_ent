@@ -1,9 +1,9 @@
 <div id="pnl_editunitform">
 	<div class="fgta-page-title" style="display: flex; align-items: center ">
-		<div>Edit Unit</div>
+		<div id="pnl_editunitform-caption">{{STATE_BEG}}Unit{{STATE_END}}</div>
 		<a id="pnl_editunitform-btn_edit" href="javascript:void(0)" class="easyui-linkbutton fgta-button-edit" style="margin-left:10px;" data-options="plain:true,iconCls:'fgta-icon-edit'">edit</a>
 	</div>
-	<div id="pnl_editunitform-title" style="margin-top: 0px; margin-bottom: 30px; font-weight: bold; font-size: 1.2em">XXXXXXX</div>
+	<div id="pnl_editunitform-title" class="fgta-page-subtitle">XXXXXXX</div>
 
 
 	<form id="pnl_editunitform-form">
@@ -24,18 +24,10 @@
 			</div>
 		</div>
 
-		<div class="form_row pnl_editunitform_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Dept</div>
-			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_editunitform-cbo_dept_id" class="easyui-combo" style="width: 400px" mapping="dept_id" display="dept_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Departemen harus diisi', prompt: '-- PILIH --'"  validType="requiredcombo['pnl_editunitform-cbo_dept_id']" >
-				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
-			</div>
-		</div>
-
-		<div class="form_row pnl_editunitform_row" >
+		<div class="form_row pnl_editunitform_row" style="display: none">
 			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Site</div>
 			<div class="form_input_col" style="border: 0px solid black">
-				<input id="pnl_editunitform-txt_site_id" class="easyui-textbox" mapping="site_id" uppercase="true" maxlength="30"  style="width: 400px" data-options="multiline:false  , disabled: true">
+				<input id="pnl_editunitform-txt_site_id" class="easyui-textbox" mapping="site_id"  maxlength="14"  style="width: 400px" data-options="multiline:false  , disabled: true">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -56,21 +48,26 @@
 	</div>	
 
 
-
-	<div style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; height: 40px; display: flex; justify-content: space-between; padding: 5px 2px 2px 2px ">
-		<div>
+	<?php
+	$custombuttonbar = __DIR__.'/site-unitform-custombuttonbar.phtml';
+	if (is_file($custombuttonbar)) {
+		include $custombuttonbar;
+	} else { ?>
+	<div id="pnl_editunitform-buttonbar" style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; height: 40px; display: flex; justify-content: space-between; padding: 5px 2px 2px 2px ">
+		<div id="pnl_editunitform-buttonbar-left">
 			<a id="pnl_editunitform-btn_prev" class="easyui-linkbutton c8 fgta-button-detilprev" style="width: 50px">Prev</a>
 			<a id="pnl_editunitform-btn_next" class="easyui-linkbutton c8 fgta-button-detilnext" style="width: 50px">Next</a>
 		</div>
 
-		<div>
+		<div id="pnl_editunitform-buttonbar-middle">
 			<a id="pnl_editunitform-btn_addnew" class="easyui-linkbutton c8 fgta-button-detiladd" style="width: 100px">Tambah Baru</a>
 		</div>
 
-		<div>
+		<div id="pnl_editunitform-buttonbar-right">
 			<a id="pnl_editunitform-btn_delete" class="easyui-linkbutton c5" style="width: 100px">Hapus</a>
 		</div>
 	</div>
+	<?php } ?>
 
 
 

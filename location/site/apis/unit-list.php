@@ -27,7 +27,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 24/03/2023
+ * tanggal 16/09/2024
  */
 $API = new class extends siteBase {
 
@@ -83,7 +83,7 @@ $API = new class extends siteBase {
 			
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'siteunit_id' => 'A.`siteunit_id`', 'unit_id' => 'A.`unit_id`', 'dept_id' => 'A.`dept_id`', 'site_id' => 'A.`site_id`',
+				'siteunit_id' => 'A.`siteunit_id`', 'unit_id' => 'A.`unit_id`', 'site_id' => 'A.`site_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_siteunit A";
@@ -111,8 +111,14 @@ $API = new class extends siteBase {
 				$options->sortData = [];
 			}			
 			if (!is_array($options->sortData)) {
-				$options->sortData = [];
+				if (is_object($options->sortData)) {
+					$options->sortData = (array)$options->sortData;
+				} else {
+					$options->sortData = [];
+				}
 			}
+
+
 			if (method_exists(get_class($hnd), 'sortListOrder')) {
 				// ** sortListOrder(array &$sortData) : void
 				//    jika ada keperluan mengurutkan data
@@ -166,7 +172,6 @@ $API = new class extends siteBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'unit_name' => \FGTA4\utils\SqlUtility::Lookup($record['unit_id'], $this->db, 'mst_unit', 'unit_id', 'unit_name'),
-					'dept_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					 
 				]);
 				*/
@@ -174,7 +179,6 @@ $API = new class extends siteBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('unit_name', 'unit_id', $record, 'mst_unit', 'unit_name', 'unit_id');
-				$this->addFields('dept_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 					 
 
 
@@ -187,12 +191,7 @@ $API = new class extends siteBase {
 				array_push($records, $record);
 			}
 
-			/* modify and finalize records */
-			if (method_exists(get_class($hnd), 'DataListFinal')) {
-				// ** DataListFinal(array &$records) : void
-				//    finalisasi data list
-				$hnd->DataListFinal($records);
-			}
+
 
 
 			// kembalikan hasilnya
@@ -200,7 +199,17 @@ $API = new class extends siteBase {
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;
+
+
+			/* modify and finalize records */
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records, object &$result) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records, $result);
+			}
+
 			$result->records = $records;
+
 			return $result;
 		} catch (\Exception $ex) {
 			throw $ex;

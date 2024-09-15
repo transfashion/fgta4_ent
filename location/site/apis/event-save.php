@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 06/09/2024
+ * tanggal 16/09/2024
  */
 $API = new class extends siteBase {
 	
@@ -95,9 +95,7 @@ $API = new class extends siteBase {
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
 			$obj->siteevent_date = (\DateTime::createFromFormat('d/m/Y',$obj->siteevent_date))->format('Y-m-d');
 
-			$obj->siteevent_id = strtoupper($obj->siteevent_id);
 			$obj->siteevent_name = strtoupper($obj->siteevent_name);
-			$obj->site_id = strtoupper($obj->site_id);
 
 
 
