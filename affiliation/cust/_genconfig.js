@@ -36,7 +36,7 @@ module.exports = {
 			comment: 'Daftar Kontak Customer untuk keperluan access, login, atau kontak (no HP, email)',
 			data: {
 				custaccess_id: {text:'ID', type: dbtype.varchar(14), null:false},
-
+				
 
 				cust_id: {text:'ID', type: dbtype.varchar(14), null:false, hidden:true},
 			}
