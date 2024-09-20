@@ -29,6 +29,17 @@ module.exports = {
 				'cust_phone' : ['cust_phone'],
 				'cust_email' : ['cust_email'],
 			}
+		},
+
+		'mst_custaccess' : {
+			primarykeys: ['custaccess_id'],
+			comment: 'Daftar Kontak Customer untuk keperluan access, login, atau kontak (no HP, email)',
+			data: {
+				custaccess_id: {text:'ID', type: dbtype.varchar(14), null:false},
+
+
+				cust_id: {text:'ID', type: dbtype.varchar(14), null:false, hidden:true},
+			}
 		}
 	},
 
