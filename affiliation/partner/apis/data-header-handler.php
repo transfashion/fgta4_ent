@@ -8,6 +8,9 @@ if (!defined('FGTA4')) {
 
 class partner_headerHandler extends WebAPI  {
 
+	public function buildListCriteriaValues(object &$options, array &$criteriaValues) : void {
+		$criteriaValues['partner_isdisabled'] = " A.partner_isdisabled = :partner_isdisabled ";
+	}
 }		
 		
 		
