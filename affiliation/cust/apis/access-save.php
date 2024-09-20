@@ -5,27 +5,29 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
-// require_once __ROOT_DIR . "/core/sequencer.php";
 require_once __DIR__ . '/xapi.base.php';
+//require_once __ROOT_DIR . "/core/sequencer.php";
 
-if (is_file(__DIR__ .'/data-header-handler.php')) {
-	require_once __DIR__ .'/data-header-handler.php';
+
+if (is_file(__DIR__ .'/data-access-handler.php')) {
+	require_once __DIR__ .'/data-access-handler.php';
 }
 
 
+
 use \FGTA4\exceptions\WebException;
-// use \FGTA4\utils\Sequencer;
+//use \FGTA4\utils\Sequencer;
 
 
 
 /**
- * ent/affiliation/cust/apis/save.php
+ * ent/affiliation/cust/apis/access-save.php
  *
- * ====
- * Save
- * ====
+ * ==========
+ * Detil-Save
+ * ==========
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel header cust (mst_cust)
+ * dari tabel access cust (mst_custaccess)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -37,16 +39,16 @@ $API = new class extends custBase {
 	
 	public function execute($data, $options) {
 		$event = 'on-save';
-		$tablename = 'mst_cust';
-		$primarykey = 'cust_id';
+		$tablename = 'mst_custaccess';
+		$primarykey = 'custaccess_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
+
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\cust_headerHandler";
-		$hnd = null;
+		$handlerclassname = "\\FGTA4\\apis\\cust_accessHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new cust_headerHandler($options);
+			$hnd = new cust_accessHandler($data, $options);
 			$hnd->caller = &$this;
 			$hnd->db = &$this->db;
 			$hnd->auth = $this->auth;
@@ -57,41 +59,47 @@ $API = new class extends custBase {
 		}
 
 		try {
-
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
+			
 			if (method_exists(get_class($hnd), 'init')) {
 				// init(object &$options) : void
 				$hnd->init($options);
 			}
+			
+			// data yang akan di update dari table
+			$sqlUpdateField  = [
+					'custaccess_id', 'custaccesstype_id', 'custaccess_code', 'custaccess_isdisabled',
+					'cust_id'
+			];
+			if (method_exists(get_class($hnd), 'setUpdateField')) {
+				// setUpdateField(&$sqlUpdateField, $data, $options)
+				$hnd->setUpdateField($sqlUpdateField, $data, $options);
+			}
+
+
 
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$obj = new \stdClass;
-			foreach ($data as $fieldname => $value) {
-				if ($fieldname=='_state') { continue; }
+			foreach ($sqlUpdateField as $fieldname) {
 				if ($fieldname==$primarykey) {
 					$key->{$fieldname} = $value;
 				}
-				$obj->{$fieldname} = $value;
+				if (property_exists($data, $fieldname)) {
+					$obj->{$fieldname} = $data->{$fieldname};
+				}
 			}
+
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
-			$obj->cust_birthdate = (\DateTime::createFromFormat('d/m/Y',$obj->cust_birthdate))->format('Y-m-d');
-
-			$obj->gender_id = strtoupper($obj->gender_id);
 
 
-			if ($obj->cust_phone=='') { $obj->cust_phone = '--NULL--'; }
-			if ($obj->cust_email=='') { $obj->cust_email = '--NULL--'; }
-			if ($obj->cust_password=='') { $obj->cust_password = '--NULL--'; }
-			if ($obj->cust_birthdate=='') { $obj->cust_birthdate = '--NULL--'; }
-			if ($obj->cust_reasonrejectoffer=='') { $obj->cust_reasonrejectoffer = '--NULL--'; }
+
+			if ($obj->custaccesstype_id=='') { $obj->custaccesstype_id = '--NULL--'; }
+			if ($obj->custaccess_code=='') { $obj->custaccess_code = '--NULL--'; }
+
+
 
 
 
@@ -108,7 +116,7 @@ $API = new class extends custBase {
 			} else {
 				$obj->_modifyby = $userdata->username;
 				$obj->_modifydate = date("Y-m-d H:i:s");	
-		
+
 				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
 					// PreCheckUpdate($data, &$obj, &$key, &$options)
 					$hnd->PreCheckUpdate($data, $obj, $key, $options);
@@ -117,7 +125,7 @@ $API = new class extends custBase {
 
 			//handle data sebelum sebelum save
 			if (method_exists(get_class($hnd), 'DataSaving')) {
-				// ** DataSaving(object &$obj, object &$key)
+				// ** DataSaving(object &$obj, object &$key) : void
 				$hnd->DataSaving($obj, $key);
 			}
 
@@ -132,39 +140,40 @@ $API = new class extends custBase {
 					if ($autoid) {
 						$obj->{$primarykey} = $this->NewId($hnd, $obj);
 					}
-					
-					// handle data sebelum pada saat pembuatan SQL Insert
-					if (method_exists(get_class($hnd), 'RowInserting')) {
-						// ** RowInserting(object &$obj)
-						$hnd->RowInserting($obj);
-					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLInsert($tablename, $obj);
 				} else {
 					$action = 'MODIFY';
-
-					// handle data sebelum pada saat pembuatan SQL Update
-					if (method_exists(get_class($hnd), 'RowUpdating')) {
-						// ** RowUpdating(object &$obj, object &$key))
-						$hnd->RowUpdating($obj, $key);
-					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
-	
+
 				$stmt = $this->db->prepare($cmd->sql);
 				$stmt->execute($cmd->params);
 
+				
+				// Update user & timestamp di header
+				$header_table = 'mst_cust';
+				$header_primarykey = 'cust_id';
+				$detil_primarykey = 'cust_id';
+				$sqlrec = "update $header_table set _modifyby = :user_id, _modifydate=NOW() where $header_primarykey = :$header_primarykey";
+				$stmt = $this->db->prepare($sqlrec);
+				$stmt->execute([
+					":user_id" => $userdata->username,
+					":$header_primarykey" => $obj->{$detil_primarykey}
+				]);
+
 				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $tablename, $obj->{$primarykey}, $action, $userdata->username, (object)[]);
+				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $obj->{$detil_primarykey}, $action . "_DETIL", $userdata->username, (object)[]);
 
 
 
 
 				// result
 				$options->criteria = [
-					"cust_id" => $obj->cust_id
+					"custaccess_id" => $obj->custaccess_id
 				];
 
 				$criteriaValues = [
-					"cust_id" => " cust_id = :cust_id "
+					"custaccess_id" => " custaccess_id = :custaccess_id "
 				];
 				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -180,14 +189,14 @@ $API = new class extends custBase {
 				}
 
 				$sqlFieldList = [
-					'cust_id' => 'A.`cust_id`', 'cust_name' => 'A.`cust_name`', 'cust_phone' => 'A.`cust_phone`', 'cust_email' => 'A.`cust_email`',
-					'cust_password' => 'A.`cust_password`', 'cust_isdisabled' => 'A.`cust_isdisabled`', 'gender_id' => 'A.`gender_id`', 'cust_ishasbirthinfo' => 'A.`cust_ishasbirthinfo`',
-					'cust_birthdate' => 'A.`cust_birthdate`', 'cust_isrecvoffer' => 'A.`cust_isrecvoffer`', 'cust_reasonrejectoffer' => 'A.`cust_reasonrejectoffer`', '_createby' => 'A.`_createby`',
+					'custaccess_id' => 'A.`custaccess_id`', 'custaccesstype_id' => 'A.`custaccesstype_id`', 'custaccess_code' => 'A.`custaccess_code`', 'custaccess_isdisabled' => 'A.`custaccess_isdisabled`',
+					'cust_id' => 'A.`cust_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
-				$sqlFromTable = "mst_cust A";
+				$sqlFromTable = "mst_custaccess A";
 				$sqlWhere = $where->sql;
-					
+
+
 				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
 					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
 					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
@@ -214,8 +223,6 @@ $API = new class extends custBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
-					'gender_name' => \FGTA4\utils\SqlUtility::Lookup($record['gender_id'], $this->db, 'mst_gender', 'gender_id', 'gender_name'),
-					'cust_birthdate' => date("d/m/Y", strtotime($row['cust_birthdate'])),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
@@ -226,7 +233,7 @@ $API = new class extends custBase {
 					$hnd->DataOpen($dataresponse);
 				}
 
-				$result->username = $userdata->username;
+
 				$result->dataresponse = (object) $dataresponse;
 				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
 					// DataSavedSuccess(object &$result) : void
@@ -234,27 +241,27 @@ $API = new class extends custBase {
 				}
 
 				$this->db->commit();
-				return $result;
-
+				return $result;				
+				
 			} catch (\Exception $ex) {
 				$this->db->rollBack();
 				throw $ex;
 			} finally {
 				$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
 			}
-
+			
 		} catch (\Exception $ex) {
 			throw $ex;
 		}
 	}
 
-	public function NewId(object $hnd, object $obj) : string {
+	public function NewId($hnd, $obj) {
 		// dipanggil hanya saat $autoid == true;
 
 		$id = null;
 		$handled = false;
 		if (method_exists(get_class($hnd), 'CreateNewId')) {
-			// CreateNewId(object $obj) : string 
+			// CreateNewId(object $obj) : string
 			$id = $hnd->CreateNewId($obj);
 			$handled = true;
 		}

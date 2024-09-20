@@ -7,21 +7,20 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-header-handler.php')) {
-	require_once __DIR__ .'/data-header-handler.php';
+if (is_file(__DIR__ .'/data-access-handler.php')) {
+	require_once __DIR__ .'/data-access-handler.php';
 }
-
-
 
 use \FGTA4\exceptions\WebException;
 
+
 /**
- * ent/affiliation/cust/apis/list.php
+ * ent/affiliation/cust/apis/access-list.php
  *
- * ========
- * DataList
- * ========
- * Menampilkan data-data pada tabel header cust (mst_cust)
+ * ==============
+ * Detil-DataList
+ * ==============
+ * Menampilkan data-data pada tabel access cust (mst_custaccess)
  * sesuai dengan parameter yang dikirimkan melalui variable $option->criteria
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
@@ -33,13 +32,12 @@ use \FGTA4\exceptions\WebException;
 $API = new class extends custBase {
 
 	public function execute($options) {
-
 		$userdata = $this->auth->session_get_user();
-
-		$handlerclassname = "\\FGTA4\\apis\\cust_headerHandler";
+		
+		$handlerclassname = "\\FGTA4\\apis\\cust_accessHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new cust_headerHandler($options);
-			$hnd->caller = &$this;
+			$hnd = new cust_accessHandler($options);
+			$hnd->caller = $this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
 			$hnd->reqinfo = $this->reqinfo;
@@ -49,11 +47,6 @@ $API = new class extends custBase {
 
 
 		try {
-		
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "list", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
 
 			if (method_exists(get_class($hnd), 'init')) {
 				// init(object &$options) : void
@@ -61,9 +54,8 @@ $API = new class extends custBase {
 			}
 
 			$criteriaValues = [
-				"search" => " A.cust_id LIKE CONCAT('%', :search, '%') OR A.cust_name LIKE CONCAT('%', :search, '%') "
+				"id" => " A.cust_id = :id"
 			];
-
 			if (method_exists(get_class($hnd), 'buildListCriteriaValues')) {
 				// ** buildListCriteriaValues(object &$options, array &$criteriaValues) : void
 				//    apabila akan modifikasi parameter2 untuk query
@@ -88,16 +80,14 @@ $API = new class extends custBase {
 				//    untuk membuat query komplex dapat dibuat disini	
 				$hnd->prepareListData($options, $criteriaValues);
 			}
-
-
+			
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'cust_id' => 'A.`cust_id`', 'cust_name' => 'A.`cust_name`', 'cust_phone' => 'A.`cust_phone`', 'cust_email' => 'A.`cust_email`',
-				'cust_password' => 'A.`cust_password`', 'cust_isdisabled' => 'A.`cust_isdisabled`', 'gender_id' => 'A.`gender_id`', 'cust_ishasbirthinfo' => 'A.`cust_ishasbirthinfo`',
-				'cust_birthdate' => 'A.`cust_birthdate`', 'cust_isrecvoffer' => 'A.`cust_isrecvoffer`', 'cust_reasonrejectoffer' => 'A.`cust_reasonrejectoffer`', '_createby' => 'A.`_createby`',
+				'custaccess_id' => 'A.`custaccess_id`', 'custaccesstype_id' => 'A.`custaccesstype_id`', 'custaccess_code' => 'A.`custaccess_code`', 'custaccess_isdisabled' => 'A.`custaccess_isdisabled`',
+				'cust_id' => 'A.`cust_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_cust A";
+			$sqlFromTable = "mst_custaccess A";
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
@@ -108,7 +98,7 @@ $API = new class extends custBase {
 				//    apabila akan memodifikasi nilai parameter
 				$hnd->SqlQueryListBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
 			}
-			
+
 			// filter select columns
 			if (!property_exists($options, 'selectFields')) {
 				$options->selectFields = [];
@@ -120,7 +110,7 @@ $API = new class extends custBase {
 			/* Sort Configuration */
 			if (!property_exists($options, 'sortData')) {
 				$options->sortData = [];
-			}
+			}			
 			if (!is_array($options->sortData)) {
 				if (is_object($options->sortData)) {
 					$options->sortData = (array)$options->sortData;
@@ -128,8 +118,6 @@ $API = new class extends custBase {
 					$options->sortData = [];
 				}
 			}
-
-		
 
 
 			if (method_exists(get_class($hnd), 'sortListOrder')) {
@@ -153,6 +141,7 @@ $API = new class extends custBase {
 				$sqlLimit
 			";
 
+
 			/* Execute Query: Count */
 			$stmt = $this->db->prepare($sqlCount );
 			$stmt->execute($where->params);
@@ -163,13 +152,13 @@ $API = new class extends custBase {
 			$stmt = $this->db->prepare($sqlData);
 			$stmt->execute($where->params);
 			$rows  = $stmt->fetchall(\PDO::FETCH_ASSOC);
-
+		
 
 			$handleloop = false;
 			if (method_exists(get_class($hnd), 'DataListLooping')) {
 				$handleloop = true;
 			}
-
+			
 			/* Proces result */
 			$records = [];
 			foreach ($rows as $row) {
@@ -178,20 +167,17 @@ $API = new class extends custBase {
 					$record[$key] = $value;
 				}
 
-
 				/*
 				$record = array_merge($record, [
 					// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
-					'gender_name' => \FGTA4\utils\SqlUtility::Lookup($record['gender_id'], $this->db, 'mst_gender', 'gender_id', 'gender_name'),
 					 
 				]);
 				*/
 
 
 				// lookup data id yang refer ke table lain
-				$this->addFields('gender_name', 'gender_id', $record, 'mst_gender', 'gender_name', 'gender_id');
 					 
 
 
@@ -204,19 +190,25 @@ $API = new class extends custBase {
 				array_push($records, $record);
 			}
 
-			/* modify and finalize records */
-			if (method_exists(get_class($hnd), 'DataListFinal')) {
-				// ** DataListFinal(array &$records) : void
-				//    finalisasi data list
-				$hnd->DataListFinal($records);
-			}
+
+
 
 			// kembalikan hasilnya
 			$result = new \stdClass; 
 			$result->total = $total;
 			$result->offset = $offset + $maxrow;
 			$result->maxrow = $maxrow;
+
+
+			/* modify and finalize records */
+			if (method_exists(get_class($hnd), 'DataListFinal')) {
+				// ** DataListFinal(array &$records, object &$result) : void
+				//    finalisasi data list
+				$hnd->DataListFinal($records, $result);
+			}
+
 			$result->records = $records;
+
 			return $result;
 		} catch (\Exception $ex) {
 			throw $ex;

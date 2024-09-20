@@ -24,7 +24,7 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Phone Number</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Default Phone</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_cust_phone" class="easyui-textbox" mapping="cust_phone"  maxlength="60" style="width: 400px" data-options="multiline: false  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
@@ -32,9 +32,17 @@
 		</div>
 
 		<div class="form_row pnl_edit_row" >
-			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Email</div>
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Default Email</div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-txt_cust_email" class="easyui-textbox" mapping="cust_email"  maxlength="60" style="width: 400px" data-options="multiline: false  ">
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Password</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-txt_cust_password" class="easyui-textbox" mapping="cust_password"  maxlength="60" style="width: 400px" data-options="multiline: false  ">
 				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
@@ -43,6 +51,14 @@
 			<div class="form_label_col"></div>
 			<div class="form_input_col" style="border: 0px solid black">
 				<input id="pnl_edit-chk_cust_isdisabled" class="easyui-checkbox c1" mapping="cust_isdisabled" data-options="label: 'Disabled', labelPosition: 'after', checked: false ">
+			</div>
+		</div>
+
+		<div class="form_row pnl_edit_row" >
+			<div class="form_label_col"  style="border: 0px solid black; vertical-align: top; margin-top: 7px;">Gender</div>
+			<div class="form_input_col" style="border: 0px solid black">
+				<input id="pnl_edit-cbo_gender_id" class="easyui-combo" style="width: 400px" mapping="gender_id" display="gender_name" data-options="editable:false, valueField:'id', textField:'text' , required: true, invalidMessage: 'Gender harus diisi', prompt: '-- PILIH --'"   validType="requiredcombo['pnl_edit-cbo_gender_id']" >
+				<div style="margin-top: 3px; margin-bottom: 5px; font-size: 0.75em; font-style: italic; color:#54381d;"></div>
 			</div>
 		</div>
 
@@ -88,6 +104,19 @@
 
 
 
+		<div id="pnl_edit-detil" class="form_row" style="margin-top: 30px">
+			<div class="form_label_col"></div>
+			<div class="form_input_col detilbox" style="border: 0px solid black">
+				<div class="fgtable-head" style="height: 25px; padding: 5px 0px 0px 5px">Detil Informations</div>
+				<div class="fgtable-head-drow" style="height: 25px; padding: 5px 5px 0px 5px; " onclick="$ui.getPages().ITEMS['pnl_edit'].handler.detil_open('pnl_editaccessgrid')">
+					<div id="pnl_edit-txt_access_title" class="detilgrid-text">Access</div>
+					<div id="pnl_edit-txt_access_value" class="detilgrid-value access_totalvalue">&nbsp;</div>
+				</div>
+
+			</div>		
+		</div>		
+		
+		
 
 
 	<div style="margin-top: 30px; margin-left:-5px; margin-right: -5px; background-color: #cccccc; display: flex; justify-content: space-between; padding: 10px 2px 2px 2px ">

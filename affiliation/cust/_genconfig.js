@@ -14,9 +14,19 @@ module.exports = {
 			data: {
 				cust_id: {text:'ID', type: dbtype.varchar(14), null:false},
 				cust_name: {text:'Name', type: dbtype.varchar(60), null:false, options:{required:true,invalidMessage:'Name harus diisi'}},
-				cust_phone: {text:'Phone Number', type: dbtype.varchar(60), null:true},
-				cust_email: {text:'Email', type: dbtype.varchar(60), null:true},
+				cust_phone: {text:'Default Phone', type: dbtype.varchar(60), null:true},
+				cust_email: {text:'Default Email', type: dbtype.varchar(60), null:true},
+				cust_password: {text:'Password', type: dbtype.varchar(60), null:true},
 				cust_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
+				gender_id: {
+					text:'Gender', type: dbtype.varchar(1), null:true, uppercase: true, suppresslist: true,
+					options:{required:true,invalidMessage:'Gender harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_gender', 
+						field_value: 'gender_id', field_display: 'gender_name', 
+						api: 'ent/general/gender/list'
+					})				
+				},
 				cust_ishasbirthinfo: {
 					text:'Has Birth Information', type: dbtype.boolean, null:false, default:'0', suppresslist: true, options: {labelWidth:'300px'},
 				},
@@ -36,8 +46,9 @@ module.exports = {
 			comment: 'Daftar Kontak Customer untuk keperluan access, login, atau kontak (no HP, email)',
 			data: {
 				custaccess_id: {text:'ID', type: dbtype.varchar(14), null:false},
-				
-
+				custaccesstype_id: {text:'AccessType', type: dbtype.varchar(10), null:true},
+				custaccess_code: {text:'Code', type: dbtype.varchar(60), null:true},
+				custaccess_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				cust_id: {text:'ID', type: dbtype.varchar(14), null:false, hidden:true},
 			}
 		}
@@ -46,6 +57,11 @@ module.exports = {
 	schema: {
 		title: 'Customer',
 		header: 'mst_cust',
-		detils: {}
+		detils: {
+			'access' : {
+				title: 'Access', table:'mst_custaccess', form: true, headerview:'cust_name', 
+				editorHandler: true, listHandler: true
+			},
+		}
 	}
 }

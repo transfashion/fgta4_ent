@@ -10,5 +10,6 @@ kemdian, di program bisa diakses dengan
 
 */
 
+export const load_gender_id = 'ent/general/gender/list'
 
 

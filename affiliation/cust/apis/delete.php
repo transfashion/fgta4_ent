@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 27/08/2024
+ * tanggal 20/09/2024
  */
 $API = new class extends custBase {
 	
@@ -78,7 +78,7 @@ $API = new class extends custBase {
 			try {
 				
 				// Deleting child data referenced to this table
-				$tabletodelete = [];
+				$tabletodelete = ['mst_custaccess'];
 				if (method_exists(get_class($hnd), 'DocumentDeleting')) {
 					// ** DocumentDeleting(string $id, array &$tabletodelete)
 					$hnd->DocumentDeleting($data->{$primarykey}, $tabletodelete);

@@ -1,7 +1,7 @@
 var this_page_id;
 var this_page_options;
 
-
+import {fgta4slideselect} from  '../../../../../index.php/asset/fgta/framework/fgta4libs/fgta4slideselect.mjs'
 import * as hnd from  './cust-edit-hnd.mjs'
 
 const txt_caption = $('#pnl_edit-caption')
@@ -22,7 +22,9 @@ const obj = {
 	txt_cust_name: $('#pnl_edit-txt_cust_name'),
 	txt_cust_phone: $('#pnl_edit-txt_cust_phone'),
 	txt_cust_email: $('#pnl_edit-txt_cust_email'),
+	txt_cust_password: $('#pnl_edit-txt_cust_password'),
 	chk_cust_isdisabled: $('#pnl_edit-chk_cust_isdisabled'),
+	cbo_gender_id: $('#pnl_edit-cbo_gender_id'),
 	chk_cust_ishasbirthinfo: $('#pnl_edit-chk_cust_ishasbirthinfo'),
 	dt_cust_birthdate: $('#pnl_edit-dt_cust_birthdate'),
 	chk_cust_isrecvoffer: $('#pnl_edit-chk_cust_isrecvoffer'),
@@ -75,6 +77,20 @@ export async function init(opt) {
 	// Generator: Upload Handler not exist
 
 
+	obj.cbo_gender_id.name = 'pnl_edit-cbo_gender_id'		
+	new fgta4slideselect(obj.cbo_gender_id, {
+		title: 'Pilih gender_id',
+		returnpage: this_page_id,
+		api: $ui.apis.load_gender_id,
+		fieldValue: 'gender_id',
+		fieldDisplay: 'gender_name',
+		fields: [
+			{mapping: 'gender_id', text: 'gender_id'},
+			{mapping: 'gender_name', text: 'gender_name'}
+		],
+
+	})				
+				
 
 
 
@@ -199,6 +215,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 		form.SuspendEvent(true);
 		form
 			.fill(record)
+			.setValue(obj.cbo_gender_id, record.gender_id, record.gender_name)
 			.setViewMode(viewmode)
 			.lock(false)
 			.rowid = rowid
@@ -261,6 +278,8 @@ export function createnew() {
 		data.cust_birthdate = global.now()
 		data.cust_isrecvoffer = '1'
 
+		data.gender_id = '0'
+		data.gender_name = '-- PILIH --'
 
 		if (typeof hnd.form_newdata == 'function') {
 			// untuk mengambil nilai ui component,
@@ -278,6 +297,7 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
+		$ui.getPages().ITEMS['pnl_editaccessgrid'].handler.createnew(data, options)
 
 
 	})
