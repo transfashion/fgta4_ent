@@ -2,7 +2,7 @@ DROP TRIGGER IF EXISTS mst_itemgroup_before_insert;
 
 DELIMITER //
 
-CREATE DEFINER=`root`@`localhost` TRIGGER `mst_itemgroup_before_insert` BEFORE INSERT ON `mst_itemgroup` FOR EACH ROW BEGIN
+CREATE TRIGGER `mst_itemgroup_before_insert` BEFORE INSERT ON `mst_itemgroup` FOR EACH ROW BEGIN
 
 	DECLARE PATHID VARCHAR(17);
 	DECLARE PARENT_PATHID VARCHAR(17);
