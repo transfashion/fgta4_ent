@@ -8,6 +8,8 @@ import * as pList from './cust-list.mjs'
 import * as pEdit from './cust-edit.mjs'
 import * as pEditAccessgrid from './cust-accessgrid.mjs'
 import * as pEditAccessform from './cust-accessform.mjs'
+import * as pEditLinkreqgrid from './cust-linkreqgrid.mjs'
+import * as pEditLinkreqform from './cust-linkreqform.mjs'
 
 
 
@@ -15,6 +17,8 @@ const pnl_list = $('#pnl_list')
 const pnl_edit = $('#pnl_edit')
 const pnl_editaccessgrid = $('#pnl_editaccessgrid')
 const pnl_editaccessform = $('#pnl_editaccessform')
+const pnl_editlinkreqgrid = $('#pnl_editlinkreqgrid')
+const pnl_editlinkreqform = $('#pnl_editlinkreqform')
 
 
 
@@ -46,7 +50,9 @@ export async function init(opt) {
 			{panel: pnl_list, handler: pList},
 			{panel: pnl_edit, handler: pEdit},
 			{panel: pnl_editaccessgrid, handler: pEditAccessgrid},
-			{panel: pnl_editaccessform, handler: pEditAccessform}			
+			{panel: pnl_editaccessform, handler: pEditAccessform},
+			{panel: pnl_editlinkreqgrid, handler: pEditLinkreqgrid},
+			{panel: pnl_editlinkreqform, handler: pEditLinkreqform}			
 		], opt)
 
 	$ui.setPages(pages)

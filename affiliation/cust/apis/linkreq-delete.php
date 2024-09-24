@@ -8,8 +8,8 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-access-handler.php')) {
-	require_once __DIR__ .'/data-access-handler.php';
+if (is_file(__DIR__ .'/data-linkreq-handler.php')) {
+	require_once __DIR__ .'/data-linkreq-handler.php';
 }
 
 
@@ -17,13 +17,13 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/affiliation/cust/apis/access-delete.php
+ * ent/affiliation/cust/apis/linkreq-delete.php
  *
  * ============
  * Detil-Delete
  * ============
  * Menghapus satu baris data/record berdasarkan PrimaryKey
- * pada tabel access cust (mst_cust)
+ * pada tabel linkreq cust (mst_cust)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -34,15 +34,15 @@ use \FGTA4\exceptions\WebException;
 $API = new class extends custBase {
 	
 	public function execute($data, $options) {
-		$tablename = 'mst_custaccess';
-		$primarykey = 'custaccess_id';
+		$tablename = 'mst_custwalinkreq';
+		$primarykey = 'custwalinkreq_id';
 
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\cust_accessHandler";
+		$handlerclassname = "\\FGTA4\\apis\\cust_linkreqHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new cust_accessHandler($options);
+			$hnd = new cust_linkreqHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
