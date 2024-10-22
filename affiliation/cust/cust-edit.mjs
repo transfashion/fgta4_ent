@@ -298,6 +298,7 @@ export function createnew() {
 		}
 
 		$ui.getPages().ITEMS['pnl_editaccessgrid'].handler.createnew(data, options)
+		$ui.getPages().ITEMS['pnl_editlinkreqgrid'].handler.createnew(data, options)
 
 
 	})

@@ -7,20 +7,20 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-access-handler.php')) {
-	require_once __DIR__ .'/data-access-handler.php';
+if (is_file(__DIR__ .'/data-linkreq-handler.php')) {
+	require_once __DIR__ .'/data-linkreq-handler.php';
 }
 
 use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/affiliation/cust/apis/access-list.php
+ * ent/affiliation/cust/apis/linkreq-list.php
  *
  * ==============
  * Detil-DataList
  * ==============
- * Menampilkan data-data pada tabel access cust (mst_custaccess)
+ * Menampilkan data-data pada tabel linkreq cust (mst_custwalinkreq)
  * sesuai dengan parameter yang dikirimkan melalui variable $option->criteria
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
@@ -34,9 +34,9 @@ $API = new class extends custBase {
 	public function execute($options) {
 		$userdata = $this->auth->session_get_user();
 		
-		$handlerclassname = "\\FGTA4\\apis\\cust_accessHandler";
+		$handlerclassname = "\\FGTA4\\apis\\cust_linkreqHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new cust_accessHandler($options);
+			$hnd = new cust_linkreqHandler($options);
 			$hnd->caller = $this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
@@ -83,11 +83,13 @@ $API = new class extends custBase {
 			
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'custaccess_id' => 'A.`custaccess_id`', 'custaccesstype_id' => 'A.`custaccesstype_id`', 'custaccess_code' => 'A.`custaccess_code`', 'custaccess_isdisabled' => 'A.`custaccess_isdisabled`',
-				'cust_id' => 'A.`cust_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'custwalinkreq_id' => 'A.`custwalinkreq_id`', 'ref' => 'A.`ref`', 'intent' => 'A.`intent`', 'room_id' => 'A.`room_id`',
+				'message' => 'A.`message`', 'voubatch_id' => 'A.`voubatch_id`', 'vou_id' => 'A.`vou_id`', 'crmevent_id' => 'A.`crmevent_id`',
+				'code' => 'A.`code`', 'slpart' => 'A.`slpart`', 'data' => 'A.`data`', 'result' => 'A.`result`',
+				'status' => 'A.`status`', 'custwa_id' => 'A.`custwa_id`', 'cust_id' => 'A.`cust_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_custaccess A";
+			$sqlFromTable = "mst_custwalinkreq A";
 			$sqlWhere = $where->sql;
 			$sqlLimit = "LIMIT $maxrow OFFSET $offset";
 
