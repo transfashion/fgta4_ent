@@ -74,6 +74,24 @@ module.exports = {
 					})				
 				},
 
+				brand_id: {
+					text: 'Brand', type: dbtype.varchar(14), null:true,  suppresslist: true,
+					options:{required:true,invalidMessage:'Brand harus diisi', prompt:'-- PILIH --'},
+					// tips: 'Maintainer Dept yang akan manage distribusi tipe item ini',
+					// tipstype: 'visible',
+					//options:{prompt:'NONE'},
+					comp: comp.Combo({
+						title: 'Pilih Brand',
+						table: 'mst_brand', 
+						field_value: 'brand_id', field_display: 'brand_name', field_display_name: 'brand_name',
+						api: 'ent/affiliation/brand/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false							
+					})				
+				},
+
 				unitmeasurement_id: { 
 					text: 'Unit of Measurement', 
 					type: dbtype.varchar(10),  null: false, suppresslist: true,

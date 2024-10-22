@@ -15,8 +15,9 @@ class itemstock_headerHandler extends WebAPI  {
 	}
 
 
-// 	public function SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void {
-		
+	public function SqlQueryListBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void {
+		$sqlFromTable = "mst_itemstock A inner join mst_itemgroup B on B.itemgroup_id = A.itemgroup_id";
+	}
 
 // 		unset($sqlFieldList['itemstock_code']);
 

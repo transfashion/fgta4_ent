@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `mst_itemstock` (
 	`itemstock_descr` varchar(2500)  , 
 	`dept_id` varchar(30) NOT NULL , 
 	`unit_id` varchar(10) NOT NULL , 
+	`brand_id` varchar(14)  , 
 	`unitmeasurement_id` varchar(10) NOT NULL , 
 	`itemstock_couchdbid` varchar(255)  , 
 	`itemstock_picture` varchar(90)  , 
@@ -73,7 +74,8 @@ ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_nameshort` varc
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_descr` varchar(2500)   AFTER `itemstock_nameshort`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `itemstock_descr`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `unit_id` varchar(10) NOT NULL  AFTER `dept_id`;
-ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `unitmeasurement_id` varchar(10) NOT NULL  AFTER `unit_id`;
+ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `brand_id` varchar(14)   AFTER `unit_id`;
+ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `unitmeasurement_id` varchar(10) NOT NULL  AFTER `brand_id`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_couchdbid` varchar(255)   AFTER `unitmeasurement_id`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_picture` varchar(90)   AFTER `itemstock_couchdbid`;
 ALTER TABLE `mst_itemstock` ADD COLUMN IF NOT EXISTS  `itemstock_source` varchar(30) NOT NULL  AFTER `itemstock_picture`;
@@ -116,7 +118,8 @@ ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_nameshort` varch
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_descr` varchar(2500)    AFTER `itemstock_nameshort`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `itemstock_descr`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `unit_id` varchar(10) NOT NULL   AFTER `dept_id`;
-ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `unitmeasurement_id` varchar(10) NOT NULL   AFTER `unit_id`;
+ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `brand_id` varchar(14)    AFTER `unit_id`;
+ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `unitmeasurement_id` varchar(10) NOT NULL   AFTER `brand_id`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_couchdbid` varchar(255)    AFTER `unitmeasurement_id`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_picture` varchar(90)    AFTER `itemstock_couchdbid`;
 ALTER TABLE `mst_itemstock` MODIFY COLUMN IF EXISTS  `itemstock_source` varchar(30) NOT NULL   AFTER `itemstock_picture`;
@@ -157,12 +160,14 @@ ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `itemgroup_id` (`itemgroup_id`
 ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `itemclass_id` (`itemclass_id`);
 ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `dept_id` (`dept_id`);
 ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `unit_id` (`unit_id`);
+ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `brand_id` (`brand_id`);
 ALTER TABLE `mst_itemstock` ADD KEY IF NOT EXISTS `unitmeasurement_id` (`unitmeasurement_id`);
 
 ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_itemgroup` FOREIGN KEY IF NOT EXISTS  (`itemgroup_id`) REFERENCES `mst_itemgroup` (`itemgroup_id`);
 ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_itemclass` FOREIGN KEY IF NOT EXISTS  (`itemclass_id`) REFERENCES `mst_itemclass` (`itemclass_id`);
 ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_dept` FOREIGN KEY IF NOT EXISTS  (`dept_id`) REFERENCES `mst_dept` (`dept_id`);
 ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_unit` FOREIGN KEY IF NOT EXISTS  (`unit_id`) REFERENCES `mst_unit` (`unit_id`);
+ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_brand` FOREIGN KEY IF NOT EXISTS  (`brand_id`) REFERENCES `mst_brand` (`brand_id`);
 ALTER TABLE `mst_itemstock` ADD CONSTRAINT `fk_mst_itemstock_mst_unitmeasurement` FOREIGN KEY IF NOT EXISTS  (`unitmeasurement_id`) REFERENCES `mst_unitmeasurement` (`unitmeasurement_id`);
 
 
