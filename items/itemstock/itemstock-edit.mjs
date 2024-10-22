@@ -30,6 +30,7 @@ const obj = {
 	txt_itemstock_descr: $('#pnl_edit-txt_itemstock_descr'),
 	cbo_dept_id: $('#pnl_edit-cbo_dept_id'),
 	cbo_unit_id: $('#pnl_edit-cbo_unit_id'),
+	cbo_brand_id: $('#pnl_edit-cbo_brand_id'),
 	cbo_unitmeasurement_id: $('#pnl_edit-cbo_unitmeasurement_id'),
 	txt_itemstock_couchdbid: $('#pnl_edit-txt_itemstock_couchdbid'),
 	fl_itemstock_picture: $('#pnl_edit-fl_itemstock_picture'),
@@ -156,7 +157,7 @@ export async function init(opt) {
 		OnSelecting: (value, display, record, args) => {
 			// args.Cancel=true; // apabila ingin membatalkan pilihan			
 			if (value!=args.PreviousValue ) {
-				if (typeof hnd.cbo_itemgroup_id_selecting === 'function') {
+				if (typeof hnd.cbo_itemgroup_id_selected === 'function') {
 					hnd.cbo_itemgroup_id_selecting(value, display, record, args);
 				}
 			}
@@ -202,6 +203,20 @@ export async function init(opt) {
 		fields: [
 			{mapping: 'unit_id', text: 'unit_id'},
 			{mapping: 'unit_name', text: 'unit_name'}
+		],
+
+	})				
+				
+	obj.cbo_brand_id.name = 'pnl_edit-cbo_brand_id'		
+	new fgta4slideselect(obj.cbo_brand_id, {
+		title: 'Pilih Brand',
+		returnpage: this_page_id,
+		api: $ui.apis.load_brand_id,
+		fieldValue: 'brand_id',
+		fieldDisplay: 'brand_name',
+		fields: [
+			{mapping: 'brand_id', text: 'brand_id'},
+			{mapping: 'brand_name', text: 'brand_name'}
 		],
 
 	})				
@@ -348,6 +363,7 @@ export function open(data, rowid, viewmode=true, fn_callback) {
 			.setValue(obj.cbo_itemclass_id, record.itemclass_id, record.itemclass_name)
 			.setValue(obj.cbo_dept_id, record.dept_id, record.dept_name)
 			.setValue(obj.cbo_unit_id, record.unit_id, record.unit_name)
+			.setValue(obj.cbo_brand_id, record.brand_id, record.brand_name)
 			.setValue(obj.cbo_unitmeasurement_id, record.unitmeasurement_id, record.unitmeasurement_name)
 			.setViewMode(viewmode)
 			.lock(false)
@@ -435,6 +451,8 @@ export function createnew() {
 		data.dept_name = global.setup.dept_name
 		data.unit_id = '0'
 		data.unit_name = '-- PILIH --'
+		data.brand_id = '0'
+		data.brand_name = '-- PILIH --'
 		data.unitmeasurement_id = '0'
 		data.unitmeasurement_name = '-- PILIH --'
 

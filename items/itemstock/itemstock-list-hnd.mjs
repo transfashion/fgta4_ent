@@ -83,6 +83,8 @@ export function init(param, fn_callback) {
 		],
 		OnDataLoading: (criteria) => {
 			// console.log('loading...');
+			var dept_id = global.search.cbo_search_dept.combo('getValue')
+			criteria.dept_id = dept_id;
 		},
 		OnDataLoaded: (result, options) => {
 			result.records.unshift({ itemgroup_id: '--ALL--', itemgroup_name: 'ALL' });
