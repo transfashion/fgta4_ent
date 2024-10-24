@@ -10,14 +10,10 @@ import * as pEditBarcodegrid from './itemstock-barcodegrid.mjs'
 import * as pEditBarcodeform from './itemstock-barcodeform.mjs'
 import * as pEditPropgrid from './itemstock-propgrid.mjs'
 import * as pEditPropform from './itemstock-propform.mjs'
-import * as pEditPositiongrid from './itemstock-positiongrid.mjs'
-import * as pEditPositionform from './itemstock-positionform.mjs'
 import * as pEditCompoundgrid from './itemstock-compoundgrid.mjs'
 import * as pEditCompoundform from './itemstock-compoundform.mjs'
 import * as pEditConversiongrid from './itemstock-conversiongrid.mjs'
 import * as pEditConversionform from './itemstock-conversionform.mjs'
-import * as pEditPicturegrid from './itemstock-picturegrid.mjs'
-import * as pEditPictureform from './itemstock-pictureform.mjs'
 
 
 
@@ -27,14 +23,10 @@ const pnl_editbarcodegrid = $('#pnl_editbarcodegrid')
 const pnl_editbarcodeform = $('#pnl_editbarcodeform')
 const pnl_editpropgrid = $('#pnl_editpropgrid')
 const pnl_editpropform = $('#pnl_editpropform')
-const pnl_editpositiongrid = $('#pnl_editpositiongrid')
-const pnl_editpositionform = $('#pnl_editpositionform')
 const pnl_editcompoundgrid = $('#pnl_editcompoundgrid')
 const pnl_editcompoundform = $('#pnl_editcompoundform')
 const pnl_editconversiongrid = $('#pnl_editconversiongrid')
 const pnl_editconversionform = $('#pnl_editconversionform')
-const pnl_editpicturegrid = $('#pnl_editpicturegrid')
-const pnl_editpictureform = $('#pnl_editpictureform')
 
 
 
@@ -69,14 +61,10 @@ export async function init(opt) {
 			{panel: pnl_editbarcodeform, handler: pEditBarcodeform},
 			{panel: pnl_editpropgrid, handler: pEditPropgrid},
 			{panel: pnl_editpropform, handler: pEditPropform},
-			{panel: pnl_editpositiongrid, handler: pEditPositiongrid},
-			{panel: pnl_editpositionform, handler: pEditPositionform},
 			{panel: pnl_editcompoundgrid, handler: pEditCompoundgrid},
 			{panel: pnl_editcompoundform, handler: pEditCompoundform},
 			{panel: pnl_editconversiongrid, handler: pEditConversiongrid},
-			{panel: pnl_editconversionform, handler: pEditConversionform},
-			{panel: pnl_editpicturegrid, handler: pEditPicturegrid},
-			{panel: pnl_editpictureform, handler: pEditPictureform}			
+			{panel: pnl_editconversionform, handler: pEditConversionform}			
 		], opt)
 
 	$ui.setPages(pages)

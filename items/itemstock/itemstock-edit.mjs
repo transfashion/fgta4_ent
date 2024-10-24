@@ -478,10 +478,8 @@ export function createnew() {
 
 		$ui.getPages().ITEMS['pnl_editbarcodegrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editpropgrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editpositiongrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editcompoundgrid'].handler.createnew(data, options)
 		$ui.getPages().ITEMS['pnl_editconversiongrid'].handler.createnew(data, options)
-		$ui.getPages().ITEMS['pnl_editpicturegrid'].handler.createnew(data, options)
 
 
 	})

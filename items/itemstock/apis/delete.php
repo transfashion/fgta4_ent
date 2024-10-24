@@ -78,7 +78,7 @@ $API = new class extends itemstockBase {
 			try {
 				
 				// Deleting child data referenced to this table
-				$tabletodelete = ['mst_itemstockbarcode', 'mst_itemstockprop', 'mst_itemstockposition', 'mst_itemstockcompound', 'mst_itemstockconversion', 'mst_itemstockpic'];
+				$tabletodelete = ['mst_itemstockbarcode', 'mst_itemstockprop', 'mst_itemstockcompound', 'mst_itemstockconversion'];
 				if (method_exists(get_class($hnd), 'DocumentDeleting')) {
 					// ** DocumentDeleting(string $id, array &$tabletodelete)
 					$hnd->DocumentDeleting($data->{$primarykey}, $tabletodelete);
