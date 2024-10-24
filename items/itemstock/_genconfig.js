@@ -192,68 +192,68 @@ module.exports = {
 
 
 
-		'mst_itemstockposition' : {
-			comment: 'Posisi stok saat ini',
-			primarykeys: ['itemstockposition_id'],
-			data: {
-				itemstockposition_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
+		// 'mst_itemstockposition' : {
+		// 	comment: 'Posisi stok saat ini',
+		// 	primarykeys: ['itemstockposition_id'],
+		// 	data: {
+		// 		itemstockposition_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
 
-				itemstockposition_date: { 
-					text: 'Saldo Date', type: dbtype.datetime, comp: comp.Textbox(),
-					unset:true,  
-					options: { disabled: true }, 
-				},
+		// 		itemstockposition_date: { 
+		// 			text: 'Saldo Date', type: dbtype.datetime, comp: comp.Textbox(),
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 		},
 
-				unit_id: {
-					text: 'Unit', type: dbtype.varchar(30), null: true, suppresslist: true,
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unit', field_value: 'unit_id'}
-				},
+		// 		unit_id: {
+		// 			text: 'Unit', type: dbtype.varchar(30), null: true, suppresslist: true,
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unit', field_value: 'unit_id'}
+		// 		},
 
-				site_id: {
-					text: 'Site', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_site', field_value: 'site_id'}
-				},
+		// 		site_id: {
+		// 			text: 'Site', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_site', field_value: 'site_id'}
+		// 		},
 
-				dept_id: {
-					text: 'Dept', type: dbtype.varchar(30), null: true,  suppresslist: true,
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_dept', field_value: 'dept_id'}
-				},
+		// 		dept_id: {
+		// 			text: 'Dept', type: dbtype.varchar(30), null: true,  suppresslist: true,
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_dept', field_value: 'dept_id'}
+		// 		},
 
-				brand_id: {
-					text: 'Brand', type: dbtype.varchar(14), null: true,  suppresslist: true,
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_brand', field_value: 'brand_id'}
-				},
+		// 		brand_id: {
+		// 			text: 'Brand', type: dbtype.varchar(14), null: true,  suppresslist: true,
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_brand', field_value: 'brand_id'}
+		// 		},
 
-				unitmeasurement_id: {
-					text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
-				},
+		// 		unitmeasurement_id: {
+		// 			text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
+		// 		},
 
-				itemstocksaldo_qty: {text:'Qty', type: dbtype.decimal(14,2), null:false, default: 0, options: { disabled: true }},
-				itemstocksaldo_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0, options: { disabled: true }},
+		// 		itemstocksaldo_qty: {text:'Qty', type: dbtype.decimal(14,2), null:false, default: 0, options: { disabled: true }},
+		// 		itemstocksaldo_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0, options: { disabled: true }},
 
-				itemstockposition_isupdating: { text: 'Updating', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options: { disabled: true }},
-				itemstockposition_updatebatch: { 
-					text: 'Last Batch Update', type: dbtype.varchar(30), null: true, suppresslist: true, options: { disabled: true } },
+		// 		itemstockposition_isupdating: { text: 'Updating', type: dbtype.boolean, null: false, default: '0' , suppresslist: true, options: { disabled: true }},
+		// 		itemstockposition_updatebatch: { 
+		// 			text: 'Last Batch Update', type: dbtype.varchar(30), null: true, suppresslist: true, options: { disabled: true } },
 
 
-				itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
-			},
+		// 		itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
+		// 	},
 
-			uniques: {
-				'itemstockposition_location': ['itemstock_id', 'unit_id', 'brand_id', 'site_id', 'dept_id', 'unitmeasurement_id']
-			},
-		},
+		// 	uniques: {
+		// 		'itemstockposition_location': ['itemstock_id', 'unit_id', 'brand_id', 'site_id', 'dept_id', 'unitmeasurement_id']
+		// 	},
+		// },
 
 
 		'mst_itemstockcompound' : {
@@ -372,20 +372,20 @@ module.exports = {
 		},
 
 
-		'mst_itemstockpic' : {
-			primarykeys: ['itemstockpic_id'],
-			comment: 'Daftar Picture Category Merch Item',
-			data: {
-				itemstockpic_id: {text:'ID', type: dbtype.varchar(14), null:false},	
-				itemstockpic_couchdbid: {text:'CouchDb.Id', type: dbtype.varchar(255), null:true}, // id di couchdb
-				itemstockpic_name: {text:'Name', type: dbtype.varchar(30), null:false, options: {required:true,invalidMessage:'Picture Name harus diisi'}},	
-				itemstockpic_descr: {text:'Descr', type: dbtype.varchar(90), null:false},	
-				itemstockpic_order: {text:'Order', type: dbtype.int(4), null:false, default:'0', suppresslist: true},
-				itemstockpic_file: {text:'Picture', type: dbtype.varchar(90), suppresslist: true,  comp: comp.Filebox(), options: { accept: 'image/*' }},
-				itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false, hidden: true },	
-			},
-			uniques: {}
-		},
+		// 'mst_itemstockpic' : {
+		// 	primarykeys: ['itemstockpic_id'],
+		// 	comment: 'Daftar Picture Category Merch Item',
+		// 	data: {
+		// 		itemstockpic_id: {text:'ID', type: dbtype.varchar(14), null:false},	
+		// 		itemstockpic_couchdbid: {text:'CouchDb.Id', type: dbtype.varchar(255), null:true}, // id di couchdb
+		// 		itemstockpic_name: {text:'Name', type: dbtype.varchar(30), null:false, options: {required:true,invalidMessage:'Picture Name harus diisi'}},	
+		// 		itemstockpic_descr: {text:'Descr', type: dbtype.varchar(90), null:false},	
+		// 		itemstockpic_order: {text:'Order', type: dbtype.int(4), null:false, default:'0', suppresslist: true},
+		// 		itemstockpic_file: {text:'Picture', type: dbtype.varchar(90), suppresslist: true,  comp: comp.Filebox(), options: { accept: 'image/*' }},
+		// 		itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false, hidden: true },	
+		// 	},
+		// 	uniques: {}
+		// },
 
 
 		
@@ -410,168 +410,168 @@ module.exports = {
 		*/
 
 
-		'trn_itemstockmoving' : {
-			comment: 'Moving Stock',
-			primarykeys: ['itemstockmoving_id'],
-			data: {
-				itemstockmoving_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
+		// 'trn_itemstockmoving' : {
+		// 	comment: 'Moving Stock',
+		// 	primarykeys: ['itemstockmoving_id'],
+		// 	data: {
+		// 		itemstockmoving_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
 
-				periodemo_id: {
-					text: 'Periode', type: dbtype.varchar(6), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_periodemo', field_value: 'periodemo_id'}
-				},
+		// 		periodemo_id: {
+		// 			text: 'Periode', type: dbtype.varchar(6), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_periodemo', field_value: 'periodemo_id'}
+		// 		},
 
-				unit_id: {
-					text: 'Unit', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unit', field_value: 'unit_id'}
-				},
+		// 		unit_id: {
+		// 			text: 'Unit', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unit', field_value: 'unit_id'}
+		// 		},
 
-				itemmvmodel_id: { 
-					text: 'Model', type: dbtype.varchar(10),
-					unset: true,
-					options: {disabled: true},
-					reference: {table: 'mst_itemmvmodel', field_value: 'itemmvmodel_id'}
-				},
+		// 		itemmvmodel_id: { 
+		// 			text: 'Model', type: dbtype.varchar(10),
+		// 			unset: true,
+		// 			options: {disabled: true},
+		// 			reference: {table: 'mst_itemmvmodel', field_value: 'itemmvmodel_id'}
+		// 		},
 				
-				itemstockmoving_date: { 
-					text: 'Last Recv Date', type: dbtype.datetime, comp: comp.Textbox(),
-					unset:true,  
-					options: { disabled: true }, 
-				},
+		// 		itemstockmoving_date: { 
+		// 			text: 'Last Recv Date', type: dbtype.datetime, comp: comp.Textbox(),
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 		},
 
-				site_id: {
-					text: 'Site', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_site', field_value: 'site_id'}
-				},
+		// 		site_id: {
+		// 			text: 'Site', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_site', field_value: 'site_id'}
+		// 		},
 
-				dept_id: {
-					text: 'Dept', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_dept', field_value: 'dept_id'}
-				},
+		// 		dept_id: {
+		// 			text: 'Dept', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_dept', field_value: 'dept_id'}
+		// 		},
 
-				brand_id: {
-					text: 'Brand', type: dbtype.varchar(14), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_brand', field_value: 'brand_id'}
-				},
+		// 		brand_id: {
+		// 			text: 'Brand', type: dbtype.varchar(14), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_brand', field_value: 'brand_id'}
+		// 		},
 
-				unitmeasurement_id: {
-					text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
-				},
+		// 		unitmeasurement_id: {
+		// 			text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
+		// 		},
 
-				itemstock_id: {
-					text: 'ItemStock', type: dbtype.varchar(14), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_itemstock', field_value: 'itemstock_id'}
-				},
+		// 		itemstock_id: {
+		// 			text: 'ItemStock', type: dbtype.varchar(14), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_itemstock', field_value: 'itemstock_id'}
+		// 		},
 
-				itemstockmoving_qty: {text:'Qty', type: dbtype.decimal(16,2), null:false, default: 0},
-				itemstockmoving_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0},
+		// 		itemstockmoving_qty: {text:'Qty', type: dbtype.decimal(16,2), null:false, default: 0},
+		// 		itemstockmoving_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0},
 
-				itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
-			}			
-		},
-
-
+		// 		itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
+		// 	}			
+		// },
 
 
-		'mst_itemstocksaldo' : {
-			comment: 'Saldo akhir stok pada akhir bulan',
-			primarykeys: ['itemstocksaldo_id'],
-			data: {
-				itemstocksaldo_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
+
+
+		// 'mst_itemstocksaldo' : {
+		// 	comment: 'Saldo akhir stok pada akhir bulan',
+		// 	primarykeys: ['itemstocksaldo_id'],
+		// 	data: {
+		// 		itemstocksaldo_id: { text: 'ID', type: dbtype.varchar(15),  null: false },
 				
-				periodemo_id: {
-					text: 'Periode', type: dbtype.varchar(6), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_periodemo', field_value: 'periodemo_id'}
-				},
+		// 		periodemo_id: {
+		// 			text: 'Periode', type: dbtype.varchar(6), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_periodemo', field_value: 'periodemo_id'}
+		// 		},
 
-				unit_id: {
-					text: 'Unit', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unit', field_value: 'unit_id'}
-				},
-
-
-				itemstockunitclose_id : {
-					text: 'Closing Id', type: dbtype.varchar(15), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_itemstockunitclose', field_value: 'itemstockunitclose_id'}
-				},
-
-				itemstocksaldo_date: { 
-					text: 'Saldo Date', type: dbtype.datetime, comp: comp.Textbox(),
-					unset:true,  
-					options: { disabled: true }, 
-				},
-
-				itemstocksaldo_dategen: { 
-					text: 'Generate Date', type: dbtype.datetime, comp: comp.Textbox(),
-					unset:true,  
-					options: { disabled: true }, 
-				},
+		// 		unit_id: {
+		// 			text: 'Unit', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unit', field_value: 'unit_id'}
+		// 		},
 
 
+		// 		itemstockunitclose_id : {
+		// 			text: 'Closing Id', type: dbtype.varchar(15), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_itemstockunitclose', field_value: 'itemstockunitclose_id'}
+		// 		},
 
-				site_id: {
-					text: 'Site', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_site', field_value: 'site_id'}
-				},
+		// 		itemstocksaldo_date: { 
+		// 			text: 'Saldo Date', type: dbtype.datetime, comp: comp.Textbox(),
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 		},
 
-				dept_id: {
-					text: 'Dept', type: dbtype.varchar(30), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_dept', field_value: 'dept_id'}
-				},
-
-				brand_id: {
-					text: 'Brand', type: dbtype.varchar(14), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_brand', field_value: 'brand_id'}
-				},
-
-				unitmeasurement_id: {
-					text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
-				},
-
-				itemstock_id: {
-					text: 'ItemStock', type: dbtype.varchar(14), null: true, 
-					unset:true,  
-					options: { disabled: true }, 
-					reference: {table: 'mst_itemstock', field_value: 'itemstock_id'}
-				},				
+		// 		itemstocksaldo_dategen: { 
+		// 			text: 'Generate Date', type: dbtype.datetime, comp: comp.Textbox(),
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 		},
 
 
-				itemstocksaldo_qty: {text:'Qty', type: dbtype.decimal(16,2), null:false, default: 0},
-				itemstocksaldo_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0},
 
-				itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
-			}	
-		},
+		// 		site_id: {
+		// 			text: 'Site', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_site', field_value: 'site_id'}
+		// 		},
+
+		// 		dept_id: {
+		// 			text: 'Dept', type: dbtype.varchar(30), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_dept', field_value: 'dept_id'}
+		// 		},
+
+		// 		brand_id: {
+		// 			text: 'Brand', type: dbtype.varchar(14), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_brand', field_value: 'brand_id'}
+		// 		},
+
+		// 		unitmeasurement_id: {
+		// 			text: 'Unit Measurement', type: dbtype.varchar(10), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_unitmeasurement', field_value: 'unitmeasurement_id'}
+		// 		},
+
+		// 		itemstock_id: {
+		// 			text: 'ItemStock', type: dbtype.varchar(14), null: true, 
+		// 			unset:true,  
+		// 			options: { disabled: true }, 
+		// 			reference: {table: 'mst_itemstock', field_value: 'itemstock_id'}
+		// 		},				
+
+
+		// 		itemstocksaldo_qty: {text:'Qty', type: dbtype.decimal(16,2), null:false, default: 0},
+		// 		itemstocksaldo_value: {text:'Value', type: dbtype.decimal(16,2), null:false, default: 0},
+
+		// 		itemstock_id: { text: 'ItemStock ID', type: dbtype.varchar(14),  null: false },
+		// 	}	
+		// },
  	},	
 
 	 
@@ -582,11 +582,11 @@ module.exports = {
 		detils: {
 			'barcode' : {title: 'Barcode', table: 'mst_itemstockbarcode', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true },
 			'prop': {title: 'Properties', table: 'mst_itemstockprop', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true  },
-			'position' : {title: 'Stock Position', table: 'mst_itemstockposition', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true},
+			// 'position' : {title: 'Stock Position', table: 'mst_itemstockposition', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true},
 			'compound' : {title: 'Compound', table: 'mst_itemstockcompound', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true},
 			'conversion' : {title: 'Conversion', table: 'mst_itemstockconversion', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true },
 			// 'related': {title: 'Related Item', table: 'mst_itemstockrelated', form: true, headerview: 'itemstock_name' ,editorHandler: true,listHandler: true},
-			'picture': {title: 'Picture', table: 'mst_itemstockpic', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true },
+			// 'picture': {title: 'Picture', table: 'mst_itemstockpic', form: true, headerview: 'itemstock_name',editorHandler: true,listHandler: true },
 
 			// 'setting' : {title: 'Setting', table: 'mst_itemstocksetting', form: true, headerview: 'itemstock_name' },
 			// 'moving' : {title: 'Moving', table: 'trn_itemstockmoving', form: true, headerview: 'itemstock_name' },
