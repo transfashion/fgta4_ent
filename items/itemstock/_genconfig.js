@@ -43,6 +43,34 @@ module.exports = {
 				itemstock_nameshort: { text: 'Nama Pendek', type: dbtype.varchar(150), null: false, suppresslist: true, options: { required: true, invalidMessage: 'Nama item harus diisi' } },
 				itemstock_descr: { text: 'Descr', type: dbtype.varchar(2500), suppresslist: true },
 		
+				brand_id: {
+					text: 'Brand', type: dbtype.varchar(14), null:true,  suppresslist: true,
+					options:{required:true,invalidMessage:'Brand harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						title: 'Pilih Brand',
+						table: 'mst_brand', 
+						field_value: 'brand_id', field_display: 'brand_name', field_display_name: 'brand_name',
+						api: 'ent/affiliation/brand/list',
+						onDataLoadingHandler: false,
+						onDataLoadedHandler: false,
+						onSelectingHandler: false,
+						onSelectedHandler: false							
+					})				
+				},
+
+				unitmeasurement_id: { 
+					text: 'Unit of Measurement', 
+					type: dbtype.varchar(10),  null: false, suppresslist: true,
+					options:{required:true,invalidMessage:'Item Group harus diisi', prompt:'-- PILIH --'},
+					comp: comp.Combo({
+						table: 'mst_unitmeasurement', 
+						field_value: 'unitmeasurement_id', field_display: 'unitmeasurement_name', 
+						api: 'ent/general/unitmeasurement/list'})
+				},	
+
+
+
+
 
 				dept_id: {
 					text: 'Owner Dept', type: dbtype.varchar(30), null:false, suppresslist: false,
@@ -74,33 +102,9 @@ module.exports = {
 					})				
 				},
 
-				brand_id: {
-					text: 'Brand', type: dbtype.varchar(14), null:true,  suppresslist: true,
-					options:{required:true,invalidMessage:'Brand harus diisi', prompt:'-- PILIH --'},
-					// tips: 'Maintainer Dept yang akan manage distribusi tipe item ini',
-					// tipstype: 'visible',
-					//options:{prompt:'NONE'},
-					comp: comp.Combo({
-						title: 'Pilih Brand',
-						table: 'mst_brand', 
-						field_value: 'brand_id', field_display: 'brand_name', field_display_name: 'brand_name',
-						api: 'ent/affiliation/brand/list',
-						onDataLoadingHandler: false,
-						onDataLoadedHandler: false,
-						onSelectingHandler: false,
-						onSelectedHandler: false							
-					})				
-				},
 
-				unitmeasurement_id: { 
-					text: 'Unit of Measurement', 
-					type: dbtype.varchar(10),  null: false, suppresslist: true,
-					options:{required:true,invalidMessage:'Item Group harus diisi', prompt:'-- PILIH --'},
-					comp: comp.Combo({
-						table: 'mst_unitmeasurement', 
-						field_value: 'unitmeasurement_id', field_display: 'unitmeasurement_name', 
-						api: 'ent/general/unitmeasurement/list'})
-				},	
+
+
 
 				itemstock_couchdbid: {text:'CouchDb.Id', type: dbtype.varchar(255), null:true, suppresslist: true}, // id di couchdb
 				itemstock_picture: {text:'Picture', type: dbtype.varchar(90), suppresslist: true,  comp: comp.Filebox(), options: { accept: 'image/*' }},
@@ -157,25 +161,6 @@ module.exports = {
 				itemstock_lastcostdate: { 
 					section: section.End(),
 					text: 'Last Cost Date', type: dbtype.date, suppresslist: true, unset:true, comp: comp.Textbox(), options: { disabled: true } },
-
-
-
-
-
-				/*
-				itemctg_id: {
-					text:'Category', type: dbtype.varchar(30), null:true,  suppresslist: true,
-					options:{prompt:'NONE'},
-					comp: comp.Combo({
-						table: 'mst_itemctg', 
-						field_value: 'itemctg_id', field_display: 'itemctg_name', field_display_name: 'itemctg_name', 
-						api: 'ent/items/itemctg/list'})					
-				},
-				*/
-
-
-
-				
 
 				itemstock_ref: { text: 'Ref', type: dbtype.varchar(90), suppresslist: true, options: {disabled: true}, hidden:true },
 				itemstock_refname: { text: 'RefName', type: dbtype.varchar(200), suppresslist: true, options: {disabled: true}, hidden:true },
