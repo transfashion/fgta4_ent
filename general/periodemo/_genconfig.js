@@ -37,12 +37,43 @@ module.exports = {
 			},
 
 			defaultsearch: ['periodemo_id', 'periodemo_name']
-		}
+		},
+
+		'mst_periodemoref' : {
+			comment: 'Kode referensi periodemo untuk keperluan interfacing dengan system lain',
+			primarykeys: ['periodemoref_id'],		
+			data: {
+				periodemoref_id: {text:'ID', type: dbtype.varchar(14), null:false, suppresslist: true},
+				interface_id: { 
+					text: 'Interface', type: dbtype.varchar(7), uppercase: true, null: false, 
+					options: { required: true, invalidMessage: 'Interface harus diisi' }, 
+					comp: comp.Combo({
+						table: 'mst_interface', 
+						field_value: 'interface_id', field_display: 'interface_name', field_display_name: 'interface_name', 
+						api: 'ent/general/interface/list'
+					})				
+				
+				},
+				periodemoref_name: {text:'Name', type: dbtype.varchar(30), null:false},	
+				periodemoref_code: {text:'Code', type: dbtype.varchar(30), null:false, uppercase: true},	
+				periodemoref_otherdata: {
+					text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true,
+					tips: 'pisahkan code dan nilai dengan semicolon (;) <b>contoh:</b> code1:nilai1; code2:nilai2; code3:nilai3',
+					tipstype: 'visible'
+				},	
+				periodemoref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},			
+				periodemo_id: {text:'Periode', type: dbtype.varchar(6), null:false, hidden:true},
+			},
+			uniques: {
+				'periodemoref_pair': ['interface_id', 'periodemoref_name', 'periodemoref_code']
+			},			
+		}		
 	},
 
 	schema: {
 		header: 'mst_periodemo',
 		detils: {
+			'ref': {title: 'Referensi', table: 'mst_periodemoref', form: true, headerview: 'periodemo_name', editorHandler: true, listHandler: true },
 		},
 		xtions: {
 			addnext: {

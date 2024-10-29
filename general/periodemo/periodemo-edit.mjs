@@ -324,6 +324,7 @@ export function createnew() {
 			$ui.getPages().show('pnl_list')
 		}
 
+		$ui.getPages().ITEMS['pnl_editrefgrid'].handler.createnew(data, options)
 
 
 	})

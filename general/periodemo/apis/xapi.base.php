@@ -26,7 +26,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 24/10/2024
+ * tanggal 29/10/2024
  */
 class periodemoBase extends WebAPI {
 

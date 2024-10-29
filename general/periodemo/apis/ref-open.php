@@ -7,22 +7,23 @@ if (!defined('FGTA4')) {
 require_once __ROOT_DIR.'/core/sqlutil.php';
 require_once __DIR__ . '/xapi.base.php';
 
-if (is_file(__DIR__ .'/data-header-handler.php')) {
-	require_once __DIR__ .'/data-header-handler.php';
+if (is_file(__DIR__ .'/data-ref-handler.php')) {
+	require_once __DIR__ .'/data-ref-handler.php';
 }
 
 
 use \FGTA4\exceptions\WebException;
 
 
+
 /**
- * ent/general/periodemo/apis/open.php
+ * ent/general/periodemo/apis/ref-open.php
  *
- * ====
- * Open
- * ====
+ * ==========
+ * Detil-Open
+ * ==========
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel header periodemo (mst_periodemo)
+ * dari tabel ref periodemo (mst_periodemoref)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -31,17 +32,17 @@ use \FGTA4\exceptions\WebException;
  * tanggal 29/10/2024
  */
 $API = new class extends periodemoBase {
-	
+
 	public function execute($options) {
 		$event = 'on-open';
-		$tablename = 'mst_periodemo';
-		$primarykey = 'periodemo_id';
+		$tablename = 'mst_periodemoref';
+		$primarykey = 'periodemoref_id';
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\periodemo_headerHandler";
+		$handlerclassname = "\\FGTA4\\apis\\periodemo_refHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new periodemo_headerHandler($options);
+			$hnd = new periodemo_refHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
@@ -53,23 +54,15 @@ $API = new class extends periodemoBase {
 
 		try {
 
-			// cek apakah user boleh mengeksekusi API ini
-			if (!$this->RequestIsAllowedFor($this->reqinfo, "open", $userdata->groups)) {
-				throw new \Exception('your group authority is not allowed to do this action.');
-			}
-
 			if (method_exists(get_class($hnd), 'init')) {
 				// init(object &$options) : void
 				$hnd->init($options);
 			}
 
-			if (method_exists(get_class($hnd), 'PreCheckOpen')) {
-				// PreCheckOpen($data, &$key, &$options)
-				$hnd->PreCheckOpen($data, $key, $options);
-			}
+			$result = new \stdClass; 
 
 			$criteriaValues = [
-				"periodemo_id" => " periodemo_id = :periodemo_id "
+				"periodemoref_id" => " periodemoref_id = :periodemoref_id "
 			];
 			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -82,21 +75,13 @@ $API = new class extends periodemoBase {
 				// prepareOpenData(object $options, $criteriaValues) : void
 				$hnd->prepareOpenData($options, $criteriaValues);
 			}
-			
-
-			if (method_exists(get_class($hnd), 'prepareOpenData')) {
-				// prepareOpenData(object $options, $criteriaValues) : void
-				$hnd->prepareOpenData($options, $criteriaValues);
-			}
-
 
 			$sqlFieldList = [
-				'periodemo_id' => 'A.`periodemo_id`', 'periodemo_name' => 'A.`periodemo_name`', 'periodemo_isclosed' => 'A.`periodemo_isclosed`', 'periodemo_year' => 'A.`periodemo_year`',
-				'periodemo_month' => 'A.`periodemo_month`', 'periodemo_dtstart' => 'A.`periodemo_dtstart`', 'periodemo_dtend' => 'A.`periodemo_dtend`', 'periodemo_prev' => 'A.`periodemo_prev`',
-				'periodemo_closeby' => 'A.`periodemo_closeby`', 'periodemo_closedate' => 'A.`periodemo_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'periodemoref_id' => 'A.`periodemoref_id`', 'interface_id' => 'A.`interface_id`', 'periodemoref_name' => 'A.`periodemoref_name`', 'periodemoref_code' => 'A.`periodemoref_code`',
+				'periodemoref_otherdata' => 'A.`periodemoref_otherdata`', 'periodemoref_notes' => 'A.`periodemoref_notes`', 'periodemo_id' => 'A.`periodemo_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_periodemo A";
+			$sqlFromTable = "mst_periodemoref A";
 			$sqlWhere = $where->sql;
 
 			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
@@ -105,7 +90,8 @@ $API = new class extends periodemoBase {
 			}
 			$sqlFields = \FGTA4\utils\SqlUtility::generateSqlSelectFieldList($sqlFieldList);
 
-			
+
+
 			$sqlData = "
 				select 
 				$sqlFields 
@@ -123,34 +109,30 @@ $API = new class extends periodemoBase {
 				$record[$key] = $value;
 			}
 
-
-
 			$result->record = array_merge($record, [
-				'periodemo_dtstart' => date("d/m/Y", strtotime($record['periodemo_dtstart'])),
-				'periodemo_dtend' => date("d/m/Y", strtotime($record['periodemo_dtend'])),
-				'periodemo_closedate' => date("d/m/Y", strtotime($record['periodemo_closedate'])),
 				
 				// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 				// 'tambahan' => 'dta',
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'periodemo_prev_name' => \FGTA4\utils\SqlUtility::Lookup($record['periodemo_prev'], $this->db, 'mst_periodemo', 'periodemo_id', 'periodemo_name'),
-				'periodemo_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['periodemo_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+				'interface_name' => \FGTA4\utils\SqlUtility::Lookup($record['interface_id'], $this->db, 'mst_interface', 'interface_id', 'interface_name'),
 
-
+/*{__LOOKUPUSERMERGE__}*/
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 				'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 
 			]);
 
 
-			
+	
+
 
 			if (method_exists(get_class($hnd), 'DataOpen')) {
 				//  DataOpen(array &$record) : void 
 				$hnd->DataOpen($result->record);
 			}
+
 
 			return $result;
 		} catch (\Exception $ex) {

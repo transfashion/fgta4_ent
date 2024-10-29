@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 24/10/2024
+ * tanggal 29/10/2024
  */
 $API = new class extends periodemoBase {
 	
@@ -78,7 +78,7 @@ $API = new class extends periodemoBase {
 			try {
 				
 				// Deleting child data referenced to this table
-				$tabletodelete = [];
+				$tabletodelete = ['mst_periodemoref'];
 				if (method_exists(get_class($hnd), 'DocumentDeleting')) {
 					// ** DocumentDeleting(string $id, array &$tabletodelete)
 					$hnd->DocumentDeleting($data->{$primarykey}, $tabletodelete);
