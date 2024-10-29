@@ -1,0 +1,16 @@
+<?php require_once dirname(__FILE__).'/itemstockperiode-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockperiode-edit.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockperiode-costgrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockperiode-costform.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockperiode-saldogrid.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockperiode-saldoform.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/itemstockperiode-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

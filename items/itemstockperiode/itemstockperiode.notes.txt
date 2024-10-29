@@ -1,0 +1,10 @@
+Item Stock
+		
+Original Path : /home/agung/Development/transfashion/fgta4_generator/apps/ent/items/itemstockperiode
+Creator Name  : undefined
+                undefined
+Created Date  : Fri Oct 25 2024 09:57:18 GMT+0700 (Western Indonesia Time)				 
+=========================================================================================
+
+<put your notes here>
+		
