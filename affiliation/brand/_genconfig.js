@@ -32,28 +32,6 @@ module.exports = {
 						api: 'ent/affiliation/brandtype/list'})					
 				
 				},
-				
-				// unit_id: {
-				// 	suppresslist: true,
-				// 	text:'Unit', type: dbtype.varchar(10), null:true, uppercase: true, 
-				// 	options:{required:false},
-				// 	comp: comp.Combo({
-				// 		table: 'mst_unit', 
-				// 		field_value: 'unit_id', field_display: 'unit_name', 
-				// 		api: 'ent/organisation/unit/list'})					
-				
-				// },
-				
-				// partner_id: {
-				// 	suppresslist: true,
-				// 	options:{prompt:'NONE'},
-				// 	text:'Partner', type: dbtype.varchar(30), null:true, 
-				// 	comp: comp.Combo({
-				// 		table: 'mst_partner', 
-				// 		field_value: 'partner_id', field_display: 'partner_name', 
-				// 		api: 'ent/affiliation/partner/list'
-				// 	})
-				// },	
 						
 			},
 
@@ -63,30 +41,8 @@ module.exports = {
 				'brand_name' : ['brand_name'],
 				'brand_nameshort' : ['brand_nameshort'],
 			}
+
 		},
-
-		// 'mst_brandpartner' : {
-		// 	primarykeys: ['brandpartner_id'],
-		// 	comment: 'Daftar Partner Brand',
-		// 	data: {
-		// 		brandpartner_id: {text:'ID', type: dbtype.varchar(14), null:false, uppercase: true, suppresslist: true},
-		// 		partner_id: {
-		// 			text:'Partner', type: dbtype.varchar(14), null:false, uppercase: true,
-		// 			options:{required:true,invalidMessage:'Partner harus diisi'},
-		// 			comp: comp.Combo({
-		// 				table: 'mst_partner', 
-		// 				field_value: 'partner_id', field_display: 'partner_name', 
-		// 				api: 'ent/mst/partner/list'})
-			
-		// 		},
-		// 		brand_id: {text:'Brand', type: dbtype.varchar(14), null:false, hidden: true},				
-		// 	},
-
-		// 	uniques: {
-		// 		'brandpartner_name' : ['brand_id', 'partner_id']
-		// 	}
-		// },
-
 
 		'mst_brandref' : {
 			comment: 'Kode referensi brand untuk keperluan interfacing dengan system lain',
@@ -104,32 +60,20 @@ module.exports = {
 				},
 				brandref_name: {text:'Name', type: dbtype.varchar(30), null:false},		
 				brandref_code: {text:'Code', type: dbtype.varchar(255), null:false},		
-				
-				// dept_id: { 
-				// 	text: 'Dept', type: dbtype.varchar(30), null: true,  suppresslist: true,
-				// 	options: { },
-				// 	comp: comp.Combo({
-				// 		table: 'mst_dept',
-				// 		field_value: 'dept_id', field_display: 'dept_name',
-				// 		api: 'ent/organisation/dept/list'
-				// 	})
-				// },
-				
-				// unit_id: { 
-				// 	text: 'Unit', type: dbtype.varchar(10), null: true,  suppresslist: true,
-				// 	options: { },
-				// 	comp: comp.Combo({
-				// 		table: 'mst_unit',
-				// 		field_value: 'unit_id', field_display: 'unit_name',
-				// 		api: 'ent/organisation/unit/list'
-				// 	})
-				// },
-
+				brandref_otherdata: {
+					text:'Data', type: dbtype.varchar(1000), null:true, suppresslist:true,
+					tips: 'pisahkan code dan nilai dengan semicolon (;) <b>contoh:</b> code1:nilai1; code2:nilai2; code3:nilai3',
+					tipstype: 'visible'
+				},	
+				brandref_notes: {text:'Notes', type: dbtype.varchar(255), null:true, suppresslist:true},			
 				brand_id: {text:'Partner', type: dbtype.varchar(14), null:false, hidden: true},
+
 			},
+
 			uniques: {
 				'brandref_pair': ['brand_id', 'interface_id', 'brandref_name']
-			},			
+			},
+
 		}
 
 	},

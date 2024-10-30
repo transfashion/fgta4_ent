@@ -29,7 +29,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 28/08/2024
+ * tanggal 30/10/2024
  */
 $API = new class extends brandBase {
 
@@ -78,7 +78,7 @@ $API = new class extends brandBase {
 
 			$sqlFieldList = [
 				'brandref_id' => 'A.`brandref_id`', 'interface_id' => 'A.`interface_id`', 'brandref_name' => 'A.`brandref_name`', 'brandref_code' => 'A.`brandref_code`',
-				'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+				'brandref_otherdata' => 'A.`brandref_otherdata`', 'brandref_notes' => 'A.`brandref_notes`', 'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_brandref A";

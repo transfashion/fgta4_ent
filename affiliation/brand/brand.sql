@@ -59,6 +59,8 @@ CREATE TABLE IF NOT EXISTS `mst_brandref` (
 	`interface_id` varchar(7) NOT NULL , 
 	`brandref_name` varchar(30) NOT NULL , 
 	`brandref_code` varchar(255) NOT NULL , 
+	`brandref_otherdata` varchar(1000)  , 
+	`brandref_notes` varchar(255)  , 
 	`brand_id` varchar(14) NOT NULL , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
@@ -74,13 +76,17 @@ COMMENT='Kode referensi brand untuk keperluan interfacing dengan system lain';
 ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `interface_id` varchar(7) NOT NULL  AFTER `brandref_id`;
 ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brandref_name` varchar(30) NOT NULL  AFTER `interface_id`;
 ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brandref_code` varchar(255) NOT NULL  AFTER `brandref_name`;
-ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brand_id` varchar(14) NOT NULL  AFTER `brandref_code`;
+ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brandref_otherdata` varchar(1000)   AFTER `brandref_code`;
+ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brandref_notes` varchar(255)   AFTER `brandref_otherdata`;
+ALTER TABLE `mst_brandref` ADD COLUMN IF NOT EXISTS  `brand_id` varchar(14) NOT NULL  AFTER `brandref_notes`;
 
 
 ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `interface_id` varchar(7) NOT NULL   AFTER `brandref_id`;
 ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brandref_name` varchar(30) NOT NULL   AFTER `interface_id`;
 ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brandref_code` varchar(255) NOT NULL   AFTER `brandref_name`;
-ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brand_id` varchar(14) NOT NULL   AFTER `brandref_code`;
+ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brandref_otherdata` varchar(1000)    AFTER `brandref_code`;
+ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brandref_notes` varchar(255)    AFTER `brandref_otherdata`;
+ALTER TABLE `mst_brandref` MODIFY COLUMN IF EXISTS  `brand_id` varchar(14) NOT NULL   AFTER `brandref_notes`;
 
 
 ALTER TABLE `mst_brandref` ADD CONSTRAINT `brandref_pair` UNIQUE IF NOT EXISTS  (`brand_id`, `interface_id`, `brandref_name`);

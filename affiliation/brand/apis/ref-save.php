@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 28/08/2024
+ * tanggal 30/10/2024
  */
 $API = new class extends brandBase {
 	
@@ -68,7 +68,7 @@ $API = new class extends brandBase {
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
 					'brandref_id', 'interface_id', 'brandref_name', 'brandref_code',
-					'brand_id'
+					'brandref_otherdata', 'brandref_notes', 'brand_id'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -97,6 +97,8 @@ $API = new class extends brandBase {
 			$obj->interface_id = strtoupper($obj->interface_id);
 
 
+			if ($obj->brandref_otherdata=='') { $obj->brandref_otherdata = '--NULL--'; }
+			if ($obj->brandref_notes=='') { $obj->brandref_notes = '--NULL--'; }
 
 
 
@@ -189,7 +191,7 @@ $API = new class extends brandBase {
 
 				$sqlFieldList = [
 					'brandref_id' => 'A.`brandref_id`', 'interface_id' => 'A.`interface_id`', 'brandref_name' => 'A.`brandref_name`', 'brandref_code' => 'A.`brandref_code`',
-					'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
+					'brandref_otherdata' => 'A.`brandref_otherdata`', 'brandref_notes' => 'A.`brandref_notes`', 'brand_id' => 'A.`brand_id`', '_createby' => 'A.`_createby`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_brandref A";
