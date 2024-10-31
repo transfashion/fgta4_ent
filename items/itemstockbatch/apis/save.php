@@ -5,29 +5,27 @@ if (!defined('FGTA4')) {
 }
 
 require_once __ROOT_DIR.'/core/sqlutil.php';
+// require_once __ROOT_DIR . "/core/sequencer.php";
 require_once __DIR__ . '/xapi.base.php';
-//require_once __ROOT_DIR . "/core/sequencer.php";
 
-
-if (is_file(__DIR__ .'/data-cost-handler.php')) {
-	require_once __DIR__ .'/data-cost-handler.php';
+if (is_file(__DIR__ .'/data-header-handler.php')) {
+	require_once __DIR__ .'/data-header-handler.php';
 }
 
 
-
 use \FGTA4\exceptions\WebException;
-//use \FGTA4\utils\Sequencer;
+// use \FGTA4\utils\Sequencer;
 
 
 
 /**
- * ent/items/itemstockperiode/apis/cost-save.php
+ * ent/items/itemstockbatch/apis/save.php
  *
- * ==========
- * Detil-Save
- * ==========
+ * ====
+ * Save
+ * ====
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel cost itemstockperiode (mst_itemstockcost)
+ * dari tabel header itemstockbatch (mst_itemastockbatch)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -35,20 +33,20 @@ use \FGTA4\exceptions\WebException;
  * digenerate dengan FGTA4 generator
  * tanggal 31/10/2024
  */
-$API = new class extends itemstockperiodeBase {
+$API = new class extends itemstockbatchBase {
 	
 	public function execute($data, $options) {
 		$event = 'on-save';
-		$tablename = 'mst_itemstockcost';
-		$primarykey = 'itemstockcost_id';
+		$tablename = 'mst_itemastockbatch';
+		$primarykey = 'itemstockbatch_id';
 		$autoid = $options->autoid;
 		$datastate = $data->_state;
-
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\itemstockperiode_costHandler";
+		$handlerclassname = "\\FGTA4\\apis\\itemstockbatch_headerHandler";
+		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new itemstockperiode_costHandler($data, $options);
+			$hnd = new itemstockbatch_headerHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = &$this->db;
 			$hnd->auth = $this->auth;
@@ -59,51 +57,38 @@ $API = new class extends itemstockperiodeBase {
 		}
 
 		try {
-			
+
+			// cek apakah user boleh mengeksekusi API ini
+			if (!$this->RequestIsAllowedFor($this->reqinfo, "save", $userdata->groups)) {
+				throw new \Exception('your group authority is not allowed to do this action.');
+			}
+
 			if (method_exists(get_class($hnd), 'init')) {
 				// init(object &$options) : void
 				$hnd->init($options);
 			}
-			
-			// data yang akan di update dari table
-			$sqlUpdateField  = [
-					'itemstockcost_id', 'dept_id', 'itemstock_id', 'itemstockcost_valueperitem',
-					'itemstockcost_saldoqty', 'itemstockcost_saldovalue', 'itemstockperiode_id'
-			];
-			if (method_exists(get_class($hnd), 'setUpdateField')) {
-				// setUpdateField(&$sqlUpdateField, $data, $options)
-				$hnd->setUpdateField($sqlUpdateField, $data, $options);
-			}
-
-
 
 			$result = new \stdClass; 
 			
 			$key = new \stdClass;
 			$obj = new \stdClass;
-			foreach ($sqlUpdateField as $fieldname) {
+			foreach ($data as $fieldname => $value) {
+				if ($fieldname=='_state') { continue; }
 				if ($fieldname==$primarykey) {
 					$key->{$fieldname} = $value;
 				}
-				if (property_exists($data, $fieldname)) {
-					$obj->{$fieldname} = $data->{$fieldname};
-				}
+				$obj->{$fieldname} = $value;
 			}
-
 
 			// apabila ada tanggal, ubah ke format sql sbb:
 			// $obj->tanggal = (\DateTime::createFromFormat('d/m/Y',$obj->tanggal))->format('Y-m-d');
+			$obj->itemstockbatch_exp = (\DateTime::createFromFormat('d/m/Y',$obj->itemstockbatch_exp))->format('Y-m-d');
+
+			$obj->itemstockbatch_id = strtoupper($obj->itemstockbatch_id);
+			$obj->itemstockbatch_name = strtoupper($obj->itemstockbatch_name);
 
 
 
-
-
-
-			unset($obj->dept_id);
-			unset($obj->itemstock_id);
-			unset($obj->itemstockcost_valueperitem);
-			unset($obj->itemstockcost_saldoqty);
-			unset($obj->itemstockcost_saldovalue);
 
 
 
@@ -119,7 +104,7 @@ $API = new class extends itemstockperiodeBase {
 			} else {
 				$obj->_modifyby = $userdata->username;
 				$obj->_modifydate = date("Y-m-d H:i:s");	
-
+		
 				if (method_exists(get_class($hnd), 'PreCheckUpdate')) {
 					// PreCheckUpdate($data, &$obj, &$key, &$options)
 					$hnd->PreCheckUpdate($data, $obj, $key, $options);
@@ -128,7 +113,7 @@ $API = new class extends itemstockperiodeBase {
 
 			//handle data sebelum sebelum save
 			if (method_exists(get_class($hnd), 'DataSaving')) {
-				// ** DataSaving(object &$obj, object &$key) : void
+				// ** DataSaving(object &$obj, object &$key)
 				$hnd->DataSaving($obj, $key);
 			}
 
@@ -143,40 +128,39 @@ $API = new class extends itemstockperiodeBase {
 					if ($autoid) {
 						$obj->{$primarykey} = $this->NewId($hnd, $obj);
 					}
+					
+					// handle data sebelum pada saat pembuatan SQL Insert
+					if (method_exists(get_class($hnd), 'RowInserting')) {
+						// ** RowInserting(object &$obj)
+						$hnd->RowInserting($obj);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLInsert($tablename, $obj);
 				} else {
 					$action = 'MODIFY';
+
+					// handle data sebelum pada saat pembuatan SQL Update
+					if (method_exists(get_class($hnd), 'RowUpdating')) {
+						// ** RowUpdating(object &$obj, object &$key))
+						$hnd->RowUpdating($obj, $key);
+					}
 					$cmd = \FGTA4\utils\SqlUtility::CreateSQLUpdate($tablename, $obj, $key);
 				}
-
+	
 				$stmt = $this->db->prepare($cmd->sql);
 				$stmt->execute($cmd->params);
 
-				
-				// Update user & timestamp di header
-				$header_table = 'mst_itemstockperiode';
-				$header_primarykey = 'itemstockperiode_id';
-				$detil_primarykey = 'itemstockperiode_id';
-				$sqlrec = "update $header_table set _modifyby = :user_id, _modifydate=NOW() where $header_primarykey = :$header_primarykey";
-				$stmt = $this->db->prepare($sqlrec);
-				$stmt->execute([
-					":user_id" => $userdata->username,
-					":$header_primarykey" => $obj->{$detil_primarykey}
-				]);
-
 				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $tablename, $obj->{$primarykey}, $action, $userdata->username, (object)[]);
-				\FGTA4\utils\SqlUtility::WriteLog($this->db, $this->reqinfo->modulefullname, $header_table, $obj->{$detil_primarykey}, $action . "_DETIL", $userdata->username, (object)[]);
 
 
 
 
 				// result
 				$options->criteria = [
-					"itemstockcost_id" => $obj->itemstockcost_id
+					"itemstockbatch_id" => $obj->itemstockbatch_id
 				];
 
 				$criteriaValues = [
-					"itemstockcost_id" => " itemstockcost_id = :itemstockcost_id "
+					"itemstockbatch_id" => " itemstockbatch_id = :itemstockbatch_id "
 				];
 				if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 					// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -192,14 +176,12 @@ $API = new class extends itemstockperiodeBase {
 				}
 
 				$sqlFieldList = [
-					'itemstockcost_id' => 'A.`itemstockcost_id`', 'dept_id' => 'A.`dept_id`', 'itemstock_id' => 'A.`itemstock_id`', 'itemstockcost_valueperitem' => 'A.`itemstockcost_valueperitem`',
-					'itemstockcost_saldoqty' => 'A.`itemstockcost_saldoqty`', 'itemstockcost_saldovalue' => 'A.`itemstockcost_saldovalue`', 'itemstockperiode_id' => 'A.`itemstockperiode_id`', '_createby' => 'A.`_createby`',
+					'itemstockbatch_id' => 'A.`itemstockbatch_id`', 'itemstockbatch_name' => 'A.`itemstockbatch_name`', 'itemstockbatch_exp' => 'A.`itemstockbatch_exp`', 'itemstockbatch_isdisabled' => 'A.`itemstockbatch_isdisabled`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
-				$sqlFromTable = "mst_itemstockcost A";
+				$sqlFromTable = "mst_itemastockbatch A";
 				$sqlWhere = $where->sql;
-
-
+					
 				if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
 					// SqlQueryOpenBuilder(array &$sqlFieldList, string &$sqlFromTable, string &$sqlWhere, array &$params) : void
 					$hnd->SqlQueryOpenBuilder($sqlFieldList, $sqlFromTable, $sqlWhere, $where->params);
@@ -226,6 +208,7 @@ $API = new class extends itemstockperiodeBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
+					'itemstockbatch_exp' => date("d/m/Y", strtotime($row['itemstockbatch_exp'])),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
@@ -236,7 +219,7 @@ $API = new class extends itemstockperiodeBase {
 					$hnd->DataOpen($dataresponse);
 				}
 
-
+				$result->username = $userdata->username;
 				$result->dataresponse = (object) $dataresponse;
 				if (method_exists(get_class($hnd), 'DataSavedSuccess')) {
 					// DataSavedSuccess(object &$result) : void
@@ -244,27 +227,27 @@ $API = new class extends itemstockperiodeBase {
 				}
 
 				$this->db->commit();
-				return $result;				
-				
+				return $result;
+
 			} catch (\Exception $ex) {
 				$this->db->rollBack();
 				throw $ex;
 			} finally {
 				$this->db->setAttribute(\PDO::ATTR_AUTOCOMMIT,1);
 			}
-			
+
 		} catch (\Exception $ex) {
 			throw $ex;
 		}
 	}
 
-	public function NewId($hnd, $obj) {
+	public function NewId(object $hnd, object $obj) : string {
 		// dipanggil hanya saat $autoid == true;
 
 		$id = null;
 		$handled = false;
 		if (method_exists(get_class($hnd), 'CreateNewId')) {
-			// CreateNewId(object $obj) : string
+			// CreateNewId(object $obj) : string 
 			$id = $hnd->CreateNewId($obj);
 			$handled = true;
 		}

@@ -16,11 +16,11 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/items/itemstockperiode/apis/xapi.base.php
+ * ent/items/itemstockbatch/apis/xapi.base.php
  *
- * itemstockperiodeBase
+ * itemstockbatchBase
  * Kelas dasar untuk keperluan-keperluan api
- * kelas ini harus di-inherit untuk semua api pada modul itemstockperiode
+ * kelas ini harus di-inherit untuk semua api pada modul itemstockbatch
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -28,11 +28,11 @@ use \FGTA4\exceptions\WebException;
  * digenerate dengan FGTA4 generator
  * tanggal 31/10/2024
  */
-class itemstockperiodeBase extends WebAPI {
+class itemstockbatchBase extends WebAPI {
 
-	protected $main_tablename = "mst_itemstockperiode";
-	protected $main_primarykey = "itemstockperiode_id";
-	protected $main_field_version = "itemstockperiode_version";	
+	protected $main_tablename = "mst_itemastockbatch";
+	protected $main_primarykey = "itemstockbatch_id";
+	protected $main_field_version = "itemastockbatch_version";	
 	
 	
 
@@ -40,7 +40,7 @@ class itemstockperiodeBase extends WebAPI {
 
 	function __construct() {
 
-		// $logfilepath = __LOCALDB_DIR . "/output//*itemstockperiode*/.txt";
+		// $logfilepath = __LOCALDB_DIR . "/output//*itemstockbatch*/.txt";
 		// debug::disable();
 		// debug::start($logfilepath, "w");
 

@@ -1,0 +1,12 @@
+<?php require_once dirname(__FILE__).'/itemstockbatch-list.phtml' ?>
+<?php require_once dirname(__FILE__).'/itemstockbatch-edit.phtml' ?>
+
+
+
+<?php
+$customrecordstatus = __DIR__.'/itemstockbatch-customrecordstatus.phtml'; 
+if (is_file($customrecordstatus)) {
+	include $customrecordstatus;
+} else { ?>
+
+<?php } ?>

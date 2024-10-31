@@ -27,7 +27,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/10/2024
+ * tanggal 31/10/2024
  */
 $API = new class extends itemstockperiodeBase {
 
@@ -173,7 +173,7 @@ $API = new class extends itemstockperiodeBase {
 					//'tanggal' => date("d/m/y", strtotime($record['tanggal'])),
 				 	//'tambahan' => 'dta'
 					'periodemo_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-					'room_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstock_id'], $this->db, 'mst_room', 'room_id', 'room_name'),
+					'room_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstock_id'], $this->db, 'mst_itemstock', 'itemstock_id', 'itemstock_name'),
 					 
 				]);
 				*/
@@ -181,7 +181,7 @@ $API = new class extends itemstockperiodeBase {
 
 				// lookup data id yang refer ke table lain
 				$this->addFields('periodemo_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
-				$this->addFields('room_name', 'itemstock_id', $record, 'mst_room', 'room_name', 'room_id');
+				$this->addFields('room_name', 'itemstock_id', $record, 'mst_itemstock', 'itemstock_name', 'itemstock_id');
 					 
 
 

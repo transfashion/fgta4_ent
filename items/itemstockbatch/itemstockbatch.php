@@ -1,21 +1,21 @@
 <?php namespace FGTA4\module; if (!defined('FGTA4')) { die('Forbiden'); } 
 
-if (is_file(__DIR__ .'/itemstockperiode.php-handler.php')) {
-	require_once __DIR__ .'/itemstockperiode.php-handler.php';
+if (is_file(__DIR__ .'/itemstockbatch.php-handler.php')) {
+	require_once __DIR__ .'/itemstockbatch.php-handler.php';
 }
 
 /**
- * ent/items/itemstockperiode/itemstockperiode.php
+ * ent/items/itemstockbatch/itemstockbatch.php
  *
  * ===================================================================
- * Entry point Program Module itemstockperiode
+ * Entry point Program Module itemstockbatch
  * ===================================================================
  * Program yang akan pertama kali diakses 
  * oleh semua request untuk menampilkan modul 
  * 
  * digenerate dengan FGTA4 generator versi 2 
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net (Tangerang, 26 Maret 2021)
- * awal dibuat tanggal 29/10/2024
+ * awal dibuat tanggal 31/10/2024
  * terakhir di generate tanggal 31/10/2024
  */
 $MODULE = new class extends WebModule {
@@ -23,9 +23,9 @@ $MODULE = new class extends WebModule {
 	public function LoadPage() {
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\module\\itemstockperiode_pageHandler";
+		$handlerclassname = "\\FGTA4\\module\\itemstockbatch_pageHandler";
 		if (class_exists($handlerclassname)) {
-			$hnd = new itemstockperiode_pageHandler();
+			$hnd = new itemstockbatch_pageHandler();
 			$hnd->caller = &$this;
 			$hnd->auth = $this->auth;
 			$hnd->userdata = $userdata;

@@ -23,7 +23,9 @@ const obj = {
 	txt_dept_id: $('#pnl_editsaldoform-txt_dept_id'),
 	txt_site_id: $('#pnl_editsaldoform-txt_site_id'),
 	txt_room_id: $('#pnl_editsaldoform-txt_room_id'),
+	txt_itemstockbatch_id: $('#pnl_editsaldoform-txt_itemstockbatch_id'),
 	txt_itemstock_id: $('#pnl_editsaldoform-txt_itemstock_id'),
+	txt_itemstocksaldo_valueperitem: $('#pnl_editsaldoform-txt_itemstocksaldo_valueperitem'),
 	txt_itemstocksaldo_qty: $('#pnl_editsaldoform-txt_itemstocksaldo_qty'),
 	txt_itemstocksaldo_value: $('#pnl_editsaldoform-txt_itemstocksaldo_value'),
 	txt_itemstockperiode_id: $('#pnl_editsaldoform-txt_itemstockperiode_id')
@@ -291,6 +293,7 @@ export function createnew(hdata) {
 		data.itemstockperiode_id = hdata.itemstockperiode_id
 		data.saldo_value = 0
 
+		data.itemstocksaldo_valueperitem = 0
 		data.itemstocksaldo_qty = 0
 		data.itemstocksaldo_value = 0
 

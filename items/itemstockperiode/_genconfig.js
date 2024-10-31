@@ -47,13 +47,13 @@ module.exports = {
 
 				// item
 				itemstock_id: { 
-					text: 'Room', type: dbtype.varchar(14),  null: false, unset:true,
-					reference: {table: 'mst_room', field_value: 'room_id', field_display:'room_name',  field_display_name:'room_name'}, 
+					text: 'Itemstock', type: dbtype.varchar(14),  null: false, unset:true,
+					reference: {table: 'mst_itemstock', field_value: 'itemstock_id', field_display:'itemstock_name',  field_display_name:'room_name'}, 
 					options: { disabled: true,  required: true} 
 				},
 
 				itemstockcost_valueperitem: { 
-					text: 'LastValue', type: dbtype.decimal(16,2), suppresslist: true, unset:true, options: { disabled: true } 
+					text: 'Value per Item', type: dbtype.decimal(16,2), suppresslist: true, unset:true, options: { disabled: true } 
 				},
 
 				itemstockcost_saldoqty: { 
@@ -92,19 +92,34 @@ module.exports = {
 					reference: {table: 'mst_site', field_value: 'site_id', field_display:'site_name',  field_display_name:'site_name'}, 
 					options: { disabled: true,  required: true} 
 				},
+
+
+
 				room_id: { 
-					text: 'Room', type: dbtype.varchar(30),  null: false, unset:true,
+					text: 'Room', type: dbtype.varchar(30),  null: true, unset:true,
 					reference: {table: 'mst_room', field_value: 'room_id', field_display:'room_name',  field_display_name:'room_name'}, 
 					options: { disabled: true,  required: true} 
 				},
 
-				// item
+
+				itemstockbatch_id: { 
+					text: 'Batch', type: dbtype.varchar(14),  null: true, unset:true,
+					reference: {table: 'mst_itemstockbatch', field_value: 'itemstockbatch_id', field_display:'itemstockbatch_name',  field_display_name:'itemstockbatch_name'}, 
+					options: { disabled: true,  required: true} 
+				},
+
+
+
 				itemstock_id: { 
 					text: 'Room', type: dbtype.varchar(14),  null: false, unset:true,
-					reference: {table: 'mst_room', field_value: 'room_id', field_display:'room_name',  field_display_name:'room_name'}, 
+					reference: {table: 'mst_itemstock', field_value: 'itemstock_id', field_display:'itemstock_name',  field_display_name:'itemstock_name'}, 
 					options: { disabled: true,  required: true} 
 				},
 
+
+				itemstocksaldo_valueperitem: { 
+					text: 'Value per Item', type: dbtype.decimal(16,2), suppresslist: true, unset:true, options: { disabled: true } 
+				},
 
 				// quantity and value
 				itemstocksaldo_qty: { 
@@ -118,7 +133,7 @@ module.exports = {
 				itemstockperiode_id: { text: 'ID', type: dbtype.varchar(14), null: false },
 			},
 			uniques: {
-				itemstocksaldo_pair : ['itemstocksaldo_id', 'dept_id', 'site_id', 'room_id', 'itemstock_id']
+				itemstocksaldo_pair : ['itemstocksaldo_id', 'dept_id', 'site_id', 'room_id', 'itemstockbatch_id', 'itemstock_id']
 			}
 		}
 

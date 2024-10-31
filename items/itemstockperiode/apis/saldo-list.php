@@ -27,7 +27,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/10/2024
+ * tanggal 31/10/2024
  */
 $API = new class extends itemstockperiodeBase {
 
@@ -84,7 +84,8 @@ $API = new class extends itemstockperiodeBase {
 			/* Data Query Configuration */
 			$sqlFieldList = [
 				'itemstocksaldo_id' => 'A.`itemstocksaldo_id`', 'dept_id' => 'A.`dept_id`', 'site_id' => 'A.`site_id`', 'room_id' => 'A.`room_id`',
-				'itemstock_id' => 'A.`itemstock_id`', 'itemstocksaldo_qty' => 'A.`itemstocksaldo_qty`', 'itemstocksaldo_value' => 'A.`itemstocksaldo_value`', 'itemstockperiode_id' => 'A.`itemstockperiode_id`',
+				'itemstockbatch_id' => 'A.`itemstockbatch_id`', 'itemstock_id' => 'A.`itemstock_id`', 'itemstocksaldo_valueperitem' => 'A.`itemstocksaldo_valueperitem`', 'itemstocksaldo_qty' => 'A.`itemstocksaldo_qty`',
+				'itemstocksaldo_value' => 'A.`itemstocksaldo_value`', 'itemstockperiode_id' => 'A.`itemstockperiode_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemstocksaldo A";
@@ -175,7 +176,8 @@ $API = new class extends itemstockperiodeBase {
 					'periodemo_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
 					'site_name' => \FGTA4\utils\SqlUtility::Lookup($record['site_id'], $this->db, 'mst_site', 'site_id', 'site_name'),
 					'room_name' => \FGTA4\utils\SqlUtility::Lookup($record['room_id'], $this->db, 'mst_room', 'room_id', 'room_name'),
-					'room_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstock_id'], $this->db, 'mst_room', 'room_id', 'room_name'),
+					'itemstockbatch_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstockbatch_id'], $this->db, 'mst_itemstockbatch', 'itemstockbatch_id', 'itemstockbatch_name'),
+					'itemstock_name' => \FGTA4\utils\SqlUtility::Lookup($record['itemstock_id'], $this->db, 'mst_itemstock', 'itemstock_id', 'itemstock_name'),
 					 
 				]);
 				*/
@@ -185,7 +187,8 @@ $API = new class extends itemstockperiodeBase {
 				$this->addFields('periodemo_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
 				$this->addFields('site_name', 'site_id', $record, 'mst_site', 'site_name', 'site_id');
 				$this->addFields('room_name', 'room_id', $record, 'mst_room', 'room_name', 'room_id');
-				$this->addFields('room_name', 'itemstock_id', $record, 'mst_room', 'room_name', 'room_id');
+				$this->addFields('itemstockbatch_name', 'itemstockbatch_id', $record, 'mst_itemstockbatch', 'itemstockbatch_name', 'itemstockbatch_id');
+				$this->addFields('itemstock_name', 'itemstock_id', $record, 'mst_itemstock', 'itemstock_name', 'itemstock_id');
 					 
 
 

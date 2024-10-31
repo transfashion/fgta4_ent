@@ -33,7 +33,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 25/10/2024
+ * tanggal 31/10/2024
  */
 $API = new class extends itemstockperiodeBase {
 	
@@ -68,7 +68,8 @@ $API = new class extends itemstockperiodeBase {
 			// data yang akan di update dari table
 			$sqlUpdateField  = [
 					'itemstocksaldo_id', 'dept_id', 'site_id', 'room_id',
-					'itemstock_id', 'itemstocksaldo_qty', 'itemstocksaldo_value', 'itemstockperiode_id'
+					'itemstockbatch_id', 'itemstock_id', 'itemstocksaldo_valueperitem', 'itemstocksaldo_qty',
+					'itemstocksaldo_value', 'itemstockperiode_id'
 			];
 			if (method_exists(get_class($hnd), 'setUpdateField')) {
 				// setUpdateField(&$sqlUpdateField, $data, $options)
@@ -96,13 +97,17 @@ $API = new class extends itemstockperiodeBase {
 
 
 
+			if ($obj->room_id=='') { $obj->room_id = '--NULL--'; }
+			if ($obj->itemstockbatch_id=='') { $obj->itemstockbatch_id = '--NULL--'; }
 
 
 
 			unset($obj->dept_id);
 			unset($obj->site_id);
 			unset($obj->room_id);
+			unset($obj->itemstockbatch_id);
 			unset($obj->itemstock_id);
+			unset($obj->itemstocksaldo_valueperitem);
 			unset($obj->itemstocksaldo_qty);
 			unset($obj->itemstocksaldo_value);
 
@@ -194,7 +199,8 @@ $API = new class extends itemstockperiodeBase {
 
 				$sqlFieldList = [
 					'itemstocksaldo_id' => 'A.`itemstocksaldo_id`', 'dept_id' => 'A.`dept_id`', 'site_id' => 'A.`site_id`', 'room_id' => 'A.`room_id`',
-					'itemstock_id' => 'A.`itemstock_id`', 'itemstocksaldo_qty' => 'A.`itemstocksaldo_qty`', 'itemstocksaldo_value' => 'A.`itemstocksaldo_value`', 'itemstockperiode_id' => 'A.`itemstockperiode_id`',
+					'itemstockbatch_id' => 'A.`itemstockbatch_id`', 'itemstock_id' => 'A.`itemstock_id`', 'itemstocksaldo_valueperitem' => 'A.`itemstocksaldo_valueperitem`', 'itemstocksaldo_qty' => 'A.`itemstocksaldo_qty`',
+					'itemstocksaldo_value' => 'A.`itemstocksaldo_value`', 'itemstockperiode_id' => 'A.`itemstockperiode_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_itemstocksaldo A";

@@ -16,13 +16,13 @@ use \FGTA4\exceptions\WebException;
 
 
 /**
- * ent/items/itemstockperiode/apis/open.php
+ * ent/items/itemstockbatch/apis/open.php
  *
  * ====
  * Open
  * ====
  * Menampilkan satu baris data/record sesuai PrimaryKey,
- * dari tabel header itemstockperiode (mst_itemstockperiode)
+ * dari tabel header itemstockbatch (mst_itemastockbatch)
  *
  * Agung Nugroho <agung@fgta.net> http://www.fgta.net
  * Tangerang, 26 Maret 2021
@@ -30,18 +30,18 @@ use \FGTA4\exceptions\WebException;
  * digenerate dengan FGTA4 generator
  * tanggal 31/10/2024
  */
-$API = new class extends itemstockperiodeBase {
+$API = new class extends itemstockbatchBase {
 	
 	public function execute($options) {
 		$event = 'on-open';
-		$tablename = 'mst_itemstockperiode';
-		$primarykey = 'itemstockperiode_id';
+		$tablename = 'mst_itemastockbatch';
+		$primarykey = 'itemstockbatch_id';
 		$userdata = $this->auth->session_get_user();
 
-		$handlerclassname = "\\FGTA4\\apis\\itemstockperiode_headerHandler";
+		$handlerclassname = "\\FGTA4\\apis\\itemstockbatch_headerHandler";
 		$hnd = null;
 		if (class_exists($handlerclassname)) {
-			$hnd = new itemstockperiode_headerHandler($options);
+			$hnd = new itemstockbatch_headerHandler($options);
 			$hnd->caller = &$this;
 			$hnd->db = $this->db;
 			$hnd->auth = $this->auth;
@@ -69,7 +69,7 @@ $API = new class extends itemstockperiodeBase {
 			}
 
 			$criteriaValues = [
-				"itemstockperiode_id" => " itemstockperiode_id = :itemstockperiode_id "
+				"itemstockbatch_id" => " itemstockbatch_id = :itemstockbatch_id "
 			];
 			if (method_exists(get_class($hnd), 'buildOpenCriteriaValues')) {
 				// buildOpenCriteriaValues(object $options, array &$criteriaValues) : void
@@ -91,11 +91,10 @@ $API = new class extends itemstockperiodeBase {
 
 
 			$sqlFieldList = [
-				'itemstockperiode_id' => 'A.`itemstockperiode_id`', 'periodemo_id' => 'A.`periodemo_id`', 'dept_id' => 'A.`dept_id`', 'jurnal_isclose' => 'A.`jurnal_isclose`',
-				'jurnal_closeby' => 'A.`jurnal_closeby`', 'jurnal_closedate' => 'A.`jurnal_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'itemstockbatch_id' => 'A.`itemstockbatch_id`', 'itemstockbatch_name' => 'A.`itemstockbatch_name`', 'itemstockbatch_exp' => 'A.`itemstockbatch_exp`', 'itemstockbatch_isdisabled' => 'A.`itemstockbatch_isdisabled`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
-			$sqlFromTable = "mst_itemstockperiode A";
+			$sqlFromTable = "mst_itemastockbatch A";
 			$sqlWhere = $where->sql;
 
 			if (method_exists(get_class($hnd), 'SqlQueryOpenBuilder')) {
@@ -125,13 +124,13 @@ $API = new class extends itemstockperiodeBase {
 
 
 			$result->record = array_merge($record, [
+				'itemstockbatch_exp' => date("d/m/Y", strtotime($record['itemstockbatch_exp'])),
 				
 				// // jikalau ingin menambah atau edit field di result record, dapat dilakukan sesuai contoh sbb: 
 				// 'tambahan' => 'dta',
 				//'tanggal' => date("d/m/Y", strtotime($record['tanggal'])),
 				//'gendername' => $record['gender']
 				
-				'jurnal_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['jurnal_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 
 
 				'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
