@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 31/10/2024
+ * tanggal 01/11/2024
  */
 $API = new class extends itemstockperiodeBase {
 	
@@ -89,9 +89,9 @@ $API = new class extends itemstockperiodeBase {
 
 			unset($obj->periodemo_id);
 			unset($obj->dept_id);
-			unset($obj->jurnal_isclose);
-			unset($obj->jurnal_closeby);
-			unset($obj->jurnal_closedate);
+			unset($obj->itemstockperiode_isclose);
+			unset($obj->itemstockperiode_closeby);
+			unset($obj->itemstockperiode_closedate);
 
 
 			// current user & timestamp	
@@ -178,8 +178,8 @@ $API = new class extends itemstockperiodeBase {
 				}
 
 				$sqlFieldList = [
-					'itemstockperiode_id' => 'A.`itemstockperiode_id`', 'periodemo_id' => 'A.`periodemo_id`', 'dept_id' => 'A.`dept_id`', 'jurnal_isclose' => 'A.`jurnal_isclose`',
-					'jurnal_closeby' => 'A.`jurnal_closeby`', 'jurnal_closedate' => 'A.`jurnal_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+					'itemstockperiode_id' => 'A.`itemstockperiode_id`', 'periodemo_id' => 'A.`periodemo_id`', 'dept_id' => 'A.`dept_id`', 'itemstockperiode_isclose' => 'A.`itemstockperiode_isclose`',
+					'itemstockperiode_closeby' => 'A.`itemstockperiode_closeby`', 'itemstockperiode_closedate' => 'A.`itemstockperiode_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 					'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 				];
 				$sqlFromTable = "mst_itemstockperiode A";
@@ -211,7 +211,7 @@ $API = new class extends itemstockperiodeBase {
 
 				$dataresponse = array_merge($record, [
 					//  untuk lookup atau modify response ditaruh disini
-					'jurnal_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['jurnal_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+					'itemstockperiode_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['itemstockperiode_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 
 					'_createby' => \FGTA4\utils\SqlUtility::Lookup($record['_createby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					'_modifyby' => \FGTA4\utils\SqlUtility::Lookup($record['_modifyby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),

@@ -9,9 +9,9 @@ CREATE TABLE IF NOT EXISTS `mst_itemstockperiode` (
 	`itemstockperiode_id` varchar(14) NOT NULL , 
 	`periodemo_id` varchar(6) NOT NULL , 
 	`dept_id` varchar(30) NOT NULL , 
-	`jurnal_isclose` tinyint(1) NOT NULL DEFAULT 0, 
-	`jurnal_closeby` varchar(14)  , 
-	`jurnal_closedate` datetime  , 
+	`itemstockperiode_isclose` tinyint(1) NOT NULL DEFAULT 0, 
+	`itemstockperiode_closeby` varchar(14)  , 
+	`itemstockperiode_closedate` datetime  , 
 	`_createby` varchar(14) NOT NULL , 
 	`_createdate` datetime NOT NULL DEFAULT current_timestamp(), 
 	`_modifyby` varchar(14)  , 
@@ -25,16 +25,16 @@ COMMENT='Saldo akhir stok pada suatu dept pada akhir bulan';
 
 ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `periodemo_id` varchar(6) NOT NULL  AFTER `itemstockperiode_id`;
 ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30) NOT NULL  AFTER `periodemo_id`;
-ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `jurnal_isclose` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_id`;
-ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `jurnal_closeby` varchar(14)   AFTER `jurnal_isclose`;
-ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `jurnal_closedate` datetime   AFTER `jurnal_closeby`;
+ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `itemstockperiode_isclose` tinyint(1) NOT NULL DEFAULT 0 AFTER `dept_id`;
+ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `itemstockperiode_closeby` varchar(14)   AFTER `itemstockperiode_isclose`;
+ALTER TABLE `mst_itemstockperiode` ADD COLUMN IF NOT EXISTS  `itemstockperiode_closedate` datetime   AFTER `itemstockperiode_closeby`;
 
 
 ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `periodemo_id` varchar(6) NOT NULL   AFTER `itemstockperiode_id`;
 ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30) NOT NULL   AFTER `periodemo_id`;
-ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `jurnal_isclose` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_id`;
-ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `jurnal_closeby` varchar(14)    AFTER `jurnal_isclose`;
-ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `jurnal_closedate` datetime    AFTER `jurnal_closeby`;
+ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `itemstockperiode_isclose` tinyint(1) NOT NULL DEFAULT 0  AFTER `dept_id`;
+ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `itemstockperiode_closeby` varchar(14)    AFTER `itemstockperiode_isclose`;
+ALTER TABLE `mst_itemstockperiode` MODIFY COLUMN IF EXISTS  `itemstockperiode_closedate` datetime    AFTER `itemstockperiode_closeby`;
 
 
 ALTER TABLE `mst_itemstockperiode` ADD CONSTRAINT `itemstockperiode_pair` UNIQUE IF NOT EXISTS  (`periodemo_id`, `dept_id`);

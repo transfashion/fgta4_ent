@@ -28,7 +28,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 31/10/2024
+ * tanggal 01/11/2024
  */
 $API = new class extends itemstockperiodeBase {
 
@@ -92,8 +92,8 @@ $API = new class extends itemstockperiodeBase {
 
 			/* Data Query Configuration */
 			$sqlFieldList = [
-				'itemstockperiode_id' => 'A.`itemstockperiode_id`', 'periodemo_id' => 'A.`periodemo_id`', 'dept_id' => 'A.`dept_id`', 'jurnal_isclose' => 'A.`jurnal_isclose`',
-				'jurnal_closeby' => 'A.`jurnal_closeby`', 'jurnal_closedate' => 'A.`jurnal_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
+				'itemstockperiode_id' => 'A.`itemstockperiode_id`', 'periodemo_id' => 'A.`periodemo_id`', 'dept_id' => 'A.`dept_id`', 'itemstockperiode_isclose' => 'A.`itemstockperiode_isclose`',
+				'itemstockperiode_closeby' => 'A.`itemstockperiode_closeby`', 'itemstockperiode_closedate' => 'A.`itemstockperiode_closedate`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_itemstockperiode A";
@@ -185,7 +185,7 @@ $API = new class extends itemstockperiodeBase {
 				 	//'tambahan' => 'dta'
 					'periodemo_name' => \FGTA4\utils\SqlUtility::Lookup($record['periodemo_id'], $this->db, 'mst_periodemo', 'periodemo_id', 'periodemo_name'),
 					'periodemo_name' => \FGTA4\utils\SqlUtility::Lookup($record['dept_id'], $this->db, 'mst_dept', 'dept_id', 'dept_name'),
-					'jurnal_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['jurnal_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
+					'itemstockperiode_closeby' => \FGTA4\utils\SqlUtility::Lookup($record['itemstockperiode_closeby'], $this->db, $GLOBALS['MAIN_USERTABLE'], 'user_id', 'user_fullname'),
 					 
 				]);
 				*/
@@ -194,7 +194,7 @@ $API = new class extends itemstockperiodeBase {
 				// lookup data id yang refer ke table lain
 				$this->addFields('periodemo_name', 'periodemo_id', $record, 'mst_periodemo', 'periodemo_name', 'periodemo_id');
 				$this->addFields('periodemo_name', 'dept_id', $record, 'mst_dept', 'dept_name', 'dept_id');
-				$this->addFields('jurnal_closeby', 'jurnal_closeby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
+				$this->addFields('itemstockperiode_closeby', 'itemstockperiode_closeby', $record, $GLOBALS['MAIN_USERTABLE'], 'user_fullname', 'user_id');
 					 
 
 

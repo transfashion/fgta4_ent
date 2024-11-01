@@ -21,9 +21,9 @@ const obj = {
 	txt_itemstockperiode_id: $('#pnl_edit-txt_itemstockperiode_id'),
 	txt_periodemo_id: $('#pnl_edit-txt_periodemo_id'),
 	txt_dept_id: $('#pnl_edit-txt_dept_id'),
-	chk_jurnal_isclose: $('#pnl_edit-chk_jurnal_isclose'),
-	txt_jurnal_closeby: $('#pnl_edit-txt_jurnal_closeby'),
-	txt_jurnal_closedate: $('#pnl_edit-txt_jurnal_closedate')
+	chk_itemstockperiode_isclose: $('#pnl_edit-chk_itemstockperiode_isclose'),
+	txt_itemstockperiode_closeby: $('#pnl_edit-txt_itemstockperiode_closeby'),
+	txt_itemstockperiode_closedate: $('#pnl_edit-txt_itemstockperiode_closedate')
 }
 
 
@@ -253,7 +253,7 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-		data.jurnal_isclose = '0'
+		data.itemstockperiode_isclose = '0'
 
 
 		if (typeof hnd.form_newdata == 'function') {

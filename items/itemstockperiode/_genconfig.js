@@ -23,9 +23,9 @@ module.exports = {
 					reference: {table: 'mst_dept', field_value: 'dept_id', field_display:'dept_name',  field_display_name:'periodemo_name'}, 
 					options: { disabled: true,  required: true} 
 				},
-				jurnal_isclose: { text: 'Closed', type: dbtype.boolean, null: false, default: '0', suppresslist: true,  unset:true, options: { disabled: true } },
-				jurnal_closeby: { text: 'Closed By', type: dbtype.varchar(14), suppresslist: true, unset:true, options: { disabled: true }, hidden: true, lookup:'user' },
-				jurnal_closedate: { text: 'Closed Date', type: dbtype.datetime, suppresslist: true, unset:true, comp: comp.Textbox(), options: { disabled: true } , hidden: true},
+				itemstockperiode_isclose: { text: 'Closed', type: dbtype.boolean, null: false, default: '0', suppresslist: true,  unset:true, options: { disabled: true } },
+				itemstockperiode_closeby: { text: 'Closed By', type: dbtype.varchar(14), suppresslist: true, unset:true, options: { disabled: true }, hidden: true, lookup:'user' },
+				itemstockperiode_closedate: { text: 'Closed Date', type: dbtype.datetime, suppresslist: true, unset:true, comp: comp.Textbox(), options: { disabled: true } , hidden: true},
 			},
 			uniques: {
 				itemstockperiode_pair : ['periodemo_id', 'dept_id']
