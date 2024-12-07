@@ -16,8 +16,9 @@ module.exports = {
 				empl_id: {text:'ID', type: dbtype.varchar(30), null:false, uppercase: true},
 				empl_nik: {text:'NIK', type: dbtype.varchar(30), null:true, uppercase: true},
 				empl_name: {text:'Name', type: dbtype.varchar(60), null:false, uppercase: true, options:{required:true,invalidMessage:'Nama Karyawan harus diisi'}},
-				empl_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				empl_dtjoin: {text:'Join Date', type: dbtype.date, null:false, suppresslist: true, options:{required:true,invalidMessage:'Tanggal masuk harus diisi'}},
+
+				empl_isdisabled: {text:'Disabled', type: dbtype.boolean, null:false, default:'0'},
 				empl_dtexit: {
 					id: 'pnl_edit-empl_dtexit',
 					text:'Exit Date', type: dbtype.date, null:true, suppresslist: true,},

@@ -7,8 +7,8 @@ CREATE TABLE IF NOT EXISTS `mst_empl` (
 	`empl_id` varchar(30) NOT NULL , 
 	`empl_nik` varchar(30)  , 
 	`empl_name` varchar(60) NOT NULL , 
-	`empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`empl_dtjoin` date NOT NULL , 
+	`empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0, 
 	`empl_dtexit` date  , 
 	`empl_birthplace` varchar(30) NOT NULL , 
 	`empl_birthdate` date  , 
@@ -53,9 +53,9 @@ COMMENT='Master Employee';
 
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_nik` varchar(30)   AFTER `empl_id`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_name` varchar(60) NOT NULL  AFTER `empl_nik`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `empl_name`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_dtjoin` date NOT NULL  AFTER `empl_isdisabled`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_dtexit` date   AFTER `empl_dtjoin`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_dtjoin` date NOT NULL  AFTER `empl_name`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0 AFTER `empl_dtjoin`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_dtexit` date   AFTER `empl_isdisabled`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_birthplace` varchar(30) NOT NULL  AFTER `empl_dtexit`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_birthdate` date   AFTER `empl_birthplace`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `gender_id` varchar(1)   AFTER `empl_birthdate`;
@@ -89,9 +89,9 @@ ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `auth_id` varchar(30)   AFTER `
 
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_nik` varchar(30)    AFTER `empl_id`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_name` varchar(60) NOT NULL   AFTER `empl_nik`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `empl_name`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_dtjoin` date NOT NULL   AFTER `empl_isdisabled`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_dtexit` date    AFTER `empl_dtjoin`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_dtjoin` date NOT NULL   AFTER `empl_name`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_isdisabled` tinyint(1) NOT NULL DEFAULT 0  AFTER `empl_dtjoin`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_dtexit` date    AFTER `empl_isdisabled`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_birthplace` varchar(30) NOT NULL   AFTER `empl_dtexit`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_birthdate` date    AFTER `empl_birthplace`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `gender_id` varchar(1)    AFTER `empl_birthdate`;

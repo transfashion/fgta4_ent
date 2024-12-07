@@ -31,7 +31,7 @@ use \FGTA4\exceptions\WebException;
  * Tangerang, 26 Maret 2021
  *
  * digenerate dengan FGTA4 generator
- * tanggal 01/09/2024
+ * tanggal 07/12/2024
  */
 $API = new class extends emplBase {
 	
@@ -218,8 +218,8 @@ $API = new class extends emplBase {
 				}
 
 				$sqlFieldList = [
-					'empl_id' => 'A.`empl_id`', 'empl_nik' => 'A.`empl_nik`', 'empl_name' => 'A.`empl_name`', 'empl_isdisabled' => 'A.`empl_isdisabled`',
-					'empl_dtjoin' => 'A.`empl_dtjoin`', 'empl_dtexit' => 'A.`empl_dtexit`', 'empl_birthplace' => 'A.`empl_birthplace`', 'empl_birthdate' => 'A.`empl_birthdate`',
+					'empl_id' => 'A.`empl_id`', 'empl_nik' => 'A.`empl_nik`', 'empl_name' => 'A.`empl_name`', 'empl_dtjoin' => 'A.`empl_dtjoin`',
+					'empl_isdisabled' => 'A.`empl_isdisabled`', 'empl_dtexit' => 'A.`empl_dtexit`', 'empl_birthplace' => 'A.`empl_birthplace`', 'empl_birthdate' => 'A.`empl_birthdate`',
 					'gender_id' => 'A.`gender_id`', 'religion_id' => 'A.`religion_id`', 'empl_addressline1' => 'A.`empl_addressline1`', 'empl_addressline2' => 'A.`empl_addressline2`',
 					'empl_addressline3' => 'A.`empl_addressline3`', 'empl_city' => 'A.`empl_city`', 'empl_postcode' => 'A.`empl_postcode`', 'empl_prov' => 'A.`empl_prov`',
 					'country_id' => 'A.`country_id`', 'empl_mobilephone' => 'A.`empl_mobilephone`', 'empl_phone' => 'A.`empl_phone`', 'empl_email' => 'A.`empl_email`',

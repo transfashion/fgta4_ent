@@ -15,11 +15,19 @@ class empl_headerHandler extends WebAPI  {
 	public function CreateNewId(object &$obj) : string {
 		$seqname = 'EMP';
 
+		
 		$dt = new \DateTime();	
 		$ye = $dt->format("y");
 		$seq = new Sequencer($this->db, 'seq_generalmonthly', $seqname, ['seqgroup', 'ye', 'mo']);
 		$raw = $seq->getraw(['seqgroup'=>'empl', 'ye'=>$ye, 'mo'=>0]);
-		$id = $raw['ye'] . str_pad($raw['lastnum'], 4, '0', STR_PAD_LEFT);
+		
+		$code_prefix = '';
+		if (defined('__EMPLOYEE_ID_PREFIX__')) {
+			$code_prefix = __EMPLOYEE_ID_PREFIX__;
+		}
+		$code_year = $raw['ye'];
+		$code_num = str_pad($raw['lastnum'], 6, '0', STR_PAD_LEFT);
+		$id = join('', [$code_prefix, $code_year, $code_num]);
 
 		if ($obj->empl_nik = '--NULL--') {
 			$obj->empl_nik = $id;

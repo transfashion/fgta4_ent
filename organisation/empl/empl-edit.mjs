@@ -21,8 +21,8 @@ const obj = {
 	txt_empl_id: $('#pnl_edit-txt_empl_id'),
 	txt_empl_nik: $('#pnl_edit-txt_empl_nik'),
 	txt_empl_name: $('#pnl_edit-txt_empl_name'),
-	chk_empl_isdisabled: $('#pnl_edit-chk_empl_isdisabled'),
 	dt_empl_dtjoin: $('#pnl_edit-dt_empl_dtjoin'),
+	chk_empl_isdisabled: $('#pnl_edit-chk_empl_isdisabled'),
 	dt_empl_dtexit: $('#pnl_edit-dt_empl_dtexit'),
 	txt_empl_birthplace: $('#pnl_edit-txt_empl_birthplace'),
 	dt_empl_birthdate: $('#pnl_edit-dt_empl_birthdate'),
@@ -433,8 +433,8 @@ export function createnew() {
 		form.rowid = null
 
 		// set nilai-nilai default untuk form
-		data.empl_isdisabled = '0'
 		data.empl_dtjoin = global.now()
+		data.empl_isdisabled = '0'
 		data.empl_dtexit = global.now()
 		data.empl_birthdate = global.now()
 

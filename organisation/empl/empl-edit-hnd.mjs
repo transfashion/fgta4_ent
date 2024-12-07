@@ -16,6 +16,14 @@ export function form_dataopened(result, options) {
 	chk_empl_isdisabled_changed();
 }
 
+export function form_newdata(data, options) {
+	options.OnNewData = () => {
+		var checked = form.getValue(obj.chk_empl_isdisabled);
+		chk_empl_isdisabled_changed(checked)
+	}
+}
+
+
 function chk_empl_isdisabled_changed(checked) {
 	if (checked===undefined) {
 		checked = form.getValue(obj.chk_empl_isdisabled);
