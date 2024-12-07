@@ -33,7 +33,9 @@ CREATE TABLE IF NOT EXISTS `mst_empl` (
 	`empl_bpjskes` varchar(30)  , 
 	`empl_namaibu` varchar(90) NOT NULL , 
 	`empl_rek1` varchar(90) NOT NULL , 
+	`empl_rek1name` varchar(90) NOT NULL , 
 	`empl_rek2` varchar(90) NOT NULL , 
+	`empl_rek2name` varchar(90) NOT NULL , 
 	`hrstatus_id` varchar(3)  , 
 	`dept_id` varchar(30)  , 
 	`hrjob_id` varchar(20)  , 
@@ -79,8 +81,10 @@ ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_bpjstk` varchar(30)   AFT
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_bpjskes` varchar(30)   AFTER `empl_bpjstk`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_namaibu` varchar(90) NOT NULL  AFTER `empl_bpjskes`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_rek1` varchar(90) NOT NULL  AFTER `empl_namaibu`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_rek2` varchar(90) NOT NULL  AFTER `empl_rek1`;
-ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `hrstatus_id` varchar(3)   AFTER `empl_rek2`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_rek1name` varchar(90) NOT NULL  AFTER `empl_rek1`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_rek2` varchar(90) NOT NULL  AFTER `empl_rek1name`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `empl_rek2name` varchar(90) NOT NULL  AFTER `empl_rek2`;
+ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `hrstatus_id` varchar(3)   AFTER `empl_rek2name`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `dept_id` varchar(30)   AFTER `hrstatus_id`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `hrjob_id` varchar(20)   AFTER `dept_id`;
 ALTER TABLE `mst_empl` ADD COLUMN IF NOT EXISTS  `site_id` varchar(30)   AFTER `hrjob_id`;
@@ -115,8 +119,10 @@ ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_bpjstk` varchar(30)    AFT
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_bpjskes` varchar(30)    AFTER `empl_bpjstk`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_namaibu` varchar(90) NOT NULL   AFTER `empl_bpjskes`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_rek1` varchar(90) NOT NULL   AFTER `empl_namaibu`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_rek2` varchar(90) NOT NULL   AFTER `empl_rek1`;
-ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `hrstatus_id` varchar(3)    AFTER `empl_rek2`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_rek1name` varchar(90) NOT NULL   AFTER `empl_rek1`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_rek2` varchar(90) NOT NULL   AFTER `empl_rek1name`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `empl_rek2name` varchar(90) NOT NULL   AFTER `empl_rek2`;
+ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `hrstatus_id` varchar(3)    AFTER `empl_rek2name`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `dept_id` varchar(30)    AFTER `hrstatus_id`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `hrjob_id` varchar(20)    AFTER `dept_id`;
 ALTER TABLE `mst_empl` MODIFY COLUMN IF EXISTS  `site_id` varchar(30)    AFTER `hrjob_id`;

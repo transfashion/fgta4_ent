@@ -103,7 +103,11 @@ module.exports = {
 
 				empl_namaibu: {text:'Nama Ibu Kandung', type: dbtype.varchar(90), null:false, suppresslist: true, uppercase: true, options:{required:true,invalidMessage:'Nama ibu kandung harus diisi'}},
 				empl_rek1: {text:'Rekening #1', type: dbtype.varchar(90), null:false, suppresslist: true, uppercase: true},
+				empl_rek1name: {text:'Rekening #1 Nama', type: dbtype.varchar(90), null:false, suppresslist: true, uppercase: true},
+
 				empl_rek2: {text:'Rekening #2', type: dbtype.varchar(90), null:false, suppresslist: true, uppercase: true},
+				empl_rek2name: {text:'Rekening #2 Nama', type: dbtype.varchar(90), null:false, suppresslist: true, uppercase: true},
+
 
 				hrstatus_id: {
 					text:'Status', type: dbtype.varchar(3), null:true, uppercase: true, suppresslist: true,

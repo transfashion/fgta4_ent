@@ -98,8 +98,9 @@ $API = new class extends emplBase {
 				'country_id' => 'A.`country_id`', 'empl_mobilephone' => 'A.`empl_mobilephone`', 'empl_phone' => 'A.`empl_phone`', 'empl_email' => 'A.`empl_email`',
 				'edu_id' => 'A.`edu_id`', 'empl_kk' => 'A.`empl_kk`', 'empl_ktp' => 'A.`empl_ktp`', 'empl_npwp' => 'A.`empl_npwp`',
 				'marital_id' => 'A.`marital_id`', 'empl_bpjstk' => 'A.`empl_bpjstk`', 'empl_bpjskes' => 'A.`empl_bpjskes`', 'empl_namaibu' => 'A.`empl_namaibu`',
-				'empl_rek1' => 'A.`empl_rek1`', 'empl_rek2' => 'A.`empl_rek2`', 'hrstatus_id' => 'A.`hrstatus_id`', 'dept_id' => 'A.`dept_id`',
-				'hrjob_id' => 'A.`hrjob_id`', 'site_id' => 'A.`site_id`', 'auth_id' => 'A.`auth_id`', '_createby' => 'A.`_createby`',
+				'empl_rek1' => 'A.`empl_rek1`', 'empl_rek1name' => 'A.`empl_rek1name`', 'empl_rek2' => 'A.`empl_rek2`', 'empl_rek2name' => 'A.`empl_rek2name`',
+				'hrstatus_id' => 'A.`hrstatus_id`', 'dept_id' => 'A.`dept_id`', 'hrjob_id' => 'A.`hrjob_id`', 'site_id' => 'A.`site_id`',
+				'auth_id' => 'A.`auth_id`', '_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`',
 				'_createby' => 'A.`_createby`', '_createdate' => 'A.`_createdate`', '_modifyby' => 'A.`_modifyby`', '_modifydate' => 'A.`_modifydate`'
 			];
 			$sqlFromTable = "mst_empl A";
