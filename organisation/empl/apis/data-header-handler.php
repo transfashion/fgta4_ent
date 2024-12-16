@@ -13,7 +13,7 @@ use \FGTA4\utils\Sequencer;
 class empl_headerHandler extends WebAPI  {
 
 	public function CreateNewId(object &$obj) : string {
-		$seqname = 'EMP';
+		$seqname = 'EMPL';
 
 		
 		$dt = new \DateTime();	
@@ -30,9 +30,8 @@ class empl_headerHandler extends WebAPI  {
 		$id = join('', [$code_prefix, $code_year, $code_num]);
 
 		if ($obj->empl_nik = '--NULL--') {
-			$obj->empl_nik = $id;
+			$obj->empl_nik = join('', [$code_prefix, $code_year, '00', $code_num]);
 		}
-
 		return $id;		
 	}
 
