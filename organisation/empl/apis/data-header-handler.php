@@ -27,7 +27,7 @@ class empl_headerHandler extends WebAPI  {
 		}
 		$code_year = $raw['ye'];
 		$code_num = str_pad($raw['lastnum'], 4, '0', STR_PAD_LEFT);
-		$id = join('', [$code_prefix, $code_year, $code_num]);
+		$id = join('', [$code_year, $code_num]);
 
 		if ($obj->empl_nik = '--NULL--') {
 			$obj->empl_nik = join('', [$code_prefix, $code_year, '00', $code_num]);
