@@ -31,12 +31,12 @@ function chk_empl_isdisabled_changed(checked) {
 
 	if (checked) {
 		// wajib isi exit date
-		form.setDisable(obj.dt_empl_dtexit, false)
-		$('#pnl_edit-empl_dtexit').show();
+		// form.setDisable(obj.dt_empl_dtexit, false)
+		// $('#pnl_edit-empl_dtexit').show();
 	} else {
 		// tidak perlu isi exit date
-		form.setDisable(obj.dt_empl_dtexit, true)
-		$('#pnl_edit-empl_dtexit').hide();
+		// form.setDisable(obj.dt_empl_dtexit, true)
+		// $('#pnl_edit-empl_dtexit').hide();
 	}
 }
 

@@ -5,11 +5,7 @@
 			"name": "Enterprise Module"
 		},
 		{
-			"path": "../generator",
-			"name": "FGTA4 Generator"
-		},
-		{
-			"path": "../framework/localsetting",
+			"path": "./../../fgta4_kalista/localsetting",
 			"name": "LocalSetting"
 		}		
 	],
