@@ -146,6 +146,12 @@ $API = new class extends siteBase {
 			$sqlRegionbranchCek = "select * from master_regionbranch where region_id=:region_id and branch_id=:branch_id";
 			$stmtRegionbranchCek =  $this->dbfrm->prepare($sqlRegionbranchCek);
 
+			// cek regionmember
+			$sqlRegionmemberCek = "select * from master_regionmember where region_id=:region_id and mregion_id=:region_id and mbranch_id=:branch_id";
+			$stmtRegionmemberCek =  $this->dbfrm->prepare($sqlRegionmemberCek);
+
+
+
 
 			// cek saldo
 			$sqlSaldoCek = "select * from transaksi_hesaldo where saldo_id = :saldo_id";
@@ -155,6 +161,9 @@ $API = new class extends siteBase {
 			$sqlSitemapIns = "insert into master_sitemap (sitemap_id) values (:sitemap_id)";
 			$stmtSitemapIns = $this->dbfrm->prepare($sqlSitemapIns);
 			
+			
+
+
 			
 			// insert regionbranch
 			$sqlRegionbranchIns = "
@@ -166,7 +175,14 @@ $API = new class extends siteBase {
 			$stmtRegionbranchIns = $this->dbfrm->prepare($sqlRegionbranchIns);
 
 
-			// insert 
+			// insert region member
+			$sqlRegionmemberIns = "
+				insert into master_regionmember
+				(region_id, mregion_id, mbranch_id, descr)
+				values
+				(:region_id, :mregion_id, :mbranch_id, :descr)	
+			";
+			$stmtRegionmemberIns = $this->dbfrm->prepare($sqlRegionmemberIns);
 
 
 			// insert saldo
@@ -199,6 +215,20 @@ $API = new class extends siteBase {
 						':regionbranch_codesal' => $site_code
 					];
 					$stmtRegionbranchIns->execute($rbdata);
+				}
+
+
+				// insert regionmember
+				$stmtRegionmemberCek->execute([':region_id'=>$region_id, ':branch_id'=>$branch_id]);
+				$rowRegionmemberCek = $stmtRegionmemberCek->fetch(\PDO::FETCH_ASSOC);
+				if ($rowRegionmemberCek==null) {
+					$rmdata = [
+						':region_id' => $region_id,
+						':mregion_id' => $region_id,
+						':mbranch_id' => $branch_id,
+						':descr' => $SITEDATA['site_name']
+					];
+					$stmtRegionmemberIns->execute($rmdata);
 				}
 
 				// insert saldo
